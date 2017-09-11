@@ -1,0 +1,16 @@
+
+@media (max-width: 767px){
+    .navbar {padding: 1rem 0rem; }
+    .navbar-brand { padding-right: 65px;}
+    .navbar-toggler-right { right: 0px;}
+    .navbar-collapse#navbar-top { margin-top: 15px;}
+}
+
+@media (min-width: 1200px){
+
+    .grid-img:last-of-type { padding-left: 4px;}
+    .grid-img:last-of-type .top-article { left: 4px;}
+
+}
+
+
