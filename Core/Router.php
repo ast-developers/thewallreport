@@ -1,6 +1,7 @@
 <?php
 
 namespace Core;
+use App\Config;
 
 /**
  * Router
@@ -107,6 +108,13 @@ class Router
         $url = $this->removeQueryStringVariables($url);
 
         if ($this->match($url)) {
+            // Middleware Implementation.
+            $middlewareName = isset($this->params['middleware']) ? $this->params['middleware'] : false;
+            if($middlewareName){
+                $middlewareNamespace = "\\App\\Middlewares\\".$middlewareName;
+                $middleware = new $middlewareNamespace;
+                $middleware->handel();
+            }
             $controller = $this->params['controller'];
             $controller = $this->convertToStudlyCaps($controller);
             $controller = $this->getNamespace() . $controller;
@@ -210,5 +218,13 @@ class Router
         }
 
         return $namespace;
+    }
+
+    /**
+     * @param $route
+     */
+    public static function redirectTo($route)
+    {
+        header('Location: ' . Config::W_ROOT . $route);
     }
 }

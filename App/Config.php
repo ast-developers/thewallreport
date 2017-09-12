@@ -3,9 +3,9 @@
 namespace App;
 
 /**
+ * Class Config
  * Application configuration
- *
- * PHP version 7.0
+ * @package App
  */
 class Config
 {
@@ -39,8 +39,20 @@ class Config
      * @var boolean
      */
     const SHOW_ERRORS = true;
+
+    /**
+     * Website Root
+     */
     const W_ROOT="http://local.thewall.report/";
+
+    /**
+     * File Root
+     */
     const F_ROOT="/home/devendra-bhati/public_html/thewallreport/";
 
+    /**
+     * File Views Root
+     */
+    const F_VIEW =  self::F_ROOT."App/Views/";
 
 }

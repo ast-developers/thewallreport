@@ -2,64 +2,81 @@
 
 namespace App\Controllers\Admin;
 
-use App\Config;
+use Core\Controller;
+use App\Repositories\Admin\UserRepository;
 use App\Models\User;
-use Core\Csrf;
-use \Core\View;
-use \Core\Controller;
-
-
+use Core\View;
+use Core\Router;
+use App\Validations\Login;
 
 /**
- * Home controller
- *
- * PHP version 7.0
+ * Class UserController
+ * @package App\Controllers\Admin
  */
 class UserController extends Controller
 {
+    /**
+     * @var User
+     */
+    public $repo;
     public $model;
-    public $csrf;
-    public function __construct(){
+    public $validate;
+
+    /**
+     *
+     */
+    public function __construct()
+    {
+        $this->repo = new UserRepository();
         $this->model = new User();
-        $this->csrf = new Csrf();
+        $this->validate = new Login();
     }
 
     /**
-     * Show the index page
-     *
-     * @return void
+     * @throws \Exception
      */
     public function loginAction()
     {
+        if (isset($_POST['submit'])) {
 
-        if(isset($_POST['submit'])){
-            $verify_token = $this->csrf->verifyToken();
-            if(!$verify_token){
-                return View::render('Admin/login.php',['token'=>$this->csrf->getToken(),'flash_message'=>'Username/email or Password is incorrect','error_class'=>'alert-danger']);
+            // Form Validations
+            $formValid = $this->validate->validate();
+            if(!$formValid['success']){
+                return View::render('Admin/login.php', ['flash_message' => $formValid['messages'], 'error_class' => 'alert-danger']);
             }
-                $is_login = $this->model->checkLogin($_POST['username'],$_POST['password']);
-                if($is_login){
-                    $_SESSION["logged_in"] = "1";
-                    header('Location: '.Config::W_ROOT.'admin/dashboard');
-                }else{
-                    return View::render('Admin/login.php',['flash_message'=>'Username/email or Password is incorrect','error_class'=>'alert-danger']);
-                }
-
+            // Authenticate User
+            $login = $this->repo->login($_POST['username'], $_POST['password']);
+            if(!$login['success']){
+                return View::render('Admin/login.php', ['flash_message' => $login['messages'], 'error_class' => 'alert-danger']);
+            } else {
+                Router::redirectTo('admin/dashboard');
+            }
         }
-        return View::render('Admin/login.php',['token'=>$this->csrf->getToken()]);
+        return View::render('Admin/login.php');
     }
 
-    public function dashboard(){
-
-        View::render('Admin/dashboard.php',['flash_message'=>'Logged in successfully','error_class'=>'alert-success']);
-
-    }
-    public function logoutAction(){
+    /**
+     *
+     */
+    public function logoutAction()
+    {
         session_destroy();
-        header('Location: '.Config::W_ROOT.'admin/login');
+        Router::redirectTo('admin/login');
     }
 
-    public function error(){
+    /**
+     * @throws \Exception
+     */
+    public function dashboard()
+    {
+        View::render('Admin/dashboard.php', ['flash_message' => 'Logged in successfully', 'error_class' => 'alert-success']);
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function error()
+    {
         View::render('Admin/404.php');
     }
 

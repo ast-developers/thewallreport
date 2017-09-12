@@ -2,24 +2,34 @@
 
 namespace App\Models;
 
-use PDO;
+use Core\Model;
 
-/**
- * Example user model
- *
- * PHP version 7.0
- */
-class User extends \Core\Model
+class User extends Model
 {
 
     public $db;
 
-    public function __construct(){
-        $this->db= static::getDB();
+    public function __construct()
+    {
+        $this->db = static::getDB();
+        $this->dbTable = 'users';
     }
-    public function checkLogin($username,$password){
-        $password = md5($password);
-        $count = $this->db->query("SELECT COUNT(id)  FROM users WHERE ( username='$username' OR email = '$username') and password='$password'");
-        return $count->fetchColumn();
+
+    public function getUserForLogin($username, $password)
+    {
+        $sql = "SELECT *, COUNT(id) AS count FROM $this->dbTable WHERE ( username = :username OR email = :username) and password = :password";
+        $stm = $this->db->prepare($sql);
+
+        $stm->bindParam(":username", $username);
+        $stm->bindParam(":password", $password);
+
+        $res = $stm->execute();
+
+        if ($res) {
+            $row = $stm->fetch(\PDO::FETCH_ASSOC);
+            return $row['count'] > 0 ? $row : false;
+        } else {
+            return false;
+        }
     }
 }

@@ -24,17 +24,5 @@ session_start();
  * Routing
  */
 $router = new Core\Router();
-
-// Add the routes
-//$router->add('', ['controller' => 'Home', 'action' => 'index']);
-$router->add('admin/login', ['namespace' => 'Admin','controller' => 'UserController', 'action' => 'login']);
-
-/*if(isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == 1){*/
-
-    $router->add('admin/dashboard', ['namespace' => 'Admin','controller' => 'UserController', 'action' => 'dashboard']);
-    $router->add('admin/logout', ['namespace' => 'Admin','controller' => 'UserController', 'action' => 'logout']);
-/*}else{*/
-    $router->add('admin/error', ['namespace' => 'Admin','controller' => 'UserController', 'action' => 'error']);
-/*}*/
-
+include_once('../Core/Routes.php');
 $router->dispatch($_SERVER['QUERY_STRING']);
