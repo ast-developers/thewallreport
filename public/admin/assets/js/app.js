@@ -1541,19 +1541,6 @@ var App = function () {
 
             errorPlacement: function (error, element) {
                 error.addClass('help-small no-left-padding').insertAfter(element.closest('.input-icon'));
-            },
-
-          /*  submitHandler: function (form) {
-                window.location.href = "index.html";
-            }*/
-        });
-
-        $('.login-form input').keypress(function (e) {
-            if (e.which == 13) {
-                if ($('.login-form').validate().form()) {
-                    window.location.href = "index.html";
-                }
-                return false;
             }
         });
 
@@ -1591,19 +1578,6 @@ var App = function () {
 
             errorPlacement: function (error, element) {
                 error.addClass('help-small no-left-padding').insertAfter(element.closest('.input-icon'));
-            },
-
-            submitHandler: function (form) {
-                window.location.href = "index.html";
-            }
-        });
-
-        $('.forget-form input').keypress(function (e) {
-            if (e.which == 13) {
-                if ($('.forget-form').validate().form()) {
-                    window.location.href = "index.html";
-                }
-                return false;
             }
         });
 
@@ -1667,10 +1641,6 @@ var App = function () {
                 } else {
                     error.addClass('help-small no-left-padding').insertAfter(element.closest('.input-icon'));
                 }
-            },
-
-            submitHandler: function (form) {
-                window.location.href = "index.html";
             }
         });
 
