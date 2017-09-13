@@ -35,3 +35,13 @@ CREATE TABLE `users` (
 ) ENGINE=INNODB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 insert  into `users`(`id`,`username`,`password`,`email`,`first_name`,`last_name`,`nick_name`,`role_id`,`avatar_image_id`,`created_at`,`updated_at`) values (1,'thewall','e10adc3949ba59abbe56e057f20f883e','admin@thewall.com','admin',NULL,NULL,1,NULL,'2017-09-11 15:42:14','2017-09-11 16:05:20');
+
+/* 13 Sept 2017 */
+
+DROP TABLE IF EXISTS `password_reminders`;
+
+CREATE TABLE `password_reminders` (
+  `email` varchar(255) CHARACTER SET latin1 NOT NULL,
+  `token` varchar(255) CHARACTER SET latin1 NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
