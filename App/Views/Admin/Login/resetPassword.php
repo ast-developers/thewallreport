@@ -5,8 +5,9 @@
     <?php include(\App\Config::F_VIEW.'Admin/notifications.php') ?>
 
     <form class="form-vertical register-form" method="post" action="<?php echo \App\Config::W_ROOT."admin/password-reset" ?>">
+        <input type="hidden" name="token" value="<?php echo \Core\Csrf::getToken(); ?>">
+        <input type="hidden" name="password_token" value="<?php echo $token; ?>">
         <h3 class="">Reset your Password</h3>
-        <input type="hidden" name="token" value="<?php echo $token; ?>">
         <div class="control-group">
             <label class="control-label visible-ie8 visible-ie9">Password</label>
             <div class="controls">

@@ -8,6 +8,10 @@ use App\Config;
 class Mail
 {
     public static function sendMail($toEmail,$subject,$body){
+
+        $body .= '<p>Thanks,</p>';
+        $body .= '<p>The Wall Report Team.</p>';
+
         $mail = new PHPMailer;
 
         $mail->isSMTP();
@@ -27,7 +31,7 @@ class Mail
             )
         );
 
-        $mail->From = "dhaval.prajapati333@gmail.com";
+        $mail->From = Config::SMTP_USERNAME;
         $mail->FromName = "The Wall Report";
 
         $mail->addAddress($toEmail);
@@ -35,7 +39,6 @@ class Mail
         $mail->isHTML(true);
         $mail->Subject = $subject;
         $mail->Body = $body;
-        $mail->AltBody = "This is the plain text version of the email content";
 
         if(!$mail->send())
         {

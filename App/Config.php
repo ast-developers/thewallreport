@@ -57,7 +57,7 @@ class Config
     /**
      * File Assets Root
      */
-    const F_ASSETS="/home/devendra-bhati/public_html/thewallreport/public/admin";
+    const W_ADMIN_ASSETS=self::W_ROOT."theme/admin/assets";
     /**
      * File View Root
      */
