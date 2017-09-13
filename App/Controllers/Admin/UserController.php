@@ -104,7 +104,7 @@ class UserController extends Controller
                 return View::render('Admin/Login/login.php', ['flash_message' => [$send_mail['message']], 'error_class' => 'alert-danger']);
             }
         } else {
-            return View::render('Admin/Login/login.php', ['flash_message' => ['Please enter the data.'], 'error_class' => 'alert-danger']);
+            return View::render('Admin/Login/login.php');
         }
 
     }
