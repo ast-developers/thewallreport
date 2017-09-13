@@ -1,4 +1,6 @@
-<?php include(\App\Config::F_VIEW.'Admin/header.php') ?>
+<?php
+$pagetitle = 'Reset Password';
+include(\App\Config::F_VIEW.'Admin/header.php') ?>
 <body class="login">
 <div class="content">
     <!-- BEGIN LOGIN FORM -->

@@ -1,4 +1,6 @@
-<?php include(\App\Config::F_VIEW . 'Admin/header.php') ?>
+<?php
+$pagetitle = 'Login';
+include(\App\Config::F_VIEW . 'Admin/header.php') ?>
 <body class="login">
 <div class="content">
     <?php include(\App\Config::F_VIEW . 'Admin/notifications.php') ?>
