@@ -1,5 +1,3 @@
-
-
 <?php include(\App\Config::F_VIEW.'Admin/header.php') ?>
 <body class="login">
 <div class="content">
@@ -49,7 +47,7 @@
     </form>
     <!-- END LOGIN FORM -->
     <!-- BEGIN FORGOT PASSWORD FORM -->
-    <form class="form-vertical forget-form" action="index.html">
+    <form class="form-vertical forget-form" method="post" action="<?php echo \App\Config::W_ROOT."admin/reset" ?>">
         <h3 class="">Forget Password ?</h3>
         <p>Enter your e-mail address below to reset your password.</p>
         <div class="control-group">
@@ -64,7 +62,7 @@
             <button type="button" id="back-btn" class="btn">
                 <i class="m-icon-swapleft"></i> Back
             </button>
-            <button type="submit" class="btn green pull-right">
+            <button type="submit" name="submit" class="btn green pull-right">
                 Submit <i class="m-icon-swapright m-icon-white"></i>
             </button>
         </div>

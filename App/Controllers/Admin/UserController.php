@@ -72,6 +72,59 @@ class UserController extends Controller
         View::render('Admin/dashboard.php', ['flash_message' => 'Logged in successfully', 'error_class' => 'alert-success']);
     }
 
+    public function sendResetPasswordLink(){
+
+        if (isset($_POST['submit'])) {
+            // Form Validations
+            $formValid = $this->validate->validateResetPassword();
+
+            if(!$formValid['success']){
+                return View::render('Admin/login.php', ['flash_message' => $formValid['messages'], 'error_class' => 'alert-danger']);
+            }
+            // Check Email Exist in records or not
+            $is_exist = $this->model->getUserByEmail($_POST['email']);
+            if(!$is_exist){
+                return View::render('Admin/login.php', ['flash_message' => ['Your Email does not exist in our record'], 'error_class' => 'alert-danger']);
+            }
+            $send_mail = $this->repo->sendResetPasswordLink($_POST['email']);
+            if($send_mail['success']){
+                return View::render('Admin/login.php', ['flash_message' => ['Password Reset Link sent to your email'], 'error_class' => 'alert-success']);
+            }else{
+                return View::render('Admin/login.php', ['flash_message' => [$send_mail['message']], 'error_class' => 'alert-danger']);
+            }
+        }else{
+            return View::render('Admin/login.php', ['flash_message' => ['Please enter the data'], 'error_class' => 'alert-danger']);
+        }
+
+    }
+
+    public function resetPassword(){
+        $url = explode('/',key($_GET));
+        $token = end($url);
+        $email = $this->model->getEmailByToken($token);
+        if(!$email['success']){
+            return View::render('Admin/login.php', ['flash_message' => ['Invalid token'], 'error_class' => 'alert-danger']);
+        }else{
+            return View::render('Admin/reset_password.php',['token' =>$token]);
+        }
+
+    }
+
+    public function changePassword(){
+        if (isset($_POST['submit'])) {
+            $formValid = $this->validate->validatePassword();
+        }
+        if(!$formValid['success']){
+            return View::render('Admin/reset_password.php', ['flash_message' => $formValid['messages'], 'error_class' => 'alert-danger','token'=>$_POST['token']]);
+        }
+        $email = $this->model->getEmailByToken($_POST['token']);
+        if(!$email['success']){
+            return View::render('Admin/login.php', ['flash_message' => ['Invalid token used for password reset'], 'error_class' => 'alert-danger']);
+        }
+        $this->model->changePassword(md5($_POST['password']),$email['email']);
+        return View::render('Admin/login.php', ['flash_message' => ['Your Password Changed Successfully'], 'error_class' => 'alert-success']);
+    }
+
     /**
      * @throws \Exception
      */
