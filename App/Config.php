@@ -7,6 +7,10 @@ namespace App;
  * Application configuration
  * @package App
  */
+/**
+ * Class Config
+ * @package App
+ */
 class Config
 {
 
@@ -51,8 +55,28 @@ class Config
     const F_ROOT="/home/devendra-bhati/public_html/thewallreport/";
 
     /**
-     * File Views Root
+     * File Assets Root
+     */
+    const W_ADMIN_ASSETS=self::W_ROOT."theme/admin/assets";
+    /**
+     * File View Root
      */
     const F_VIEW =  self::F_ROOT."App/Views/";
+    /**
+     * SMTP HOST
+     */
+    const SMTP_HOST = 'smtp.gmail.com';
+    /**
+     * SMTP PORT
+     */
+    const SMTP_PORT = '587';
+    /**
+     * SMTP USERNAME
+     */
+    const SMTP_USERNAME = 'dhaval.prajapati333@gmail.com';
+    /**
+     * SMTP PASSWORD
+     */
+    const SMTP_PASSWORD = 'Dhaval333';
 
 }

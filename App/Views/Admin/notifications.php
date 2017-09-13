@@ -7,4 +7,12 @@ if(!empty($flash_message)){
         <?php
     }
 }
+if(!empty($_SESSION['flash_message'])){ ?>
+    <div class="alert <?php echo $_SESSION['error_class']; ?>">
+        <strong><?php echo $_SESSION['flash_message'] ?></strong>
+    </div>
+    <?php
+    unset($_SESSION['flash_message']);
+    unset($_SESSION['error_class']);
+}
 ?>
