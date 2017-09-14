@@ -2,6 +2,8 @@
 
 namespace App\Controllers\Admin;
 
+use App\Models\User;
+use App\Validations\UserValidation;
 use Core\Controller;
 use App\Repositories\Admin\UserRepository;
 use Core\View;
@@ -26,6 +28,7 @@ class UserController extends Controller
      * @var array
      */
     public $params;
+    public $uservalidate;
 
     /**
      * @param array $params
@@ -35,6 +38,7 @@ class UserController extends Controller
         $this->repo = new UserRepository();
         $this->validate = new Login();
         $this->params = $params;
+        $this->uservalidate = new UserValidation();
     }
 
     /**
@@ -77,6 +81,12 @@ class UserController extends Controller
         View::render('Admin/dashboard.php', ['flash_message' => 'Logged in successfully.', 'error_class' => 'alert-success']);
     }
 
+    public function getUsers()
+    {
+        $users = $this->repo->getUsers();
+        View::render('Admin/Users/listuser.php', ['users' => $users]);
+    }
+
     /**
      * @throws \Exception
      */
@@ -101,7 +111,7 @@ class UserController extends Controller
                 $_SESSION["error_class"] = 'alert-success';
                 Router::redirectTo('admin/login');
             } else {
-                return View::render('Admin/Login/login.php', ['flash_message' => [$send_mail['message']], 'error_class' => 'alert-danger']);
+                return View::render('Admin/Login$this->db/login.php', ['flash_message' => [$send_mail['message']], 'error_class' => 'alert-danger']);
             }
         } else {
             return View::render('Admin/Login/login.php');
@@ -116,7 +126,7 @@ class UserController extends Controller
     {
         $email = $this->repo->getEmailByToken($this->params['token']);
         if (!$email['success']) {
-            return View::render('Admin/Login/resetPassword.php', ['flash_message' => ['Invalid token.'], 'error_class' => 'alert-danger','token' => $this->params['token']]);
+            return View::render('Admin/Login/resetPassword.php', ['flash_message' => ['Invalid token.'], 'error_class' => 'alert-danger', 'token' => $this->params['token']]);
         } else {
             return View::render('Admin/Login/resetPassword.php', ['token' => $this->params['token']]);
         }
@@ -144,6 +154,72 @@ class UserController extends Controller
         }
         Router::redirectTo('admin/login');
     }
+
+    public function addUser()
+    {
+        if (isset($_POST['submit'])) {
+            $this->uservalidate->addUserValidation();
+            $roles = $this->repo->getRoles();
+            // Check Email Exist in records or not
+            $is_exist = $this->repo->isUserNameExist($_POST['username']);
+            if (!$is_exist) {
+                return View::render('Admin/Users/adduser.php', ['roles' => $roles, 'flash_message' => ['Username Already Exist.'], 'error_class' => 'alert-danger']);
+            }
+            if (!empty($_FILES['avatar'])) {
+                $avatarUpload = $this->repo->uploadAvatar($_FILES['avatar']);
+                if (!$avatarUpload['success']) {
+                    return View::render('Admin/Users/adduser.php', ['roles' => $roles, 'flash_message' => $avatarUpload['messages']]);
+                }
+            }
+            $this->repo->inserUserData($_POST, $avatarUpload['filename']);
+            $_SESSION["flash_message"] = 'User Added Successfully.';
+            $_SESSION["error_class"] = 'alert-success';
+            Router::redirectTo('admin/users');
+        } else {
+            $roles = $this->repo->getRoles();
+            View::render('Admin/Users/adduser.php', ['roles' => $roles]);
+        }
+    }
+
+    public function editUser()
+    {
+        if (isset($_POST['submit'])) {
+            $this->uservalidate->addUserValidation();
+            if (!empty($_FILES['avatar']['tmp_name'])) {
+                $avatarUpload = $this->repo->uploadAvatar($_FILES['avatar']);
+                if (!$avatarUpload['success']) {
+                    $roles = $this->repo->getRoles();
+                    return View::render('Admin/Users/adduser.php', ['roles' => $roles, 'flash_message' => $avatarUpload['messages']]);
+                }
+            }
+            $filename = (!empty($avatarUpload['filename'])) ? $avatarUpload['filename'] : NULL;
+            $this->repo->updateUserData($_POST, $filename);
+            $_SESSION["flash_message"] = 'User Edited Successfully.';
+            $_SESSION["error_class"] = 'alert-success';
+            Router::redirectTo('admin/users');
+        } else {
+            $user = $this->repo->getUserById($this->params['id']);
+            $roles = $this->repo->getRoles();
+            View::render('Admin/Users/adduser.php', ['user' => $user, 'roles' => $roles]);
+        }
+    }
+
+    public function checkuser()
+    {
+        $is_exist = $this->repo->isUserNameExist($_GET['username']);
+        return $is_exist;
+    }
+
+    public function userPaginate()
+    {
+        return $this->repo->getUserAjaxPagination($_REQUEST);
+    }
+
+    public function bulkDeleteUsers()
+    {
+        $this->repo->bulkDeleteUsers($_REQUEST);
+    }
+
 
     /**
      * @throws \Exception

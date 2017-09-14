@@ -24,3 +24,21 @@
 <script type="text/javascript" src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/js/jquery.pulsate.min.js"></script>
 <script type="text/javascript" src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/bootstrap-daterangepicker/date.js"></script>
 <script type="text/javascript" src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/bootstrap-daterangepicker/daterangepicker.js"></script>
+<!--<script type="text/javascript" src="<?php /*echo \App\Config::W_ADMIN_ASSETS */?>/data-tables/jquery.dataTables.js"></script>-->
+<!--<script type="text/javascript" src="<?php /*echo \App\Config::W_ADMIN_ASSETS */?>/data-tables/DT_bootstrap.js"></script>-->
+<script type="text/javascript" src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/bootstrap-fileupload/bootstrap-fileupload.js"></script>
+<script type="text/javascript" src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/js/jquery.dataTables.js"></script>
+<script src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/js/common.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+

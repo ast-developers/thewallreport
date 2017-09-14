@@ -4,6 +4,7 @@ namespace App\Repositories\Admin;
 
 use App\Config;
 use App\Models\PasswordReminder;
+use App\Models\Role;
 use App\Models\User;
 use Core\Helper;
 use Core\Mail;
@@ -23,6 +24,10 @@ class UserRepository
      * @var PasswordReminder
      */
     public $passwordReminderModel;
+    /**
+     * @var Role
+     */
+    public $rolmodel;
 
     /**
      *
@@ -31,6 +36,7 @@ class UserRepository
     {
         $this->model = new User();
         $this->passwordReminderModel = new PasswordReminder();
+        $this->rolmodel = new Role();
     }
 
     /**
@@ -109,5 +115,95 @@ class UserRepository
         $this->passwordReminderModel->removeTokenByEmail($email);
     }
 
+
+    /**
+     * @return bool
+     */
+    public function getUsers()
+    {
+        $users = $this->model->getUsers();
+        return $users;
+    }
+
+    /**
+     * @param $username
+     * @return bool
+     */
+    public function isUserNameExist($username)
+    {
+        $is_exist = $this->model->isUserNameExist($username);
+        return $is_exist;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getRoles()
+    {
+        return $this->rolmodel->getRoles();
+    }
+
+    /**
+     * @param $filedata
+     * @return array
+     */
+    public function uploadAvatar($filedata)
+    {
+        $target_dir = Config::F_ROOT . 'public/uploads/profile_images/';
+        $target_file = $target_dir . basename($filedata["name"]);
+        if (!file_exists($target_file)) {
+            if (move_uploaded_file($filedata["tmp_name"], $target_file)) {
+                return ['success' => true, 'filename' => $filedata["name"]];
+            } else {
+                return ['success' => false, 'messages' => ['Failed to upload Avatar.']];
+            }
+        } else {
+            return ['success' => true, 'filename' => $filedata["name"]];
+        }
+
+    }
+
+    /**
+     * @param $user
+     * @param $filename
+     */
+    public function inserUserData($user, $filename)
+    {
+        $this->model->insertUserData($user, $filename);
+    }
+
+    /**
+     * @param $user
+     * @param $filename
+     */
+    public function updateUserData($user, $filename)
+    {
+        $this->model->updateUserData($user, $filename);
+    }
+
+    /**
+     * @param $id
+     * @return bool
+     */
+    public function getUserById($id)
+    {
+        return $this->model->getUserById($id);
+    }
+
+    /**
+     * @param $params
+     */
+    public function getUserAjaxPagination($params)
+    {
+        return $this->model->getUserAjaxPagination($params);
+    }
+
+    /**
+     * @param $ids
+     */
+    public function bulkDeleteUsers($ids)
+    {
+        $this->model->bulkDeleteUsers($ids);
+    }
 
 }
