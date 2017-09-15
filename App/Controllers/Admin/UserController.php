@@ -28,6 +28,9 @@ class UserController extends Controller
      * @var array
      */
     public $params;
+    /**
+     * @var UserValidation
+     */
     public $uservalidate;
 
     /**
@@ -62,29 +65,6 @@ class UserController extends Controller
             }
         }
         return View::render('Admin/Login/login.php');
-    }
-
-    /**
-     *
-     */
-    public function logoutAction()
-    {
-        session_destroy();
-        Router::redirectTo('admin/login');
-    }
-
-    /**
-     * @throws \Exception
-     */
-    public function dashboardAction()
-    {
-        View::render('Admin/dashboard.php', ['flash_message' => 'Logged in successfully.', 'error_class' => 'alert-success']);
-    }
-
-    public function getUsers()
-    {
-        $users = $this->repo->getUsers();
-        View::render('Admin/Users/listuser.php', ['users' => $users]);
     }
 
     /**
@@ -155,71 +135,112 @@ class UserController extends Controller
         Router::redirectTo('admin/login');
     }
 
-    public function addUser()
+    /**
+     *
+     */
+    public function logoutAction()
     {
-        if (isset($_POST['submit'])) {
-            $this->uservalidate->addUserValidation();
-            $roles = $this->repo->getRoles();
-            // Check Email Exist in records or not
-            $is_exist = $this->repo->isUserNameExist($_POST['username']);
-            if (!$is_exist) {
-                return View::render('Admin/Users/adduser.php', ['roles' => $roles, 'flash_message' => ['Username Already Exist.'], 'error_class' => 'alert-danger']);
-            }
-            if (!empty($_FILES['avatar'])) {
-                $avatarUpload = $this->repo->uploadAvatar($_FILES['avatar']);
-                if (!$avatarUpload['success']) {
-                    return View::render('Admin/Users/adduser.php', ['roles' => $roles, 'flash_message' => $avatarUpload['messages']]);
-                }
-            }
-            $this->repo->inserUserData($_POST, $avatarUpload['filename']);
-            $_SESSION["flash_message"] = 'User Added Successfully.';
-            $_SESSION["error_class"] = 'alert-success';
-            Router::redirectTo('admin/users');
-        } else {
-            $roles = $this->repo->getRoles();
-            View::render('Admin/Users/adduser.php', ['roles' => $roles]);
-        }
+        session_destroy();
+        Router::redirectTo('admin/login');
     }
 
-    public function editUser()
+    /**
+     * @throws \Exception
+     */
+    public function dashboardAction()
     {
-        if (isset($_POST['submit'])) {
-            $this->uservalidate->addUserValidation();
-            if (!empty($_FILES['avatar']['tmp_name'])) {
-                $avatarUpload = $this->repo->uploadAvatar($_FILES['avatar']);
-                if (!$avatarUpload['success']) {
-                    $roles = $this->repo->getRoles();
-                    return View::render('Admin/Users/adduser.php', ['roles' => $roles, 'flash_message' => $avatarUpload['messages']]);
-                }
-            }
-            $filename = (!empty($avatarUpload['filename'])) ? $avatarUpload['filename'] : NULL;
-            $this->repo->updateUserData($_POST, $filename);
-            $_SESSION["flash_message"] = 'User Edited Successfully.';
-            $_SESSION["error_class"] = 'alert-success';
-            Router::redirectTo('admin/users');
-        } else {
-            $user = $this->repo->getUserById($this->params['id']);
-            $roles = $this->repo->getRoles();
-            View::render('Admin/Users/adduser.php', ['user' => $user, 'roles' => $roles]);
-        }
+        View::render('Admin/dashboard.php', ['flash_message' => 'Logged in successfully.', 'error_class' => 'alert-success']);
     }
 
-    public function checkuser()
+    /**
+     * @throws \Exception
+     */
+    public function getUsers()
     {
-        $is_exist = $this->repo->isUserNameExist($_GET['username']);
-        return $is_exist;
+        $users = $this->repo->getUsers();
+        View::render('Admin/Users/listuser.php', ['users' => $users]);
     }
 
+    /**
+     *
+     */
     public function userPaginate()
     {
         return $this->repo->getUserAjaxPagination($_REQUEST);
     }
 
+    /**
+     *
+     */
     public function bulkDeleteUsers()
     {
         $this->repo->bulkDeleteUsers($_REQUEST);
     }
 
+    /**
+     * @throws \Exception
+     */
+    public function storeUser()
+    {
+        if (isset($_POST['submit'])) {
+
+            $formValid = $this->uservalidate->addUserValidation();
+
+            if (!$formValid['success']) {
+                if (!empty($_POST['id'])) {
+                    return Router::redirectTo('admin/edit-user/' . $_POST['id'], $formValid['messages'], 'alert-danger');
+                } else {
+                    return Router::redirectTo('admin/add-user', $formValid['messages'], 'alert-danger');
+                }
+            }
+
+            if (!empty($_FILES['avatar'])) {
+                // DELETE OLD AVATAR
+                if (!empty($_POST['id'])) {
+                    $this->repo->removeUserAvatar($_POST['id']);
+                }
+                // UPLOAD NEW AVATAR
+                $avatarUpload = $this->repo->uploadAvatar($_FILES['avatar']);
+                if (!$avatarUpload['success']) {
+                    $message = $avatarUpload['messages'];
+                    if (!empty($_POST['id'])) {
+                        return Router::redirectTo('admin/edit-user/' . $_POST['id'], $message, 'alert-danger');
+                    } else {
+                        return Router::redirectTo('admin/add-user', $message, 'alert-danger');
+                    }
+                }
+            }
+
+            $filename = (!empty($_POST['id']) && empty($_FILES['avatar']['name'])) ? NULL : $avatarUpload['filename'];
+
+            $message = 'Something went wrong. Please try again later.';
+            $messageClass = 'alert-danger';
+            if (!empty($_POST['id'])) {
+                $file = $this->repo->getUserById($_POST['id']);
+                $avatar = (is_null($filename)) ? $file['profile_image'] : $filename;
+                if ($this->repo->updateUserData($_POST, $avatar)) {
+                    $message = ['User Edited Successfully.'];
+                    $messageClass = 'alert-success';
+                }
+            } else {
+                //echo "add";exit;
+                if ($this->repo->insertUserData($_POST, $filename)) {
+                    $message = ['User Added Successfully.'];
+                    $messageClass = 'alert-success';
+                }
+            }
+            Router::redirectTo('admin/users', $message, $messageClass);
+
+        } else {
+            $roles = $this->repo->getRoles();
+            if (!empty($this->params['id'])) {
+                $user = $this->repo->getUserById($this->params['id']);
+                View::render('Admin/Users/adduser.php', ['user' => $user, 'roles' => $roles]);
+            } else {
+                View::render('Admin/Users/adduser.php', ['roles' => $roles]);
+            }
+        }
+    }
 
     /**
      * @throws \Exception

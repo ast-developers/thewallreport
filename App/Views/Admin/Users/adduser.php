@@ -1,16 +1,8 @@
 <?php include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
-<body class="fixed-top">
-<!-- BEGIN HEADER -->
-<?php include(\App\Config::F_ROOT . 'App/Views/Admin/topbar.php') ?>
-<!-- END HEADER -->
-<!-- BEGIN CONTAINER -->
-<div class="page-container row-fluid">
-    <?php include(\App\Config::F_VIEW . 'Admin/notifications.php') ?>
-    <!-- BEGIN SIDEBAR -->
-    <?php include(\App\Config::F_ROOT . 'App/Views/Admin/sidebar.php') ?>
-    <!-- END SIDEBAR -->
+
     <!-- BEGIN PAGE -->
     <div class="page-content">
+
         <!-- BEGIN PAGE CONTAINER-->
         <div class="container-fluid">
             <!-- BEGIN PAGE HEADER-->
@@ -21,6 +13,11 @@
                     </h3>
                 </div>
             </div>
+            <!-- END PAGE HEADER-->
+
+            <?php include(\App\Config::F_VIEW . 'Admin/notifications.php') ?>
+
+            <!-- BEGIN PAGE CONTENT-->
             <div class="row-fluid">
                 <div class="span12">
                     <div class="tabbable tabbable-custom boxless">
@@ -32,7 +29,7 @@
                                 </div>
                                 <div class="portlet-body form">
                                     <!-- BEGIN FORM-->
-                                    <?php $route = (!empty($user)) ? 'admin/edit-user' : 'admin/add-user'; ?>
+                                    <?php $route = (!empty($user)) ? 'admin/update-user' : 'admin/add-user'; ?>
                                     <form action="<?php echo \App\Config::W_ROOT . $route ?>" method="post"
                                           enctype="multipart/form-data"
                                           class="form-horizontal form-row-seperated user-form">
@@ -147,7 +144,7 @@
                                                          style="width: 200px; height: 150px;">
                                                         <?php if (!empty($user['profile_image'])) { ?>
                                                             <img
-                                                                src="<?php echo \App\Config::W_ROOT . 'uploads/profile_images/' . $user['profile_image']; ?>"
+                                                                src="<?php echo \App\Config::W_USER_AVATAR_ROOT . $user['profile_image']; ?>"
                                                                 style="width: 200px; height: 160px;">
                                                         <?php } else { ?>
                                                             <img
@@ -157,10 +154,10 @@
                                                     </div>
                                                     <div class="fileupload-preview fileupload-exists thumbnail"
                                                          style="max-width: 200px; max-height: 150px; line-height: 20px;"></div>
-                                                    <div>
+                                                    <div class="file-upload-button-area">
                                        <span class="btn btn-file"><span class="fileupload-new">Select image</span>
                                        <span class="fileupload-exists">Change</span>
-                                       <input type="file" class="default" name="avatar"/></span>
+                                       <input type="file" class="default" name="avatar" id="avatar"/></span>
                                                         <a href="#" class="btn fileupload-exists"
                                                            data-dismiss="fileupload">Remove</a>
                                                     </div>
@@ -180,20 +177,18 @@
                     </div>
                 </div>
             </div>
+            <!-- END PAGE CONTENT-->
         </div>
-
         <!-- END PAGE CONTAINER-->
+
     </div>
     <!-- END PAGE -->
-</div>
+
 <?php include(\App\Config::F_ROOT . 'App/Views/Admin/footer.php') ?>
+<script src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/js/user.js"></script>
 <script>
-    jQuery(document).ready(function () {
-        // initiate layout and plugins
-        App.setPage("table_managed");
-        App.init();
+    $(document).ready(function () {
+        User.initManagement();
     });
 </script>
 </body>
-
-

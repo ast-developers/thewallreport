@@ -1,6 +1,7 @@
 <?php
 namespace App\Validations;
 
+use App\Models\User;
 use Core\Csrf;
 
 /**
@@ -9,6 +10,13 @@ use Core\Csrf;
  */
 class UserValidation
 {
+    public $model;
+
+    public function __construct($params = [])
+    {
+        $this->model = new User();
+    }
+
     /**
      * @return array
      */
@@ -31,9 +39,38 @@ class UserValidation
                 $messages[] = 'Please enter Username/Email.';
             }
 
-            if (empty($_POST['password'])) {
+            if (isset($_POST['password']) && empty($_POST['password'])) {
                 $success = false;
                 $messages[] = 'Please enter Email.';
+            }
+            // Check Email Exist or Not
+            if (!empty($_POST['username'])) {
+
+                if (!empty($_POST['id'])) {
+                    $user = $this->model->getUserById($_POST['id']);
+                    $if_user_not_exist = $this->model->isUserNameExist($_POST['username']);
+                    $is_exist = ($_POST['username'] == $user['username']) ? true : $if_user_not_exist;
+                } else {
+                    $is_exist = $this->model->isUserNameExist($_POST['username']);
+                }
+
+                if (!$is_exist) {
+                    $success = false;
+                    $messages[] = 'Username Already Exist.';
+                }
+            }
+            // Check Username Exist or Not
+            if (!empty($_POST['email'])) {
+                if (!empty($_POST['id'])) {
+                    $user = $this->model->getUserByEmail($_POST['email']);
+                    $is_exist = ($_POST['id'] == $user['id']) ? false : true;
+                } else {
+                    $is_exist = $this->model->getUserByEmail($_POST['email']);
+                }
+                if ($is_exist) {
+                    $success = false;
+                    $messages[] = 'Email Already Exist.';
+                }
             }
 
             // Password and confirm password should match
@@ -42,17 +79,15 @@ class UserValidation
                 $messages[] = 'Password and confirmation password does not match';
             }
         }
-        if (isset($_FILES['avatar'])) {
-
+        if (!empty($_FILES['avatar']['name'])) {
             // Check extension
-            $imageFileType = pathinfo($_FILES['avatar']['type'] . '/' . $_FILES['avatar']["name"], PATHINFO_EXTENSION);
-            if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
+            $imagesizedata = getimagesize($_FILES['avatar']['tmp_name']);
+            if ($imagesizedata === FALSE) {
                 $success = false;
-                $messages[] = 'Please use jpg, png or jpeg file for avatar.';
+                $messages[] = 'Please upload Image file only.';
             }
 
         }
-
         return ['success' => $success, 'messages' => $messages];
     }
 

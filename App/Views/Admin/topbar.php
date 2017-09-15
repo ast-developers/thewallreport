@@ -4,12 +4,14 @@
         <div class="container-fluid">
             <!-- BEGIN LOGO -->
             <a class="brand" href="index.html">
-                <img src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/img/logo.png" alt="logo"/>
+                <!--<img src="<?php /*echo \App\Config::W_ADMIN_ASSETS */?>/img/logo.png" alt="logo"/>-->
+                The Wall Report
             </a>
             <!-- END LOGO -->
             <!-- BEGIN RESPONSIVE MENU TOGGLER -->
             <a href="javascript:;" class="btn-navbar collapsed" data-toggle="collapse" data-target=".nav-collapse">
-                <img src="assets/img/menu-toggler.png" alt=""/>
+                <!--<img src="assets/img/menu-toggler.png" alt=""/>-->
+                The Wall Report
             </a>
             <!-- END RESPONSIVE MENU TOGGLER -->
             <!-- BEGIN TOP NAVIGATION MENU -->

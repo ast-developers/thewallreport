@@ -54,7 +54,7 @@ class User extends Model
      */
     public function getUserByEmail($email)
     {
-        $sql = "SELECT COUNT(id) AS count FROM $this->dbTable WHERE email = :email";
+        $sql = "SELECT * FROM $this->dbTable WHERE email = :email";
         $stm = $this->db->prepare($sql);
 
         $stm->bindParam(":email", $email);
@@ -63,7 +63,7 @@ class User extends Model
 
         if ($res) {
             $row = $stm->fetch(\PDO::FETCH_ASSOC);
-            return $row['count'] > 0 ? true : false;
+            return count($row) ? $row : false;
         } else {
             return false;
         }
@@ -122,6 +122,7 @@ class User extends Model
     /**
      * @param $user
      * @param $filename
+     * @return bool
      */
     public function insertUserData($user, $filename)
     {
@@ -136,13 +137,18 @@ class User extends Model
         $stm->bindParam(":password", $password);
         $stm->bindParam(":role_id", $user['role_id']);
         $stm->bindParam(":profile_image", $filename);
-        $stm->execute();
+        try {
+            return $stm->execute();
+        } catch (PDOException $e) {
+            return false;
+        }
 
     }
 
     /**
      * @param $user
      * @param $filename
+     * @return bool
      */
     public function updateUserData($user, $filename)
     {
@@ -156,7 +162,11 @@ class User extends Model
         $stm->bindParam(":nick_name", $user['nick_name']);
         $stm->bindParam(":role_id", $user['role_id']);
         $stm->bindParam(":profile_image", $filename);
-        $stm->execute();
+        try {
+            return $stm->execute();
+        } catch (PDOException $e) {
+            return false;
+        }
 
     }
 
@@ -188,9 +198,10 @@ class User extends Model
         $columns = array(
             // datatable column index  => database column name
             0 => 'username',
-            1 => 'name',
-            2 => 'email',
-            3 => 'role_name'
+            1 => 'username',
+            2 => 'name',
+            3 => 'email',
+            4 => 'role_name'
         );
 
         $totalData = $this->getAllUsersCount();
@@ -231,7 +242,7 @@ class User extends Model
             $nestedData = array();
 
             $nestedData[] = "<input type='checkbox'  class='deleteRow' value='" . $row['id'] . "'  />";
-            $nestedData[] = '<a href="' . \App\Config::W_ROOT . "admin/edituser/" . $row['id'] . '">' . $row["username"] . "</a>";
+            $nestedData[] = '<a href="' . \App\Config::W_ROOT . "admin/edit-user/" . $row['id'] . '">' . $row["username"] . "</a>";
             $nestedData[] = $row["name"];
             $nestedData[] = $row["email"];
             $nestedData[] = $row["role_name"];
@@ -272,13 +283,8 @@ class User extends Model
     public function bulkDeleteUsers($ids)
     {
         $data_ids = $ids['data_ids'];
-        $data_id_array = explode(",", $data_ids);
-        if (!empty($data_id_array)) {
-            foreach ($data_id_array as $id) {
-                $sql = "DELETE FROM $this->dbTable WHERE id = $id";
-                $stm = $this->db->prepare($sql);
-                $stm->execute();
-            }
-        }
+        $sql = "DELETE FROM $this->dbTable WHERE id IN ($data_ids)";
+        $stm = $this->db->prepare($sql);
+        $stm->execute();
     }
 }

@@ -1,3 +1,7 @@
+
+</div>
+<!-- END CONTAINER -->
+
 <script src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/js/jquery-1.8.3.min.js"></script>
 <script type="text/javascript" src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/jquery-validation/dist/jquery.validate.min.js"></script>
 <script src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/js/app.js"></script>
@@ -27,8 +31,9 @@
 <!--<script type="text/javascript" src="<?php /*echo \App\Config::W_ADMIN_ASSETS */?>/data-tables/jquery.dataTables.js"></script>-->
 <!--<script type="text/javascript" src="<?php /*echo \App\Config::W_ADMIN_ASSETS */?>/data-tables/DT_bootstrap.js"></script>-->
 <script type="text/javascript" src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/bootstrap-fileupload/bootstrap-fileupload.js"></script>
-<script type="text/javascript" src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/js/jquery.dataTables.js"></script>
-<script src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/js/common.js"></script>
+<script type="text/javascript" src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/data-tables/jquery.dataTables.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/additional-methods.min.js"></script>
+
 
 
 

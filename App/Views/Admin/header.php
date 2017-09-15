@@ -23,7 +23,7 @@
     <link href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/jqvmap/jqvmap/jqvmap.css" media="screen" rel="stylesheet" type="text/css" />
     <link href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/fancybox/source/jquery.fancybox.css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/chosen-bootstrap/chosen/chosen.css" />
-    <link rel="stylesheet" href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/data-tables/DT_bootstrap.css" />
+    <!--<link rel="stylesheet" href="<?php /*echo \App\Config::W_ADMIN_ASSETS */?>/data-tables/DT_bootstrap.css" />-->
     <!--<link rel="stylesheet" href="<?php /*echo \App\Config::W_ADMIN_ASSETS */?>/bootstrap-toggle-buttons/static/stylesheets/bootstrap-toggle-buttons.css" />-->
     <link rel="stylesheet" type="text/css" href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/bootstrap-colorpicker/css/colorpicker.css" />
     <link rel="stylesheet" type="text/css" href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/bootstrap-timepicker/compiled/timepicker.css" />
@@ -32,6 +32,19 @@
     <link rel="stylesheet" type="text/css" href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/clockface/css/clockface.css" />
     <link href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/bootstrap-fileupload/bootstrap-fileupload.css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/jquery-tags-input/jquery.tagsinput.css" />
-    <link href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/css/jquery.dataTables.css" rel="stylesheet" />
+    <link href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/data-tables/jquery.dataTables.css" rel="stylesheet" />
     <link rel="shortcut icon" href="favicon.ico" />
 </head>
+
+<body class="fixed-top">
+
+<!-- BEGIN HEADER -->
+<?php include(\App\Config::F_ROOT . 'App/Views/Admin/topbar.php') ?>
+<!-- END HEADER -->
+
+<!-- BEGIN CONTAINER -->
+<div class="page-container row-fluid">
+
+    <!-- BEGIN SIDEBAR -->
+    <?php include(\App\Config::F_ROOT . 'App/Views/Admin/sidebar.php') ?>
+    <!-- END SIDEBAR -->

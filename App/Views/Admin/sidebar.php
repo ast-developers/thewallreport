@@ -17,7 +17,7 @@
             </a>
             <ul class="sub">
                 <li ><a href="<?php echo \App\Config::W_ROOT . "admin/users" ?>">All Users</a></li>
-                <li ><a href="<?php echo \App\Config::W_ROOT . "admin/add-user" ?>">Add new</a></li>
+                <li ><a href="<?php echo \App\Config::W_ROOT . "admin/add-user" ?>">Add New</a></li>
             </ul>
         </li>
     </ul>
