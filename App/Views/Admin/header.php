@@ -36,15 +36,19 @@
     <link rel="shortcut icon" href="favicon.ico" />
 </head>
 
-<body class="fixed-top">
+<?php
+/* For Logged in User only, also check footer.php if any changes made here. */
+if(isset($_SESSION['user'])){ ?>
+    <body class="fixed-top">
 
-<!-- BEGIN HEADER -->
-<?php include(\App\Config::F_ROOT . 'App/Views/Admin/topbar.php') ?>
-<!-- END HEADER -->
+    <!-- BEGIN HEADER -->
+    <?php include(\App\Config::F_ROOT . 'App/Views/Admin/topbar.php'); ?>
+    <!-- END HEADER -->
 
-<!-- BEGIN CONTAINER -->
-<div class="page-container row-fluid">
+    <!-- BEGIN CONTAINER -->
+    <div class="page-container row-fluid">
 
-    <!-- BEGIN SIDEBAR -->
-    <?php include(\App\Config::F_ROOT . 'App/Views/Admin/sidebar.php') ?>
-    <!-- END SIDEBAR -->
+        <!-- BEGIN SIDEBAR -->
+        <?php include(\App\Config::F_ROOT . 'App/Views/Admin/sidebar.php') ?>
+        <!-- END SIDEBAR -->
+<?php } ?>

@@ -1,6 +1,9 @@
-
-</div>
+<?php
+/* For Logged in User only, also check header.php if any changes made here. */
+if(isset($_SESSION['user'])){ ?>
+    </div>
 <!-- END CONTAINER -->
+<?php } ?>
 
 <script src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/js/jquery-1.8.3.min.js"></script>
 <script type="text/javascript" src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/jquery-validation/dist/jquery.validate.min.js"></script>

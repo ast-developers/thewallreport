@@ -1,13 +1,5 @@
 <?php include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
-<body class="fixed-top">
-<!-- BEGIN HEADER -->
-<?php include(\App\Config::F_ROOT . 'App/Views/Admin/topbar.php') ?>
-<!-- END HEADER -->
-<!-- BEGIN CONTAINER -->
-<div class="page-container row-fluid">
-    <!-- BEGIN SIDEBAR -->
-    <?php include(\App\Config::F_ROOT . 'App/Views/Admin/sidebar.php') ?>
-    <!-- END SIDEBAR -->
+
     <!-- BEGIN PAGE -->
     <div class="page-content">
         <!-- BEGIN SAMPLE PORTLET CONFIGURATION MODAL FORM-->
@@ -1209,8 +1201,7 @@
         <!-- END PAGE CONTAINER-->
     </div>
     <!-- END PAGE -->
-</div>
-<!-- END CONTAINER -->
+
 <!-- BEGIN FOOTER -->
 <?php include(\App\Config::F_ROOT . 'App/Views/Admin/footer.php') ?>
 <script>
