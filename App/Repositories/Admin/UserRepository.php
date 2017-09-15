@@ -4,9 +4,11 @@ namespace App\Repositories\Admin;
 
 use App\Config;
 use App\Models\PasswordReminder;
+use App\Models\Role;
 use App\Models\User;
 use Core\Helper;
 use Core\Mail;
+use Exception;
 
 
 /**
@@ -23,6 +25,10 @@ class UserRepository
      * @var PasswordReminder
      */
     public $passwordReminderModel;
+    /**
+     * @var Role
+     */
+    public $rolmodel;
 
     /**
      *
@@ -31,6 +37,7 @@ class UserRepository
     {
         $this->model = new User();
         $this->passwordReminderModel = new PasswordReminder();
+        $this->rolmodel = new Role();
     }
 
     /**
@@ -109,5 +116,121 @@ class UserRepository
         $this->passwordReminderModel->removeTokenByEmail($email);
     }
 
+
+    /**
+     * @return bool
+     */
+    public function getUsers()
+    {
+        $users = $this->model->getUsers();
+        return $users;
+    }
+
+    /**
+     * @param $username
+     * @return bool
+     */
+    public function isUserNameExist($username, $id = false)
+    {
+        $is_exist = $this->model->isUserNameExist($username);
+        if ($id) {
+            $user = $this->getUserById($id);
+            return ($user['username'] == $username) ? true : false;
+        }
+        return $is_exist;
+    }
+
+    /**
+     * @param $id
+     * @return bool
+     */
+    public function getUserById($id)
+    {
+        return $this->model->getUserById($id);
+    }
+
+    /**
+     * @return bool
+     */
+    public function getRoles()
+    {
+        return $this->rolmodel->getRoles();
+    }
+
+    /**
+     * @param $filedata
+     * @return array
+     */
+    public function uploadAvatar($filedata)
+    {
+        $target_dir = Config::F_USER_AVATAR_ROOT;
+        if(!file_exists($target_dir)){
+            mkdir($target_dir, 0755, true);
+        }
+        $target_file = $target_dir . basename($filedata["name"]);
+        if (!file_exists($target_file)) {
+            if (move_uploaded_file($filedata["tmp_name"], $target_file)) {
+                return ['success' => true, 'filename' => $filedata["name"]];
+            } else {
+                return ['success' => false, 'messages' => ['Failed to upload Avatar.']];
+            }
+        } else {
+            return ['success' => true, 'filename' => $filedata["name"]];
+        }
+
+    }
+
+    /**
+     * @param int $userId
+     */
+    public function removeUserAvatar($userId = 0)
+    {
+        $user = $this->model->getUserById($userId);
+        if ($user && $user['profile_image']) {
+            $target_dir = Config::F_USER_AVATAR_ROOT;
+            $target_file = $target_dir . $user['profile_image'];
+            try{
+                unlink($target_file);
+            } catch (Exception $e){
+
+            }
+        }
+    }
+
+    /**
+     * @param $user
+     * @param $filename
+     * @return bool
+     */
+    public function insertUserData($user, $filename)
+    {
+        return $this->model->insertUserData($user, $filename);
+    }
+
+    /**
+     * @param $user
+     * @param $filename
+     * @return bool
+     */
+    public function updateUserData($user, $filename)
+    {
+        return $this->model->updateUserData($user, $filename);
+    }
+
+    /**
+     * @param $params
+     */
+    public function getUserAjaxPagination($params)
+    {
+        return $this->model->getUserAjaxPagination($params);
+    }
+
+    /**
+     * @param $ids
+     */
+    public function bulkDeleteUsers($ids)
+    {
+        $this->model->bulkDeleteUsers($ids);
+    }
 
 }

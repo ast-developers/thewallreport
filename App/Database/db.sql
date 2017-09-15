@@ -45,3 +45,7 @@ CREATE TABLE `password_reminders` (
   `token` varchar(255) CHARACTER SET latin1 NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/* 14 Sept 2017 */
+
+ALTER TABLE `users` ADD `profile_image` VARCHAR(255) NULL DEFAULT NULL AFTER `role_id`;

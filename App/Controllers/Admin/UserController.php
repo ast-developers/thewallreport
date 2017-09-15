@@ -2,6 +2,8 @@
 
 namespace App\Controllers\Admin;
 
+use App\Models\User;
+use App\Validations\UserValidation;
 use Core\Controller;
 use App\Repositories\Admin\UserRepository;
 use Core\View;
@@ -26,6 +28,10 @@ class UserController extends Controller
      * @var array
      */
     public $params;
+    /**
+     * @var UserValidation
+     */
+    public $uservalidate;
 
     /**
      * @param array $params
@@ -35,6 +41,7 @@ class UserController extends Controller
         $this->repo = new UserRepository();
         $this->validate = new Login();
         $this->params = $params;
+        $this->uservalidate = new UserValidation();
     }
 
     /**
@@ -61,23 +68,6 @@ class UserController extends Controller
     }
 
     /**
-     *
-     */
-    public function logoutAction()
-    {
-        session_destroy();
-        Router::redirectTo('admin/login');
-    }
-
-    /**
-     * @throws \Exception
-     */
-    public function dashboardAction()
-    {
-        View::render('Admin/dashboard.php', ['flash_message' => 'Logged in successfully.', 'error_class' => 'alert-success']);
-    }
-
-    /**
      * @throws \Exception
      */
     public function sendResetPasswordLinkAction()
@@ -101,7 +91,7 @@ class UserController extends Controller
                 $_SESSION["error_class"] = 'alert-success';
                 Router::redirectTo('admin/login');
             } else {
-                return View::render('Admin/Login/login.php', ['flash_message' => [$send_mail['message']], 'error_class' => 'alert-danger']);
+                return View::render('Admin/Login$this->db/login.php', ['flash_message' => [$send_mail['message']], 'error_class' => 'alert-danger']);
             }
         } else {
             return View::render('Admin/Login/login.php');
@@ -116,7 +106,7 @@ class UserController extends Controller
     {
         $email = $this->repo->getEmailByToken($this->params['token']);
         if (!$email['success']) {
-            return View::render('Admin/Login/resetPassword.php', ['flash_message' => ['Invalid token.'], 'error_class' => 'alert-danger','token' => $this->params['token']]);
+            return View::render('Admin/Login/resetPassword.php', ['flash_message' => ['Invalid token.'], 'error_class' => 'alert-danger', 'token' => $this->params['token']]);
         } else {
             return View::render('Admin/Login/resetPassword.php', ['token' => $this->params['token']]);
         }
@@ -143,6 +133,113 @@ class UserController extends Controller
             $_SESSION["error_class"] = 'alert-success';
         }
         Router::redirectTo('admin/login');
+    }
+
+    /**
+     *
+     */
+    public function logoutAction()
+    {
+        session_destroy();
+        Router::redirectTo('admin/login');
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function dashboardAction()
+    {
+        View::render('Admin/dashboard.php', ['flash_message' => 'Logged in successfully.', 'error_class' => 'alert-success']);
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function getUsers()
+    {
+        $users = $this->repo->getUsers();
+        View::render('Admin/Users/listuser.php', ['users' => $users]);
+    }
+
+    /**
+     *
+     */
+    public function userPaginate()
+    {
+        return $this->repo->getUserAjaxPagination($_REQUEST);
+    }
+
+    /**
+     *
+     */
+    public function bulkDeleteUsers()
+    {
+        $this->repo->bulkDeleteUsers($_REQUEST);
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function storeUser()
+    {
+        if (isset($_POST['submit'])) {
+
+            $formValid = $this->uservalidate->addUserValidation();
+
+            if (!$formValid['success']) {
+                if (!empty($_POST['id'])) {
+                    return Router::redirectTo('admin/edit-user/' . $_POST['id'], $formValid['messages'], 'alert-danger');
+                } else {
+                    return Router::redirectTo('admin/add-user', $formValid['messages'], 'alert-danger');
+                }
+            }
+
+            if (!empty($_FILES['avatar'])) {
+                // DELETE OLD AVATAR
+                if (!empty($_POST['id'])) {
+                    $this->repo->removeUserAvatar($_POST['id']);
+                }
+                // UPLOAD NEW AVATAR
+                $avatarUpload = $this->repo->uploadAvatar($_FILES['avatar']);
+                if (!$avatarUpload['success']) {
+                    $message = $avatarUpload['messages'];
+                    if (!empty($_POST['id'])) {
+                        return Router::redirectTo('admin/edit-user/' . $_POST['id'], $message, 'alert-danger');
+                    } else {
+                        return Router::redirectTo('admin/add-user', $message, 'alert-danger');
+                    }
+                }
+            }
+
+            $filename = (!empty($_POST['id']) && empty($_FILES['avatar']['name'])) ? NULL : $avatarUpload['filename'];
+
+            $message = 'Something went wrong. Please try again later.';
+            $messageClass = 'alert-danger';
+            if (!empty($_POST['id'])) {
+                $file = $this->repo->getUserById($_POST['id']);
+                $avatar = (is_null($filename)) ? $file['profile_image'] : $filename;
+                if ($this->repo->updateUserData($_POST, $avatar)) {
+                    $message = ['User Edited Successfully.'];
+                    $messageClass = 'alert-success';
+                }
+            } else {
+                //echo "add";exit;
+                if ($this->repo->insertUserData($_POST, $filename)) {
+                    $message = ['User Added Successfully.'];
+                    $messageClass = 'alert-success';
+                }
+            }
+            Router::redirectTo('admin/users', $message, $messageClass);
+
+        } else {
+            $roles = $this->repo->getRoles();
+            if (!empty($this->params['id'])) {
+                $user = $this->repo->getUserById($this->params['id']);
+                View::render('Admin/Users/adduser.php', ['user' => $user, 'roles' => $roles]);
+            } else {
+                View::render('Admin/Users/adduser.php', ['roles' => $roles]);
+            }
+        }
     }
 
     /**
