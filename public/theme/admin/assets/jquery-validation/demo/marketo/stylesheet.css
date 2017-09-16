@@ -1042,7 +1042,7 @@ td.label {
 
 tr.required td.label {
 	font-weight: bold;
-	background: url(/images/forms/backRequiredGray.gif) no-repeat right
+	background: url(/public/theme/front/assets/images/forms/backRequiredGray.gif) no-repeat right
 		center;
 }
 

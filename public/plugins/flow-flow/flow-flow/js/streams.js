@@ -577,6 +577,34 @@ var ff_templates = {
                                                                                                                                                                             <dd>\
                                                                                                                                                                                 <label for="%uid%-replies"><input id="%uid%-replies" class="switcher" type="checkbox" name="%uid%-replies" value="yep"/><div><div></div></div></label>\
                                                                                                                                                                             </dd>\
+                                                                                                                                                                            <dt>FEED UPDATES FREQUENCY</dt>\
+                                                              <dd>\
+                                                                  <div class="select-wrapper">\
+                                                                            <select name="%uid%-cache-lifetime" id="cache-lifetime-%uid%">\
+                                                                                <option value="5" selected>Every 5 min</option>\
+                                                                                <option value="30">Every 30 min</option>\
+                                                                                <option value="60">Every hour</option>\
+                                                                                <option value="360">Every 6 hours</option>\
+                                                                                <option value="1440">Once a day</option>\
+                                                                                <option value="10080">Once a week</option>\
+                                                                            </select>\
+                                                                        </div>\
+                                                                  </dd>\
+                                                                  <dt>POSTS TO LOAD DURING UPDATE</dt>\
+                                                                       <dd>\
+                                                                      <div class="select-wrapper">\
+                                                                            <select name="%uid%-posts" id="posts-%uid%">\
+                                                                                <option value="1" selected>1 post</option>\
+                                                                                <option value="5">5 posts</option>\
+                                                                                <option value="10">10 posts</option>\
+                                                                                <option value="20">20 posts</option>\
+                                                                            </select>\
+                                                                       </div>\
+                                                                        </dd>\
+                                                                  <dt>MODERATION ENABLED</dt>\
+                                                                       <dd>\
+                                                                        <label for="%uid%-moderation"><input id="%uid%-moderation" class="switcher" type="checkbox" name="%uid%-moderation" value="yep"/><div><div></div></div></label>\
+                                                                       </dd>\
                                                                                                                                                                         </dl>\
                                                                                                                                                                     </div>\
                                                                                                                                                                     ', facebookView: '\
@@ -601,6 +629,34 @@ var ff_templates = {
                                                                                                                                                                                                         2. For public Group enter its ID (use <a target="_blank" href="http://lookup-id.com/">this tool</a>)<br>\
                                                                                                                                                                                                         3. For public Album enter its ID. <a target="_blank" href="http://social-streams.com/doc/find-facebook-album-id/">Where to find?</a>\
                                                                                                                                                                                                         </p></dd>\
+                                                                                                                                                                                                        <dt>FEED UPDATES FREQUENCY</dt>\
+                                                              <dd>\
+                                                                  <div class="select-wrapper">\
+                                                                            <select name="%uid%-cache-lifetime" id="cache-lifetime-%uid%">\
+                                                                                <option value="5" selected>Every 5 min</option>\
+                                                                                <option value="30">Every 30 min</option>\
+                                                                                <option value="60">Every hour</option>\
+                                                                                <option value="360">Every 6 hours</option>\
+                                                                                <option value="1440">Once a day</option>\
+                                                                                <option value="10080">Once a week</option>\
+                                                                            </select>\
+                                                                        </div>\
+                                                                  </dd>\
+                                                                  <dt>POSTS TO LOAD DURING UPDATE</dt>\
+                                                                       <dd>\
+                                                                      <div class="select-wrapper">\
+                                                                            <select name="%uid%-posts" id="posts-%uid%">\
+                                                                                <option value="1" selected>1 post</option>\
+                                                                                <option value="5">5 posts</option>\
+                                                                                <option value="10">10 posts</option>\
+                                                                                <option value="20">20 posts</option>\
+                                                                            </select>\
+                                                                       </div>\
+                                                                        </dd>\
+                                                                  <dt>MODERATION ENABLED</dt>\
+                                                                       <dd>\
+                                                                        <label for="%uid%-moderation"><input id="%uid%-moderation" class="switcher" type="checkbox" name="%uid%-moderation" value="yep"/><div><div></div></div></label>\
+                                                                       </dd>\
                                                                                                                                                                                                 </dl>\
                                                                                                                                                                                                 </div>\
                                                                                                                                                                                             ',
@@ -628,6 +684,34 @@ var ff_templates = {
                                   <input type="text" name="%uid%-content" placeholder="What content to stream"/>\
                                   <p class="desc">Enter nickname of Vimeo user/album/channel (only users have <strong>liked</strong> videos feed).</p>\
                               </dd>\
+                              <dt>FEED UPDATES FREQUENCY</dt>\
+                                                              <dd>\
+                                                                  <div class="select-wrapper">\
+                                                                            <select name="%uid%-cache-lifetime" id="cache-lifetime-%uid%">\
+                                                                                <option value="5" selected>Every 5 min</option>\
+                                                                                <option value="30">Every 30 min</option>\
+                                                                                <option value="60">Every hour</option>\
+                                                                                <option value="360">Every 6 hours</option>\
+                                                                                <option value="1440">Once a day</option>\
+                                                                                <option value="10080">Once a week</option>\
+                                                                            </select>\
+                                                                        </div>\
+                                                                  </dd>\
+                                                                  <dt>POSTS TO LOAD DURING UPDATE</dt>\
+                                                                       <dd>\
+                                                                      <div class="select-wrapper">\
+                                                                            <select name="%uid%-posts" id="posts-%uid%">\
+                                                                                <option value="1" selected>1 post</option>\
+                                                                                <option value="5">5 posts</option>\
+                                                                                <option value="10">10 posts</option>\
+                                                                                <option value="20">20 posts</option>\
+                                                                            </select>\
+                                                                       </div>\
+                                                                        </dd>\
+                                                                  <dt>MODERATION ENABLED</dt>\
+                                                                       <dd>\
+                                                                        <label for="%uid%-moderation"><input id="%uid%-moderation" class="switcher" type="checkbox" name="%uid%-moderation" value="yep"/><div><div></div></div></label>\
+                                                                       </dd>\
                           </dl>\
                       </div>\
                       ', googleView: '\
@@ -640,6 +724,34 @@ var ff_templates = {
                                   <dd><input type="text" name="%uid%-content" placeholder="+UserName"/>\
                                       <p class="desc">Google username starting with plus or numeric ID of your page.</p>\
                                   </dd>\
+                                  <dt>FEED UPDATES FREQUENCY</dt>\
+                                                              <dd>\
+                                                                  <div class="select-wrapper">\
+                                                                            <select name="%uid%-cache-lifetime" id="cache-lifetime-%uid%">\
+                                                                                <option value="5" selected>Every 5 min</option>\
+                                                                                <option value="30">Every 30 min</option>\
+                                                                                <option value="60">Every hour</option>\
+                                                                                <option value="360">Every 6 hours</option>\
+                                                                                <option value="1440">Once a day</option>\
+                                                                                <option value="10080">Once a week</option>\
+                                                                            </select>\
+                                                                        </div>\
+                                                                  </dd>\
+                                                                  <dt>POSTS TO LOAD DURING UPDATE</dt>\
+                                                                       <dd>\
+                                                                      <div class="select-wrapper">\
+                                                                            <select name="%uid%-posts" id="posts-%uid%">\
+                                                                                <option value="1" selected>1 post</option>\
+                                                                                <option value="5">5 posts</option>\
+                                                                                <option value="10">10 posts</option>\
+                                                                                <option value="20">20 posts</option>\
+                                                                            </select>\
+                                                                       </div>\
+                                                                        </dd>\
+                                                                  <dt>MODERATION ENABLED</dt>\
+                                                                       <dd>\
+                                                                        <label for="%uid%-moderation"><input id="%uid%-moderation" class="switcher" type="checkbox" name="%uid%-moderation" value="yep"/><div><div></div></div></label>\
+                                                                       </dd>\
                               </dl>\
                           </div>\
                       ', rssView: '\
@@ -661,6 +773,34 @@ var ff_templates = {
                                   <dd>\
                                       <label for="%uid%-rich-text"><input id="%uid%-rich-text" class="switcher" type="checkbox" name="%uid%-rich-text" value="yep"/><div><div></div></div></label>\
                                   </dd>\
+                                  <dt>FEED UPDATES FREQUENCY</dt>\
+                                                              <dd>\
+                                                                  <div class="select-wrapper">\
+                                                                            <select name="%uid%-cache-lifetime" id="cache-lifetime-%uid%">\
+                                                                                <option value="5" selected>Every 5 min</option>\
+                                                                                <option value="30">Every 30 min</option>\
+                                                                                <option value="60">Every hour</option>\
+                                                                                <option value="360">Every 6 hours</option>\
+                                                                                <option value="1440">Once a day</option>\
+                                                                                <option value="10080">Once a week</option>\
+                                                                            </select>\
+                                                                        </div>\
+                                                                  </dd>\
+                                                                  <dt>POSTS TO LOAD DURING UPDATE</dt>\
+                                                                       <dd>\
+                                                                      <div class="select-wrapper">\
+                                                                            <select name="%uid%-posts" id="posts-%uid%">\
+                                                                                <option value="1" selected>1 post</option>\
+                                                                                <option value="5">5 posts</option>\
+                                                                                <option value="10">10 posts</option>\
+                                                                                <option value="20">20 posts</option>\
+                                                                            </select>\
+                                                                       </div>\
+                                                                        </dd>\
+                                                                  <dt>MODERATION ENABLED</dt>\
+                                                                       <dd>\
+                                                                        <label for="%uid%-moderation"><input id="%uid%-moderation" class="switcher" type="checkbox" name="%uid%-moderation" value="yep"/><div><div></div></div></label>\
+                                                                       </dd>\
                               </dl>\
                           </div>\
                       ', pinterestView: '\
@@ -675,6 +815,34 @@ var ff_templates = {
                                   <dd>\
                                       <label for="%uid%-hide-text"><input id="%uid%-hide-text" class="switcher" type="checkbox" name="%uid%-hide-text" value="yep"/><div><div></div></div></label>\
                                   </dd>\
+                                  <dt>FEED UPDATES FREQUENCY</dt>\
+                                                              <dd>\
+                                                                  <div class="select-wrapper">\
+                                                                            <select name="%uid%-cache-lifetime" id="cache-lifetime-%uid%">\
+                                                                                <option value="5" selected>Every 5 min</option>\
+                                                                                <option value="30">Every 30 min</option>\
+                                                                                <option value="60">Every hour</option>\
+                                                                                <option value="360">Every 6 hours</option>\
+                                                                                <option value="1440">Once a day</option>\
+                                                                                <option value="10080">Once a week</option>\
+                                                                            </select>\
+                                                                        </div>\
+                                                                  </dd>\
+                                                                  <dt>POSTS TO LOAD DURING UPDATE</dt>\
+                                                                       <dd>\
+                                                                      <div class="select-wrapper">\
+                                                                            <select name="%uid%-posts" id="posts-%uid%">\
+                                                                                <option value="1" selected>1 post</option>\
+                                                                                <option value="5">5 posts</option>\
+                                                                                <option value="10">10 posts</option>\
+                                                                                <option value="20">20 posts</option>\
+                                                                            </select>\
+                                                                       </div>\
+                                                                        </dd>\
+                                                                  <dt>MODERATION ENABLED</dt>\
+                                                                       <dd>\
+                                                                        <label for="%uid%-moderation"><input id="%uid%-moderation" class="switcher" type="checkbox" name="%uid%-moderation" value="yep"/><div><div></div></div></label>\
+                                                                       </dd>\
                               </dl>\
                           </div>\
                       ', instagramView: '\
@@ -706,6 +874,34 @@ var ff_templates = {
                                                               <dd>\
                                                                   <label for="%uid%-hide-text"><input id="%uid%-hide-text" class="switcher" type="checkbox" name="%uid%-hide-text" value="yep"/><div><div></div></div></label>\
                                                               </dd>\
+                                                              <dt>FEED UPDATES FREQUENCY</dt>\
+                                                              <dd>\
+                                                                  <div class="select-wrapper">\
+                                                                            <select name="%uid%-cache-lifetime" id="cache-lifetime-%uid%">\
+                                                                                <option value="5" selected>Every 5 min</option>\
+                                                                                <option value="30">Every 30 min</option>\
+                                                                                <option value="60">Every hour</option>\
+                                                                                <option value="360">Every 6 hours</option>\
+                                                                                <option value="1440">Once a day</option>\
+                                                                                <option value="10080">Once a week</option>\
+                                                                            </select>\
+                                                                        </div>\
+                                                                  </dd>\
+                                                                  <dt>POSTS TO LOAD DURING UPDATE</dt>\
+                                                                       <dd>\
+                                                                      <div class="select-wrapper">\
+                                                                            <select name="%uid%-posts" id="posts-%uid%">\
+                                                                                <option value="1" selected>1 post</option>\
+                                                                                <option value="5">5 posts</option>\
+                                                                                <option value="10">10 posts</option>\
+                                                                                <option value="20">20 posts</option>\
+                                                                            </select>\
+                                                                       </div>\
+                                                                        </dd>\
+                                                                  <dt>MODERATION ENABLED</dt>\
+                                                                       <dd>\
+                                                                        <label for="%uid%-moderation"><input id="%uid%-moderation" class="switcher" type="checkbox" name="%uid%-moderation" value="yep"/><div><div></div></div></label>\
+                                                                       </dd>\
                                                           </dl>\
                                                       </div>\
                                                       ', wordpressView: '\
@@ -781,6 +977,34 @@ var ff_templates = {
                                                                                   <input id="%uid%-playlist-order" class="switcher" type="checkbox" name="%uid%-playlist-order" value="yep"/> <div><div></div></div>\
                                                                               </label>\
                                                                           </dd>\
+                                                                          <dt>FEED UPDATES FREQUENCY</dt>\
+                                                              <dd>\
+                                                                  <div class="select-wrapper">\
+                                                                            <select name="%uid%-cache-lifetime" id="cache-lifetime-%uid%">\
+                                                                                <option value="5" selected>Every 5 min</option>\
+                                                                                <option value="30">Every 30 min</option>\
+                                                                                <option value="60">Every hour</option>\
+                                                                                <option value="360">Every 6 hours</option>\
+                                                                                <option value="1440">Once a day</option>\
+                                                                                <option value="10080">Once a week</option>\
+                                                                            </select>\
+                                                                        </div>\
+                                                                  </dd>\
+                                                                  <dt>POSTS TO LOAD DURING UPDATE</dt>\
+                                                                       <dd>\
+                                                                      <div class="select-wrapper">\
+                                                                            <select name="%uid%-posts" id="posts-%uid%">\
+                                                                                <option value="1" selected>1 post</option>\
+                                                                                <option value="5">5 posts</option>\
+                                                                                <option value="10">10 posts</option>\
+                                                                                <option value="20">20 posts</option>\
+                                                                            </select>\
+                                                                       </div>\
+                                                                        </dd>\
+                                                                  <dt>MODERATION ENABLED</dt>\
+                                                                       <dd>\
+                                                                        <label for="%uid%-moderation"><input id="%uid%-moderation" class="switcher" type="checkbox" name="%uid%-moderation" value="yep"/><div><div></div></div></label>\
+                                                                       </dd>\
                                                                                               </dl>\
                                                                                               </div>\
                                                                                       ', vineView: '\
@@ -809,6 +1033,34 @@ var ff_templates = {
                                                                                                                  <dd>\
                                                                                                                      <label for="%uid%-hide-text"><input id="%uid%-hide-text" class="switcher" type="checkbox" name="%uid%-hide-text" value="yep"/><div><div></div></div></label>\
                                                                                                                  </dd>\
+                                                                                                                 <dt>FEED UPDATES FREQUENCY</dt>\
+                                                              <dd>\
+                                                                  <div class="select-wrapper">\
+                                                                            <select name="%uid%-cache-lifetime" id="cache-lifetime-%uid%">\
+                                                                                <option value="5" selected>Every 5 min</option>\
+                                                                                <option value="30">Every 30 min</option>\
+                                                                                <option value="60">Every hour</option>\
+                                                                                <option value="360">Every 6 hours</option>\
+                                                                                <option value="1440">Once a day</option>\
+                                                                                <option value="10080">Once a week</option>\
+                                                                            </select>\
+                                                                        </div>\
+                                                                  </dd>\
+                                                                  <dt>POSTS TO LOAD DURING UPDATE</dt>\
+                                                                       <dd>\
+                                                                      <div class="select-wrapper">\
+                                                                            <select name="%uid%-posts" id="posts-%uid%">\
+                                                                                <option value="1" selected>1 post</option>\
+                                                                                <option value="5">5 posts</option>\
+                                                                                <option value="10">10 posts</option>\
+                                                                                <option value="20">20 posts</option>\
+                                                                            </select>\
+                                                                       </div>\
+                                                                        </dd>\
+                                                                  <dt>MODERATION ENABLED</dt>\
+                                                                       <dd>\
+                                                                        <label for="%uid%-moderation"><input id="%uid%-moderation" class="switcher" type="checkbox" name="%uid%-moderation" value="yep"/><div><div></div></div></label>\
+                                                                       </dd>\
                                                                                                              </dl>\
                                                                                                          </div>\
                                                                                                      ', dribbbleView: '\
@@ -830,6 +1082,34 @@ var ff_templates = {
                                                                                                                          <dd>\
                                                                                                                              <label for="%uid%-hide-text"><input id="%uid%-hide-text" class="switcher" type="checkbox" name="%uid%-hide-text" value="yep"/><div><div></div></div></label>\
                                                                                                                          </dd>\
+                                                                                                                         <dt>FEED UPDATES FREQUENCY</dt>\
+                                                              <dd>\
+                                                                  <div class="select-wrapper">\
+                                                                            <select name="%uid%-cache-lifetime" id="cache-lifetime-%uid%">\
+                                                                                <option value="5" selected>Every 5 min</option>\
+                                                                                <option value="30">Every 30 min</option>\
+                                                                                <option value="60">Every hour</option>\
+                                                                                <option value="360">Every 6 hours</option>\
+                                                                                <option value="1440">Once a day</option>\
+                                                                                <option value="10080">Once a week</option>\
+                                                                            </select>\
+                                                                        </div>\
+                                                                  </dd>\
+                                                                  <dt>POSTS TO LOAD DURING UPDATE</dt>\
+                                                                       <dd>\
+                                                                      <div class="select-wrapper">\
+                                                                            <select name="%uid%-posts" id="posts-%uid%">\
+                                                                                <option value="1" selected>1 post</option>\
+                                                                                <option value="5">5 posts</option>\
+                                                                                <option value="10">10 posts</option>\
+                                                                                <option value="20">20 posts</option>\
+                                                                            </select>\
+                                                                       </div>\
+                                                                        </dd>\
+                                                                  <dt>MODERATION ENABLED</dt>\
+                                                                       <dd>\
+                                                                        <label for="%uid%-moderation"><input id="%uid%-moderation" class="switcher" type="checkbox" name="%uid%-moderation" value="yep"/><div><div></div></div></label>\
+                                                                       </dd>\
                                                                                                                      </dl>\
                                                                                                                  </div>\
                                                                                                                  ', foursquareView: '\
@@ -849,6 +1129,34 @@ var ff_templates = {
                                                                                                                              <dd>\
                                                                                                                                  <label for="%uid%-only-text"><input id="%uid%-only-text" class="switcher" type="checkbox" name="%uid%-only-text" value="yep"/><div><div></div></div></label>\
                                                                                                                              </dd>\
+                                                                                                                             <dt>FEED UPDATES FREQUENCY</dt>\
+                                                              <dd>\
+                                                                  <div class="select-wrapper">\
+                                                                            <select name="%uid%-cache-lifetime" id="cache-lifetime-%uid%">\
+                                                                                <option value="5" selected>Every 5 min</option>\
+                                                                                <option value="30">Every 30 min</option>\
+                                                                                <option value="60">Every hour</option>\
+                                                                                <option value="360">Every 6 hours</option>\
+                                                                                <option value="1440">Once a day</option>\
+                                                                                <option value="10080">Once a week</option>\
+                                                                            </select>\
+                                                                        </div>\
+                                                                  </dd>\
+                                                                  <dt>POSTS TO LOAD DURING UPDATE</dt>\
+                                                                       <dd>\
+                                                                      <div class="select-wrapper">\
+                                                                            <select name="%uid%-posts" id="posts-%uid%">\
+                                                                                <option value="1" selected>1 post</option>\
+                                                                                <option value="5">5 posts</option>\
+                                                                                <option value="10">10 posts</option>\
+                                                                                <option value="20">20 posts</option>\
+                                                                            </select>\
+                                                                       </div>\
+                                                                        </dd>\
+                                                                  <dt>MODERATION ENABLED</dt>\
+                                                                       <dd>\
+                                                                        <label for="%uid%-moderation"><input id="%uid%-moderation" class="switcher" type="checkbox" name="%uid%-moderation" value="yep"/><div><div></div></div></label>\
+                                                                       </dd>\
                                                                                                                          </dl>\
                                                                                                                      </div>\
                                                                                                                  ', flickrView: '\
@@ -870,6 +1178,34 @@ var ff_templates = {
                                                                                                                                      <dd>\
                                                                                                                                          <label for="%uid%-hide-text"><input id="%uid%-hide-text" class="switcher" type="checkbox" name="%uid%-hide-text" value="yep"/><div><div></div></div></label>\
                                                                                                                                      </dd>\
+                                                                                                                                     <dt>FEED UPDATES FREQUENCY</dt>\
+                                                              <dd>\
+                                                                  <div class="select-wrapper">\
+                                                                            <select name="%uid%-cache-lifetime" id="cache-lifetime-%uid%">\
+                                                                                <option value="5" selected>Every 5 min</option>\
+                                                                                <option value="30">Every 30 min</option>\
+                                                                                <option value="60">Every hour</option>\
+                                                                                <option value="360">Every 6 hours</option>\
+                                                                                <option value="1440">Once a day</option>\
+                                                                                <option value="10080">Once a week</option>\
+                                                                            </select>\
+                                                                        </div>\
+                                                                  </dd>\
+                                                                  <dt>POSTS TO LOAD DURING UPDATE</dt>\
+                                                                       <dd>\
+                                                                      <div class="select-wrapper">\
+                                                                            <select name="%uid%-posts" id="posts-%uid%">\
+                                                                                <option value="1" selected>1 post</option>\
+                                                                                <option value="5">5 posts</option>\
+                                                                                <option value="10">10 posts</option>\
+                                                                                <option value="20">20 posts</option>\
+                                                                            </select>\
+                                                                       </div>\
+                                                                        </dd>\
+                                                                  <dt>MODERATION ENABLED</dt>\
+                                                                       <dd>\
+                                                                        <label for="%uid%-moderation"><input id="%uid%-moderation" class="switcher" type="checkbox" name="%uid%-moderation" value="yep"/><div><div></div></div></label>\
+                                                                       </dd>\
                                                                                                                                  </dl>\
                                                                                                                              </div>\
                                                                                                                              ', tumblrView: '\
@@ -888,6 +1224,34 @@ var ff_templates = {
                                                                                                                                          <dd>\
                                                                                                                                              <label for="%uid%-rich-text"><input id="%uid%-rich-text" class="switcher" type="checkbox" name="%uid%-rich-text" value="yep"/><div><div></div></div></label>\
                                                                                                                                          </dd>\
+                                                                                                                                         <dt>FEED UPDATES FREQUENCY</dt>\
+                                                              <dd>\
+                                                                  <div class="select-wrapper">\
+                                                                            <select name="%uid%-cache-lifetime" id="cache-lifetime-%uid%">\
+                                                                                <option value="5" selected>Every 5 min</option>\
+                                                                                <option value="30">Every 30 min</option>\
+                                                                                <option value="60">Every hour</option>\
+                                                                                <option value="360">Every 6 hours</option>\
+                                                                                <option value="1440">Once a day</option>\
+                                                                                <option value="10080">Once a week</option>\
+                                                                            </select>\
+                                                                        </div>\
+                                                                  </dd>\
+                                                                  <dt>POSTS TO LOAD DURING UPDATE</dt>\
+                                                                       <dd>\
+                                                                      <div class="select-wrapper">\
+                                                                            <select name="%uid%-posts" id="posts-%uid%">\
+                                                                                <option value="1" selected>1 post</option>\
+                                                                                <option value="5">5 posts</option>\
+                                                                                <option value="10">10 posts</option>\
+                                                                                <option value="20">20 posts</option>\
+                                                                            </select>\
+                                                                       </div>\
+                                                                        </dd>\
+                                                                  <dt>MODERATION ENABLED</dt>\
+                                                                       <dd>\
+                                                                        <label for="%uid%-moderation"><input id="%uid%-moderation" class="switcher" type="checkbox" name="%uid%-moderation" value="yep"/><div><div></div></div></label>\
+                                                                       </dd>\
                                                                                                                                      </dl>\
                                                                                                                                  </div>\
                                                                                                                              ', linkedinView: '\
@@ -904,6 +1268,34 @@ var ff_templates = {
                                                                                                                                              <input id="%uid%-job-posting" type="radio" name="%uid%-event-type" value="job-posting"/> <label for="%uid%-job-posting">Job offers (BETA)</label><br><br/>\
                                                                                                                                              <input id="%uid%-any" type="radio" name="%uid%-event-type" checked checked value="any"/> <label for="%uid%-any">Any</label>\
                                                                                                                                          </dd>\
+                                                                                                                                         <dt>FEED UPDATES FREQUENCY</dt>\
+                                                              <dd>\
+                                                                  <div class="select-wrapper">\
+                                                                            <select name="%uid%-cache-lifetime" id="cache-lifetime-%uid%">\
+                                                                                <option value="5" selected>Every 5 min</option>\
+                                                                                <option value="30">Every 30 min</option>\
+                                                                                <option value="60">Every hour</option>\
+                                                                                <option value="360">Every 6 hours</option>\
+                                                                                <option value="1440">Once a day</option>\
+                                                                                <option value="10080">Once a week</option>\
+                                                                            </select>\
+                                                                        </div>\
+                                                                  </dd>\
+                                                                  <dt>POSTS TO LOAD DURING UPDATE</dt>\
+                                                                       <dd>\
+                                                                      <div class="select-wrapper">\
+                                                                            <select name="%uid%-posts" id="posts-%uid%">\
+                                                                                <option value="1" selected>1 post</option>\
+                                                                                <option value="5">5 posts</option>\
+                                                                                <option value="10">10 posts</option>\
+                                                                                <option value="20">20 posts</option>\
+                                                                            </select>\
+                                                                       </div>\
+                                                                        </dd>\
+                                                                  <dt>MODERATION ENABLED</dt>\
+                                                                       <dd>\
+                                                                        <label for="%uid%-moderation"><input id="%uid%-moderation" class="switcher" type="checkbox" name="%uid%-moderation" value="yep"/><div><div></div></div></label>\
+                                                                       </dd>\
                                                                                                                                          </dl>\
                                                                                                                                      </div>\
                                                                                                                                  ', soundcloudView: '\
@@ -918,6 +1310,34 @@ var ff_templates = {
                                                                                                                                              <dd class=""><input type="text" name="%uid%-content" placeholder="What content to stream"/>\
                                                                                                                                                  <p class="desc">Enter playlist ID, eg. <strong>playlist</strong> in soundcloud.com/username/sets/<strong>playlist</strong>.</p>\
                                                                                                                                              </dd>\
+                                                                                                                                             <dt>FEED UPDATES FREQUENCY</dt>\
+                                                              <dd>\
+                                                                  <div class="select-wrapper">\
+                                                                            <select name="%uid%-cache-lifetime" id="cache-lifetime-%uid%">\
+                                                                                <option value="5" selected>Every 5 min</option>\
+                                                                                <option value="30">Every 30 min</option>\
+                                                                                <option value="60">Every hour</option>\
+                                                                                <option value="360">Every 6 hours</option>\
+                                                                                <option value="1440">Once a day</option>\
+                                                                                <option value="10080">Once a week</option>\
+                                                                            </select>\
+                                                                        </div>\
+                                                                  </dd>\
+                                                                  <dt>POSTS TO LOAD DURING UPDATE</dt>\
+                                                                       <dd>\
+                                                                      <div class="select-wrapper">\
+                                                                            <select name="%uid%-posts" id="posts-%uid%">\
+                                                                                <option value="1" selected>1 post</option>\
+                                                                                <option value="5">5 posts</option>\
+                                                                                <option value="10">10 posts</option>\
+                                                                                <option value="20">20 posts</option>\
+                                                                            </select>\
+                                                                       </div>\
+                                                                        </dd>\
+                                                                  <dt>MODERATION ENABLED</dt>\
+                                                                       <dd>\
+                                                                        <label for="%uid%-moderation"><input id="%uid%-moderation" class="switcher" type="checkbox" name="%uid%-moderation" value="yep"/><div><div></div></div></label>\
+                                                                       </dd>\
                                                                                                                                          </dl>\
                                                                                                                                      </div>\
                                                                                                                                  ', filterView: '\
@@ -933,6 +1353,34 @@ var ff_templates = {
                                                                                                                                                          4. You can enter multiple exclusion rules separated by comma without spaces eg <strong>anyword,@nickname,#URLpart</strong>\
                                                                                                                                                          </p>\
                                                                                                                                                      </dd>\
+                                                                                                                                                     <dt>FEED UPDATES FREQUENCY</dt>\
+                                                              <dd>\
+                                                                  <div class="select-wrapper">\
+                                                                            <select name="%uid%-cache-lifetime" id="cache-lifetime-%uid%">\
+                                                                                <option value="5" selected>Every 5 min</option>\
+                                                                                <option value="30">Every 30 min</option>\
+                                                                                <option value="60">Every hour</option>\
+                                                                                <option value="360">Every 6 hours</option>\
+                                                                                <option value="1440">Once a day</option>\
+                                                                                <option value="10080">Once a week</option>\
+                                                                            </select>\
+                                                                        </div>\
+                                                                  </dd>\
+                                                                  <dt>POSTS TO LOAD DURING UPDATE</dt>\
+                                                                       <dd>\
+                                                                      <div class="select-wrapper">\
+                                                                            <select name="%uid%-posts" id="posts-%uid%">\
+                                                                                <option value="1" selected>1 post</option>\
+                                                                                <option value="5">5 posts</option>\
+                                                                                <option value="10">10 posts</option>\
+                                                                                <option value="20">20 posts</option>\
+                                                                            </select>\
+                                                                       </div>\
+                                                                        </dd>\
+                                                                  <dt>MODERATION ENABLED</dt>\
+                                                                       <dd>\
+                                                                        <label for="%uid%-moderation"><input id="%uid%-moderation" class="switcher" type="checkbox" name="%uid%-moderation" value="yep"/><div><div></div></div></label>\
+                                                                       </dd>\
                                                                                                                                                  </dl>\
                                                                                                                                                  </div>\
                                                                                                                                                  '
