@@ -30,7 +30,7 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                             <div class="actions">
                                 <a href="<?php echo \App\Config::W_ROOT . "admin/add-user" ?>" class="btn blue"><i
                                         class="icon-pencil"></i> Add</a>
-
+                                <button class="btn red" id="deleteTriger">Delete</button>
                                 <div class="btn-group">
                                     <ul class="dropdown-menu pull-right">
                                         <li><a href="#"><i class="icon-pencil"></i> Edit</a></li>
@@ -46,8 +46,7 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                             <table id="user-grid" class="display table table-striped table-bordered table-hover">
                                 <thead>
                                 <tr>
-                                    <th><input type="checkbox" id="bulkDelete"/>
-                                        <button id="deleteTriger">Delete</button>
+                                    <th style="width:8px;"><input type="checkbox" id="bulkDelete"/>
                                     </th>
                                     <th>Username</th>
                                     <th>Name</th>
