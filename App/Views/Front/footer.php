@@ -31,8 +31,6 @@
 <!-- Bootstrap core JavaScript
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
-<script src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/public/theme/front/assets/js/jquery-1.8.3.min.js"></script>
-<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>-->
 <script src="<?php echo \App\Config::W_FRONT_ASSETS ?>js/bootstrap.min.js"></script>
 
 <script type="text/javascript">
