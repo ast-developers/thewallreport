@@ -1,7 +1,7 @@
 <?php
 $pagetitle = 'Flow-FLow';
 require_once(\App\Config::F_FLOW_FLOW_ROOT.'ff-injector.php');
-$injector = new FFInjector(true);
+$flowFlowInjector = new FFInjector(true);
 include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
 
     <!-- BEGIN PAGE -->
@@ -25,7 +25,7 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
             <div class="row-fluid">
                 <div class="span12 responsive" data-tablet="span12 fix-offset" data-desktop="span12">
                     <!-- BEGIN EXAMPLE TABLE PORTLET-->
-                    <?php $injector->admin("Flow-Flow - Social Streams Plugin"); ?>
+                    <?php $flowFlowInjector->admin("Flow-Flow - Social Streams Plugin"); ?>
                     <!-- END EXAMPLE TABLE PORTLET-->
                 </div>
             </div>

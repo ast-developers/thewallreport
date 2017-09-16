@@ -48,27 +48,27 @@ if (isset($_REQUEST['action'])){
 			} else  $db->setOption('bg_task_time', time());
 			break;
 		case 'flow_flow_save_stream_settings':
-			if ( strpos( $_SERVER['HTTP_REFERER'] , 'admin.php' ) === false ) continue;
+			if ( strpos( $_SERVER['HTTP_REFERER'] , 'admin' ) === false ) continue;
 			$db->save_stream_settings();
 			break;
 		case 'flow_flow_get_stream_settings':
-			if ( strpos( $_SERVER['HTTP_REFERER'] , 'admin.php' ) === false ) continue;
+			if ( strpos( $_SERVER['HTTP_REFERER'] , 'admin' ) === false ) continue;
 			$db->get_stream_settings();
 			break;
 		case 'flow_flow_ff_save_settings':
-			if ( strpos( $_SERVER['HTTP_REFERER'] , 'admin.php' ) === false ) continue;
+			if ( strpos( $_SERVER['HTTP_REFERER'] , 'admin' ) === false ) continue;
 			$db->ff_save_settings_fn();
 			break;
 		case 'flow_flow_create_stream':
-			if ( strpos( $_SERVER['HTTP_REFERER'] , 'admin.php' ) === false ) continue;
+			if ( strpos( $_SERVER['HTTP_REFERER'] , 'admin' ) === false ) continue;
 			$db->create_stream();
 			break;
 		case 'flow_flow_clone_stream':
-			if ( strpos( $_SERVER['HTTP_REFERER'] , 'admin.php' ) === false ) continue;
+			if ( strpos( $_SERVER['HTTP_REFERER'] , 'admin' ) === false ) continue;
 			$db->clone_stream();
 			break;
 		case 'flow_flow_delete_stream':
-			if ( strpos( $_SERVER['HTTP_REFERER'] , 'admin.php' ) === false ) continue;
+			if ( strpos( $_SERVER['HTTP_REFERER'] , 'admin' ) === false ) continue;
 			$db->delete_stream();
 			break;
 		case 'moderation_apply_action':
