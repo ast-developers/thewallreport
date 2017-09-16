@@ -20,6 +20,12 @@
                 <li ><a href="<?php echo \App\Config::W_ROOT . "admin/add-user" ?>">Add New</a></li>
             </ul>
         </li>
+        <li class="">
+            <a href="<?php echo \App\Config::W_ROOT . "admin/flow-flow" ?>">
+                <i class="icon-sitemap"></i>
+                <span class="title">Flow-Flow</span>
+            </a>
+        </li>
     </ul>
     <!-- END SIDEBAR MENU -->
 </div>

@@ -1,4 +1,6 @@
-<?php include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
+<?php
+$pagetitle = (!empty($user)) ? 'Edit' : 'Add'.' User';
+include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
 
     <!-- BEGIN PAGE -->
     <div class="page-content">

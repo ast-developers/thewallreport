@@ -34,6 +34,12 @@
     <link rel="stylesheet" type="text/css" href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/jquery-tags-input/jquery.tagsinput.css" />
     <link href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/data-tables/jquery.dataTables.css" rel="stylesheet" />
     <link rel="shortcut icon" href="favicon.ico" />
+
+    <?php
+    if(isset($flowFlowInjector)){
+        echo $flowFlowInjector->head(true, true, false);
+    }
+     ?>
 </head>
 
 <?php
