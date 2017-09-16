@@ -81,7 +81,11 @@ var ff_templates = {
                     <input id="stream-%id%-date-order" type="radio" name="stream-%id%-order" value="compareByTime"/>\
                     <label for="stream-%id%-date-order">Strictly by date</label><br><br>\
                         <input id="stream-%id%-random-order" type="radio" name="stream-%id%-order" value="randomCompare"/>\
-                        <label for="stream-%id%-random-order">Random</label>\
+                        <label for="stream-%id%-random-order">Random</label><br><br>\
+                        <input id="stream-%id%-popularity-order" type="radio" name="stream-%id%-order" value="popularity"/>\
+                    <label for="stream-%id%-popularity-order">Popularity</label><br><br>\
+                    <input id="stream-%id%-featured-order" type="radio" name="stream-%id%-order" value="featured"/>\
+                    <label for="stream-%id%-featured-order">Featured</label><br><br>\
                     </dd>\
                         <dt>Load last\
                             <p class="desc">Number of items that is pulled and cached from each connected feed. Overall number of posts (number of posts to load X number of feeds) cannot be more than 100</p>\

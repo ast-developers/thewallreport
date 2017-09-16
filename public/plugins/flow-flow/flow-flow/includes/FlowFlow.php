@@ -5,10 +5,12 @@ use flow\db\FFDBManager;
 use flow\settings\FFStreamSettings;
 use flow\social\FFFeedUtils;
 
-if ( ! defined( 'WPINC' ) ) die;
-if ( ! defined('FF_BY_DATE_ORDER'))   define('FF_BY_DATE_ORDER', 'compareByTime');
-if ( ! defined('FF_RANDOM_ORDER'))    define('FF_RANDOM_ORDER',  'randomCompare');
-if ( ! defined('FF_SMART_ORDER'))     define('FF_SMART_ORDER',   'smartCompare');
+if (!defined('WPINC')) die;
+if (!defined('FF_BY_DATE_ORDER')) define('FF_BY_DATE_ORDER', 'compareByTime');
+if (!defined('FF_RANDOM_ORDER')) define('FF_RANDOM_ORDER', 'randomCompare');
+if (!defined('FF_SMART_ORDER')) define('FF_SMART_ORDER', 'smartCompare');
+if (!defined('FF_POPULARITY_ORDER')) define('FF_POPULARITY_ORDER', 'popularity');
+if (!defined('FF_FEATURED_ORDER')) define('FF_FEATURED_ORDER', 'featured');
 /**
  * Flow-Flow
  *
