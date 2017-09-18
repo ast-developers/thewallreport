@@ -49,3 +49,16 @@ CREATE TABLE `password_reminders` (
 /* 14 Sept 2017 */
 
 ALTER TABLE `users` ADD `profile_image` VARCHAR(255) NULL DEFAULT NULL AFTER `role_id`;
+
+/* 18 Sept 2017 */
+
+CREATE TABLE `categories` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `parent_id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `slug` varchar(255) NOT NULL,
+  `description` text,
+  `created_at` timestamp NOT NULL,
+  `updated_at` timestamp NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
