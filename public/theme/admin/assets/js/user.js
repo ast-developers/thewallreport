@@ -48,6 +48,8 @@ var User = function () {
                     data: {data_ids: ids_string},
                     success: function (result) {
                         dataTable.draw(); // redrawing datatable
+                        $('.header-title').after('<div class="alert alert-success">'+
+                            '<strong>'+'Categories Deleted successfully.'+'</strong></div>');
                     },
                     async: false
                 });

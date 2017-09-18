@@ -8,7 +8,7 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
     <div class="container-fluid">
 
         <!-- BEGIN PAGE HEADER-->
-        <div class="row-fluid">
+        <div class="row-fluid header-title">
             <div class="span12">
                 <h3 class="page-title">
                     Categories
