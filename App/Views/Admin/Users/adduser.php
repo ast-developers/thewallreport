@@ -187,7 +187,7 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
     <!-- END PAGE -->
 
 <?php include(\App\Config::F_ROOT . 'App/Views/Admin/footer.php') ?>
-<script src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/public/theme/front/assets/js/user.js"></script>
+<script src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/js/user.js"></script>
 <script>
     $(document).ready(function () {
         User.initManagement();
