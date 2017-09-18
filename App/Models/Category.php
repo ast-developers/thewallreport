@@ -27,36 +27,10 @@ class Category extends Model
     }
 
     /**
-     * @return bool
+     * @param $params
      */
-    public function getAll()
+    public function getCategoryAjaxPagination($params)
     {
-        $sql = "SELECT * FROM $this->dbTable";
-        $stm = $this->db->prepare($sql);
-        $res = $stm->execute();
-
-        if ($res) {
-            $row = $stm->fetchAll(\PDO::FETCH_ASSOC);
-            return $row;
-        } else {
-            return false;
-        }
-    }
-
-    public function getAllCategoriesCount(){
-        $sql = "SELECT COUNT(id) AS count FROM $this->dbTable";
-        $stm = $this->db->prepare($sql);
-        $res = $stm->execute();
-
-        if ($res) {
-            $row = $stm->fetch(\PDO::FETCH_ASSOC);
-            return $row['count'];
-        } else {
-            return false;
-        }
-    }
-
-    public function getCategoryAjaxPagination($params){
         $columns = array(
             // datatable column index  => database column name
             0 => 'name',
@@ -100,22 +74,22 @@ class Category extends Model
         }
 
         $data = array();
-        foreach($tree as $row){
+        foreach ($tree as $row) {
             $nestedData = array();
             $nestedData[] = "<input type='checkbox'  class='deleteRow' value='" . $row['id'] . "'  />";
-            $nestedData[] = '<a href="' . \App\Config::W_ROOT . "admin/editCategory/" . $row['id'] . '">'.$row["name"].'</a>';
+            $nestedData[] = '<a href="' . \App\Config::W_ROOT . "admin/editCategory/" . $row['id'] . '">' . $row["name"] . '</a>';
             $nestedData[] = $row["description"];
             $nestedData[] = $row["slug"];
 
             $data[] = $nestedData;
-            $result=[];
-            if(!empty($row['children'])){
-               $result = array_merge($data,$this->generateChild($row['children']));
+            $result = [];
+            if (!empty($row['children'])) {
+                $result = array_merge($data, $this->generateChild($row['children']));
             }
-            if(count($result)>0){
-                $data=$result;
+            if (count($result) > 0) {
+                $data = $result;
             }
-       }
+        }
         $json_data = array(
             "draw" => intval($params['draw']),   // for every request/draw by clientside , they send a number as a parameter, when they recieve a response/data they first check the draw number, so we are sending same number in draw.
             "recordsTotal" => intval($totalData),  // total number of records
@@ -125,37 +99,30 @@ class Category extends Model
         echo json_encode($json_data);
     }
 
-    public function generateChild($children,$level=1,$sign='- '){
-        $data=[];
-        foreach($children as $key=>$value){
-            $nestedData=[];
-            $nestedData[]="<input type='checkbox'  class='deleteRow' value='" . $value['id'] . "'  />";;
-            $s='';
-            for($i=1;$i<=$level;$i++){
-                $s .=$sign;
-            }
-            $nestedData[] = '<a href="' . \App\Config::W_ROOT . "admin/editCategory/" . $value['id'] . '">'.$s.$value["name"].'</a>';
-            $nestedData[] = $value["description"];
-            $nestedData[] = $value["slug"];
-            $nestedData[] = $value["id"];
-            $nestedData[] = $level;
-            $data[] = $nestedData;
-            $result=[];
-            if(!empty($value['children'])){
-                $level=$level+1;
-                $result = array_merge($data,$this->generateChild($value['children'],$level,$sign));
-                $level=$level-1;
-            }
+    /**
+     * @return bool
+     */
+    public function getAllCategoriesCount()
+    {
+        $sql = "SELECT COUNT(id) AS count FROM $this->dbTable";
+        $stm = $this->db->prepare($sql);
+        $res = $stm->execute();
 
-            if($result){
-                $data=$result;
-            }
-
+        if ($res) {
+            $row = $stm->fetch(\PDO::FETCH_ASSOC);
+            return $row['count'];
+        } else {
+            return false;
         }
-        return $data;
     }
 
-    function buildTree(array $elements, $parentId = 0) {
+    /**
+     * @param array $elements
+     * @param int $parentId
+     * @return array
+     */
+    function buildTree(array $elements, $parentId = 0)
+    {
         $branch = array();
         foreach ($elements as $element) {
             if ($element['parent_id'] == $parentId) {
@@ -170,8 +137,48 @@ class Category extends Model
         return $branch;
     }
 
+    /**
+     * @param $children
+     * @param int $level
+     * @param string $sign
+     * @return array
+     */
+    public function generateChild($children, $level = 1, $sign = '- ')
+    {
+        $data = [];
+        foreach ($children as $key => $value) {
+            $nestedData = [];
+            $nestedData[] = "<input type='checkbox'  class='deleteRow' value='" . $value['id'] . "'  />";;
+            $s = '';
+            for ($i = 1; $i <= $level; $i++) {
+                $s .= $sign;
+            }
+            $nestedData[] = '<a href="' . \App\Config::W_ROOT . "admin/editCategory/" . $value['id'] . '">' . $s . $value["name"] . '</a>';
+            $nestedData[] = $value["description"];
+            $nestedData[] = $value["slug"];
+            $nestedData[] = $value["id"];
+            $nestedData[] = $level;
+            $data[] = $nestedData;
+            $result = [];
+            if (!empty($value['children'])) {
+                $level = $level + 1;
+                $result = array_merge($data, $this->generateChild($value['children'], $level, $sign));
+                $level = $level - 1;
+            }
 
-    public function bulkDeleteCategories($params){
+            if ($result) {
+                $data = $result;
+            }
+
+        }
+        return $data;
+    }
+
+    /**
+     * @param $params
+     */
+    public function bulkDeleteCategories($params)
+    {
 
         $data_ids = $params['data_ids'];
         $sql = "DELETE FROM $this->dbTable WHERE id IN ($data_ids)";
@@ -184,12 +191,38 @@ class Category extends Model
 
     }
 
-    public function getParentCategories(){
+    /**
+     * @return array
+     */
+    public function getParentCategories()
+    {
         $rows = $this->getAll();
         return $this->buildTree($rows);
     }
 
-    public function insertCategoryData($params){
+    /**
+     * @return bool
+     */
+    public function getAll()
+    {
+        $sql = "SELECT * FROM $this->dbTable";
+        $stm = $this->db->prepare($sql);
+        $res = $stm->execute();
+
+        if ($res) {
+            $row = $stm->fetchAll(\PDO::FETCH_ASSOC);
+            return $row;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * @param $params
+     * @return bool
+     */
+    public function insertCategoryData($params)
+    {
         $slug = $this->create_url_slug($params['slug']);
         $sql = "INSERT INTO $this->dbTable(name, slug, description,parent_id) VALUES(:name,:slug,:description,:parent_id)";
         $stm = $this->db->prepare($sql);
@@ -204,12 +237,22 @@ class Category extends Model
         }
     }
 
-    public function create_url_slug($string){
-        $slug=preg_replace('/[^A-Za-z0-9-]+/', '-', $string);
+    /**
+     * @param $string
+     * @return mixed
+     */
+    public function create_url_slug($string)
+    {
+        $slug = preg_replace('/[^A-Za-z0-9-]+/', '-', $string);
         return $slug;
     }
 
-    public function updateCategoryData($params){
+    /**
+     * @param $params
+     * @return bool
+     */
+    public function updateCategoryData($params)
+    {
 
         $slug = $this->create_url_slug($params['slug']);
         $sql = "UPDATE  $this->dbTable SET name = :name,slug=:slug,description=:description,parent_id=:parent_id WHERE id = :id;";
@@ -226,7 +269,12 @@ class Category extends Model
         }
     }
 
-    public function getCategoryById($id){
+    /**
+     * @param $id
+     * @return bool
+     */
+    public function getCategoryById($id)
+    {
         $sql = "SELECT * FROM $this->dbTable WHERE id=:id";
         $stm = $this->db->prepare($sql);
         $stm->bindParam(":id", $id);

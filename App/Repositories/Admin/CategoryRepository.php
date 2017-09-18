@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Repositories\Admin;
+
 use App\Models\Category;
 
 
@@ -10,28 +11,50 @@ use App\Models\Category;
  */
 class CategoryRepository
 {
-   protected $model;
+    /**
+     * @var Category
+     */
+    protected $model;
 
+    /**
+     *
+     */
     public function __construct()
     {
         $this->model = new Category();
     }
 
-    public function getAll(){
+    /**
+     * @return bool
+     */
+    public function getAll()
+    {
         return $this->model->getAll();
     }
 
-    public function getCategoryAjaxPagination($params){
+    /**
+     * @param $params
+     */
+    public function getCategoryAjaxPagination($params)
+    {
         return $this->model->getCategoryAjaxPagination($params);
     }
 
-    public function bulkDeleteCategories($params){
+    /**
+     * @param $params
+     */
+    public function bulkDeleteCategories($params)
+    {
         return $this->model->bulkDeleteCategories($params);
     }
 
-    public function getParentCategories(){
+    /**
+     * @return array
+     */
+    public function getParentCategories()
+    {
         $tree = $this->model->getParentCategories();
-        foreach($tree as $row){
+        foreach ($tree as $row) {
             $nestedData = array();
             $nestedData[] = "<input type='checkbox'  class='deleteRow' value='" . $row['id'] . "'  />";
             $nestedData[] = $row["name"];
@@ -40,26 +63,42 @@ class CategoryRepository
             $nestedData[] = $row["id"];
 
             $data[] = $nestedData;
-            $result=[];
-            if(!empty($row['children'])){
-                $result = array_merge($data,$this->model->generateChild($row['children'],$level=1,str_repeat('&nbsp;', 2)));
+            $result = [];
+            if (!empty($row['children'])) {
+                $result = array_merge($data, $this->model->generateChild($row['children'], $level = 1, str_repeat('&nbsp;', 2)));
             }
-            if(count($result)>0){
-                $data=$result;
+            if (count($result) > 0) {
+                $data = $result;
             }
         }
         return $data;
 
     }
 
-    public function insertCategoryData($params){
+    /**
+     * @param $params
+     * @return bool
+     */
+    public function insertCategoryData($params)
+    {
         return $this->model->insertCategoryData($params);
     }
-    public function updateCategoryData($params){
+
+    /**
+     * @param $params
+     * @return bool
+     */
+    public function updateCategoryData($params)
+    {
         return $this->model->updateCategoryData($params);
     }
 
-    public function getCategoryById($id){
+    /**
+     * @param $id
+     * @return bool
+     */
+    public function getCategoryById($id)
+    {
         return $this->model->getCategoryById($id);
     }
 
