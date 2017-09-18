@@ -1,6 +1,6 @@
 <?php
 
-// Add the routes
+// Admin routes
 $router->add('admin', ['namespace' => 'Admin','controller' => 'UserController', 'action' => 'login', 'middleware' => 'Guest']);
 $router->add('admin/login', ['namespace' => 'Admin','controller' => 'UserController', 'action' => 'login', 'middleware' => 'Guest']);
 $router->add('admin/forgot-password', ['namespace' => 'Admin','controller' => 'UserController', 'action' => 'sendResetPasswordLink', 'middleware' => 'Guest']);
@@ -15,8 +15,18 @@ $router->add('admin/add-user', ['namespace' => 'Admin','controller' => 'UserCont
 $router->add('admin/edit-user/{id:\d+}', ['namespace' => 'Admin','controller' => 'UserController', 'action' => 'storeUser', 'middleware' => 'Auth']);
 $router->add('admin/update-user', ['namespace' => 'Admin','controller' => 'UserController', 'action' => 'storeUser', 'middleware' => 'Auth']);
 $router->add('admin/flow-flow', ['namespace' => 'Admin','controller' => 'FlowFlowController', 'action' => 'index','middleware' => 'Auth']);
-$router->add('', ['namespace' => 'Front','controller' => 'IndexController', 'action' => 'index']);
-/*$router->add('admin/checkuser', ['namespace' => 'Admin','controller' => 'UserController', 'action' => 'checkuser', 'middleware' => 'Auth']);*/
+$router->add('admin/categories', ['namespace' => 'Admin','controller' => 'CategoryController', 'action' => 'index', 'middleware' => 'Auth']);
+$router->add('admin/categories-ajax-paginate', ['namespace' => 'Admin','controller' => 'CategoryController', 'action' => 'categoryPaginate','middleware' => 'Auth']);
+$router->add('admin/bulk-delete-categories', ['namespace' => 'Admin','controller' => 'CategoryController', 'action' => 'bulkDeleteCategories','middleware' => 'Auth']);
+$router->add('admin/addcategory', ['namespace' => 'Admin','controller' => 'CategoryController', 'action' => 'addCategory', 'middleware' => 'Auth']);
+$router->add('admin/editCategory/{id:\d+}', ['namespace' => 'Admin','controller' => 'CategoryController', 'action' => 'index', 'middleware' => 'Auth']);
+$router->add('admin/addpost', ['namespace' => 'Admin','controller' => 'PostController', 'action' => 'index', 'middleware' => 'Auth']);
 $router->add('admin/error', ['namespace' => 'Admin','controller' => 'UserController', 'action' => 'error']);
+/*$router->add('admin/checkuser', ['namespace' => 'Admin','controller' => 'UserController', 'action' => 'checkuser', 'middleware' => 'Auth']);*/
+
+// Front routes
+$router->add('', ['namespace' => 'Front','controller' => 'IndexController', 'action' => 'index']);
+
+
 
 
