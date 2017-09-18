@@ -39,9 +39,19 @@ class CategoryValidation
                 $messages[] = 'Please enter Category Name.';
             }
 
-            if (empty($_POST['slug'])) {
-                $success = false;
-                $messages[] = 'Please enter Slug.';
+            if (!empty($_POST['slug'])) {
+                if (!empty($_POST['id'])) {
+                    $category = $this->model->getCategoryById($_POST['id']);
+                    $if_slug_not_exist = $this->model->isSlugExist($_POST['slug']);
+                    $is_exist = ($_POST['slug'] == $category[0]['slug']) ? true : $if_slug_not_exist;
+                } else {
+                    $is_exist = $this->model->isSlugExist($_POST['slug']);
+                }
+
+                if (!$is_exist) {
+                    $success = false;
+                    $messages[] = 'Slug already exist, Please try different one.';
+                }
             }
 
 

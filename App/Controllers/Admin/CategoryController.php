@@ -74,7 +74,7 @@ class CategoryController extends \Core\Controller
     /**
      *
      */
-    public function addCategory()
+    public function storeCategory()
     {
         if (isset($_POST['submit'])) {
             $formValid = $this->validate->addCategoryValidation();
@@ -83,7 +83,7 @@ class CategoryController extends \Core\Controller
             }
             $message = ['Something went wrong. Please try again later.'];
             $messageClass = 'alert-danger';
-            if ($_POST['id']) {
+            if (!empty($_POST['id'])) {
                 if ($this->repo->updateCategoryData($_POST)) {
                     $message = ['Category updated successfully.'];
                     $messageClass = 'alert-success';

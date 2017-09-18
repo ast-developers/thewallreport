@@ -25,7 +25,7 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                     <!-- BEGIN EXAMPLE TABLE PORTLET-->
                     <div class="portlet box grey">
                         <div class="portlet-title">
-                            <h4><i class="icon-user"></i>Table</h4>
+                            <h4><i class="icon-user"></i>Users</h4>
 
                             <div class="actions">
                                 <a href="<?php echo \App\Config::W_ROOT . "admin/add-user" ?>" class="btn blue"><i

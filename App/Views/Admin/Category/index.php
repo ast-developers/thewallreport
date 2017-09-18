@@ -35,7 +35,7 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
 
                             <div class="controls">
                                 <div class="input-icon left">
-                                    <input type="text" name="name" placeholder="name" class="m-wrap medium"
+                                    <input type="text" name="name" placeholder="Name" class="m-wrap medium"
                                            value="<?php echo $name; ?>"/>
                                 </div>
                             </div>
@@ -46,7 +46,7 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
 
                             <div class="controls">
                                 <div class="input-icon left">
-                                    <input type="text" name="slug" placeholder="slug" class="m-wrap medium"
+                                    <input type="text" name="slug" placeholder="Slug" class="m-wrap medium"
                                            value="<?php echo $slug; ?>"/>
                                 </div>
                             </div>
@@ -84,11 +84,9 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                     <!-- BEGIN EXAMPLE TABLE PORTLET-->
                     <div class="portlet box grey">
                         <div class="portlet-title">
-                            <h4><i class="icon-user"></i>Table</h4>
+                            <h4><i class="icon-user"></i>Categories</h4>
 
                             <div class="actions">
-                                <a href="<?php echo \App\Config::W_ROOT . "admin/add-user" ?>" class="btn blue"><i
-                                        class="icon-pencil"></i> Add</a>
                                 <button class="btn red" id="deleteTriger">Delete</button>
                                 <div class="btn-group">
                                     <ul class="dropdown-menu pull-right">

@@ -223,7 +223,7 @@ class Category extends Model
      */
     public function insertCategoryData($params)
     {
-        $slug = $this->create_url_slug($params['slug']);
+        $slug = $this->slugify($params['slug']);
         $sql = "INSERT INTO $this->dbTable(name, slug, description,parent_id) VALUES(:name,:slug,:description,:parent_id)";
         $stm = $this->db->prepare($sql);
         $stm->bindParam(":name", $params['name']);
@@ -241,10 +241,31 @@ class Category extends Model
      * @param $string
      * @return mixed
      */
-    public function create_url_slug($string)
-    {
-        $slug = preg_replace('/[^A-Za-z0-9-]+/', '-', $string);
-        return $slug;
+
+    function slugify($text){
+        // replace non letter or digits by -
+        $text = preg_replace('~[^\pL\d]+~u', '-', $text);
+
+        // transliterate
+        $text = iconv('utf-8', 'us-ascii//TRANSLIT', $text);
+
+        // remove unwanted characters
+        $text = preg_replace('~[^-\w]+~', '', $text);
+
+        // trim
+        $text = trim($text, '-');
+
+        // remove duplicated - symbols
+        $text = preg_replace('~-+~', '-', $text);
+
+        // lowercase
+        $text = strtolower($text);
+
+        if (empty($text)) {
+            return 'n-a';
+        }
+
+        return $text;
     }
 
     /**
@@ -254,7 +275,7 @@ class Category extends Model
     public function updateCategoryData($params)
     {
 
-        $slug = $this->create_url_slug($params['slug']);
+        $slug = $this->slugify($params['slug']);
         $sql = "UPDATE  $this->dbTable SET name = :name,slug=:slug,description=:description,parent_id=:parent_id WHERE id = :id;";
         $stm = $this->db->prepare($sql);
         $stm->bindParam(":name", $params['name']);
@@ -285,6 +306,21 @@ class Category extends Model
             return $row;
         } else {
             return false;
+        }
+    }
+
+    public function isSlugExist($slug){
+        $slug = $this->slugify($slug);
+        $sql = "SELECT COUNT(id) AS count FROM $this->dbTable WHERE slug = :slug";
+        $stm = $this->db->prepare($sql);
+        $stm->bindParam(":slug", $slug);
+        $res = $stm->execute();
+
+        if ($res) {
+            $row = $stm->fetch(\PDO::FETCH_ASSOC);
+            return $row['count'] > 0 ? false : true;
+        } else {
+            return true;
         }
     }
 

@@ -55,7 +55,7 @@ var Category = function () {
             }
         });
     };
-    var validateUser = function () {
+    var validateCategory = function () {
         $('.category-form').validate({
             errorElement: 'label', //default input error message container
             errorClass: 'help-inline', // default input error message class
@@ -105,7 +105,7 @@ var Category = function () {
             App.init();
             initCategoryDataTable();
             deleteCategory();
-            validateUser();
+            validateCategory();
         },
 
     };
