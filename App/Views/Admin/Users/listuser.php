@@ -25,7 +25,7 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                     <!-- BEGIN EXAMPLE TABLE PORTLET-->
                     <div class="portlet box grey">
                         <div class="portlet-title">
-                            <h4><i class="icon-user"></i>Table</h4>
+                            <h4><i class="icon-user"></i>Users</h4>
 
                             <div class="actions">
                                 <a href="<?php echo \App\Config::W_ROOT . "admin/add-user" ?>" class="btn blue"><i
@@ -74,7 +74,7 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
     var userAjaxPaginateUrl = "<?php echo \App\Config::W_ROOT ?>admin/users-ajax-paginate";
     var userBulkDeleteUrl = "<?php echo \App\Config::W_ROOT ?>admin/bulk-delete-users";
 </script>
-<script src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/public/theme/front/assets/js/user.js"></script>
+<script src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/js/user.js"></script>
 <script>
     $(document).ready(function () {
         User.initList();

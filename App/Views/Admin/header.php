@@ -35,6 +35,7 @@
     <link href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/data-tables/jquery.dataTables.css" rel="stylesheet" />
     <link rel="stylesheet" href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/css/redactor.css" />
     <link rel="stylesheet" href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/js/redactor.js" />
+    <link href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/css/custom.css" rel="stylesheet" />
     <link rel="shortcut icon" href="favicon.ico" />
 
     <?php
