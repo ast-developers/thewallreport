@@ -1,0 +1,4 @@
+#category-grid tr td{
+    word-break: break-all;
+}
+#category-grid { width: 100%!important;%}

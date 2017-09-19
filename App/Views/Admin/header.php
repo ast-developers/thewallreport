@@ -10,11 +10,11 @@
     <meta content="" name="description" />
     <meta content="" name="author" />
     <link href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/public/theme/front/assets/css/metro.css" rel="stylesheet" />
+    <link href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/css/metro.css" rel="stylesheet" />
     <link href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/font-awesome/css/font-awesome.css" rel="stylesheet" />
-    <link href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/public/theme/front/assets/css/style.css" rel="stylesheet" />
-    <link href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/public/theme/front/assets/css/style_responsive.css" rel="stylesheet" />
-    <link href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/public/theme/front/assets/css/style_default.css" rel="stylesheet" id="style_color" />
+    <link href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/css/style.css" rel="stylesheet" />
+    <link href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/css/style_responsive.css" rel="stylesheet" />
+    <link href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/css/style_default.css" rel="stylesheet" id="style_color" />
     <link rel="stylesheet" type="text/css" href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/uniform/css/uniform.default.css" />
     <link href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/gritter/css/jquery.gritter.css" />
@@ -33,6 +33,7 @@
     <link href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/bootstrap-fileupload/bootstrap-fileupload.css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/jquery-tags-input/jquery.tagsinput.css" />
     <link href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/data-tables/jquery.dataTables.css" rel="stylesheet" />
+    <link href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/css/custom.css" rel="stylesheet" />
     <link rel="shortcut icon" href="favicon.ico" />
 
     <?php
