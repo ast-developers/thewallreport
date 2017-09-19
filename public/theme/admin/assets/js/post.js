@@ -53,51 +53,30 @@ var Post = function () {
                 });
             }
         });
-    };
+    };*/
 
-    var validateUser = function () {
-        $('.user-form').validate({
+    var validatePost = function () {
+        $('.post-form').validate({
             errorElement: 'label', //default input error message container
             errorClass: 'help-inline', // default input error message class
             focusInvalid: false, // do not focus the last invalid input
             rules: {
-                username: {
+                name: {
                     required: true
                 },
-                password:{
-                    required: true
-                },
-                rpassword: {
-                    equalTo: "#register_password"
-                },
-                email: {
-                    required: true,
-                    email: true
-                },
-                avatar: {
-                    accept: "image/!*"
-                }
             },
 
             messages: {
-                username: {
-                    required: "Username is required."
+                name: {
+                    required: "Post name is required."
                 },
-                password: {
-                    required: "Password is required."
-                },
-                avatar:{
-                    accept: 'Please upload Image file only.'
-                }
             },
 
             invalidHandler: function (event, validator) { //display error alert on form submit
-                console.log('1');
                 $('.alert-error', $('.login-form')).show();
             },
 
             highlight: function (element) { // hightlight error inputs
-                console.log('2');
                 $(element)
                     .closest('.control-group').addClass('error'); // set error class to the control group
             },
@@ -109,13 +88,9 @@ var Post = function () {
             },
 
             errorPlacement: function (error, element) { console.log(element);
-                if (element.attr("name") == "avatar") {
-                    error.insertAfter(element.closest('.file-upload-button-area'));
-                } else {
                 error.addClass('help-small no-left-padding').insertAfter(element.closest('.input-icon'));}
-            }
         });
-    };*/
+    };
 
     return {
 
@@ -130,7 +105,7 @@ var Post = function () {
         initManagement: function () {
             App.setPage("table_managed");
             App.init();
-         //   validateUser();
+            validatePost();
         },
     };
 }();

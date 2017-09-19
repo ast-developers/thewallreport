@@ -5,11 +5,11 @@ if(isset($_SESSION['user'])){ ?>
 <!-- END CONTAINER -->
 <?php } ?>
 
-<script src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/js/jquery-1.8.3.min.js"></script>
+<!--<script src="<?php /*echo \App\Config::W_ADMIN_ASSETS */?>/js/jquery-1.8.3.min.js"></script>-->
 <script type="text/javascript" src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/jquery-validation/dist/jquery.validate.min.js"></script>
 <script src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/js/app.js"></script>
 <script src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/bootstrap/js/bootstrap.min.js"></script>
-<script src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/uniform/jquery.uniform.min.js"></script>
+<!--<script src="<?php /*echo \App\Config::W_ADMIN_ASSETS */?>/uniform/jquery.uniform.min.js"></script>-->
 <script src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/js/jquery.blockui.js"></script>
 <script src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/js/excanvas.js"></script>
 <script src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/js/respond.js"></script>

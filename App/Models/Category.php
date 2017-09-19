@@ -58,8 +58,8 @@ class Category extends Model
 
             $stm = $this->db->prepare($sql);
             $res = $stm->execute();
-            $rows = $stm->fetchAll(\PDO::FETCH_ASSOC);
-            $tree = $this->buildTree($rows);
+            $tree = $stm->fetchAll(\PDO::FETCH_ASSOC);
+            //$tree = $this->buildTree($rows);
 
         } else {
 

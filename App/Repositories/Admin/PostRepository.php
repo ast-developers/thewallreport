@@ -39,5 +39,23 @@ class PostRepository
         $this->model = new Post();
     }
 
+    public function insertPostData($params)
+    {
+        return $this->model->insertPostData($params);
+    }
+
+    /**
+     * @param $params
+     * @return bool
+     */
+    public function updatePostData($params)
+    {
+        return $this->model->updatePostData($params);
+    }
+
+    public function getPostById($id)
+    {
+        return $this->model->getPostById($id);
+    }
 
 }

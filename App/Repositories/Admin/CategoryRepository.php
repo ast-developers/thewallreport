@@ -71,7 +71,12 @@ class CategoryRepository
                 $data = $result;
             }
         }
-        return $data;
+        if(!empty($data)){
+            return $data;
+        }else{
+            return [];
+        }
+
 
     }
 

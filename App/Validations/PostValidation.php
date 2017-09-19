@@ -17,7 +17,7 @@ class PostValidation
     /**
      * @return array
      */
-    public function addPostValidation()
+    public function validate()
     {
         $success = true;
         $messages = [];
@@ -31,9 +31,9 @@ class PostValidation
                 $messages[] = 'Invalid Token.';
             }
             // Username/Email : Required
-            if (empty($_POST['username'])) {
+            if (empty($_POST['name'])) {
                 $success = false;
-                $messages[] = 'Please enter Username/Email.';
+                $messages[] = 'Please enter post name.';
             }
 
             return ['success' => $success, 'messages' => $messages];

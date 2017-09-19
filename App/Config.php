@@ -2,9 +2,17 @@
 
 namespace App;
 
+    /**
+     * Class Config
+     * Application configuration
+     * @package App
+     */
+    /**
+     * Class Config
+     * @package App
+     */
 /**
  * Class Config
- * Application configuration
  * @package App
  */
 /**
@@ -45,23 +53,10 @@ class Config
     const SHOW_ERRORS = true;
 
     /**
-     * Website Root
+     * App Page Title
      */
-    const W_ROOT="http://local.thewall.report/";
+    const PAGE_TITLE_PREFIX = 'The Wall Report';
 
-    /**
-     * File Root
-     */
-    const F_ROOT="/home/devendra-bhati/public_html/thewallreport/";
-
-    /**
-     * File Assets Root
-     */
-    const W_ADMIN_ASSETS=self::W_ROOT."theme/admin/assets";
-    /**
-     * File View Root
-     */
-    const F_VIEW =  self::F_ROOT."App/Views/";
     /**
      * SMTP HOST
      */
@@ -79,4 +74,45 @@ class Config
      */
     const SMTP_PASSWORD = 'Dhaval333';
 
+    /**
+     * Website Root
+     */
+    const W_ROOT = "http://local.thewall.report/";
+
+    /**
+     * File Root
+     */
+    const F_ROOT = "/home/devendra-bhati/public_html/thewallreport/";
+
+    /**
+     * File Assets Root
+     */
+    const W_ADMIN_ASSETS = self::W_ROOT . "theme/admin/assets";
+
+    /**
+     * File View Root
+     */
+    const F_VIEW = self::F_ROOT . "App/Views/";
+
+    /**
+     * User Profile Root
+     */
+    const W_USER_AVATAR_ROOT = self::W_ROOT . 'uploads/profile_images/';
+
+    /**
+     * User Profile Root
+     */
+    const F_USER_AVATAR_ROOT = self::F_ROOT . 'public/uploads/profile_images/';
+
+    /**
+     * Flow Flow Root
+     */
+    const F_FLOW_FLOW_ROOT = self::F_ROOT . "public/plugins/flow-flow/flow-flow/";
+
+    /**
+     * Front Assets Root
+     */
+    const W_FRONT_ASSETS = self::W_ROOT . "theme/front/assets/";
+    const F_UPLOAD_IMAGE = self::F_ROOT . "public/uploads/img/";
+    const W_UPLOAD_IMAGE = self::W_ROOT . "uploads/img/";
 }

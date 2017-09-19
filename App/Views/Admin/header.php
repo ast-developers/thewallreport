@@ -33,8 +33,36 @@
     <link href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/bootstrap-fileupload/bootstrap-fileupload.css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/jquery-tags-input/jquery.tagsinput.css" />
     <link href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/data-tables/jquery.dataTables.css" rel="stylesheet" />
+    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.js"></script>-->
     <link rel="stylesheet" href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/css/redactor.css" />
-    <link rel="stylesheet" href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/js/redactor.js" />
+    <script src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/js/redactor.js"></script>
+    <script src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/js/fontfamily.js"></script>
+    <script src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/js/video.js"></script>
+
+    <script type="text/javascript">
+        jQuery.browser = {};
+        (function () {
+            jQuery.browser.msie = false;
+            jQuery.browser.version = 0;
+            if (navigator.userAgent.match(/MSIE ([0-9]+)\./)) {
+                jQuery.browser.msie = true;
+                jQuery.browser.version = RegExp.$1;
+            }
+        })();
+    </script>
+
+    <script type="text/javascript">
+        $(function()
+        {
+            $('#content').redactor({
+                focus: true,
+                imageUpload: 'uploadImage',
+                plugins: ['video'],
+
+            });
+        });
+    </script>
     <link href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/css/custom.css" rel="stylesheet" />
     <link rel="shortcut icon" href="favicon.ico" />
 
