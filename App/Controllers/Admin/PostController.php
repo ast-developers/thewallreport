@@ -6,13 +6,17 @@ use App\Config;
 use App\Models\Category;
 use App\Repositories\Admin\CategoryRepository;
 use App\Repositories\Admin\PostRepository;
+use App\Repositories\Admin\TagRepository;
 use App\Validations\CategoryValidation;
 use App\Validations\PostValidation;
 use Core\Router;
 use \Core\View;
 
 
-
+/**
+ * Class PostController
+ * @package App\Controllers\Admin
+ */
 class PostController extends \Core\Controller
 {
 
@@ -28,6 +32,14 @@ class PostController extends \Core\Controller
      * @var array
      */
     protected $params;
+    /**
+     * @var CategoryRepository
+     */
+    protected $category_repo;
+    /**
+     * @var TagRepository
+     */
+    protected $tag_repo;
 
     /**
      * Show the index page
@@ -39,6 +51,8 @@ class PostController extends \Core\Controller
         $this->validate = new PostValidation();
         $this->params = $params;
         $this->repo = new PostRepository();
+        $this->category_repo = new CategoryRepository();
+        $this->tag_repo = new TagRepository();
     }
 
     /**
@@ -46,7 +60,7 @@ class PostController extends \Core\Controller
      */
     public function indexAction()
     {
-        if(isset($_POST['submit'])){
+        if (isset($_POST['submit'])) {
             $formValid = $this->validate->validate();
             if (!$formValid['success']) {
                 return Router::redirectTo('admin/categories', $formValid['messages'], 'alert-danger');
@@ -67,14 +81,28 @@ class PostController extends \Core\Controller
 
             return Router::redirectTo('admin/addpost', $message, $messageClass);
         }
+        $parent_cat = $this->category_repo->getParentCategories();
+        $tags = $this->tag_repo->getTags();
+        $alltagData = [];
+        if (!empty($tags)) {
+            foreach ($tags as $tag) {
+                $alltagData[] = "'" . $tag['name'] . "'";
+            }
+        }
         if (!empty($this->params['id'])) {
             $post = $this->repo->getPostById($this->params['id']);
-            return View::render('Admin/Post/addpost.php', ['post' => $post[0]]);
+            $post_cat = $this->repo->getPostsCategoriesById($this->params['id']);
+            $post_tags = $this->repo->getPostsTagsById($this->params['id']);
+            return View::render('Admin/Post/addpost.php', ['post' => $post[0], 'parent_cat' => $parent_cat, 'post_cat' => $post_cat, 'tags' => implode(',', $alltagData), 'post_tags' => $post_tags]);
         }
-        View::render('Admin/Post/addpost.php');
+        View::render('Admin/Post/addpost.php', ['parent_cat' => $parent_cat, 'tags' => implode(',', $alltagData)]);
     }
 
-    public function uploadImage(){
+    /**
+     *
+     */
+    public function uploadImage()
+    {
 
         $dir = Config::F_UPLOAD_IMAGE;
 
@@ -84,24 +112,49 @@ class PostController extends \Core\Controller
             || $_FILES['file']['type'] == 'image/jpg'
             || $_FILES['file']['type'] == 'image/gif'
             || $_FILES['file']['type'] == 'image/jpeg'
-            || $_FILES['file']['type'] == 'image/pjpeg')
-        {
+            || $_FILES['file']['type'] == 'image/pjpeg'
+        ) {
             // setting file's mysterious name
-            $filename = md5(date('YmdHis')).'.jpg';
-            $file = $dir.$filename;
+            $filename = md5(date('YmdHis')) . '.jpg';
+            $file = $dir . $filename;
 
             // copying
             move_uploaded_file($_FILES['file']['tmp_name'], $file);
 
             // displaying file
             $array = array(
-                'url' => Config::W_UPLOAD_IMAGE.$filename,
+                'url' => Config::W_UPLOAD_IMAGE . $filename,
                 'id' => 123
             );
 
             echo stripslashes(json_encode($array));
 
         }
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function getPosts()
+    {
+
+        View::render('Admin/Post/listpost.php');
+    }
+
+    /**
+     *
+     */
+    public function postPaginate()
+    {
+        return $this->repo->getPostAjaxPagination($_REQUEST);
+    }
+
+    /**
+     *
+     */
+    public function bulkDeletepost()
+    {
+        $this->repo->bulkDeletePost($_REQUEST);
     }
 
 }

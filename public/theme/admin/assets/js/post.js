@@ -1,10 +1,11 @@
 var Post = function () {
-   /* var dataTable;
-    var initUserDataTable = function () {
-         dataTable = $('#user-grid').DataTable({
+    var dataTable;
+    var initPostDataTable = function () {
+         dataTable = $('#post-grid').DataTable({
             "processing": true,
             "serverSide": true,
             "order": [[ 1, "asc" ]],
+             "bPaginate": false,
             "columnDefs": [{
                 "targets": 0,
                 "orderable": false,
@@ -22,9 +23,9 @@ var Post = function () {
                 }
             }
         });
-    };*/
+    };
 
-    /*var deleteUser = function () {
+    var deletePost = function () {
         $("#bulkDelete").on('click', function () { // bulk checked
             var status = this.checked;
             $(".deleteRow").each(function () {
@@ -48,12 +49,14 @@ var Post = function () {
                     data: {data_ids: ids_string},
                     success: function (result) {
                         dataTable.draw(); // redrawing datatable
+                        $('.header-title').after('<div class="alert alert-success">'+
+                            '<strong>'+'Categories Deleted successfully.'+'</strong></div>');
                     },
                     async: false
                 });
             }
         });
-    };*/
+    };
 
     var validatePost = function () {
         $('.post-form').validate({
@@ -97,8 +100,8 @@ var Post = function () {
         //function to initiate User Listing Page
         initList: function () {
             App.init();
-           // initUserDataTable();
-           // deleteUser();
+            initPostDataTable();
+            deletePost();
         },
 
         //function to initiate User Add/Edit Page

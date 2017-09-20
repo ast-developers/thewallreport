@@ -23,6 +23,10 @@ $router->add('admin/editCategory/{id:\d+}', ['namespace' => 'Admin','controller'
 $router->add('admin/addpost', ['namespace' => 'Admin','controller' => 'PostController', 'action' => 'index', 'middleware' => 'Auth']);
 $router->add('admin/editPost/{id:\d+}', ['namespace' => 'Admin','controller' => 'PostController', 'action' => 'index', 'middleware' => 'Auth']);
 $router->add('admin/uploadImage', ['namespace' => 'Admin','controller' => 'PostController', 'action' => 'uploadImage', 'middleware' => 'Auth']);
+$router->add('admin/posts', ['namespace' => 'Admin','controller' => 'PostController', 'action' => 'getPosts', 'middleware' => 'Auth']);
+$router->add('admin/tags', ['namespace' => 'Admin','controller' => 'TagController', 'action' => 'index', 'middleware' => 'Auth']);
+$router->add('admin/post-ajax-paginate', ['namespace' => 'Admin','controller' => 'PostController', 'action' => 'postPaginate','middleware' => 'Auth']);
+$router->add('admin/bulk-delete-post', ['namespace' => 'Admin','controller' => 'PostController', 'action' => 'bulkDeletepost','middleware' => 'Auth']);
 $router->add('admin/error', ['namespace' => 'Admin','controller' => 'UserController', 'action' => 'error']);
 /*$router->add('admin/checkuser', ['namespace' => 'Admin','controller' => 'UserController', 'action' => 'checkuser', 'middleware' => 'Auth']);*/
 

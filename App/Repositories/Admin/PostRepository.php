@@ -39,6 +39,10 @@ class PostRepository
         $this->model = new Post();
     }
 
+    /**
+     * @param $params
+     * @return bool
+     */
     public function insertPostData($params)
     {
         return $this->model->insertPostData($params);
@@ -53,9 +57,62 @@ class PostRepository
         return $this->model->updatePostData($params);
     }
 
+    /**
+     * @param $id
+     * @return bool
+     */
     public function getPostById($id)
     {
         return $this->model->getPostById($id);
     }
+
+    /**
+     * @param $params
+     */
+    public function getPostAjaxPagination($params)
+    {
+        return $this->model->getPostAjaxPagination($params);
+    }
+
+    /**
+     * @param $params
+     */
+    public function bulkDeletePost($params)
+    {
+        return $this->model->bulkDeletePosts($params);
+    }
+
+    /**
+     * @param $id
+     * @return array
+     */
+    public function getPostsCategoriesById($id)
+    {
+        $data = $this->model->getPostsCategoriesById($id);
+        $categories = [];
+        if (!empty($data)) {
+            foreach ($data as $value) {
+                $categories[] = $value['category_id'];
+            }
+        }
+        return $categories;
+    }
+
+    /**
+     * @param $id
+     * @return string
+     */
+    public function getPostsTagsById($id)
+    {
+        $data = $this->model->getPostsTagsById($id);
+        $tags = [];
+        if (!empty($data)) {
+            foreach ($data as $value) {
+                $tags[] = $value['name'];
+            }
+        }
+        return implode(',', $tags);
+    }
+
 
 }
