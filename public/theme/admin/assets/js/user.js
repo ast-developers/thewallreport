@@ -25,13 +25,25 @@ var User = function () {
     };
 
     var deleteUser = function () {
+
         $("#bulkDelete").on('click', function () { // bulk checked
             var status = this.checked;
             $(".deleteRow").each(function () {
                 $(this).prop("checked", status);
             });
+            if ($("#bulkDelete").is(':checked')) {
+                $("#delete-btn").removeClass('hidden');
+            } else {
+                $("#delete-btn").addClass('hidden')
+            }
         });
-
+        $(document).on('click', '.deleteRow', function (event) {
+            if ($(this).is(':checked')) {
+                $("#delete-btn").removeClass('hidden');
+            } else {
+                $("#delete-btn").addClass('hidden')
+            }
+        });
         $('#deleteTriger').on("click", function (event) { // triggering delete one by one
             if ($('.deleteRow:checked').length > 0) {  // at-least one checkbox checked
                 var ids = [];
@@ -49,7 +61,7 @@ var User = function () {
                     success: function (result) {
                         dataTable.draw(); // redrawing datatable
                         $('.header-title').after('<div class="alert alert-success">'+
-                            '<strong>'+'Categories Deleted successfully.'+'</strong></div>');
+                            '<strong>'+'Users deleted successfully.'+'</strong></div>');
                     },
                     async: false
                 });

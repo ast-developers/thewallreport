@@ -79,13 +79,15 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                 </div>
             </div>
             <div class="span3">
-                <div class="tabbable tabbable-custom boxless">
+                <div class="tabbable tabbable-custom boxless edit-post">
                     <div class="tab-pane">
                         <div class="portlet box blue">
                             <div class="portlet-title">
                                 <h4><i class="icon-reorder"></i><?php echo (!empty($post)) ? 'Edit' : 'Add'; ?> Post
                                 </h4>
-                                <a href="#" class="pull-right btn green">Preview</a>
+                                <div class="tools">
+                                    <a href="#" class="btn mini green">Preview</a>
+                                    </div>
                             </div>
                             <div class="portlet-body form">
                                 <div class="control-group">

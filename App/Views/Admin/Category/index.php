@@ -34,11 +34,8 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                             <label class="control-label">Name</label>
 
                             <div class="controls">
-                                <div class="input-icon left">
-                                    <i class="icon-user"></i>
                                     <input type="text" name="name" placeholder="Name" class="m-wrap medium"
                                            value="<?php echo $name; ?>"/>
-                                </div>
                             </div>
                         </div>
                         <?php $slug = (!empty($category['slug'])) ? $category['slug'] : '' ?>
@@ -46,11 +43,8 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                             <label class="control-label">Slug</label>
 
                             <div class="controls">
-                                <div class="input-icon left">
-                                    <i class="icon-user"></i>
                                     <input type="text" name="slug" placeholder="Slug" class="m-wrap medium"
                                            value="<?php echo $slug; ?>"/>
-                                </div>
                             </div>
                         </div>
 
@@ -86,10 +80,10 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                     <!-- BEGIN EXAMPLE TABLE PORTLET-->
                     <div class="portlet box grey">
                         <div class="portlet-title">
-                            <h4><i class="icon-user"></i>Categories</h4>
+                            <h4>Categories</h4>
 
                             <div class="actions">
-                                <a href="#myModal2" role="button" class="btn btn-danger red" data-toggle="modal">Delete</a>
+                                <a href="#myModal2" role="button" id="delete-btn" class="btn btn-danger red hidden" data-toggle="modal">Delete</a>
                                 <div class="btn-group">
                                     <ul class="dropdown-menu pull-right">
                                         <li><a href="#"><i class="icon-pencil"></i> Edit</a></li>
@@ -119,13 +113,13 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                     <div id="myModal2" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                            <h3 id="myModalLabel2">Alert Header</h3>
+                            <h3>Delete</h3>
                         </div>
                         <div class="modal-body">
                             <p>Are you sure, want to remove the selected categories?</p>
                         </div>
                         <div class="modal-footer">
-                            <button class="btn red" id="deleteTriger">Delete</button>
+                            <button data-dismiss="modal" class="btn red" id="deleteTriger">Delete</button>
                         </div>
                     </div>
                     <!-- END EXAMPLE TABLE PORTLET-->

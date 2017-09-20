@@ -31,6 +31,18 @@ var Post = function () {
             $(".deleteRow").each(function () {
                 $(this).prop("checked", status);
             });
+            if ($("#bulkDelete").is(':checked')) {
+                $("#delete-btn").removeClass('hidden');
+            } else {
+                $("#delete-btn").addClass('hidden')
+            }
+        });
+        $(document).on('click', '.deleteRow', function (event) {
+            if ($(this).is(':checked')) {
+                $("#delete-btn").removeClass('hidden');
+            } else {
+                $("#delete-btn").addClass('hidden')
+            }
         });
 
         $('#deleteTriger').on("click", function (event) { // triggering delete one by one
@@ -50,7 +62,7 @@ var Post = function () {
                     success: function (result) {
                         dataTable.draw(); // redrawing datatable
                         $('.header-title').after('<div class="alert alert-success">'+
-                            '<strong>'+'Categories Deleted successfully.'+'</strong></div>');
+                            '<strong>'+'Posts deleted successfully.'+'</strong></div>');
                     },
                     async: false
                 });

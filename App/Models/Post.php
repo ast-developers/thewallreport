@@ -57,12 +57,13 @@ class Post extends Model
     public function insertPostData($params)
     {
         $slug = $this->slugify($params['name']);
-        $sql = "INSERT INTO $this->dbTable(name,description,status,slug) VALUES(:name,:description,:status,:slug)";
+        $sql = "INSERT INTO $this->dbTable(name,description,status,slug,created_by) VALUES(:name,:description,:status,:slug,:created_by)";
         $stm = $this->db->prepare($sql);
         $stm->bindParam(":name", $params['name']);
         $stm->bindParam(":description", $params['description']);
         $stm->bindParam(":status", $params['status']);
         $stm->bindParam(":slug", $slug);
+        $stm->bindParam(":created_by", $_SESSION['user']['id']);
         try {
             $stm->execute();
             $last_insert_id = $this->db->lastInsertId();
@@ -172,13 +173,14 @@ class Post extends Model
         $this->addPostsCategories($params, $params['id']);
         $this->deletePostTags($params);
         $this->addPostTags($params, $params['id']);
-        $sql = "UPDATE  $this->dbTable SET name = :name,description=:description,status=:status,slug=:slug WHERE id = :id;";
+        $sql = "UPDATE  $this->dbTable SET name = :name,description=:description,status=:status,slug=:slug,created_by=:created_by WHERE id = :id;";
         $stm = $this->db->prepare($sql);
         $stm->bindParam(":name", $params['name']);
         $stm->bindParam(":description", $params['description']);
         $stm->bindParam(":status", $params['status']);
         $stm->bindParam(":id", $params['id']);
         $stm->bindParam(":slug", $slug);
+        $stm->bindParam(":created_by", $_SESSION['user']['id']);
         try {
             return $stm->execute();
         } catch (PDOException $e) {
@@ -325,7 +327,7 @@ class Post extends Model
             $nestedData[] = '<a href="' . \App\Config::W_ROOT . "admin/editpost/" . $row['id'] . '">' . $row["name"] . "</a>";
             $nestedData[] = $row["category_name"];
             $nestedData[] = $row["tag_name"];
-            $nestedData[] = $row["created_at"];
+            $nestedData[] = date("Y/m/d", strtotime($row["created_at"]));
 
             $data[] = $nestedData;
         }
