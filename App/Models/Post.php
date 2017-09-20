@@ -247,35 +247,44 @@ class Post extends Model
         $columns = array(
             // datatable column index  => database column name
             0 => 'name',
-            1 => 'category',
-            2 => 'name',
-            3 => 'created_at',
+            1 => 'name',
+            2 => 'category_name',
+            3 => 'tag_name',
+            4 => 'created_at',
         );
 
         $totalData = $this->getAllUsersCount();
         $totalFiltered = $totalData;  // when there is no search parameter then total number rows = total number filtered rows.
 
         if (!empty($params['search']['value'])) {
-            // if there is a search parameter
-            $sql = "SELECT $this->dbTable.id, $this->dbTable.name, categories.name as category,$this->dbTable.created_at ";
+
+            $sql = "SELECT posts.name,posts.created_at,GROUP_CONCAT(tag.name) as tag_name,posts.id,GROUP_CONCAT(categories.name) as category_name ";
             $sql .= " FROM $this->dbTable";
-            $sql .= " LEFT JOIN categories ON categories.id = $this->dbTable.category_id";
+            $sql .= " LEFT JOIN post_category on post_category.post_id = posts.id";
+            $sql .= " LEFT JOIN categories on categories.id = post_category.category_id";
+            $sql .= " LEFT JOIN post_tag ON post_tag.post_id = posts.id";
+            $sql .= " LEFT JOIN tag on tag.id = post_tag.tag_id";
             $sql .= " WHERE $this->dbTable.name LIKE '%" . $params['search']['value'] . "%' ";    // $params['search']['value'] contains search parameter
+            $sql .= " GROUP BY posts.id";
+
 
             $stm = $this->db->prepare($sql);
             $res = $stm->execute();
 
             $totalFiltered = $stm->rowCount(); //mysqli_num_rows($query); // when there is a search parameter then we have to modify total number filtered rows as per search result without limit in the query
-
-            $sql .= " ORDER BY " . $columns[$params['order'][0]['column']] . "   " . $params['order'][0]['dir'] . " ";
             $stm = $this->db->prepare($sql);
             $res = $stm->execute();
 
         } else {
 
-            $sql = "SELECT $this->dbTable.id, $this->dbTable.name, categories.name as category,$this->dbTable.created_at ";
+            //"SELECT posts.name,GROUP_CONCAT(tag.name) as tag_name,posts.id,GROUP_CONCAT(categories.name) as cat_name FROM `wallreport`.`posts` LEFT JOIN post_category on post_category.post_id=posts.id LEFT JOIN categories on categories.id=post_category.category_id LEFT JOIN post_tag ON post_tag.post_id=posts.id LEFT JOIN tag on tag.id=post_tag.tag_id GROUP BY posts.id"
+            $sql = "SELECT posts.name,posts.created_at,GROUP_CONCAT(tag.name) as tag_name,posts.id,GROUP_CONCAT(categories.name) as category_name ";
             $sql .= " FROM $this->dbTable";
-            $sql .= " LEFT JOIN categories ON categories.id = $this->dbTable.category_id";
+            $sql .= " LEFT JOIN post_category on post_category.post_id = posts.id";
+            $sql .= " LEFT JOIN categories on categories.id = post_category.category_id";
+            $sql .= " LEFT JOIN post_tag ON post_tag.post_id = posts.id";
+            $sql .= " LEFT JOIN tag on tag.id = post_tag.tag_id";
+            $sql .=" GROUP BY posts.id";
             $sql .= " ORDER BY " . $columns[$params['order'][0]['column']] . "   " . $params['order'][0]['dir'] . " ";
 
             $stm = $this->db->prepare($sql);
@@ -288,8 +297,8 @@ class Post extends Model
 
             $nestedData[] = "<input type='checkbox'  class='deleteRow' value='" . $row['id'] . "'  />";
             $nestedData[] = '<a href="' . \App\Config::W_ROOT . "admin/editpost/" . $row['id'] . '">' . $row["name"] . "</a>";
-            $nestedData[] = $row["category"];
-            $nestedData[] = $row["name"];
+            $nestedData[] = $row["category_name"];
+            $nestedData[] = $row["tag_name"];
             $nestedData[] = $row["created_at"];
 
             $data[] = $nestedData;
