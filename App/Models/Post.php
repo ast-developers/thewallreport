@@ -56,17 +56,19 @@ class Post extends Model
      */
     public function insertPostData($params)
     {
-        $sql = "INSERT INTO $this->dbTable(name,description,status) VALUES(:name,:description,:status)";
+        $slug = $this->slugify($params['name']);
+        $sql = "INSERT INTO $this->dbTable(name,description,status,slug) VALUES(:name,:description,:status,:slug)";
         $stm = $this->db->prepare($sql);
         $stm->bindParam(":name", $params['name']);
         $stm->bindParam(":description", $params['description']);
         $stm->bindParam(":status", $params['status']);
+        $stm->bindParam(":slug", $slug);
         try {
             $stm->execute();
             $last_insert_id = $this->db->lastInsertId();
             $this->addPostsCategories($params, $last_insert_id);
             $this->addPostTags($params, $last_insert_id);
-            return true;
+            return $last_insert_id;
         } catch (PDOException $e) {
             return false;
         }
@@ -78,7 +80,6 @@ class Post extends Model
      */
     public function addPostsCategories($params, $post_id)
     {
-
         if (!empty($params['category_id'])) {
             foreach ($params['category_id'] as $value) {
                 $sql = "INSERT INTO post_category(post_id,category_id) VALUES(:post_id,:category_id)";
@@ -135,22 +136,49 @@ class Post extends Model
         return;
     }
 
+    function slugify($text){
+        // replace non letter or digits by -
+        $text = preg_replace('~[^\pL\d]+~u', '-', $text);
+
+        // transliterate
+        $text = iconv('utf-8', 'us-ascii//TRANSLIT', $text);
+
+        // remove unwanted characters
+        $text = preg_replace('~[^-\w]+~', '', $text);
+
+        // trim
+        $text = trim($text, '-');
+
+        // remove duplicated - symbols
+        $text = preg_replace('~-+~', '-', $text);
+
+        // lowercase
+        $text = strtolower($text);
+
+        if (empty($text)) {
+            return 'n-a';
+        }
+
+        return $text;
+    }
     /**
      * @param $params
      * @return bool
      */
     public function updatePostData($params)
     {
+        $slug = $this->slugify($params['name']);
         $this->deletePostCategory($params);
         $this->addPostsCategories($params, $params['id']);
         $this->deletePostTags($params);
         $this->addPostTags($params, $params['id']);
-        $sql = "UPDATE  $this->dbTable SET name = :name,description=:description,status=:status WHERE id = :id;";
+        $sql = "UPDATE  $this->dbTable SET name = :name,description=:description,status=:status,slug=:slug WHERE id = :id;";
         $stm = $this->db->prepare($sql);
         $stm->bindParam(":name", $params['name']);
         $stm->bindParam(":description", $params['description']);
         $stm->bindParam(":status", $params['status']);
         $stm->bindParam(":id", $params['id']);
+        $stm->bindParam(":slug", $slug);
         try {
             return $stm->execute();
         } catch (PDOException $e) {
@@ -276,7 +304,6 @@ class Post extends Model
 
         } else {
 
-            //"SELECT posts.name,GROUP_CONCAT(tag.name) as tag_name,posts.id,GROUP_CONCAT(categories.name) as cat_name FROM `wallreport`.`posts` LEFT JOIN post_category on post_category.post_id=posts.id LEFT JOIN categories on categories.id=post_category.category_id LEFT JOIN post_tag ON post_tag.post_id=posts.id LEFT JOIN tag on tag.id=post_tag.tag_id GROUP BY posts.id"
             $sql = "SELECT posts.name,posts.created_at,GROUP_CONCAT(DISTINCT (tag.name) SEPARATOR ', ') as tag_name,posts.id,GROUP_CONCAT(DISTINCT (categories.name)  SEPARATOR ', ') as category_name ";
             $sql .= " FROM $this->dbTable";
             $sql .= " LEFT JOIN post_category on post_category.post_id = posts.id";

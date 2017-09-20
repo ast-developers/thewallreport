@@ -35,7 +35,6 @@
     <link href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/data-tables/jquery.dataTables.css" rel="stylesheet" />
     <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
     <link href="//code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" type="text/css" rel="stylesheet">
-    <script src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/js/redactors.js"></script>
     <script type="application/javascript">
         jQuery.browser = {};
         (function () {

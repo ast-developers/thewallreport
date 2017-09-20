@@ -68,25 +68,35 @@ class PostController extends \Core\Controller
             $message = ['Something went wrong. Please try again later.'];
             $messageClass = 'alert-danger';
             if (!empty($_POST['id'])) {
+                $post_id = $_POST['id'];
                 if ($this->repo->updatePostData($_POST)) {
                     $message = ['Post updated successfully.'];
                     $messageClass = 'alert-success';
                 }
             } else {
-                if ($this->repo->insertPostData($_POST)) {
+                if ($post_id = $this->repo->insertPostData($_POST)) {
                     $message = ['Post added successfully.'];
                     $messageClass = 'alert-success';
                 }
             }
 
-            return Router::redirectTo('admin/addpost', $message, $messageClass);
+            return Router::redirectTo('admin/editpost/'.$post_id, $message, $messageClass);
         }
         $parent_cat = $this->category_repo->getParentCategories();
         $tags = $this->tag_repo->getTags();
         $alltagData = [];
         if (!empty($tags)) {
-            foreach ($tags as $tag) {
-                $alltagData[] = "'" . $tag['name'] . "'";
+            if (!empty($this->params['id'])) {
+                $existing_tags = $this->repo->getPostsTagsById($this->params['id']);
+                    foreach ($tags as $tag) {
+                        if(!in_array($tag['name'],explode(',',$existing_tags))){
+                            $alltagData[] = "'" . $tag['name'] . "'";
+                        }
+                    }
+            }else{
+                foreach ($tags as $tag) {
+                    $alltagData[] = "'" . $tag['name'] . "'";
+                }
             }
         }
         if (!empty($this->params['id'])) {
