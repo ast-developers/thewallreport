@@ -127,7 +127,8 @@ class User extends Model
     public function insertUserData($user, $filename)
     {
         $password = md5($user['password']);
-        $sql = "INSERT INTO $this->dbTable(username, first_name, last_name,nick_name,email,password,role_id,profile_image) VALUES(:username,:first_name,:last_name,:nick_name,:email,:password,:role_id,:profile_image)";
+        $updated_at = date('Y-m-d H:i:s');
+        $sql = "INSERT INTO $this->dbTable(username, first_name, last_name,nick_name,email,password,role_id,profile_image,updated_at) VALUES(:username,:first_name,:last_name,:nick_name,:email,:password,:role_id,:profile_image,:updated_at)";
         $stm = $this->db->prepare($sql);
         $stm->bindParam(":username", $user['username']);
         $stm->bindParam(":email", $user['email']);
@@ -137,6 +138,7 @@ class User extends Model
         $stm->bindParam(":password", $password);
         $stm->bindParam(":role_id", $user['role_id']);
         $stm->bindParam(":profile_image", $filename);
+        $stm->bindParam(":updated_at",$updated_at);
         try {
             return $stm->execute();
         } catch (PDOException $e) {
@@ -152,7 +154,8 @@ class User extends Model
      */
     public function updateUserData($user, $filename)
     {
-        $sql = "UPDATE  $this->dbTable SET username = :username,email=:email,first_name=:first_name,last_name=:last_name,nick_name=:nick_name,role_id=:role_id,profile_image=:profile_image WHERE id = :id;";
+        $updated_at = date('Y-m-d H:i:s');
+        $sql = "UPDATE  $this->dbTable SET username = :username,email=:email,first_name=:first_name,last_name=:last_name,nick_name=:nick_name,role_id=:role_id,profile_image=:profile_image,updated_at=:updated_at WHERE id = :id;";
         $stm = $this->db->prepare($sql);
         $stm->bindParam(":id", $user['id']);
         $stm->bindParam(":username", $user['username']);
@@ -162,6 +165,7 @@ class User extends Model
         $stm->bindParam(":nick_name", $user['nick_name']);
         $stm->bindParam(":role_id", $user['role_id']);
         $stm->bindParam(":profile_image", $filename);
+        $stm->bindParam(":updated_at",$updated_at);
         try {
             return $stm->execute();
         } catch (PDOException $e) {

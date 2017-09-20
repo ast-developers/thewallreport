@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Core\Helper;
 use Core\Model;
 
 
@@ -77,7 +78,7 @@ class Category extends Model
         foreach ($tree as $row) {
             $nestedData = array();
             $nestedData[] = "<input type='checkbox'  class='deleteRow' value='" . $row['id'] . "'  />";
-            $nestedData[] = '<a href="' . \App\Config::W_ROOT . "admin/editCategory/" . $row['id'] . '">' . $row["name"] . '</a>';
+            $nestedData[] = '<a href="' . \App\Config::W_ROOT . "admin/edit-category/" . $row['id'] . '">' . $row["name"] . '</a>';
             $nestedData[] = $row["description"];
             $nestedData[] = $row["slug"];
 
@@ -153,7 +154,7 @@ class Category extends Model
             for ($i = 1; $i <= $level; $i++) {
                 $s .= $sign;
             }
-            $nestedData[] = '<a href="' . \App\Config::W_ROOT . "admin/editCategory/" . $value['id'] . '">' . $s . $value["name"] . '</a>';
+            $nestedData[] = '<a href="' . \App\Config::W_ROOT . "admin/edit-category/" . $value['id'] . '">' . $s . $value["name"] . '</a>';
             $nestedData[] = $value["description"];
             $nestedData[] = $value["slug"];
             $nestedData[] = $value["id"];
@@ -223,13 +224,15 @@ class Category extends Model
      */
     public function insertCategoryData($params)
     {
-        $slug = $this->slugify($params['slug']);
-        $sql = "INSERT INTO $this->dbTable(name, slug, description,parent_id) VALUES(:name,:slug,:description,:parent_id)";
+        $slug = Helper::slugify($params['slug']);
+        $updated_at = date('Y-m-d H:i:s');
+        $sql = "INSERT INTO $this->dbTable(name, slug, description,parent_id,updated_at) VALUES(:name,:slug,:description,:parent_id,:updated_at)";
         $stm = $this->db->prepare($sql);
         $stm->bindParam(":name", $params['name']);
         $stm->bindParam(":slug", $slug);
         $stm->bindParam(":description", $params['description']);
         $stm->bindParam(":parent_id", $params['parent_id']);
+        $stm->bindParam(":updated_at",$updated_at);
         try {
             return $stm->execute();
         } catch (PDOException $e) {
@@ -238,51 +241,21 @@ class Category extends Model
     }
 
     /**
-     * @param $string
-     * @return mixed
-     */
-
-    function slugify($text){
-        // replace non letter or digits by -
-        $text = preg_replace('~[^\pL\d]+~u', '-', $text);
-
-        // transliterate
-        $text = iconv('utf-8', 'us-ascii//TRANSLIT', $text);
-
-        // remove unwanted characters
-        $text = preg_replace('~[^-\w]+~', '', $text);
-
-        // trim
-        $text = trim($text, '-');
-
-        // remove duplicated - symbols
-        $text = preg_replace('~-+~', '-', $text);
-
-        // lowercase
-        $text = strtolower($text);
-
-        if (empty($text)) {
-            return 'n-a';
-        }
-
-        return $text;
-    }
-
-    /**
      * @param $params
      * @return bool
      */
     public function updateCategoryData($params)
     {
-
-        $slug = $this->slugify($params['slug']);
-        $sql = "UPDATE  $this->dbTable SET name = :name,slug=:slug,description=:description,parent_id=:parent_id WHERE id = :id;";
+        $slug = Helper::slugify($params['slug']);
+        $updated_at = date('Y-m-d H:i:s');
+        $sql = "UPDATE  $this->dbTable SET name = :name,slug=:slug,description=:description,parent_id=:parent_id,updated_at=:updated_at WHERE id = :id;";
         $stm = $this->db->prepare($sql);
         $stm->bindParam(":name", $params['name']);
         $stm->bindParam(":slug", $slug);
         $stm->bindParam(":description", $params['description']);
         $stm->bindParam(":parent_id", $params['parent_id']);
         $stm->bindParam(":id", $params['id']);
+        $stm->bindParam(":updated_at",$updated_at);
         try {
             return $stm->execute();
         } catch (PDOException $e) {
@@ -310,7 +283,8 @@ class Category extends Model
     }
 
     public function isSlugExist($slug){
-        $slug = $this->slugify($slug);
+
+        $slug = Helper::slugify($slug);
         $sql = "SELECT COUNT(id) AS count FROM $this->dbTable WHERE slug = :slug";
         $stm = $this->db->prepare($sql);
         $stm->bindParam(":slug", $slug);

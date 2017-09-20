@@ -31,7 +31,7 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                             </div>
                             <div class="portlet-body form">
                                 <!-- BEGIN FORM-->
-                                <form action="<?php echo \App\Config::W_ROOT . 'admin/addpost' ?>" method="post"
+                                <form action="<?php echo \App\Config::W_ROOT . 'admin/add-post' ?>" method="post"
                                       class="form-horizontal form-row-seperated post-form">
                                     <input type="hidden" name="token" value="<?php echo \Core\Csrf::getToken(); ?>">
                                     <?php if ((!empty($post))) { ?>

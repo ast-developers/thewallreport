@@ -34,7 +34,7 @@
                    </a>
                <ul class="sub">
                        <li ><a href="<?php echo \App\Config::W_ROOT . "admin/posts" ?>">All Posts</a></li>
-                       <li ><a href="<?php echo \App\Config::W_ROOT . "admin/addpost" ?>">Add New</a></li>
+                       <li ><a href="<?php echo \App\Config::W_ROOT . "admin/add-post" ?>">Add New</a></li>
                        <li ><a href="<?php echo \App\Config::W_ROOT . "admin/categories" ?>">Categories</a></li>
                    </ul>
            </li>

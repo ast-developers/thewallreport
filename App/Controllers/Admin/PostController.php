@@ -58,12 +58,12 @@ class PostController extends \Core\Controller
     /**
      * @throws \Exception
      */
-    public function indexAction()
+    public function storeAction()
     {
         if (isset($_POST['submit'])) {
             $formValid = $this->validate->validate();
             if (!$formValid['success']) {
-                return Router::redirectTo('admin/categories', $formValid['messages'], 'alert-danger');
+                return Router::redirectTo('admin/posts', $formValid['messages'], 'alert-danger');
             }
             $message = ['Something went wrong. Please try again later.'];
             $messageClass = 'alert-danger';
@@ -80,7 +80,7 @@ class PostController extends \Core\Controller
                 }
             }
 
-            return Router::redirectTo('admin/editpost/'.$post_id, $message, $messageClass);
+            return Router::redirectTo('admin/edit-post/'.$post_id, $message, $messageClass);
         }
         $parent_cat = $this->category_repo->getParentCategories();
         $tags = $this->tag_repo->getTags();
@@ -115,6 +115,9 @@ class PostController extends \Core\Controller
     {
 
         $dir = Config::F_UPLOAD_IMAGE;
+        if(!file_exists($dir)){
+            mkdir($dir, 0755, true);
+        }
 
         $_FILES['file']['type'] = strtolower($_FILES['file']['type']);
 
@@ -162,7 +165,7 @@ class PostController extends \Core\Controller
     /**
      *
      */
-    public function bulkDeletepost()
+    public function bulkDeletePost()
     {
         $this->repo->bulkDeletePost($_REQUEST);
     }

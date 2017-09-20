@@ -113,6 +113,6 @@ class Config
      * Front Assets Root
      */
     const W_FRONT_ASSETS = self::W_ROOT . "theme/front/assets/";
-    const F_UPLOAD_IMAGE = self::F_ROOT . "public/uploads/img/";
-    const W_UPLOAD_IMAGE = self::W_ROOT . "uploads/img/";
+    const F_UPLOAD_IMAGE = self::F_ROOT . "public/uploads/redactor_image/";
+    const W_UPLOAD_IMAGE = self::W_ROOT . "uploads/redactor_image/";
 }

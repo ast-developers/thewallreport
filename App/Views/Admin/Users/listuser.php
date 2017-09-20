@@ -30,7 +30,7 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                             <div class="actions">
                                 <a href="<?php echo \App\Config::W_ROOT . "admin/add-user" ?>" class="btn blue"><i
                                         class="icon-pencil"></i> Add</a>
-                                <a href="#myModal2" id="delete-btn" role="button" class="btn btn-danger red hidden" data-toggle="modal">Delete</a>
+                                <a href="#deleteModel" id="delete-btn" role="button" class="btn btn-danger red hidden" data-toggle="modal">Delete</a>
                                 <div class="btn-group">
                                     <ul class="dropdown-menu pull-right">
                                         <li><a href="#"><i class="icon-pencil"></i> Edit</a></li>
@@ -62,7 +62,7 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                 </div>
             </div>
             <!-- END PAGE CONTENT-->
-            <div id="myModal2" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+            <div id="deleteModel" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
                     <h3>Delete</h3>
@@ -71,7 +71,7 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                     <p>Are you sure, want to remove the selected users?</p>
                 </div>
                 <div class="modal-footer">
-                    <button data-dismiss="modal" class="btn red" id="deleteTriger">Delete</button>
+                    <button data-dismiss="modal" class="btn red" id="deleteUsers">Delete</button>
                 </div>
             </div>
         </div>

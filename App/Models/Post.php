@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Repositories\Admin\TagRepository;
+use Core\Helper;
 use Core\Model;
 
 
@@ -56,14 +57,16 @@ class Post extends Model
      */
     public function insertPostData($params)
     {
-        $slug = $this->slugify($params['name']);
-        $sql = "INSERT INTO $this->dbTable(name,description,status,slug,created_by) VALUES(:name,:description,:status,:slug,:created_by)";
+        $slug = Helper::slugify($params['name']);
+        $updated_at = date('Y-m-d H:i:s');
+        $sql = "INSERT INTO $this->dbTable(name,description,status,slug,created_by,updated_at) VALUES(:name,:description,:status,:slug,:created_by,:updated_at)";
         $stm = $this->db->prepare($sql);
         $stm->bindParam(":name", $params['name']);
         $stm->bindParam(":description", $params['description']);
         $stm->bindParam(":status", $params['status']);
         $stm->bindParam(":slug", $slug);
         $stm->bindParam(":created_by", $_SESSION['user']['id']);
+        $stm->bindParam(":updated_at",$updated_at);
         try {
             $stm->execute();
             $last_insert_id = $this->db->lastInsertId();
@@ -108,9 +111,11 @@ class Post extends Model
             };
             foreach (explode(',', $params['tag']) as $value) {
                 if (!in_array($value, $tagData)) {
-                    $sql = "INSERT INTO tag(name) VALUES(:name)";
+                    $updated_at = date('Y-m-d H:i:s');
+                    $sql = "INSERT INTO tag(name,updated_at) VALUES(:name,:updated_at)";
                     $stm = $this->db->prepare($sql);
                     $stm->bindParam(":name", $value);
+                    $stm->bindParam(":updated_at", $updated_at);
                     $stm->execute();
                     $last_insert_id = $this->db->lastInsertId();
 
@@ -137,43 +142,19 @@ class Post extends Model
         return;
     }
 
-    function slugify($text){
-        // replace non letter or digits by -
-        $text = preg_replace('~[^\pL\d]+~u', '-', $text);
-
-        // transliterate
-        $text = iconv('utf-8', 'us-ascii//TRANSLIT', $text);
-
-        // remove unwanted characters
-        $text = preg_replace('~[^-\w]+~', '', $text);
-
-        // trim
-        $text = trim($text, '-');
-
-        // remove duplicated - symbols
-        $text = preg_replace('~-+~', '-', $text);
-
-        // lowercase
-        $text = strtolower($text);
-
-        if (empty($text)) {
-            return 'n-a';
-        }
-
-        return $text;
-    }
     /**
      * @param $params
      * @return bool
      */
     public function updatePostData($params)
     {
-        $slug = $this->slugify($params['name']);
+        $slug = Helper::slugify($params['name']);
+        $updated_at = date('Y-m-d H:i:s');
         $this->deletePostCategory($params);
         $this->addPostsCategories($params, $params['id']);
         $this->deletePostTags($params);
         $this->addPostTags($params, $params['id']);
-        $sql = "UPDATE  $this->dbTable SET name = :name,description=:description,status=:status,slug=:slug,created_by=:created_by WHERE id = :id;";
+        $sql = "UPDATE  $this->dbTable SET name = :name,description=:description,status=:status,slug=:slug,created_by=:created_by,updated_at=:updated_at WHERE id = :id;";
         $stm = $this->db->prepare($sql);
         $stm->bindParam(":name", $params['name']);
         $stm->bindParam(":description", $params['description']);
@@ -181,6 +162,7 @@ class Post extends Model
         $stm->bindParam(":id", $params['id']);
         $stm->bindParam(":slug", $slug);
         $stm->bindParam(":created_by", $_SESSION['user']['id']);
+        $stm->bindParam(":updated_at",$updated_at);
         try {
             return $stm->execute();
         } catch (PDOException $e) {
@@ -283,7 +265,7 @@ class Post extends Model
             4 => 'created_at',
         );
 
-        $totalData = $this->getAllUsersCount();
+        $totalData = $this->getAllPostsCount();
         $totalFiltered = $totalData;  // when there is no search parameter then total number rows = total number filtered rows.
 
         if (!empty($params['search']['value'])) {
@@ -324,7 +306,7 @@ class Post extends Model
             $nestedData = array();
 
             $nestedData[] = "<input type='checkbox'  class='deleteRow' value='" . $row['id'] . "'  />";
-            $nestedData[] = '<a href="' . \App\Config::W_ROOT . "admin/editpost/" . $row['id'] . '">' . $row["name"] . "</a>";
+            $nestedData[] = '<a href="' . \App\Config::W_ROOT . "admin/edit-post/" . $row['id'] . '">' . $row["name"] . "</a>";
             $nestedData[] = $row["category_name"];
             $nestedData[] = $row["tag_name"];
             $nestedData[] = date("Y/m/d", strtotime($row["created_at"]));
@@ -345,7 +327,7 @@ class Post extends Model
     /**
      * @return bool
      */
-    public function getAllUsersCount()
+    public function getAllPostsCount()
     {
         $sql = "SELECT COUNT(id) AS count FROM $this->dbTable";
         $stm = $this->db->prepare($sql);
@@ -365,13 +347,6 @@ class Post extends Model
     public function bulkDeletePosts($ids)
     {
         $data_ids = $ids['data_ids'];
-        $sql = "DELETE FROM post_tag WHERE post_id IN ($data_ids)";
-        $stm = $this->db->prepare($sql);
-        $stm->execute();
-
-        $sql = "DELETE FROM post_category WHERE post_id IN ($data_ids)";
-        $stm = $this->db->prepare($sql);
-        $stm->execute();
 
         $sql = "DELETE FROM $this->dbTable WHERE id IN ($data_ids)";
         $stm = $this->db->prepare($sql);

@@ -23,7 +23,7 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
         <div class="row-fluid">
             <div class="row">
                 <div class="span6">
-                    <form action="<?php echo \App\Config::W_ROOT . "admin/addcategory" ?>" method="post"
+                    <form action="<?php echo \App\Config::W_ROOT . "admin/add-category" ?>" method="post"
                           class="category-form form-horizontal">
                         <input type="hidden" name="token" value="<?php echo \Core\Csrf::getToken(); ?>">
                         <?php if ((!empty($category))) { ?>
@@ -83,7 +83,7 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                             <h4>Categories</h4>
 
                             <div class="actions">
-                                <a href="#myModal2" role="button" id="delete-btn" class="btn btn-danger red hidden" data-toggle="modal">Delete</a>
+                                <a href="#deleteModel" role="button" id="delete-btn" class="btn btn-danger red hidden" data-toggle="modal">Delete</a>
                                 <div class="btn-group">
                                     <ul class="dropdown-menu pull-right">
                                         <li><a href="#"><i class="icon-pencil"></i> Edit</a></li>
@@ -110,7 +110,7 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                             <!--</div>-->
                         </div>
                     </div>
-                    <div id="myModal2" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+                    <div id="deleteModel" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
                             <h3>Delete</h3>
@@ -119,7 +119,7 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                             <p>Are you sure, want to remove the selected categories?</p>
                         </div>
                         <div class="modal-footer">
-                            <button data-dismiss="modal" class="btn red" id="deleteTriger">Delete</button>
+                            <button data-dismiss="modal" class="btn red" id="deleteCategories">Delete</button>
                         </div>
                     </div>
                     <!-- END EXAMPLE TABLE PORTLET-->

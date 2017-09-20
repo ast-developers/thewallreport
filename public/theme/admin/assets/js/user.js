@@ -38,13 +38,24 @@ var User = function () {
             }
         });
         $(document).on('click', '.deleteRow', function (event) {
-            if ($(this).is(':checked')) {
+            $("#delete-btn").addClass('hidden')
+            var $checked = false;
+
+            $.each($(".deleteRow"), function(index, value){
+                if ($(this).is(':checked')) {
+                    $checked = true;
+                    $("#delete-btn").addClass('hidden')
+                }
+            });
+
+            if($checked){
                 $("#delete-btn").removeClass('hidden');
             } else {
-                $("#delete-btn").addClass('hidden')
+                $('#bulkDelete').prop("checked", false);
             }
+
         });
-        $('#deleteTriger').on("click", function (event) { // triggering delete one by one
+        $('#deleteUsers').on("click", function (event) { // triggering delete one by one
             if ($('.deleteRow:checked').length > 0) {  // at-least one checkbox checked
                 var ids = [];
                 $('.deleteRow').each(function () {
