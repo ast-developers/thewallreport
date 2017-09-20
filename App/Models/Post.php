@@ -258,7 +258,7 @@ class Post extends Model
 
         if (!empty($params['search']['value'])) {
 
-            $sql = "SELECT posts.name,posts.created_at,GROUP_CONCAT(tag.name) as tag_name,posts.id,GROUP_CONCAT(categories.name) as category_name ";
+            $sql = "SELECT posts.name,posts.created_at,GROUP_CONCAT(DISTINCT (tag.name) SEPARATOR ', ') as tag_name,posts.id,GROUP_CONCAT(DISTINCT (categories.name)  SEPARATOR ', ') as category_name ";
             $sql .= " FROM $this->dbTable";
             $sql .= " LEFT JOIN post_category on post_category.post_id = posts.id";
             $sql .= " LEFT JOIN categories on categories.id = post_category.category_id";
@@ -266,7 +266,6 @@ class Post extends Model
             $sql .= " LEFT JOIN tag on tag.id = post_tag.tag_id";
             $sql .= " WHERE $this->dbTable.name LIKE '%" . $params['search']['value'] . "%' ";    // $params['search']['value'] contains search parameter
             $sql .= " GROUP BY posts.id";
-
 
             $stm = $this->db->prepare($sql);
             $res = $stm->execute();
@@ -278,7 +277,7 @@ class Post extends Model
         } else {
 
             //"SELECT posts.name,GROUP_CONCAT(tag.name) as tag_name,posts.id,GROUP_CONCAT(categories.name) as cat_name FROM `wallreport`.`posts` LEFT JOIN post_category on post_category.post_id=posts.id LEFT JOIN categories on categories.id=post_category.category_id LEFT JOIN post_tag ON post_tag.post_id=posts.id LEFT JOIN tag on tag.id=post_tag.tag_id GROUP BY posts.id"
-            $sql = "SELECT posts.name,posts.created_at,GROUP_CONCAT(tag.name) as tag_name,posts.id,GROUP_CONCAT(categories.name) as category_name ";
+            $sql = "SELECT posts.name,posts.created_at,GROUP_CONCAT(DISTINCT (tag.name) SEPARATOR ', ') as tag_name,posts.id,GROUP_CONCAT(DISTINCT (categories.name)  SEPARATOR ', ') as category_name ";
             $sql .= " FROM $this->dbTable";
             $sql .= " LEFT JOIN post_category on post_category.post_id = posts.id";
             $sql .= " LEFT JOIN categories on categories.id = post_category.category_id";
@@ -337,9 +336,18 @@ class Post extends Model
     public function bulkDeletePosts($ids)
     {
         $data_ids = $ids['data_ids'];
+        $sql = "DELETE FROM post_tag WHERE post_id IN ($data_ids)";
+        $stm = $this->db->prepare($sql);
+        $stm->execute();
+
+        $sql = "DELETE FROM post_category WHERE post_id IN ($data_ids)";
+        $stm = $this->db->prepare($sql);
+        $stm->execute();
+
         $sql = "DELETE FROM $this->dbTable WHERE id IN ($data_ids)";
         $stm = $this->db->prepare($sql);
         $stm->execute();
+
     }
 
 }
