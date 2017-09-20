@@ -79,7 +79,11 @@ class CategoryController extends \Core\Controller
         if (isset($_POST['submit'])) {
             $formValid = $this->validate->addCategoryValidation();
             if (!$formValid['success']) {
-                return Router::redirectTo('admin/categories', $formValid['messages'], 'alert-danger');
+                if($_POST['id']){
+                    return Router::redirectTo('admin/edit-category/'.$_POST['id'], $formValid['messages'], 'alert-danger');
+                }else{
+                    return Router::redirectTo('admin/categories', $formValid['messages'], 'alert-danger');
+                }
             }
             $message = ['Something went wrong. Please try again later.'];
             $messageClass = 'alert-danger';
