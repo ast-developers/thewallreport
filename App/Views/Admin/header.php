@@ -35,17 +35,6 @@
     <link href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/data-tables/jquery.dataTables.css" rel="stylesheet" />
     <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
     <link href="//code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" type="text/css" rel="stylesheet">
-    <script type="application/javascript">
-        jQuery.browser = {};
-        (function () {
-            jQuery.browser.msie = false;
-            jQuery.browser.version = 0;
-            if (navigator.userAgent.match(/MSIE ([0-9]+)\./)) {
-                jQuery.browser.msie = true;
-                jQuery.browser.version = RegExp.$1;
-            }
-        })();
-    </script>
     <link rel="stylesheet" href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/css/redactor.css" />
     <script src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/js/redactor.js"></script>
     <script src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/js/video.js"></script>
