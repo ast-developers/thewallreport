@@ -43,12 +43,9 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                                         <label class="control-label">Post Name</label>
 
                                         <div class="controls">
-                                            <div class="input-icon left">
-                                                <i class="icon-user"></i>
                                                 <input class="m-wrap  span6 m-wrap" type="text"
                                                        placeholder="Post name" name="name"
                                                        value='<?php echo $name; ?>' />
-                                            </div>
                                         </div>
                                     </div>
                                     <?php $description = (!empty($post['description'])) ? $post['description'] : '' ?>
