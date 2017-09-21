@@ -31,9 +31,32 @@ var Category = function () {
             $(".deleteRow").each(function () {
                 $(this).prop("checked", status);
             });
+            if ($("#bulkDelete").is(':checked')) {
+                $("#delete-btn").removeClass('hidden');
+            } else {
+                $("#delete-btn").addClass('hidden')
+            }
+        });
+        $(document).on('click', '.deleteRow', function (event) {
+            $("#delete-btn").addClass('hidden')
+            var $checked = false;
+
+            $.each($(".deleteRow"), function(index, value){
+                if ($(this).is(':checked')) {
+                    $checked = true;
+                    $("#delete-btn").addClass('hidden')
+                }
+            });
+
+            if($checked){
+                $("#delete-btn").removeClass('hidden');
+            } else {
+                $('#bulkDelete').prop("checked", false);
+            }
+
         });
 
-        $('#deleteTriger').on("click", function (event) { // triggering delete one by one
+        $('#deleteCategories').on("click", function (event) { // triggering delete one by one
             if ($('.deleteRow:checked').length > 0) {  // at-least one checkbox checked
                 var ids = [];
                 $('.deleteRow').each(function () {
@@ -50,7 +73,7 @@ var Category = function () {
                     success: function (result) {
                         dataTable.draw(); // redrawing datatable
                         $('.header-title').after('<div class="alert alert-success">'+
-                            '<strong>'+'Categories Deleted successfully.'+'</strong></div>');
+                            '<strong>'+'Categories deleted successfully.'+'</strong></div>');
                     },
                     async: false
                 });

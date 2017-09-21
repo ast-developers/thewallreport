@@ -27,17 +27,18 @@
             </a>
         </li>
         <li class="has-sub ">
-            <a href="javascript:;">
-                <i class="icon-user"></i>
-                <span class="title">Posts</span>
-                <span class="arrow "></span>
-            </a>
-            <ul class="sub">
-                <li ><a href="#">All Posts</a></li>
-                <li ><a href="#">Add New</a></li>
-                <li ><a href="<?php echo \App\Config::W_ROOT . "admin/categories" ?>">Categories</a></li>
-            </ul>
-        </li>
+               <a href="javascript:;">
+                       <i class="icon-pushpin"></i>
+                       <span class="title">Posts</span>
+                       <span class="arrow "></span>
+                   </a>
+               <ul class="sub">
+                       <li ><a href="<?php echo \App\Config::W_ROOT . "admin/posts" ?>">All Posts</a></li>
+                       <li ><a href="<?php echo \App\Config::W_ROOT . "admin/add-post" ?>">Add New</a></li>
+                       <li ><a href="<?php echo \App\Config::W_ROOT . "admin/categories" ?>">Categories</a></li>
+                   </ul>
+           </li>
+    </ul>
     </ul>
     <!-- END SIDEBAR MENU -->
 </div>
