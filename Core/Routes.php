@@ -38,12 +38,6 @@ $router->add('admin/pages', ['namespace' => 'Admin','controller' => 'PageControl
 $router->add('admin/page-ajax-paginate', ['namespace' => 'Admin','controller' => 'PageController', 'action' => 'pagePaginate','middleware' => 'Auth']);
 $router->add('admin/bulk-delete-page', ['namespace' => 'Admin','controller' => 'PageController', 'action' => 'bulkDeletePage','middleware' => 'Auth']);
 
-$router->add('admin/add-menu', ['namespace' => 'Admin','controller' => 'MenuController', 'action' => 'store', 'middleware' => 'Auth']);
-$router->add('admin/edit-menu/{id:\d+}', ['namespace' => 'Admin','controller' => 'MenuController', 'action' => 'store', 'middleware' => 'Auth']);
-$router->add('admin/menus', ['namespace' => 'Admin','controller' => 'MenuController', 'action' => 'getMenus', 'middleware' => 'Auth']);
-$router->add('admin/menu-ajax-paginate', ['namespace' => 'Admin','controller' => 'MenuController', 'action' => 'menuPaginate','middleware' => 'Auth']);
-$router->add('admin/bulk-delete-menu', ['namespace' => 'Admin','controller' => 'MenuController', 'action' => 'bulkDeleteMenu','middleware' => 'Auth']);
-
 $router->add('admin/error', ['namespace' => 'Admin','controller' => 'UserController', 'action' => 'error']);
 /*$router->add('admin/checkuser', ['namespace' => 'Admin','controller' => 'UserController', 'action' => 'checkuser', 'middleware' => 'Auth']);*/
 
