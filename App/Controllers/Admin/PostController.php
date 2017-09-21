@@ -150,7 +150,6 @@ class PostController extends \Core\Controller
      */
     public function getPosts()
     {
-
         View::render('Admin/Post/listpost.php');
     }
 
