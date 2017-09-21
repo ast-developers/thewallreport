@@ -1,10 +1,11 @@
-var User = function () {
+var Category = function () {
     var dataTable;
-    var initUserDataTable = function () {
-         dataTable = $('#user-grid').DataTable({
+    var initCategoryDataTable = function () {
+        dataTable = $('#category-grid').DataTable({
             "processing": true,
             "serverSide": true,
             "order": [[ 1, "asc" ]],
+            "bPaginate": false,
             "columnDefs": [{
                 "targets": 0,
                 "orderable": false,
@@ -12,20 +13,19 @@ var User = function () {
 
             }],
             "ajax": {
-                url: userAjaxPaginateUrl, // json datasource
+                url: categoryAjaxPaginateUrl, // json datasource
                 type: "post",  // method  , by default get
                 error: function (data) {  // error handling
-                    $(".user-grid-error").html("");
-                    $("#user-grid").append('<tbody class="user-grid-error"><tr><th colspan="3">No data found in the server</th></tr></tbody>');
-                    $("#user-grid_processing").css("display", "none");
+                    $(".category-grid-error").html("");
+                    $("#category-grid").append('<tbody class="user-grid-error"><tr><th colspan="3">No data found in the server</th></tr></tbody>');
+                    $("#category-grid_processing").css("display", "none");
 
                 }
             }
         });
     };
 
-    var deleteUser = function () {
-
+    var deleteCategory = function () {
         $("#bulkDelete").on('click', function () { // bulk checked
             var status = this.checked;
             $(".deleteRow").each(function () {
@@ -55,7 +55,8 @@ var User = function () {
             }
 
         });
-        $('#deleteUsers').on("click", function (event) { // triggering delete one by one
+
+        $('#deleteCategories').on("click", function (event) { // triggering delete one by one
             if ($('.deleteRow:checked').length > 0) {  // at-least one checkbox checked
                 var ids = [];
                 $('.deleteRow').each(function () {
@@ -67,57 +68,43 @@ var User = function () {
                 // array to string conversion
                 $.ajax({
                     type: "POST",
-                    url: userBulkDeleteUrl,
+                    url: categoryBulkDeleteUrl,
                     data: {data_ids: ids_string},
                     success: function (result) {
                         dataTable.draw(); // redrawing datatable
                         $('.header-title').after('<div class="alert alert-success">'+
-                            '<strong>'+'Users deleted successfully.'+'</strong></div>');
+                            '<strong>'+'Categories deleted successfully.'+'</strong></div>');
                     },
                     async: false
                 });
             }
         });
     };
-
-    var validateUser = function () {
-        $('.user-form').validate({
+    var validateCategory = function () {
+        $('.category-form').validate({
             errorElement: 'label', //default input error message container
             errorClass: 'help-inline', // default input error message class
             focusInvalid: false, // do not focus the last invalid input
             rules: {
-                username: {
+                name: {
                     required: true
                 },
-                password:{
+                slug:{
                     required: true
                 },
-                rpassword: {
-                    equalTo: "#register_password"
-                },
-                email: {
-                    required: true,
-                    email: true
-                },
-                avatar: {
-                    accept: "image/*"
-                }
             },
 
             messages: {
-                username: {
-                    required: "Username is required."
+                name: {
+                    required: "Category name is required."
                 },
-                password: {
-                    required: "Password is required."
+                slug: {
+                    required: "Slug is required."
                 },
-                avatar:{
-                    accept: 'Please upload Image file only.'
-                }
             },
 
             invalidHandler: function (event, validator) { //display error alert on form submit
-                $('.alert-error', $('.login-form')).show();
+                $('.alert-error', $('.category-form')).show();
             },
 
             highlight: function (element) { // hightlight error inputs
@@ -126,16 +113,12 @@ var User = function () {
             },
 
             success: function (label) {
-
                 label.closest('.control-group').removeClass('error');
                 label.remove();
             },
 
-            errorPlacement: function (error, element) { console.log(element);
-                if (element.attr("name") == "avatar") {
-                    error.insertAfter(element.closest('.file-upload-button-area'));
-                } else {
-                error.addClass('help-small no-left-padding').insertAfter(element.closest('.input-icon'));}
+            errorPlacement: function (error, element) {
+                error.addClass('help-small no-left-padding').insertAfter(element.closest('.input-icon'));
             }
         });
     };
@@ -145,15 +128,10 @@ var User = function () {
         //function to initiate User Listing Page
         initList: function () {
             App.init();
-            initUserDataTable();
-            deleteUser();
+            initCategoryDataTable();
+            deleteCategory();
+            validateCategory();
         },
 
-        //function to initiate User Add/Edit Page
-        initManagement: function () {
-            App.setPage("table_managed");
-            App.init();
-            validateUser();
-        },
     };
 }();

@@ -33,6 +33,22 @@
     <link href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/bootstrap-fileupload/bootstrap-fileupload.css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/jquery-tags-input/jquery.tagsinput.css" />
     <link href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/data-tables/jquery.dataTables.css" rel="stylesheet" />
+    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <link href="//code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" type="text/css" rel="stylesheet">
+    <link rel="stylesheet" href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/css/redactor.css" />
+    <script src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/js/redactor.js"></script>
+    <script src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/js/video.js"></script>
+    <script src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/js/inlinestyle.js"></script>
+    <script src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/js/source.js"></script>
+    <script src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/js/alignment.js"></script>
+    <script src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/js/table.js"></script>
+    <script src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/js/fullscreen.js"></script>
+    <script src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/js/fontsize.js"></script>
+    <script src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/js/fontcolor.js"></script>
+    <!-- Tokenfield CSS -->
+    <link href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/css/tokenfield-typeahead.css" type="text/css" rel="stylesheet">
+    <link href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/css/bootstrap-tokenfield.css" type="text/css" rel="stylesheet">
+    <link href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/css/custom.css" rel="stylesheet" />
     <link rel="shortcut icon" href="favicon.ico" />
 
     <?php

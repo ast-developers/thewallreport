@@ -11,7 +11,7 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
             <div class="row-fluid header-title">
                 <div class="span12">
                     <h3 class="page-title">
-                        Users
+                        Posts
                     </h3>
                 </div>
             </div>
@@ -25,12 +25,12 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                     <!-- BEGIN EXAMPLE TABLE PORTLET-->
                     <div class="portlet box grey">
                         <div class="portlet-title">
-                            <h4></i>Users</h4>
+                            <h4>Posts</h4>
 
                             <div class="actions">
-                                <a href="<?php echo \App\Config::W_ROOT . "admin/add-user" ?>" class="btn blue"><i
+                                <a href="<?php echo \App\Config::W_ROOT . "admin/add-post" ?>" class="btn blue"><i
                                         class="icon-pencil"></i> Add</a>
-                                <a href="#deleteModel" id="delete-btn" role="button" class="btn btn-danger red hidden" data-toggle="modal">Delete</a>
+                                <a href="#deleteModel" role="button" id="delete-btn" class="btn btn-danger red hidden" data-toggle="modal">Delete</a>
                                 <div class="btn-group">
                                     <ul class="dropdown-menu pull-right">
                                         <li><a href="#"><i class="icon-pencil"></i> Edit</a></li>
@@ -43,15 +43,15 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                             </div>
                         </div>
                         <div class="portlet-body">
-                            <table id="user-grid" class="display table table-striped table-bordered table-hover">
+                            <table id="post-grid" class="display table table-striped table-bordered table-hover">
                                 <thead>
                                 <tr>
                                     <th style="width:8px;"><input type="checkbox" id="bulkDelete"/>
                                     </th>
-                                    <th>Username</th>
                                     <th>Name</th>
-                                    <th>Email</th>
-                                    <th>Role</th>
+                                    <th>Categories</th>
+                                    <th>Tags</th>
+                                    <th>Date</th>
                                 </tr>
                                 </thead>
                             </table>
@@ -59,21 +59,22 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                         </div>
                     </div>
                     <!-- END EXAMPLE TABLE PORTLET-->
+                    <div id="deleteModel" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                            <h3>Delete</h3>
+                        </div>
+                        <div class="modal-body">
+                            <p>Are you sure, want to remove the selected posts?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button data-dismiss="modal" class="btn red" id="deletePosts">Delete</button>
+                        </div>
+                    </div>
                 </div>
             </div>
             <!-- END PAGE CONTENT-->
-            <div id="deleteModel" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                    <h3>Delete</h3>
-                </div>
-                <div class="modal-body">
-                    <p>Are you sure, want to remove the selected users?</p>
-                </div>
-                <div class="modal-footer">
-                    <button data-dismiss="modal" class="btn red" id="deleteUsers">Delete</button>
-                </div>
-            </div>
+
         </div>
         <!-- END PAGE CONTAINER-->
     </div>
@@ -82,13 +83,13 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
 <?php include(\App\Config::F_ROOT . 'App/Views/Admin/footer.php') ?>
 
 <script>
-    var userAjaxPaginateUrl = "<?php echo \App\Config::W_ROOT ?>admin/users-ajax-paginate";
-    var userBulkDeleteUrl = "<?php echo \App\Config::W_ROOT ?>admin/bulk-delete-users";
+    var userAjaxPaginateUrl = "<?php echo \App\Config::W_ROOT ?>admin/post-ajax-paginate";
+    var userBulkDeleteUrl = "<?php echo \App\Config::W_ROOT ?>admin/bulk-delete-post";
 </script>
-<script src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/js/user.js"></script>
+<script src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/js/post.js"></script>
 <script>
     $(document).ready(function () {
-        User.initList();
+        Post.initList();
     });
 </script>
 </body>
