@@ -114,7 +114,7 @@ class PostController extends \Core\Controller
     public function uploadImage()
     {
 
-        $dir = Config::F_UPLOAD_IMAGE;
+        $dir = Config::F_REDACTOR_IMAGE;
         if(!file_exists($dir)){
             mkdir($dir, 0755, true);
         }
@@ -136,7 +136,7 @@ class PostController extends \Core\Controller
 
             // displaying file
             $array = array(
-                'url' => Config::W_UPLOAD_IMAGE . $filename,
+                'url' => Config::W_REDACTOR_IMAGE . $filename,
                 'id' => 123
             );
 

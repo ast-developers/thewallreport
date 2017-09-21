@@ -8,6 +8,10 @@
     margin-top: 0px;
 }
 
+.edit-page .portlet.box .portlet-title .tools {
+    margin-top: 0px;
+}
+
 .form-control {
     display: block;
     width: 100%;

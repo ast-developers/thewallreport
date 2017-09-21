@@ -38,6 +38,17 @@
                        <li ><a href="<?php echo \App\Config::W_ROOT . "admin/categories" ?>">Categories</a></li>
                    </ul>
            </li>
+        <li class="has-sub ">
+            <a href="javascript:;">
+                <i class="icon-user"></i>
+                <span class="title">Pages</span>
+                <span class="arrow "></span>
+            </a>
+            <ul class="sub">
+                <li ><a href="<?php echo \App\Config::W_ROOT . "admin/pages" ?>">All Pages</a></li>
+                <li ><a href="<?php echo \App\Config::W_ROOT . "admin/add-page" ?>">Add New</a></li>
+            </ul>
+        </li>
     </ul>
     </ul>
     <!-- END SIDEBAR MENU -->
