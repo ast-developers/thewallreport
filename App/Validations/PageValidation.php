@@ -1,17 +1,17 @@
 <?php
 namespace App\Validations;
 
-use App\Models\Post;
+use App\Models\Page;
 use Core\Csrf;
 
 
-class PostValidation
+class PageValidation
 {
     public $model;
 
     public function __construct($params = [])
     {
-        $this->model = new Post();
+        $this->model = new Page();
     }
 
     /**
@@ -30,10 +30,10 @@ class PostValidation
                 $success = false;
                 $messages[] = 'Invalid Token.';
             }
-            // Post name : Required
+            // Page name : Required
             if (empty($_POST['name'])) {
                 $success = false;
-                $messages[] = 'Please enter post name.';
+                $messages[] = 'Please enter page name.';
             }
 
             return ['success' => $success, 'messages' => $messages];
