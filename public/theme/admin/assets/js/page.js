@@ -115,7 +115,7 @@ var Page = function () {
 
             errorPlacement: function (error, element) {
                 console.log(element);
-                error.addClass('help-small no-left-padding').insertAfter(element.closest('.input-icon'));
+                error.addClass('help-small no-left-padding').insertAfter(element.closest('.validation'));
             }
         });
     };

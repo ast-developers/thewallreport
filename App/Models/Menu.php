@@ -6,11 +6,12 @@ namespace App\Models;
 use Core\Helper;
 use Core\Model;
 
+
 /**
- * Class Page
+ * Class Menu
  * @package App\Models
  */
-class Page extends Model
+class Menu extends Model
 {
 
     /**
@@ -19,34 +20,33 @@ class Page extends Model
     public $db;
 
     /**
-     * @var
-     */
-    protected $tag_repo;
-
-    /**
      *
      */
     public function __construct()
     {
         $this->db = static::getDB();
-        $this->dbTable = 'pages';
+        $this->dbTable = 'menu';
     }
 
     /**
      * @param $params
      * @return bool
      */
-    public function insertPageData($params)
+    public function insertMenuData($params)
     {
-        $slug = Helper::slugify($params['name']);
+        if (!empty($params['page']) && $params['type'] == 2) {
+            $link = $params['page'];
+        } elseif (!empty($params['post']) && $params['type'] == 1) {
+            $link = $params['post'];
+        } else {
+            $link = $params['external_url'];
+        }
         $updated_at = date('Y-m-d H:i:s');
-        $sql = "INSERT INTO $this->dbTable(name,description,status,slug,created_by,updated_at) VALUES(:name,:description,:status,:slug,:created_by,:updated_at)";
+        $sql = "INSERT INTO $this->dbTable(name,type,link,updated_at) VALUES(:name,:type,:link,:updated_at)";
         $stm = $this->db->prepare($sql);
         $stm->bindParam(":name", $params['name']);
-        $stm->bindParam(":description", $params['description']);
-        $stm->bindParam(":status", $params['status']);
-        $stm->bindParam(":slug", $slug);
-        $stm->bindParam(":created_by", $_SESSION['user']['id']);
+        $stm->bindParam(":type", $params['type']);
+        $stm->bindParam(":link", $link);
         $stm->bindParam(":updated_at", $updated_at);
         try {
             $stm->execute();
@@ -61,19 +61,23 @@ class Page extends Model
      * @param $params
      * @return bool
      */
-    public function updatePageData($params)
+    public function updateMenuData($params)
     {
-        $slug = Helper::slugify($params['name']);
+        if (!empty($params['page']) && $params['type'] == 2) {
+            $link = $params['page'];
+        } elseif (!empty($params['post']) && $params['type'] == 1) {
+            $link = $params['post'];
+        } else {
+            $link = $params['external_url'];
+        }
         $updated_at = date('Y-m-d H:i:s');
-        $sql = "UPDATE  $this->dbTable SET name = :name,description=:description,status=:status,slug=:slug,created_by=:created_by,updated_at=:updated_at WHERE id = :id;";
+        $sql = "UPDATE  $this->dbTable SET name=:name,type=:type,link=:link,updated_at=:updated_at WHERE id = :id;";
         $stm = $this->db->prepare($sql);
         $stm->bindParam(":name", $params['name']);
-        $stm->bindParam(":description", $params['description']);
-        $stm->bindParam(":status", $params['status']);
-        $stm->bindParam(":id", $params['id']);
-        $stm->bindParam(":slug", $slug);
-        $stm->bindParam(":created_by", $_SESSION['user']['id']);
+        $stm->bindParam(":type", $params['type']);
+        $stm->bindParam(":link", $link);
         $stm->bindParam(":updated_at", $updated_at);
+        $stm->bindParam(":id", $params['id']);
         try {
             return $stm->execute();
         } catch (PDOException $e) {
@@ -85,7 +89,7 @@ class Page extends Model
      * @param $id
      * @return bool
      */
-    public function getPageById($id)
+    public function getMenuById($id)
     {
         $sql = "SELECT * FROM $this->dbTable WHERE id=:id";
         $stm = $this->db->prepare($sql);
@@ -103,22 +107,22 @@ class Page extends Model
     /**
      * @param $params
      */
-    public function getPageAjaxPagination($params)
+    public function getMenuAjaxPagination($params)
     {
 
         $columns = array(
             0 => 'name',
             1 => 'name',
-            2 => 'slug',
+            2 => 'name',
             3 => 'created_at',
         );
 
-        $totalData = $this->getAllPagesCount();
+        $totalData = $this->getAllMenusCount();
         $totalFiltered = $totalData;  // when there is no search parameter then total number rows = total number filtered rows.
 
         if (!empty($params['search']['value'])) {
 
-            $sql = "SELECT $this->dbTable.name,$this->dbTable.created_at,$this->dbTable.id,$this->dbTable.slug";
+            $sql = "SELECT $this->dbTable.name,$this->dbTable.type,$this->dbTable.id,$this->dbTable.created_at";
             $sql .= " FROM $this->dbTable";
             $sql .= " WHERE $this->dbTable.name LIKE '%" . $params['search']['value'] . "%' ";
 
@@ -131,7 +135,7 @@ class Page extends Model
 
         } else {
 
-            $sql = "SELECT $this->dbTable.name,$this->dbTable.created_at,$this->dbTable.id,$this->dbTable.slug";
+            $sql = "SELECT $this->dbTable.name,$this->dbTable.type,$this->dbTable.id,$this->dbTable.created_at";
             $sql .= " FROM $this->dbTable";
             $sql .= " ORDER BY " . $columns[$params['order'][0]['column']] . "   " . $params['order'][0]['dir'] . " ";
 
@@ -141,11 +145,19 @@ class Page extends Model
 
         $data = array();
         while ($row = $stm->fetch(\PDO::FETCH_ASSOC)) {
+
+            if ($row["type"] == 2) {
+                $type = 'Page';
+            } elseif ($row["type"] == 1) {
+                $type = 'Post';
+            } else {
+                $type = 'External Link';
+            }
             $nestedData = array();
 
             $nestedData[] = "<input type='checkbox'  class='deleteRow' value='" . $row['id'] . "'  />";
-            $nestedData[] = '<a href="' . \App\Config::W_ROOT . "admin/edit-page/" . $row['id'] . '">' . $row["name"] . "</a>";
-            $nestedData[] = $row["slug"];
+            $nestedData[] = '<a href="' . \App\Config::W_ROOT . "admin/edit-menu/" . $row['id'] . '">' . $row["name"] . "</a>";
+            $nestedData[] = $type;
             $nestedData[] = date("Y/m/d", strtotime($row["created_at"]));
 
             $data[] = $nestedData;
@@ -164,7 +176,7 @@ class Page extends Model
     /**
      * @return bool
      */
-    public function getAllPagesCount()
+    public function getAllMenusCount()
     {
         $sql = "SELECT COUNT(id) AS count FROM $this->dbTable";
         $stm = $this->db->prepare($sql);
@@ -181,7 +193,7 @@ class Page extends Model
     /**
      * @param $ids
      */
-    public function bulkDeletePages($ids)
+    public function bulkDeleteMenus($ids)
     {
         $data_ids = $ids['data_ids'];
         $sql = "DELETE FROM $this->dbTable WHERE id IN ($data_ids)";
@@ -189,18 +201,5 @@ class Page extends Model
         $stm->execute();
     }
 
-    public function getAll()
-    {
-        $sql = "SELECT * FROM $this->dbTable";
-        $stm = $this->db->prepare($sql);
-        $res = $stm->execute();
-
-        if ($res) {
-            $row = $stm->fetchAll(\PDO::FETCH_ASSOC);
-            return $row;
-        } else {
-            return false;
-        }
-    }
 
 }

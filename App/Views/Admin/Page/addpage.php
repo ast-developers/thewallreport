@@ -43,9 +43,10 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                                         <label class="control-label">Page Name</label>
 
                                         <div class="controls">
-                                            <input class="m-wrap  span6 m-wrap" type="text"
-                                                   placeholder="Page name" name="name"
-                                                   value='<?php echo $name; ?>'/>
+                                            <div class="validation">
+                                                <input class="m-wrap  span6 m-wrap" type="text"
+                                                       placeholder="Page name" name="name"
+                                                       value='<?php echo $name; ?>'/></div>
                                         </div>
                                     </div>
                                     <?php $description = (!empty($page['description'])) ? $page['description'] : '' ?>

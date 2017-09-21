@@ -354,4 +354,18 @@ class Post extends Model
 
     }
 
+    public function getAll()
+    {
+        $sql = "SELECT * FROM $this->dbTable";
+        $stm = $this->db->prepare($sql);
+        $res = $stm->execute();
+
+        if ($res) {
+            $row = $stm->fetchAll(\PDO::FETCH_ASSOC);
+            return $row;
+        } else {
+            return false;
+        }
+    }
+
 }

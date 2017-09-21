@@ -1,11 +1,11 @@
-var Post = function () {
+var Menu = function () {
     var dataTable;
-    var initPostDataTable = function () {
-         dataTable = $('#post-grid').DataTable({
+    var initMenuDataTable = function () {
+        dataTable = $('#menu-grid').DataTable({
             "processing": true,
             "serverSide": true,
-            "order": [[ 1, "asc" ]],
-             "bPaginate": false,
+            "order": [[1, "asc"]],
+            "bPaginate": false,
             "columnDefs": [{
                 "targets": 0,
                 "orderable": false,
@@ -13,7 +13,7 @@ var Post = function () {
 
             }],
             "ajax": {
-                url: postAjaxPaginateUrl, // json datasource
+                url: menuAjaxPaginateUrl, // json datasource
                 type: "post",  // method  , by default get
                 error: function (data) {  // error handling
                     $(".user-grid-error").html("");
@@ -25,7 +25,7 @@ var Post = function () {
         });
     };
 
-    var deletePost = function () {
+    var deleteMenu = function () {
         $("#bulkDelete").on('click', function () { // bulk checked
             var status = this.checked;
             $(".deleteRow").each(function () {
@@ -41,14 +41,14 @@ var Post = function () {
             $("#delete-btn").addClass('hidden')
             var $checked = false;
 
-            $.each($(".deleteRow"), function(index, value){
+            $.each($(".deleteRow"), function (index, value) {
                 if ($(this).is(':checked')) {
                     $checked = true;
                     $("#delete-btn").addClass('hidden')
                 }
             });
 
-            if($checked){
+            if ($checked) {
                 $("#delete-btn").removeClass('hidden');
             } else {
                 $('#bulkDelete').prop("checked", false);
@@ -56,7 +56,7 @@ var Post = function () {
 
         });
 
-        $('#deletePosts').on("click", function (event) { // triggering delete one by one
+        $('#deleteMenus').on("click", function (event) { // triggering delete one by one
             if ($('.deleteRow:checked').length > 0) {  // at-least one checkbox checked
                 var ids = [];
                 $('.deleteRow').each(function () {
@@ -68,12 +68,12 @@ var Post = function () {
                 // array to string conversion
                 $.ajax({
                     type: "POST",
-                    url: postBulkDeleteUrl,
+                    url: menuBulkDeleteUrl,
                     data: {data_ids: ids_string},
                     success: function (result) {
                         dataTable.draw(); // redrawing datatable
-                        $('.header-title').after('<div class="alert alert-success">'+
-                            '<strong>'+'Posts deleted successfully.'+'</strong></div>');
+                        $('.header-title').after('<div class="alert alert-success">' +
+                            '<strong>' + 'Menus deleted successfully.' + '</strong></div>');
                     },
                     async: false
                 });
@@ -81,8 +81,8 @@ var Post = function () {
         });
     };
 
-    var validatePost = function () {
-        $('.post-form').validate({
+    var validateMenu = function () {
+        $('.menu-form').validate({
             errorElement: 'label', //default input error message container
             errorClass: 'help-inline', // default input error message class
             focusInvalid: false, // do not focus the last invalid input
@@ -94,7 +94,7 @@ var Post = function () {
 
             messages: {
                 name: {
-                    required: "Post name is required."
+                    required: "Menu name is required."
                 },
             },
 
@@ -113,25 +113,38 @@ var Post = function () {
                 label.remove();
             },
 
-            errorPlacement: function (error, element) { console.log(element);
-                error.addClass('help-small no-left-padding').insertAfter(element.closest('.validation'));}
+            errorPlacement: function (error, element) {
+                console.log(element);
+                error.addClass('help-small no-left-padding').insertAfter(element.closest('.validation'));
+            }
         });
     };
+    var manageDropdown = function () {
+        $("#post-dropdown").toggleClass("hidden", $("#menu-type").val() != 1);
+        $("#page-dropdown").toggleClass("hidden", $("#menu-type").val() != 2);
+        $("#external-url-textbox").toggleClass("hidden", $("#menu-type").val() != 3);
+        $("#menu-type").on('click', function () {
+            $("#post-dropdown").toggleClass("hidden", $(this).val() != 1);
+            $("#page-dropdown").toggleClass("hidden", $(this).val() != 2);
+            $("#external-url-textbox").toggleClass("hidden", $(this).val() != 3);
+        });
+    }
 
     return {
 
         //function to initiate User Listing Page
         initList: function () {
             App.init();
-            initPostDataTable();
-            deletePost();
+            initMenuDataTable();
+            deleteMenu();
         },
 
         //function to initiate User Add/Edit Page
         initManagement: function () {
             App.setPage("table_managed");
             App.init();
-            validatePost();
+            validateMenu();
+            manageDropdown()
         },
     };
 }();

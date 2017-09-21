@@ -114,5 +114,11 @@ class PostRepository
         return implode(',', $tags);
     }
 
+    public function getAll(){
+
+        return $this->model->getAll();
+
+    }
+
 
 }

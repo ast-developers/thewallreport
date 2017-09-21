@@ -70,4 +70,10 @@ class PageRepository
         return $this->model->bulkDeletePages($params);
     }
 
+    public function getAll(){
+
+        return $this->model->getAll();
+
+    }
+
 }
