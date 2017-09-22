@@ -99,7 +99,8 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                                         <label class="control-label" for="external_url">External URL</label>
                                         <?php $url = (!empty($menu['type']) && $menu['type'] == '3') ? $menu['link'] : '' ?>
                                         <div class="controls">
-                                            <input class="m-wrap  span6 m-wrap" type="external-url"
+
+                                            <input class="m-wrap  span6 m-wrap" type="text"
                                                    placeholder="External URL" name="external_url" id="external_url"
                                                    value='<?php echo $url; ?>'/>
                                         </div>
