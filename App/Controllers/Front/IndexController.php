@@ -2,16 +2,19 @@
 
 namespace App\Controllers\Front;
 
-use \Core\View;
+use Core\View;
+use Core\Controller;
 
 
-class IndexController extends \Core\Controller
+/**
+ * Class IndexController
+ * @package App\Controllers\Front
+ */
+class IndexController extends Controller
 {
 
     /**
-     * Show the index page
-     *
-     * @return void
+     * @throws \Exception
      */
     public function indexAction()
     {

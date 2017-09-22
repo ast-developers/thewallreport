@@ -1,6 +1,7 @@
 <?php
 namespace Core;
 
+use App\Repositories\Admin\MenuRepository;
 
 /**
  * Class Helper
@@ -25,7 +26,12 @@ class Helper
         return $key;
     }
 
-    public static function slugify($text){
+    /**
+     * @param $text
+     * @return mixed|string
+     */
+    public static function slugify($text)
+    {
         // replace non letter or digits by -
         $text = preg_replace('~[^\pL\d]+~u', '-', $text);
 
@@ -49,5 +55,31 @@ class Helper
         }
 
         return $text;
+    }
+
+    /**
+     * @return array
+     */
+    public static function getMenus()
+    {
+        $menuRepo = new MenuRepository();
+        $menus = $menuRepo->getMenus();
+        return $menus;
+    }
+
+    /**
+     * @param $status
+     * @return string
+     */
+    public static function getStatus($status)
+    {
+
+        switch ($status) {
+            case 'active':
+                return '<span class="btn green mini active">Active</span>';
+            case 'inactive':
+                return '<span class="btn red mini active">Inactive</span>';
+        }
+
     }
 }

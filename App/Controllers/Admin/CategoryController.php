@@ -2,18 +2,17 @@
 
 namespace App\Controllers\Admin;
 
-use App\Models\Category;
 use App\Repositories\Admin\CategoryRepository;
 use App\Validations\CategoryValidation;
 use Core\Router;
-use \Core\View;
-
+use Core\View;
+use Core\Controller;
 
 /**
  * Class CategoryController
  * @package App\Controllers\Admin
  */
-class CategoryController extends \Core\Controller
+class CategoryController extends Controller
 {
 
     /**
@@ -79,9 +78,9 @@ class CategoryController extends \Core\Controller
         if (isset($_POST['submit'])) {
             $formValid = $this->validate->addCategoryValidation();
             if (!$formValid['success']) {
-                if($_POST['id']){
-                    return Router::redirectTo('admin/edit-category/'.$_POST['id'], $formValid['messages'], 'alert-danger');
-                }else{
+                if ($_POST['id']) {
+                    return Router::redirectTo('admin/edit-category/' . $_POST['id'], $formValid['messages'], 'alert-danger');
+                } else {
                     return Router::redirectTo('admin/categories', $formValid['messages'], 'alert-danger');
                 }
             }

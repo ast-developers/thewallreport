@@ -2,16 +2,13 @@
 
 namespace App\Controllers\Admin;
 
-use App\Repositories\Admin\CategoryRepository;
 use App\Repositories\Admin\PageRepository;
-use App\Repositories\Admin\TagRepository;
-use App\Validations\CategoryValidation;
 use App\Validations\PageValidation;
 use Core\Router;
-use \Core\View;
+use Core\View;
+use Core\Controller;
 
-
-class PageController extends \Core\Controller
+class PageController extends Controller
 {
 
 
@@ -20,10 +17,6 @@ class PageController extends \Core\Controller
     protected $validate;
 
     protected $params;
-
-    protected $category_repo;
-
-    protected $tag_repo;
 
     public function __construct($params = [])
     {

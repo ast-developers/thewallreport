@@ -40,13 +40,24 @@
            </li>
         <li class="has-sub ">
             <a href="javascript:;">
-                <i class="icon-user"></i>
+                <i class="icon-file"></i>
                 <span class="title">Pages</span>
                 <span class="arrow "></span>
             </a>
             <ul class="sub">
                 <li ><a href="<?php echo \App\Config::W_ROOT . "admin/pages" ?>">All Pages</a></li>
                 <li ><a href="<?php echo \App\Config::W_ROOT . "admin/add-page" ?>">Add New</a></li>
+            </ul>
+        </li>
+        <li class="has-sub ">
+            <a href="javascript:;">
+                <i class=""></i>
+                <span class="title">Menus</span>
+                <span class="arrow "></span>
+            </a>
+            <ul class="sub">
+                <li ><a href="<?php echo \App\Config::W_ROOT . "admin/menus" ?>">All Menus</a></li>
+                <li ><a href="<?php echo \App\Config::W_ROOT . "admin/add-menu" ?>">Add New</a></li>
             </ul>
         </li>
     </ul>

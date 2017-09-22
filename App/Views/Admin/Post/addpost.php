@@ -40,12 +40,13 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                                     <?php $name = (!empty($post['name'])) ? $post['name'] : '' ?>
                                     <div class="control-group">
                                         <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
-                                        <label class="control-label">Post Name</label>
+                                        <label class="control-label" for="name">Post Name</label>
 
                                         <div class="controls">
+                                            <div class="validation">
                                                 <input class="m-wrap  span6 m-wrap" type="text"
                                                        placeholder="Post name" name="name"
-                                                       value='<?php echo $name; ?>' />
+                                                       value='<?php echo $name; ?>' id="name"/></div>
                                         </div>
                                     </div>
                                     <?php $description = (!empty($post['description'])) ? $post['description'] : '' ?>
@@ -53,23 +54,26 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                                         <label class="control-label">Description</label>
 
                                         <div class="controls">
-                                            <textarea id="content" name="description"><?php echo $description; ?></textarea>
+                                            <textarea id="content"
+                                                      name="description"><?php echo $description; ?></textarea>
                                         </div>
                                     </div>
 
                                     <?php $post_tags = (!empty($post_tags)) ? $post_tags : ''; ?>
                                     <div class="control-group">
-                                        <label class="control-label">Tags</label>
+                                        <label class="control-label" for="tokenfield">Tags</label>
+
                                         <div class="controls">
-                                            <input type="text" name="tag" id="tokenfield" value="<?php echo $post_tags ?>" />
+                                            <input type="text" name="tag" id="tokenfield"
+                                                   value="<?php echo $post_tags ?>"/>
                                         </div>
                                     </div>
                                     <div class="form-actions">
                                         <button type="submit" name="submit" class="btn blue"><i
-                                            class="icon-ok"></i> Save Post
+                                                class="icon-ok"></i> Save Post
                                         </button>
                                     </div>
-                                <!-- END FORM-->
+                                    <!-- END FORM-->
                             </div>
                         </div>
                     </div>
@@ -80,19 +84,18 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                     <div class="tab-pane">
                         <div class="portlet box blue">
                             <div class="portlet-title">
-                                <h4><i class="icon-reorder"></i><?php echo (!empty($post)) ? 'Edit' : 'Add'; ?> Post
-                                </h4>
+                                <h4><i class="icon-reorder"></i>Publish</h4>
+
                                 <div class="tools">
                                     <a href="#" class="btn mini green">Preview</a>
-                                    </div>
+                                </div>
                             </div>
                             <div class="portlet-body form">
                                 <div class="control-group">
-                                    <label class="control-label">Status</label>
+                                    <label class="control-label" id="status">Status</label>
 
                                     <div class="controls">
-                                        <select class="chosen_category" name="status"
-                                                tabindex="1">
+                                        <select class="chosen_category" name="status">
                                             <option
                                                 value="draft" <?php echo (!empty($post['status']) && $post['status'] == 'draft') ? 'selected="selected"' : ''; ?>>
                                                 Draft
@@ -105,26 +108,30 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                                     </div>
                                 </div>
                                 <div class="control-group">
-                                    <label class="control-label">Category</label>
+                                    <label class="control-label" id="category">Category</label>
+
                                     <div class="controls">
-                                        <select class="span6 m-wrap" multiple="multiple" name="category_id[]" data-placeholder="Choose a Category" tabindex="1">
+                                        <select class="span6 m-wrap" multiple="multiple" name="category_id[]" id="category"
+                                                data-placeholder="Choose a Category">
                                             <?php foreach ($parent_cat as $option) { ?>
                                                 <option
-                                                    value="<?php echo $option['4'] ?>" <?php echo (!empty($post_cat) && in_array($option['4'],$post_cat)) ? 'selected="selected"' : ''; ?>><?php echo $option['1'] ?></option>
+                                                    value="<?php echo $option['4'] ?>" <?php echo (!empty($post_cat) && in_array($option['4'], $post_cat)) ? 'selected="selected"' : ''; ?>><?php echo $option['1'] ?></option>
                                             <?php } ?>
                                         </select>
                                     </div>
                                 </div>
                             </div>
-                            </div></div></div>
-
+                        </div>
                     </div>
-                </form>
+                </div>
+
             </div>
+            </form>
         </div>
-        <!-- END PAGE CONTENT-->
     </div>
-    <!-- END PAGE CONTAINER-->
+    <!-- END PAGE CONTENT-->
+</div>
+<!-- END PAGE CONTAINER-->
 
 </div>
 <!-- END PAGE -->
@@ -144,7 +151,7 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
             },
             showAutocompleteOnFocus: true
         })
-        $('.autocompleteContainer').on('touchstart', 'li.ui-menu-item', function(){
+        $('.autocompleteContainer').on('touchstart', 'li.ui-menu-item', function () {
 
             var $container = $(this).closest('.autocompleteContainer'),
                 $item = $(this);
@@ -165,12 +172,10 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                 }
             }, 600);
         });
-        $(function()
-        {
+        $(function () {
             $('#content').redactor({
-                focus: true,
                 imageUpload: '<?php echo \App\Config::W_ROOT.'admin/uploadImage' ?>',
-                plugins: ['video','inlinestyle','source','alignment','table','fullscreen','fontsize','fontcolor'],
+                plugins: ['video', 'inlinestyle', 'source', 'alignment', 'table', 'fullscreen', 'fontsize', 'fontcolor'],
 
             });
         });

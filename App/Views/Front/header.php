@@ -29,6 +29,7 @@
     if(isset($flowFlowInjector)){
         echo $flowFlowInjector->head(true);
     }
+    $menus = Core\Helper::getMenus();
     ?>
 </head>
 
@@ -71,15 +72,14 @@
                     <a class="navbar-brand hidden-md-up" href="#"><img src="<?php echo \App\Config::W_FRONT_ASSETS ?>images/Logo.png"></a>
                     <div class="collapse navbar-collapse" id="navbar-top">
                         <ul class="navbar-nav m-auto">
-                            <li class="nav-item active">
-                                <a class="nav-link" href="#">Home</a>
-                            </li>
+
+                            <?php if(!empty($menus)){
+                                foreach($menus as $key=>$menu){
+                             ?>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Models</a>
+                                <a class="nav-link" href="<?php echo $menu['slug'] ?>"><?php echo $menu['name'] ?></a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Contact</a>
-                            </li>
+                            <?php } } ?>
                         </ul>
 
                     </div>
