@@ -201,5 +201,39 @@ class Menu extends Model
         $stm->execute();
     }
 
+    /**
+     * @return bool
+     */
+    public function getAll()
+    {
+        $sql = "SELECT * FROM $this->dbTable ORDER BY sort_order";
+        $stm = $this->db->prepare($sql);
+        $res = $stm->execute();
+
+        if ($res) {
+            $row = $stm->fetchAll(\PDO::FETCH_ASSOC);
+            return $row;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * @param $sort_order
+     */
+    public function updateMenuSortOrder($sort_order)
+    {
+
+        foreach ($sort_order as $key => $value) {
+            $order = $key + 1;
+            $sql = "UPDATE  $this->dbTable SET sort_order=:sort_order WHERE id = :id;";
+            $stm = $this->db->prepare($sql);
+            $stm->bindParam(":sort_order", $order);
+            $stm->bindParam(":id", $value);
+            $stm->execute();
+        }
+
+    }
+
 
 }

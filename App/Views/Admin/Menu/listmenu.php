@@ -1,5 +1,5 @@
 <?php
-$pagetitle = 'Users';
+$pagetitle = 'Menus';
 include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
 
 <!-- BEGIN PAGE -->
@@ -21,7 +21,7 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
 
         <!-- BEGIN PAGE CONTENT-->
         <div class="row-fluid">
-            <div class="span12 responsive" data-tablet="span12 fix-offset" data-desktop="span12">
+            <div class="span8 responsive" data-tablet="span12 fix-offset" data-desktop="span12">
                 <!-- BEGIN EXAMPLE TABLE PORTLET-->
                 <div class="portlet box grey">
                     <div class="portlet-title">
@@ -74,6 +74,21 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                     </div>
                 </div>
             </div>
+            <div class="span4 responsive">
+                <div class="portlet box grey">
+                    <div class="portlet-title">
+                        <h4>Manage Menu sort order</h4></div>
+                    <div class="portlet-body">
+                        <ul id="menu-list" class="list-group">
+                            <?php foreach ($menus as $key => $menu) { ?>
+                                <li id="sort_<?php echo $menu['id']; ?>" class="list-group-item">
+                                    <h4 class="list-group-item-heading"><?php echo $menu['name'] ?></h4>
+                                </li>
+                            <?php } ?>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
         <!-- END PAGE CONTENT-->
 
@@ -87,6 +102,7 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
 <script>
     var menuAjaxPaginateUrl = "<?php echo \App\Config::W_ROOT ?>admin/menu-ajax-paginate";
     var menuBulkDeleteUrl = "<?php echo \App\Config::W_ROOT ?>admin/bulk-delete-menu";
+    var updateMenuSortOrder = "<?php echo \App\Config::W_ROOT ?>admin/update-menu-sort-order";
 </script>
 <script src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/js/menu.js"></script>
 <script>

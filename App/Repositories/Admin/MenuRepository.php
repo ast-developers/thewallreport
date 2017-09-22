@@ -67,4 +67,20 @@ class MenuRepository
         return $this->model->bulkDeleteMenus($params);
     }
 
+    /**
+     * @return bool
+     */
+    public function getAll()
+    {
+        return $this->model->getAll();
+    }
+
+    /**
+     * @param $sort_order
+     */
+    public function updateMenuSortOrder($sort_order)
+    {
+        return $this->model->updateMenuSortOrder($sort_order);
+    }
+
 }

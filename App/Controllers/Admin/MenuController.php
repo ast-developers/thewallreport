@@ -102,8 +102,8 @@ class MenuController extends \Core\Controller
      */
     public function getMenus()
     {
-
-        View::render('Admin/Menu/listmenu.php');
+        $allMenus = $this->repo->getAll();
+        View::render('Admin/Menu/listmenu.php', ['menus' => $allMenus]);
     }
 
     /**
@@ -120,6 +120,14 @@ class MenuController extends \Core\Controller
     public function bulkDeleteMenu()
     {
         $this->repo->bulkDeleteMenus($_REQUEST);
+    }
+
+    /**
+     *
+     */
+    public function updateMenuSortOrder()
+    {
+        $this->repo->updateMenuSortOrder($_REQUEST['sort']);
     }
 
 }

@@ -119,6 +119,19 @@ var Menu = function () {
             }
         });
     };
+    var manageMenuSortOrder = function () {
+        $('#menu-list').sortable({
+            axis: 'y',
+            update: function (event, ui) {
+                var data = $(this).sortable('serialize');
+                $.ajax({
+                    data: data,
+                    type: 'POST',
+                    url: updateMenuSortOrder,
+                });
+            }
+        });
+    }
     var manageDropdown = function () {
         $("#post-dropdown").toggleClass("hidden", $("#menu-type").val() != 1);
         $("#page-dropdown").toggleClass("hidden", $("#menu-type").val() != 2);
@@ -137,6 +150,7 @@ var Menu = function () {
             App.init();
             initMenuDataTable();
             deleteMenu();
+            manageMenuSortOrder();
         },
 
         //function to initiate User Add/Edit Page

@@ -43,6 +43,7 @@ $router->add('admin/edit-menu/{id:\d+}', ['namespace' => 'Admin','controller' =>
 $router->add('admin/menus', ['namespace' => 'Admin','controller' => 'MenuController', 'action' => 'getMenus', 'middleware' => 'Auth']);
 $router->add('admin/menu-ajax-paginate', ['namespace' => 'Admin','controller' => 'MenuController', 'action' => 'menuPaginate','middleware' => 'Auth']);
 $router->add('admin/bulk-delete-menu', ['namespace' => 'Admin','controller' => 'MenuController', 'action' => 'bulkDeleteMenu','middleware' => 'Auth']);
+$router->add('admin/update-menu-sort-order', ['namespace' => 'Admin','controller' => 'MenuController', 'action' => 'updateMenuSortOrder','middleware' => 'Auth']);
 
 $router->add('admin/error', ['namespace' => 'Admin','controller' => 'UserController', 'action' => 'error']);
 /*$router->add('admin/checkuser', ['namespace' => 'Admin','controller' => 'UserController', 'action' => 'checkuser', 'middleware' => 'Auth']);*/
