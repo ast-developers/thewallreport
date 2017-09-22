@@ -5,9 +5,10 @@ namespace App\Controllers\Admin;
 
 use App\Repositories\Admin\CategoryRepository;
 use App\Repositories\Admin\TagRepository;
+use Core\Controller;
 
 
-class TagController extends \Core\Controller
+class TagController extends Controller
 {
 
     /**

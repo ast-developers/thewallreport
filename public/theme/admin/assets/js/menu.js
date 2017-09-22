@@ -122,6 +122,7 @@ var Menu = function () {
     var manageMenuSortOrder = function () {
         $('#menu-list').sortable({
             axis: 'y',
+            cursor: 'move',
             update: function (event, ui) {
                 var data = $(this).sortable('serialize');
                 $.ajax({

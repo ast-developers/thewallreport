@@ -39,22 +39,21 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                                     <?php } ?>
                                     <?php $name = (!empty($menu['name'])) ? $menu['name'] : '' ?>
                                     <div class="control-group">
-                                        <label class="control-label">Menu Name</label>
+                                        <label class="control-label" for="name">Menu Name</label>
 
                                         <div class="controls">
                                             <div class="validation">
                                                 <input class="m-wrap  span6 m-wrap" type="text"
-                                                       placeholder="Menu name" name="name"
+                                                       placeholder="Menu name" name="name" id="name"
                                                        value='<?php echo $name; ?>'/>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="control-group">
-                                        <label class="control-label">Menu Type</label>
+                                        <label class="control-label" for="type">Menu Type</label>
 
                                         <div class="controls">
-                                            <select class="chosen_category" name="type" id="menu-type"
-                                                    tabindex="1">
+                                            <select class="chosen_category" name="type" id="menu-type" id="type">
                                                 <option
                                                     value="1" <?php echo (!empty($menu['type']) && $menu['type'] == '1') ? 'selected="selected"' : ''; ?>>
                                                     Post
@@ -72,11 +71,10 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                                     </div>
 
                                     <div class="control-group hidden" id="post-dropdown">
-                                        <label class="control-label">Posts</label>
+                                        <label class="control-label" for="post">Posts</label>
 
                                         <div class="controls">
-                                            <select class="chosen_category span6" name="post"
-                                                    tabindex="1">
+                                            <select class="chosen_category span6" name="post" id="post">
                                                 <?php foreach ($posts as $value) { ?>
                                                     <option
                                                         value="<?php echo $value['id'] ?>" <?php echo (!empty($menu['type']) && $menu['type'] == 1 && $value['id'] == $menu['link']) ? 'selected="selected"' : ''; ?>><?php echo $value['name'] ?></option>
@@ -85,11 +83,10 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                                         </div>
                                     </div>
                                     <div class="control-group hidden" id="page-dropdown">
-                                        <label class="control-label">Pages</label>
+                                        <label class="control-label" for="page">Pages</label>
 
                                         <div class="controls">
-                                            <select class="chosen_category span6" name="page"
-                                                    tabindex="1">
+                                            <select class="chosen_category span6" name="page" id="page">
                                                 <?php foreach ($pages as $value) { ?>
                                                     <option
                                                         value="<?php echo $value['id'] ?>" <?php echo (!empty($menu['type']) && $menu['type'] == '2' && $value['id'] == $menu['link']) ? 'selected="selected"' : ''; ?>><?php echo $value['name'] ?></option>
@@ -99,14 +96,38 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                                     </div>
 
                                     <div class="control-group hidden" id="external-url-textbox">
-                                        <label class="control-label">External URL</label>
+                                        <label class="control-label" for="external_url">External URL</label>
                                         <?php $url = (!empty($menu['type']) && $menu['type'] == '3') ? $menu['link'] : '' ?>
                                         <div class="controls">
                                             <input class="m-wrap  span6 m-wrap" type="external-url"
-                                                   placeholder="External URL" name="external_url"
+                                                   placeholder="External URL" name="external_url" id="external_url"
                                                    value='<?php echo $url; ?>'/>
                                         </div>
                                     </div>
+                                    <div class="control-group">
+                                        <?php $selected = (!empty($menu['new_tab']) && $menu['new_tab'] == '1') ? 'selected=selected' : '' ?>
+                                        <label class="control-label">Open in new tab</label>
+                                        <div class="controls">
+                                            <label class="checkbox <?php echo $selected ?>">
+                                                <input type="checkbox" name="new_tab" value="1" <?php echo $selected ?> />
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="control-group">
+                                        <label class="control-label">Status</label>
+                                    <div class="controls">
+                                        <select class="chosen_category" name="status"
+                                                tabindex="1">
+                                            <option
+                                                value="active" <?php echo (!empty($menu['status']) && $menu['status'] == 'active') ? 'selected="selected"' : ''; ?>>
+                                                Active
+                                            </option>
+                                            <option
+                                                value="inactive" <?php echo (!empty($menu['status']) && $menu['status'] == 'inactive') ? 'selected="selected"' : ''; ?>>
+                                                Inactive
+                                            </option>
+                                        </select>
+                                    </div></div>
 
                                     <div class="form-actions">
                                         <button type="submit" name="submit" class="btn blue"><i

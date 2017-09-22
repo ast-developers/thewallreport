@@ -2,20 +2,41 @@
 
 namespace App\Controllers\Front;
 
+use App\Repositories\Front\IndexRepository;
 use \Core\View;
 
 
+/**
+ * Class IndexController
+ * @package App\Controllers\Front
+ */
 class IndexController extends \Core\Controller
 {
 
     /**
-     * Show the index page
+     * @var
+     */
+    protected $menu_repo;
+    /**
+     * @var IndexRepository
+     */
+    protected $repo;
+
+    /**
      *
-     * @return void
+     */
+    public function __construct()
+    {
+        $this->repo = new IndexRepository();
+    }
+
+    /**
+     * @throws \Exception
      */
     public function indexAction()
     {
-        View::render('Front/index.php');
+        $menus = $this->repo->getMenus();
+        View::render('Front/index.php', ['menus' => $menus]);
     }
 
 }

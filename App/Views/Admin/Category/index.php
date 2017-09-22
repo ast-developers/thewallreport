@@ -21,8 +21,16 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
 
         <!-- BEGIN PAGE CONTENT-->
         <div class="row-fluid">
-            <div class="row">
+
                 <div class="span6">
+                    <div class="tabbable tabbable-custom boxless">
+                        <div class="tab-pane">
+                            <div class="portlet box blue">
+                                <div class="portlet-title">
+                                    <h4><i class="icon-reorder"></i><?php echo (!empty($category)) ? 'Edit' : 'Add'; ?> Category
+                                    </h4>
+                                </div>
+                                <div class="portlet-body form">
                     <form action="<?php echo \App\Config::W_ROOT . "admin/add-category" ?>" method="post"
                           class="category-form form-horizontal">
                         <input type="hidden" name="token" value="<?php echo \Core\Csrf::getToken(); ?>">
@@ -74,6 +82,8 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                             <button type="submit" name="submit" class="btn blue"><i class="icon-ok"></i> Save</button>
                         </div>
                     </form>
+                                    </div>
+                                </div></div></div>
                 </div>
 
                 <div class="span6">
@@ -124,7 +134,7 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                     </div>
                     <!-- END EXAMPLE TABLE PORTLET-->
                 </div>
-            </div>
+
         </div>
         <!-- END PAGE CONTENT-->
 

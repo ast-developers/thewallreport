@@ -3,21 +3,21 @@
 namespace App\Controllers\Admin;
 
 use App\Config;
-use App\Models\Category;
 use App\Repositories\Admin\CategoryRepository;
 use App\Repositories\Admin\PostRepository;
 use App\Repositories\Admin\TagRepository;
 use App\Validations\CategoryValidation;
 use App\Validations\PostValidation;
 use Core\Router;
-use \Core\View;
+use Core\View;
+use Core\Controller;
 
 
 /**
  * Class PostController
  * @package App\Controllers\Admin
  */
-class PostController extends \Core\Controller
+class PostController extends Controller
 {
 
     /**

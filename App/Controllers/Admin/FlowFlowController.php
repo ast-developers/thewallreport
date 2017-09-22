@@ -2,10 +2,11 @@
 
 namespace App\Controllers\Admin;
 
-use \Core\View;
+use Core\View;
+use Core\Controller;
 
 
-class FlowFlowController extends \Core\Controller
+class FlowFlowController extends Controller
 {
 
     /**

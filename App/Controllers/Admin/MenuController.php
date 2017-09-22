@@ -7,14 +7,15 @@ use App\Repositories\Admin\PageRepository;
 use App\Repositories\Admin\PostRepository;
 use App\Validations\MenuValidation;
 use Core\Router;
-use \Core\View;
+use Core\View;
+use Core\Controller;
 
 
 /**
  * Class MenuController
  * @package App\Controllers\Admin
  */
-class MenuController extends \Core\Controller
+class MenuController extends Controller
 {
 
 

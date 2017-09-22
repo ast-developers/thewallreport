@@ -41,13 +41,18 @@ class Menu extends Model
         } else {
             $link = $params['external_url'];
         }
+        $new_tab = (isset($params['new_tab']) && $params['new_tab']==1) ? 1 : 0;
+        $sort_order = count($this->getAll()) + 1;
         $updated_at = date('Y-m-d H:i:s');
-        $sql = "INSERT INTO $this->dbTable(name,type,link,updated_at) VALUES(:name,:type,:link,:updated_at)";
+        $sql = "INSERT INTO $this->dbTable(name,type,link,updated_at,new_tab,status,sort_order) VALUES(:name,:type,:link,:updated_at,:new_tab,:status,:sort_order)";
         $stm = $this->db->prepare($sql);
         $stm->bindParam(":name", $params['name']);
         $stm->bindParam(":type", $params['type']);
         $stm->bindParam(":link", $link);
         $stm->bindParam(":updated_at", $updated_at);
+        $stm->bindParam(":new_tab", $new_tab);
+        $stm->bindParam(":status", $params['status']);
+        $stm->bindParam(":sort_order", $sort_order);
         try {
             $stm->execute();
             $last_insert_id = $this->db->lastInsertId();
@@ -71,13 +76,16 @@ class Menu extends Model
             $link = $params['external_url'];
         }
         $updated_at = date('Y-m-d H:i:s');
-        $sql = "UPDATE  $this->dbTable SET name=:name,type=:type,link=:link,updated_at=:updated_at WHERE id = :id;";
+        $new_tab = (isset($params['new_tab']) && $params['new_tab']==1) ? 1 : 0;
+        $sql = "UPDATE  $this->dbTable SET name=:name,type=:type,link=:link,updated_at=:updated_at,new_tab=:new_tab,status=:status WHERE id = :id;";
         $stm = $this->db->prepare($sql);
         $stm->bindParam(":name", $params['name']);
         $stm->bindParam(":type", $params['type']);
         $stm->bindParam(":link", $link);
         $stm->bindParam(":updated_at", $updated_at);
         $stm->bindParam(":id", $params['id']);
+        $stm->bindParam(":new_tab", $new_tab);
+        $stm->bindParam(":status", $params['status']);
         try {
             return $stm->execute();
         } catch (PDOException $e) {
@@ -113,8 +121,9 @@ class Menu extends Model
         $columns = array(
             0 => 'name',
             1 => 'name',
-            2 => 'name',
-            3 => 'created_at',
+            2 => 'type',
+            4 => 'created_at',
+            3 => 'status',
         );
 
         $totalData = $this->getAllMenusCount();
@@ -122,7 +131,7 @@ class Menu extends Model
 
         if (!empty($params['search']['value'])) {
 
-            $sql = "SELECT $this->dbTable.name,$this->dbTable.type,$this->dbTable.id,$this->dbTable.created_at";
+            $sql = "SELECT $this->dbTable.name,$this->dbTable.type,$this->dbTable.id,$this->dbTable.created_at,$this->dbTable.status";
             $sql .= " FROM $this->dbTable";
             $sql .= " WHERE $this->dbTable.name LIKE '%" . $params['search']['value'] . "%' ";
 
@@ -135,7 +144,7 @@ class Menu extends Model
 
         } else {
 
-            $sql = "SELECT $this->dbTable.name,$this->dbTable.type,$this->dbTable.id,$this->dbTable.created_at";
+            $sql = "SELECT $this->dbTable.name,$this->dbTable.type,$this->dbTable.id,$this->dbTable.created_at,$this->dbTable.status";
             $sql .= " FROM $this->dbTable";
             $sql .= " ORDER BY " . $columns[$params['order'][0]['column']] . "   " . $params['order'][0]['dir'] . " ";
 
@@ -153,12 +162,14 @@ class Menu extends Model
             } else {
                 $type = 'External Link';
             }
+            $status_class = ($row['status']=='inactive') ?'red':'green';
             $nestedData = array();
 
             $nestedData[] = "<input type='checkbox'  class='deleteRow' value='" . $row['id'] . "'  />";
             $nestedData[] = '<a href="' . \App\Config::W_ROOT . "admin/edit-menu/" . $row['id'] . '">' . $row["name"] . "</a>";
             $nestedData[] = $type;
             $nestedData[] = date("Y/m/d", strtotime($row["created_at"]));
+            $nestedData[] = '<span class="btn '.$status_class. ' mini active">'.$row['status'].'</span>';
 
             $data[] = $nestedData;
         }

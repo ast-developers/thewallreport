@@ -53,6 +53,7 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                                 <th>Name</th>
                                 <th>Type</th>
                                 <th>Created at</th>
+                                <th>Status</th>
                             </tr>
                             </thead>
                         </table>
@@ -79,10 +80,11 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                     <div class="portlet-title">
                         <h4>Manage Menu sort order</h4></div>
                     <div class="portlet-body">
-                        <ul id="menu-list" class="list-group">
+                        <ul id="menu-list" class="list-group" style="margin: 0px;">
                             <?php foreach ($menus as $key => $menu) { ?>
                                 <li id="sort_<?php echo $menu['id']; ?>" class="list-group-item">
-                                    <h4 class="list-group-item-heading"><?php echo $menu['name'] ?></h4>
+                                    <span class="icon-move"></span>
+                                    <?php echo $menu['name'] ?>
                                 </li>
                             <?php } ?>
                         </ul>

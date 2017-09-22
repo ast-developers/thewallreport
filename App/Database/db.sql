@@ -135,3 +135,6 @@ CREATE TABLE `menu` (
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+ALTER TABLE `menu` ADD COLUMN `status` ENUM('active','inactive') DEFAULT 'active' NOT NULL AFTER `sort_order`;
+ALTER TABLE `menu` ADD `new_tab` ENUM('0','1') NOT NULL DEFAULT '0' AFTER `status`;

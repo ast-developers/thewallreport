@@ -1,3 +1,4 @@
+
 <?php
 $pagetitle = (!empty($user)) ? 'Edit' : 'Add' . ' Page';
 include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
@@ -40,12 +41,12 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                                     <?php $name = (!empty($page['name'])) ? $page['name'] : '' ?>
                                     <div class="control-group">
                                         <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
-                                        <label class="control-label">Page Name</label>
+                                        <label class="control-label" for="name">Page Name</label>
 
                                         <div class="controls">
                                             <div class="validation">
                                                 <input class="m-wrap  span6 m-wrap" type="text"
-                                                       placeholder="Page name" name="name"
+                                                       placeholder="Page name" name="name" id="name"
                                                        value='<?php echo $name; ?>'/></div>
                                         </div>
                                     </div>
@@ -83,10 +84,10 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                             </div>
                             <div class="portlet-body form">
                                 <div class="control-group">
-                                    <label class="control-label">Status</label>
+                                    <label class="control-label" for="status">Status</label>
 
                                     <div class="controls">
-                                        <select class="chosen_category" name="status"
+                                        <select class="chosen_category" name="status" id="status"
                                                 tabindex="1">
                                             <option
                                                 value="draft" <?php echo (!empty($page['status']) && $page['status'] == 'draft') ? 'selected="selected"' : ''; ?>>

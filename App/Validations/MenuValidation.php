@@ -61,7 +61,7 @@ class MenuValidation
                         $success = false;
                         $messages[] = 'You have chosen wrong page.';
                     }
-                }else{
+                }elseif($_POST['type']!=3){
                     $success = false;
                     $messages[] = 'You have chosen wrong menu type.';
                 }

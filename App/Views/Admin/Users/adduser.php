@@ -42,23 +42,23 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                                     <div class="control-group">
                                         <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
                                         <?php $username = (!empty($user['username'])) ? $user['username'] : '' ?>
-                                        <label class="control-label">Username</label>
+                                        <label class="control-label" for="name">Username</label>
 
                                         <div class="controls">
                                             <div class="input-icon left">
                                                 <i class="icon-user"></i>
-                                                <input class="m-wrap placeholder-no-fix" type="text"
+                                                <input class="m-wrap placeholder-no-fix" type="text" id="name"
                                                        placeholder="Username" name="username"
                                                        value="<?php echo $username ?>"/>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="control-group">
-                                        <label class="control-label">Role</label>
+                                        <label class="control-label" for="role_id">Role</label>
 
                                         <div class="controls">
-                                            <select class="chosen_category" name="role_id"
-                                                    data-placeholder="Choose a Category" tabindex="1">
+                                            <select class="chosen_category" name="role_id" id="role_id"
+                                                    data-placeholder="Choose a Category">
                                                 <?php if (!empty($roles)) {
                                                     foreach ($roles as $role) {
                                                         ?>
@@ -71,40 +71,40 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                                     </div>
                                     <div class="control-group">
                                         <?php $first_name = (!empty($user['first_name'])) ? $user['first_name'] : '' ?>
-                                        <label class="control-label">First Name</label>
+                                        <label class="control-label" for="first_name">First Name</label>
 
                                         <div class="controls">
-                                            <input type="text" name="first_name" placeholder="First Name"
+                                            <input type="text" name="first_name" placeholder="First Name" id="first_name"
                                                    class="m-wrap" value="<?php echo $first_name ?>"/>
                                         </div>
                                     </div>
                                     <div class="control-group">
                                         <?php $last_name = (!empty($user['last_name'])) ? $user['last_name'] : '' ?>
-                                        <label class="control-label">Last Name</label>
+                                        <label class="control-label" for="last_name">Last Name</label>
 
                                         <div class="controls">
-                                            <input type="text" name="last_name" placeholder="Last Name"
+                                            <input type="text" name="last_name" placeholder="Last Name" id="last_name"
                                                    class="m-wrap" value="<?php echo $last_name ?>"/>
                                         </div>
                                     </div>
                                     <div class="control-group">
                                         <?php $nick_name = (!empty($user['nick_name'])) ? $user['nick_name'] : '' ?>
-                                        <label class="control-label">Nick Name</label>
+                                        <label class="control-label" for="nick_name">Nick Name</label>
 
                                         <div class="controls">
-                                            <input type="text" name="nick_name" placeholder="Nick name"
+                                            <input type="text" name="nick_name" placeholder="Nick name" id="nick_name"
                                                    class="m-wrap" value="<?php echo $nick_name ?>"/>
                                         </div>
                                     </div>
                                     <div class="control-group">
                                         <?php $email = (!empty($user['email'])) ? $user['email'] : '' ?>
                                         <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
-                                        <label class="control-label">Email</label>
+                                        <label class="control-label" for="email">Email</label>
 
                                         <div class="controls">
                                             <div class="input-icon left">
                                                 <i class="icon-envelope"></i>
-                                                <input class="m-wrap placeholder-no-fix" type="text"
+                                                <input class="m-wrap placeholder-no-fix" type="text" id="email"
                                                        placeholder="Email" name="email"
                                                        value="<?php echo $email ?>"/>
                                             </div>
@@ -113,32 +113,32 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                                     <?php if (empty($user)) { ?>
                                         <div class="control-group">
                                             <?php $password = (!empty($user['password'])) ? $user['password'] : '' ?>
-                                            <label class="control-label">Password</label>
+                                            <label class="control-label" for="password">Password</label>
 
                                             <div class="controls">
                                                 <div class="input-icon left">
                                                     <i class="icon-lock"></i>
-                                                    <input class="m-wrap placeholder-no-fix" type="password"
+                                                    <input class="m-wrap placeholder-no-fix" type="password" id="password"
                                                            id="register_password" placeholder="Password"
                                                            name="password" value="<?php echo $password ?>"/>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="control-group">
-                                            <label class="control-label">Re-type Your Password</label>
+                                            <label class="control-label" for="rpassword">Re-type Your Password</label>
 
                                             <div class="controls">
                                                 <div class="input-icon left">
                                                     <i class="icon-ok"></i>
                                                     <input class="m-wrap placeholder-no-fix" type="password"
-                                                           placeholder="Re-type Your Password" name="rpassword"
+                                                           placeholder="Re-type Your Password" name="rpassword" id="rpassword"
                                                            value="<?php echo $password ?>"/>
                                                 </div>
                                             </div>
                                         </div>
                                     <?php } ?>
                                     <div class="control-group">
-                                        <label class="control-label">Avatar</label>
+                                        <label class="control-label" for="avatar">Avatar</label>
 
                                         <div class="controls">
                                             <div class="fileupload fileupload-new" data-provides="fileupload">
