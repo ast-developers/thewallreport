@@ -105,11 +105,11 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                                         </div>
                                     </div>
                                     <div class="control-group">
-                                        <?php $selected = (!empty($menu['new_tab']) && $menu['new_tab'] == '1') ? 'selected=selected' : '' ?>
+                                        <?php $selected = (!empty($menu['new_tab']) && $menu['new_tab'] == '1') ? 'checked=”checked”' : '' ?>
                                         <label class="control-label">Open in new tab</label>
                                         <div class="controls">
-                                            <label class="checkbox <?php echo $selected ?>">
-                                                <input type="checkbox" name="new_tab" value="1" <?php echo $selected ?> />
+                                            <label class="checkbox">
+                                                <input type="checkbox" name="new_tab" value="1" <?php echo $selected ?>/>
                                             </label>
                                         </div>
                                     </div>
@@ -149,7 +149,7 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
 
 </div>
 <!-- END PAGE -->
-
+<script src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/js/jquery-1.8.3.min.js"></script>
 <?php include(\App\Config::F_ROOT . 'App/Views/Admin/footer.php') ?>
 <script src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/js/menu.js"></script>
 <script>

@@ -123,7 +123,6 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
         Page.initManagement();
         $(function () {
             $('#content').redactor({
-                focus: true,
                 imageUpload: '<?php echo \App\Config::W_ROOT.'admin/uploadImage' ?>',
                 plugins: ['video', 'inlinestyle', 'source', 'alignment', 'table', 'fullscreen', 'fontsize', 'fontcolor'],
 

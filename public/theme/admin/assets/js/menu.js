@@ -71,7 +71,7 @@ var Menu = function () {
                     url: menuBulkDeleteUrl,
                     data: {data_ids: ids_string},
                     success: function (result) {
-                        dataTable.draw(); // redrawing datatable
+                        dataTable.draw();
                         $('.header-title').after('<div class="alert alert-success">' +
                             '<strong>' + 'Menus deleted successfully.' + '</strong></div>');
                     },
