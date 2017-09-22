@@ -162,14 +162,13 @@ class Menu extends Model
             } else {
                 $type = 'External Link';
             }
-            $status_class = ($row['status']=='inactive') ?'red':'green';
             $nestedData = array();
 
             $nestedData[] = "<input type='checkbox'  class='deleteRow' value='" . $row['id'] . "'  />";
             $nestedData[] = '<a href="' . \App\Config::W_ROOT . "admin/edit-menu/" . $row['id'] . '">' . $row["name"] . "</a>";
             $nestedData[] = $type;
             $nestedData[] = date("Y/m/d", strtotime($row["created_at"]));
-            $nestedData[] = '<span class="btn '.$status_class. ' mini active">'.$row['status'].'</span>';
+            $nestedData[] = Helper::getStatus($row['status']);
 
             $data[] = $nestedData;
         }
@@ -243,6 +242,27 @@ class Menu extends Model
             $stm->bindParam(":id", $value);
             $stm->execute();
         }
+
+    }
+
+    public function getMenus()
+    {
+        $allMenu = $this->menu_repo->getAll();
+        $menuData = [];
+        foreach ($allMenu as $value) {
+
+            $menuData[$value['id']]['name'] = $value['name'];
+            if ($value['type'] == 1) {
+                $data = $this->post_repo->getPostById($value['link']);
+                $menuData[$value['id']]['slug'] = $data['0']['slug'];
+            } elseif ($value['type'] == 2) {
+                $data = $this->page_repo->getPageById($value['link']);
+                $menuData[$value['id']]['slug'] = $data['0']['slug'];
+            } elseif ($value['type'] == 3) {
+                $menuData[$value['id']]['slug'] = $value['link'];
+            }
+        }
+        return $menuData;
 
     }
 

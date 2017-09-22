@@ -40,7 +40,7 @@
            </li>
         <li class="has-sub ">
             <a href="javascript:;">
-                <i class="icon-user"></i>
+                <i class="icon-file"></i>
                 <span class="title">Pages</span>
                 <span class="arrow "></span>
             </a>
@@ -51,7 +51,7 @@
         </li>
         <li class="has-sub ">
             <a href="javascript:;">
-                <i class="icon-user"></i>
+                <i class=""></i>
                 <span class="title">Menus</span>
                 <span class="arrow "></span>
             </a>
