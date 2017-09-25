@@ -14,7 +14,7 @@
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
 
-    <title><?php echo \App\Config::PAGE_TITLE_PREFIX.(isset($pageTitle)?(' | '.$pageTitle):''); ?></title>
+    <title><?php echo (isset($pageTitle)?($pageTitle.' - '.\App\Config::PAGE_TITLE_PREFIX):\App\Config::PAGE_TITLE_PREFIX); ?></title>
 
     <!-- Bootstrap core CSS -->
     <link href="<?php echo \App\Config::W_FRONT_ASSETS ?>css/bootstrap.min.css" rel="stylesheet">
@@ -25,6 +25,7 @@
     <!-- Custom styles for this template -->
     <link href="<?php echo \App\Config::W_FRONT_ASSETS ?>css/responsive.css" rel="stylesheet">
     <link href="<?php echo \App\Config::W_FRONT_ASSETS ?>css/style.css" rel="stylesheet">
+    <script src='https://www.google.com/recaptcha/api.js'></script>
     <?php
     if(isset($flowFlowInjector)){
         echo $flowFlowInjector->head(true);

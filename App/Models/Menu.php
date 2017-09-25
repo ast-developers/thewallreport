@@ -216,8 +216,10 @@ class Menu extends Model
      */
     public function getAll()
     {
-        $sql = "SELECT * FROM $this->dbTable ORDER BY sort_order";
+        $status = 'active';
+        $sql = "SELECT * FROM $this->dbTable WHERE status=:status ORDER BY sort_order";
         $stm = $this->db->prepare($sql);
+        $stm->bindParam(":status", $status);
         $res = $stm->execute();
 
         if ($res) {

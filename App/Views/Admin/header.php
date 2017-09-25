@@ -5,7 +5,7 @@
 <!-- BEGIN HEAD -->
 <head>
     <meta charset="utf-8" />
-    <title><?php echo \App\Config::PAGE_TITLE_PREFIX.(isset($pagetitle)?(' | '.$pagetitle):''); ?></title>
+    <title><?php echo (isset($pageTitle)?($pageTitle.' - '.\App\Config::PAGE_TITLE_PREFIX):\App\Config::PAGE_TITLE_PREFIX); ?></title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <meta content="" name="description" />
     <meta content="" name="author" />

@@ -50,6 +50,7 @@ $router->add('admin/error', ['namespace' => 'Admin','controller' => 'UserControl
 
 // Front routes
 $router->add('', ['namespace' => 'Front','controller' => 'IndexController', 'action' => 'index']);
+$router->add('contact-us', ['namespace' => 'Front','controller' => 'ContactUsController', 'action' => 'index']);
 
 
 
