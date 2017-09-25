@@ -1,4 +1,5 @@
 <?php
+$pageTitle = 'Contact Us';
 include(\App\Config::F_ROOT . 'App/Views/Front/header.php');
 use Core\Recaptcha;
 $recaptcha = new Recaptcha();
