@@ -368,4 +368,20 @@ class Post extends Model
         }
     }
 
+    public function checkSlugExistOrNot($slug){
+        $sql = "SELECT *,CONCAT(users.first_name, ' ',users.last_name) as name FROM $this->dbTable";
+        $sql .= " LEFT JOIN users on users.id=$this->dbTable.created_by";
+        $sql .= " where slug=:slug";
+        $stm = $this->db->prepare($sql);
+        $stm->bindParam(":slug", $slug);
+        $res = $stm->execute();
+
+        if ($res) {
+            $row = $stm->fetch(\PDO::FETCH_ASSOC);
+            return $row;
+        } else {
+            return false;
+        }
+    }
+
 }
