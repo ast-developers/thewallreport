@@ -134,14 +134,17 @@ var Page = function () {
                     error.addClass('help-small no-left-padding').insertAfter(element.closest('.validation'));}}
         });
     };
+    var manageDeleteImage = function(){
+        $("#deleteImage").on('click', function () {
+            $("input[name='delete_featured_image']").val(1);
+            $('.featured-image-area').find('img').attr('src', 'http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=no+image');
+            $(".featured-image-delete-btn").hide();
+        });
+    }
     var manageStatusButton = function () {
-        $("#publish_button").toggleClass("hidden", $("#status-type").val() != 'publish');
-        $("#pending_submit").toggleClass("hidden", $("#status-type").val() != 'pending');
-        $("#draft_submit").toggleClass("hidden", $("#status-type").val() != 'draft');
+        $("#status_submit").html('Save as '+$("#status-type").val());
         $("#status-type").on('click', function () {
-            $("#publish_button").toggleClass("hidden", $("#status-type").val() != 'publish');
-            $("#pending_submit").toggleClass("hidden", $("#status-type").val() != 'pending');
-            $("#draft_submit").toggleClass("hidden", $("#status-type").val() != 'draft');
+            $("#status_submit").html('Save as '+$("#status-type").val());
         });
     }
 
@@ -160,6 +163,7 @@ var Page = function () {
             App.init();
             validatePage();
             manageStatusButton();
+            manageDeleteImage();
         },
     };
 }();

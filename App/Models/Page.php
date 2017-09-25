@@ -39,14 +39,14 @@ class Page extends Model
      */
     public function insertPageData($params, $filename)
     {
-        if (isset($params['publish_submit'])) {
+        if (isset($params['status']) && $params['status'] == 'publish') {
             $publish_at = date('Y-m-d H:i:s');
         } else {
             $publish_at = NULL;
         }
         $slug = Helper::slugify($params['name']);
         $updated_at = date('Y-m-d H:i:s');
-        $sql = "INSERT INTO $this->dbTable(name,description,status,slug,created_by,updated_at,publish_at,featured_image,views) VALUES(:name,:description,:status,:slug,:created_by,:updated_at,:publish_at,:featured_image,:views)";
+        $sql = "INSERT INTO $this->dbTable(name,description,status,slug,created_by,updated_at,published_at,featured_image,views) VALUES(:name,:description,:status,:slug,:created_by,:updated_at,:published_at,:featured_image,:views)";
         $stm = $this->db->prepare($sql);
         $stm->bindParam(":name", $params['name']);
         $stm->bindParam(":description", $params['description']);
@@ -54,7 +54,7 @@ class Page extends Model
         $stm->bindParam(":slug", $slug);
         $stm->bindParam(":created_by", $_SESSION['user']['id']);
         $stm->bindParam(":updated_at", $updated_at);
-        $stm->bindParam(":publish_at", $publish_at);
+        $stm->bindParam(":published_at", $publish_at);
         $stm->bindParam(":featured_image", $filename);
         $stm->bindParam(":views", $params['views']);
         try {
@@ -72,14 +72,14 @@ class Page extends Model
      */
     public function updatePageData($params, $featured_image)
     {
-        if (isset($params['publish_submit'])) {
+        if (isset($params['status']) && $params['status'] == 'publish') {
             $publish_at = date('Y-m-d H:i:s');
         } else {
             $publish_at = NULL;
         }
         $slug = Helper::slugify($params['name']);
         $updated_at = date('Y-m-d H:i:s');
-        $sql = "UPDATE  $this->dbTable SET name = :name,description=:description,status=:status,slug=:slug,created_by=:created_by,updated_at=:updated_at,publish_at=:publish_at,featured_image=:featured_image,views=:views WHERE id = :id;";
+        $sql = "UPDATE  $this->dbTable SET name = :name,description=:description,status=:status,slug=:slug,created_by=:created_by,updated_at=:updated_at,published_at=:published_at,featured_image=:featured_image,views=:views WHERE id = :id;";
         $stm = $this->db->prepare($sql);
         $stm->bindParam(":name", $params['name']);
         $stm->bindParam(":description", $params['description']);
@@ -88,7 +88,7 @@ class Page extends Model
         $stm->bindParam(":slug", $slug);
         $stm->bindParam(":created_by", $_SESSION['user']['id']);
         $stm->bindParam(":updated_at", $updated_at);
-        $stm->bindParam(":publish_at", $publish_at);
+        $stm->bindParam(":published_at", $publish_at);
         $stm->bindParam(":featured_image", $featured_image);
         $stm->bindParam(":views", $params['views']);
         try {

@@ -32,7 +32,7 @@ class PostValidation
         $success = true;
         $messages = [];
 
-        if (isset($_POST['submit']) || isset($_POST['pending_submit']) || isset($_POST['draft_submit']) || isset($_POST['publish_submit'])) {
+        if (isset($_POST['submit']) || isset($_POST['status_submit'])) {
 
             // Verify CSRF Token
             $verify_token = Csrf::verifyToken();

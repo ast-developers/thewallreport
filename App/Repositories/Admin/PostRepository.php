@@ -157,7 +157,9 @@ class PostRepository
             $target_dir = Config::F_FEATURED_IMAGE_ROOT;
             $target_file = $target_dir . $post[0]['featured_image'];
             try {
-                unlink($target_file);
+                if (file_exists($target_file)) {
+                    unlink($target_file);
+                }
             } catch (Exception $e) {
 
             }

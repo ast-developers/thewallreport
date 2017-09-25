@@ -46,7 +46,7 @@ class PageController extends Controller
      */
     public function storeAction()
     {
-        if (isset($_POST['submit']) || isset($_POST['pending_submit']) || isset($_POST['draft_submit']) || isset($_POST['publish_submit'])) {
+        if (isset($_POST['submit']) || isset($_POST['status_submit'])) {
             $formValid = $this->validate->validate();
             if (!$formValid['success']) {
                 if (!empty($_POST['id'])) {
@@ -55,13 +55,22 @@ class PageController extends Controller
                     return Router::redirectTo('admin/add-page', $formValid['messages'], 'alert-danger');
                 }
             }
+            // Case 1: Editing Page, Image has been deleted
+            $removedExistingImage = 0;
+            $filename = null;
+            if (!empty($_POST['id']) && !empty($_POST['delete_featured_image']) && $_POST['delete_featured_image'] == 1) {
+                $this->repo->removeFeaturedImage($_POST['id']);
+                $removedExistingImage = 1;
+            }
+            // Case2: Image has been uploaded
             if (!empty($_FILES['featured_image']['name'])) {
                 // DELETE OLD Featured Image
-                if (!empty($_POST['id'])) {
+                if (!empty($_POST['id']) && !$removedExistingImage) {
                     $this->repo->removeFeaturedImage($_POST['id']);
                 }
                 // UPLOAD NEW Featured Image
                 $imageUpload = $this->repo->uploadFeaturedImage($_FILES['featured_image']);
+                $filename = $imageUpload['filename'];
                 if (!$imageUpload['success']) {
                     $message = $imageUpload['messages'];
                     if (!empty($_POST['id'])) {
@@ -71,15 +80,13 @@ class PageController extends Controller
                     }
                 }
             }
-            $uploads = (!empty($_FILES['featured_image']['name'])) ? $imageUpload['filename'] : NULL;
-            $filename = (!empty($_POST['id']) && empty($_FILES['featured_image']['name'])) ? NULL : $uploads;
 
             $message = ['Something went wrong. Please try again later.'];
             $messageClass = 'alert-danger';
             if (!empty($_POST['id'])) {
                 $page_id = $_POST['id'];
                 $file = $this->repo->getPageById($_POST['id']);
-                $featured_image = (is_null($filename)) ? $file[0]['featured_image'] : $filename;
+                $featured_image = (!$removedExistingImage && is_null($filename)) ? $file[0]['featured_image'] : $filename;
                 if ($this->repo->updatePageData($_POST, $featured_image)) {
                     $message = ['Page updated successfully.'];
                     $messageClass = 'alert-success';
