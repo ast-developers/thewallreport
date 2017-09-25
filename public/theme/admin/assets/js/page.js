@@ -90,12 +90,26 @@ var Page = function () {
                 name: {
                     required: true
                 },
+                views:{
+                    number: true
+                },
+                featured_image:{
+                    accept: "image/*"
+                }
+
             },
+
 
             messages: {
                 name: {
                     required: "Page name is required."
                 },
+                views:{
+                    number: "Please enter valid number."
+                },
+                featured_image:{
+                    accept: 'Please upload Image file only.'
+                }
             },
 
             invalidHandler: function (event, validator) { //display error alert on form submit
@@ -114,11 +128,25 @@ var Page = function () {
             },
 
             errorPlacement: function (error, element) {
-                console.log(element);
-                error.addClass('help-small no-left-padding').insertAfter(element.closest('.validation'));
-            }
+                if (element.attr("name") == "featured_image") {
+                    error.insertAfter(element.closest('.file-upload-button-area'));
+                } else {
+                    error.addClass('help-small no-left-padding').insertAfter(element.closest('.validation'));}}
         });
     };
+    var manageDeleteImage = function(){
+        $("#deleteImage").on('click', function () {
+            $("input[name='delete_featured_image']").val(1);
+            $('.featured-image-area').find('img').attr('src', 'http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=no+image');
+            $(".featured-image-delete-btn").hide();
+        });
+    }
+    var manageStatusButton = function () {
+        $("#status_submit").html('Save as '+$("#status-type").val());
+        $("#status-type").on('click', function () {
+            $("#status_submit").html('Save as '+$("#status-type").val());
+        });
+    }
 
     return {
 
@@ -134,6 +162,8 @@ var Page = function () {
             App.setPage("table_managed");
             App.init();
             validatePage();
+            manageStatusButton();
+            manageDeleteImage();
         },
     };
 }();

@@ -55,18 +55,26 @@ class Post extends Model
      * @param $params
      * @return bool
      */
-    public function insertPostData($params)
+    public function insertPostData($params, $filename)
     {
+        if (isset($params['status']) && $params['status'] == 'publish') {
+            $publish_at = date('Y-m-d H:i:s');
+        } else {
+            $publish_at = NULL;
+        }
         $slug = Helper::slugify($params['name']);
         $updated_at = date('Y-m-d H:i:s');
-        $sql = "INSERT INTO $this->dbTable(name,description,status,slug,created_by,updated_at) VALUES(:name,:description,:status,:slug,:created_by,:updated_at)";
+        $sql = "INSERT INTO $this->dbTable(name,description,status,slug,created_by,updated_at,published_at,featured_image,views) VALUES(:name,:description,:status,:slug,:created_by,:updated_at,:published_at,:featured_image,:views)";
         $stm = $this->db->prepare($sql);
         $stm->bindParam(":name", $params['name']);
         $stm->bindParam(":description", $params['description']);
         $stm->bindParam(":status", $params['status']);
         $stm->bindParam(":slug", $slug);
         $stm->bindParam(":created_by", $_SESSION['user']['id']);
-        $stm->bindParam(":updated_at",$updated_at);
+        $stm->bindParam(":updated_at", $updated_at);
+        $stm->bindParam(":published_at", $publish_at);
+        $stm->bindParam(":featured_image", $filename);
+        $stm->bindParam(":views", $params['views']);
         try {
             $stm->execute();
             $last_insert_id = $this->db->lastInsertId();
@@ -146,15 +154,20 @@ class Post extends Model
      * @param $params
      * @return bool
      */
-    public function updatePostData($params)
+    public function updatePostData($params, $featured_image)
     {
+        if (isset($params['status']) && $params['status'] == 'publish') {
+            $publish_at = date('Y-m-d H:i:s');
+        } else {
+            $publish_at = NULL;
+        }
         $slug = Helper::slugify($params['name']);
         $updated_at = date('Y-m-d H:i:s');
         $this->deletePostCategory($params);
         $this->addPostsCategories($params, $params['id']);
         $this->deletePostTags($params);
         $this->addPostTags($params, $params['id']);
-        $sql = "UPDATE  $this->dbTable SET name = :name,description=:description,status=:status,slug=:slug,created_by=:created_by,updated_at=:updated_at WHERE id = :id;";
+        $sql = "UPDATE  $this->dbTable SET name = :name,description=:description,status=:status,slug=:slug,created_by=:created_by,updated_at=:updated_at,published_at=:published_at,featured_image=:featured_image,views=:views WHERE id = :id;";
         $stm = $this->db->prepare($sql);
         $stm->bindParam(":name", $params['name']);
         $stm->bindParam(":description", $params['description']);
@@ -162,7 +175,10 @@ class Post extends Model
         $stm->bindParam(":id", $params['id']);
         $stm->bindParam(":slug", $slug);
         $stm->bindParam(":created_by", $_SESSION['user']['id']);
-        $stm->bindParam(":updated_at",$updated_at);
+        $stm->bindParam(":updated_at", $updated_at);
+        $stm->bindParam(":published_at", $publish_at);
+        $stm->bindParam(":featured_image", $featured_image);
+        $stm->bindParam(":views", $params['views']);
         try {
             return $stm->execute();
         } catch (PDOException $e) {
@@ -294,7 +310,7 @@ class Post extends Model
             $sql .= " LEFT JOIN categories on categories.id = post_category.category_id";
             $sql .= " LEFT JOIN post_tag ON post_tag.post_id = posts.id";
             $sql .= " LEFT JOIN tag on tag.id = post_tag.tag_id";
-            $sql .=" GROUP BY posts.id";
+            $sql .= " GROUP BY posts.id";
             $sql .= " ORDER BY " . $columns[$params['order'][0]['column']] . "   " . $params['order'][0]['dir'] . " ";
 
             $stm = $this->db->prepare($sql);
@@ -346,6 +362,7 @@ class Post extends Model
      */
     public function bulkDeletePosts($ids)
     {
+        $this->removeImages($ids);
         $data_ids = $ids['data_ids'];
 
         $sql = "DELETE FROM $this->dbTable WHERE id IN ($data_ids)";
@@ -354,6 +371,23 @@ class Post extends Model
 
     }
 
+    /**
+     * @param $ids
+     */
+    public function removeImages($ids)
+    {
+        $page_ids = explode(',', $ids['data_ids']);
+        foreach ($page_ids as $id) {
+            $page = $this->getPageById($id);
+            if (!empty($page[0]['featured_image']) && file_exists(Config::F_FEATURED_IMAGE_ROOT . $page[0]['featured_image'])) {
+                unlink(Config::F_FEATURED_IMAGE_ROOT . $page[0]['featured_image']);
+            }
+        }
+    }
+
+    /**
+     * @return bool
+     */
     public function getAll()
     {
         $sql = "SELECT * FROM $this->dbTable";
