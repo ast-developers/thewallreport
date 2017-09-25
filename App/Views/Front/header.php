@@ -25,6 +25,7 @@
     <!-- Custom styles for this template -->
     <link href="<?php echo \App\Config::W_FRONT_ASSETS ?>css/responsive.css" rel="stylesheet">
     <link href="<?php echo \App\Config::W_FRONT_ASSETS ?>css/style.css" rel="stylesheet">
+    <script src='https://www.google.com/recaptcha/api.js'></script>
     <?php
     if(isset($flowFlowInjector)){
         echo $flowFlowInjector->head(true);

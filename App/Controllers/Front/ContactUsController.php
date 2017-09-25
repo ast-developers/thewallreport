@@ -44,9 +44,9 @@ class ContactUsController extends Controller
             $body .= '<p>Email: ' . $_POST['email'] . '</p>';
             $body .= '<p>Message: ' . $_POST['message'] . '</p>';
             $subject = 'Inquiry';
-            $send_mail = Mail::sendMail(Config::CONTACT_US_EMAIL, $subject, $body);
+            $send_mail = Mail::sendMail(Config::CONTACT_US_TO_EMAIL, $subject, $body);
             if ($send_mail['success']) {
-                $_SESSION["flash_message"] = ['Thanks,We received your request, will get back to you soon.'];
+                $_SESSION["flash_message"] = ['Thanks, we received your request, will get back to you soon.'];
                 $_SESSION["error_class"] = 'alert-success';
                 return Router::redirectTo('contact-us', $formValid['messages'], 'alert-success');
             } else {

@@ -1,8 +1,8 @@
 <?php
 namespace App\Validations;
 
-use App\Models\Category;
 use Core\Csrf;
+use Core\Recaptcha;
 
 /**
  * Class ContactUsValidation
@@ -16,6 +16,7 @@ class ContactUsValidation
      */
     public function validate()
     {
+        $recaptcha = new Recaptcha();
         $success = true;
         $messages = [];
 
@@ -43,13 +44,11 @@ class ContactUsValidation
                 $messages[] = 'Please enter message.';
             }
 
-            if (empty($_POST['security_check'])) {
+            // Google recaptcha validation
+            $verify_captcha = $recaptcha->validateRecaptcha($_POST["g-recaptcha-response"]);
+            if (!$verify_captcha) {
                 $success = false;
-                $messages[] = 'Please enter Security questions answer.';
-            }
-            if (!empty($_POST['security_check']) && $_POST['security_check'] != 7) {
-                $success = false;
-                $messages[] = 'You have answered wrong for security question.';
+                $messages[] = 'Please validate recaptcha.';
             }
 
         }
