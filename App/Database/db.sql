@@ -138,3 +138,13 @@ CREATE TABLE `menu` (
 
 ALTER TABLE `menu` ADD COLUMN `status` ENUM('active','inactive') DEFAULT 'active' NOT NULL AFTER `sort_order`;
 ALTER TABLE `menu` ADD `new_tab` ENUM('0','1') NOT NULL DEFAULT '0' AFTER `status`;
+
+/* 25 Sept 2017 */
+
+ALTER TABLE `pages` CHANGE `status` `status` ENUM('pending','draft','publish') CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL;
+ALTER TABLE `pages` ADD `featured_image` VARCHAR(255) NULL AFTER `slug`, ADD `views` INT(11) NOT NULL DEFAULT '0' AFTER `featured_image`;
+ALTER TABLE `pages` ADD `publish_at` DATETIME NULL AFTER `slug`;
+
+ALTER TABLE `posts` CHANGE `status` `status` ENUM('pending','draft','publish') CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL;
+ALTER TABLE `posts` ADD `featured_image` VARCHAR(255) NULL AFTER `slug`, ADD `views` INT(11) NOT NULL DEFAULT '0' AFTER `featured_image`;
+ALTER TABLE `posts` ADD `publish_at` DATETIME NULL AFTER `slug`;

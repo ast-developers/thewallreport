@@ -5,10 +5,20 @@ use App\Models\Post;
 use Core\Csrf;
 
 
+/**
+ * Class PostValidation
+ * @package App\Validations
+ */
 class PostValidation
 {
+    /**
+     * @var Post
+     */
     public $model;
 
+    /**
+     * @param array $params
+     */
     public function __construct($params = [])
     {
         $this->model = new Post();
@@ -22,7 +32,7 @@ class PostValidation
         $success = true;
         $messages = [];
 
-        if (isset($_POST['submit'])) {
+        if (isset($_POST['submit']) || isset($_POST['pending_submit']) || isset($_POST['draft_submit']) || isset($_POST['publish_submit'])) {
 
             // Verify CSRF Token
             $verify_token = Csrf::verifyToken();
@@ -34,6 +44,19 @@ class PostValidation
             if (empty($_POST['name'])) {
                 $success = false;
                 $messages[] = 'Please enter post name.';
+            }
+            if (!empty($_POST['views']) && !is_numeric($_POST['views'])) {
+                $success = false;
+                $messages[] = 'Please enter valid number for views.';
+            }
+            if (!empty($_FILES['featured_image']['name'])) {
+                // Check extension
+                $imagesizedata = getimagesize($_FILES['featured_image']['tmp_name']);
+                if ($imagesizedata === FALSE) {
+                    $success = false;
+                    $messages[] = 'Please upload Image file only.';
+                }
+
             }
 
             return ['success' => $success, 'messages' => $messages];

@@ -90,12 +90,26 @@ var Page = function () {
                 name: {
                     required: true
                 },
+                views:{
+                    number: true
+                },
+                featured_image:{
+                    accept: "image/*"
+                }
+
             },
+
 
             messages: {
                 name: {
                     required: "Page name is required."
                 },
+                views:{
+                    number: "Please enter valid number."
+                },
+                featured_image:{
+                    accept: 'Please upload Image file only.'
+                }
             },
 
             invalidHandler: function (event, validator) { //display error alert on form submit
@@ -114,11 +128,22 @@ var Page = function () {
             },
 
             errorPlacement: function (error, element) {
-                console.log(element);
-                error.addClass('help-small no-left-padding').insertAfter(element.closest('.validation'));
-            }
+                if (element.attr("name") == "featured_image") {
+                    error.insertAfter(element.closest('.file-upload-button-area'));
+                } else {
+                    error.addClass('help-small no-left-padding').insertAfter(element.closest('.validation'));}}
         });
     };
+    var manageStatusButton = function () {
+        $("#publish_button").toggleClass("hidden", $("#status-type").val() != 'publish');
+        $("#pending_submit").toggleClass("hidden", $("#status-type").val() != 'pending');
+        $("#draft_submit").toggleClass("hidden", $("#status-type").val() != 'draft');
+        $("#status-type").on('click', function () {
+            $("#publish_button").toggleClass("hidden", $("#status-type").val() != 'publish');
+            $("#pending_submit").toggleClass("hidden", $("#status-type").val() != 'pending');
+            $("#draft_submit").toggleClass("hidden", $("#status-type").val() != 'draft');
+        });
+    }
 
     return {
 
@@ -134,6 +159,7 @@ var Page = function () {
             App.setPage("table_managed");
             App.init();
             validatePage();
+            manageStatusButton();
         },
     };
 }();

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 
+use App\Config;
 use Core\Helper;
 use Core\Model;
 
@@ -36,11 +37,16 @@ class Page extends Model
      * @param $params
      * @return bool
      */
-    public function insertPageData($params)
+    public function insertPageData($params, $filename)
     {
+        if (isset($params['publish_submit'])) {
+            $publish_at = date('Y-m-d H:i:s');
+        } else {
+            $publish_at = NULL;
+        }
         $slug = Helper::slugify($params['name']);
         $updated_at = date('Y-m-d H:i:s');
-        $sql = "INSERT INTO $this->dbTable(name,description,status,slug,created_by,updated_at) VALUES(:name,:description,:status,:slug,:created_by,:updated_at)";
+        $sql = "INSERT INTO $this->dbTable(name,description,status,slug,created_by,updated_at,publish_at,featured_image,views) VALUES(:name,:description,:status,:slug,:created_by,:updated_at,:publish_at,:featured_image,:views)";
         $stm = $this->db->prepare($sql);
         $stm->bindParam(":name", $params['name']);
         $stm->bindParam(":description", $params['description']);
@@ -48,6 +54,9 @@ class Page extends Model
         $stm->bindParam(":slug", $slug);
         $stm->bindParam(":created_by", $_SESSION['user']['id']);
         $stm->bindParam(":updated_at", $updated_at);
+        $stm->bindParam(":publish_at", $publish_at);
+        $stm->bindParam(":featured_image", $filename);
+        $stm->bindParam(":views", $params['views']);
         try {
             $stm->execute();
             $last_insert_id = $this->db->lastInsertId();
@@ -61,11 +70,16 @@ class Page extends Model
      * @param $params
      * @return bool
      */
-    public function updatePageData($params)
+    public function updatePageData($params, $featured_image)
     {
+        if (isset($params['publish_submit'])) {
+            $publish_at = date('Y-m-d H:i:s');
+        } else {
+            $publish_at = NULL;
+        }
         $slug = Helper::slugify($params['name']);
         $updated_at = date('Y-m-d H:i:s');
-        $sql = "UPDATE  $this->dbTable SET name = :name,description=:description,status=:status,slug=:slug,created_by=:created_by,updated_at=:updated_at WHERE id = :id;";
+        $sql = "UPDATE  $this->dbTable SET name = :name,description=:description,status=:status,slug=:slug,created_by=:created_by,updated_at=:updated_at,publish_at=:publish_at,featured_image=:featured_image,views=:views WHERE id = :id;";
         $stm = $this->db->prepare($sql);
         $stm->bindParam(":name", $params['name']);
         $stm->bindParam(":description", $params['description']);
@@ -74,28 +88,12 @@ class Page extends Model
         $stm->bindParam(":slug", $slug);
         $stm->bindParam(":created_by", $_SESSION['user']['id']);
         $stm->bindParam(":updated_at", $updated_at);
+        $stm->bindParam(":publish_at", $publish_at);
+        $stm->bindParam(":featured_image", $featured_image);
+        $stm->bindParam(":views", $params['views']);
         try {
             return $stm->execute();
         } catch (PDOException $e) {
-            return false;
-        }
-    }
-
-    /**
-     * @param $id
-     * @return bool
-     */
-    public function getPageById($id)
-    {
-        $sql = "SELECT * FROM $this->dbTable WHERE id=:id";
-        $stm = $this->db->prepare($sql);
-        $stm->bindParam(":id", $id);
-        $res = $stm->execute();
-
-        if ($res) {
-            $row = $stm->fetchAll(\PDO::FETCH_ASSOC);
-            return $row;
-        } else {
             return false;
         }
     }
@@ -183,12 +181,49 @@ class Page extends Model
      */
     public function bulkDeletePages($ids)
     {
+        $this->removeImages($ids);
         $data_ids = $ids['data_ids'];
         $sql = "DELETE FROM $this->dbTable WHERE id IN ($data_ids)";
         $stm = $this->db->prepare($sql);
         $stm->execute();
     }
 
+    /**
+     * @param $ids
+     */
+    public function removeImages($ids)
+    {
+        $page_ids = explode(',', $ids['data_ids']);
+        foreach ($page_ids as $id) {
+            $page = $this->getPageById($id);
+            if (!empty($page[0]['featured_image']) && file_exists(Config::F_FEATURED_IMAGE_ROOT . $page[0]['featured_image'])) {
+                unlink(Config::F_FEATURED_IMAGE_ROOT . $page[0]['featured_image']);
+            }
+        }
+    }
+
+    /**
+     * @param $id
+     * @return bool
+     */
+    public function getPageById($id)
+    {
+        $sql = "SELECT * FROM $this->dbTable WHERE id=:id";
+        $stm = $this->db->prepare($sql);
+        $stm->bindParam(":id", $id);
+        $res = $stm->execute();
+
+        if ($res) {
+            $row = $stm->fetchAll(\PDO::FETCH_ASSOC);
+            return $row;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * @return bool
+     */
     public function getAll()
     {
         $sql = "SELECT * FROM $this->dbTable";
