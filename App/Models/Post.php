@@ -402,4 +402,25 @@ class Post extends Model
         }
     }
 
+    /**
+     * @return bool
+     */
+    public function getFeaturedBanners()
+    {
+        $sql = "SELECT pages.*,CONCAT(users.first_name, ' ',users.last_name) as admin from pages";
+        $sql .= " LEFT JOIN users on users.id = pages.created_by UNION";
+        $sql .= " SELECT posts.*,CONCAT(u.first_name, ' ',u.last_name) as admin from posts";
+        $sql .= " LEFT JOIN users as u on u.id = posts.created_by";
+        $sql .= " ORDER by published_at DESC LIMIT 4";
+        $stm = $this->db->prepare($sql);
+        $res = $stm->execute();
+
+        if ($res) {
+            $row = $stm->fetchAll(\PDO::FETCH_ASSOC);
+            return $row;
+        } else {
+            return false;
+        }
+    }
+
 }
