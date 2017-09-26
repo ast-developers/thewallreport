@@ -407,9 +407,7 @@ class Post extends Model
      */
     public function getFeaturedBanners()
     {
-        $sql = "SELECT pages.*,CONCAT(users.first_name, ' ',users.last_name) as admin from pages";
-        $sql .= " LEFT JOIN users on users.id = pages.created_by UNION";
-        $sql .= " SELECT posts.*,CONCAT(u.first_name, ' ',u.last_name) as admin from posts";
+        $sql = " SELECT posts.name,posts.published_at,posts.id,posts.featured_image,posts.slug,CONCAT(u.first_name, ' ',u.last_name) as creator from posts";
         $sql .= " LEFT JOIN users as u on u.id = posts.created_by";
         $sql .= " ORDER by published_at DESC LIMIT 4";
         $stm = $this->db->prepare($sql);

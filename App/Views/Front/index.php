@@ -35,7 +35,7 @@ include(\App\Config::F_ROOT . 'App/Views/Front/header.php');
                                 <h2><?php echo $banner['name'] ?></h2>
 
                                 <div class="cb-byline">
-                                    <span class="cb-author"><?php echo $banner['admin'] ?></span>
+                                    <span class="cb-author"><?php echo $banner['creator'] ?></span>
                                     <span class="times"><i class="fa fa-times"></i></span>
                                     <span
                                         class="cb-date"><?php echo date("F j, Y", strtotime($banner['published_at'])) ?></span>
