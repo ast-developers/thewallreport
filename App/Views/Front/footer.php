@@ -31,7 +31,10 @@
 <!-- Bootstrap core JavaScript
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
-<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+<?php
+if(!isset($flowFlowInjector)){ ?>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+<?php } ?>
 <script type="text/javascript"
         src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/jquery-validation/dist/jquery.validate.min.js"></script>
 <script src="<?php echo \App\Config::W_FRONT_ASSETS ?>js/bootstrap.min.js"></script>
