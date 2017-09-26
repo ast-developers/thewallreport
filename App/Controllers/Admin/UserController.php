@@ -87,7 +87,7 @@ class UserController extends Controller
             }
             $send_mail = $this->repo->sendResetPasswordLink($_POST['email']);
             if ($send_mail['success']) {
-                $_SESSION["flash_message"] = 'Password Reset Link sent to your email.';
+                $_SESSION["flash_message"] = ['Password Reset Link sent to your email.'];
                 $_SESSION["error_class"] = 'alert-success';
                 Router::redirectTo('admin/login');
             } else {
@@ -149,7 +149,7 @@ class UserController extends Controller
      */
     public function dashboardAction()
     {
-        View::render('Admin/dashboard.php', ['flash_message' => 'Logged in successfully.', 'error_class' => 'alert-success']);
+        View::render('Admin/dashboard.php', ['flash_message' => ['Logged in successfully.'], 'error_class' => 'alert-success']);
     }
 
     /**

@@ -1,5 +1,5 @@
 </div> <!-- /container -->
-<div class="container-fluid">
+<!--<div class="container-fluid">
     <section>
         <div class="row">
             <div class="col-lg-12">
@@ -16,7 +16,7 @@
             </div>
         </div>
     </section>
-</div>
+</div>-->
 
 <footer id="footer" class="container">
     <div class="row">
@@ -31,12 +31,18 @@
 <!-- Bootstrap core JavaScript
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
+<?php
+if(!isset($flowFlowInjector)){ ?>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+<?php } ?>
+<script type="text/javascript"
+        src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/jquery-validation/dist/jquery.validate.min.js"></script>
 <script src="<?php echo \App\Config::W_FRONT_ASSETS ?>js/bootstrap.min.js"></script>
 
 <script type="text/javascript">
-    $(document).ready(function() {
+    $(document).ready(function () {
         // Show or hide the sticky footer button
-        $(window).scroll(function() {
+        $(window).scroll(function () {
             if ($(this).scrollTop() > 200) {
                 $('.back-to-top').fadeIn(200);
             } else {
@@ -45,7 +51,7 @@
         });
 
         // Animate the scroll to top
-        $('.back-to-top').click(function(event) {
+        $('.back-to-top').click(function (event) {
             event.preventDefault();
 
             $('html, body').animate({scrollTop: 0}, 300);

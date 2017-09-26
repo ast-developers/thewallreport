@@ -400,7 +400,15 @@ button.close-search-bar { position: absolute; top:-30px; right: -5px; font-size:
     transform: translateY(-50%)!important;
     top: 50%;
 }
-
+.btn-black, .btn-black:focus {
+    color: #fff;
+    background-color: #000;
+    border-color: #000;
+}
+.text-black { color: #000;}
+.validation-error{
+    color:red;
+}
 
 
 
