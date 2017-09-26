@@ -422,7 +422,7 @@ class Post extends Model
     }
 
     public function checkSlugExistOrNot($slug){
-        $sql = "SELECT *,CONCAT(users.first_name, ' ',users.last_name) as name FROM $this->dbTable";
+        $sql = "SELECT $this->dbTable.id,$this->dbTable.views,$this->dbTable.description,$this->dbTable.name,$this->dbTable.created_by,$this->dbTable.published_at,CONCAT(users.first_name, ' ',users.last_name) as creator,users.profile_image FROM $this->dbTable";
         $sql .= " LEFT JOIN users on users.id=$this->dbTable.created_by";
         $sql .= " where slug=:slug";
         $stm = $this->db->prepare($sql);
@@ -435,6 +435,12 @@ class Post extends Model
         } else {
             return false;
         }
+    }
+
+    public function updateViewCount($post_id){
+        $sql = "UPDATE $this->dbTable SET views=views+1 WHERE id=$post_id";
+        $stm = $this->db->prepare($sql);
+        $res = $stm->execute();
     }
 
 }

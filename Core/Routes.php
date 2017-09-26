@@ -52,6 +52,7 @@ $router->add('admin/error', ['namespace' => 'Admin','controller' => 'UserControl
 $router->add('', ['namespace' => 'Front','controller' => 'IndexController', 'action' => 'index']);
 $router->add('contact-us', ['namespace' => 'Front','controller' => 'ContactUsController', 'action' => 'index']);
 $router->add('{slug:[a-zA-Z\d\W]+}', ['namespace' => 'Front','controller' => 'PostController', 'action' => 'index']);
+$router->add('error', ['namespace' => 'Admin','controller' => 'UserController', 'action' => 'error']);
 
 
 

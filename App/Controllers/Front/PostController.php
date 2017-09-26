@@ -20,7 +20,10 @@ class PostController extends Controller
     {
         $post = $this->repo->checkSlugExistOrNot($this->params['slug']);
         if(!empty($post)){
+            $this->repo->updateViewCount($post['id']);
             return View::render('Front/Post/detail.php', ['post' => $post]);
+        }else{
+            return View::render('Front/error.php');
         }
     }
 

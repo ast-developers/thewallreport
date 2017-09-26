@@ -2,8 +2,6 @@
 
 namespace App\Repositories\Front;
 
-
-
 use App\Models\Post;
 
 class PostRepository
@@ -17,7 +15,12 @@ class PostRepository
     }
 
     public function checkSlugExistOrNot($slug){
+
         return $this->model->checkSlugExistOrNot($slug);
+    }
+
+    public function updateViewCount($post_id){
+        return $this->model->updateViewCount($post_id);
     }
 
 }
