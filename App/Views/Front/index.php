@@ -80,10 +80,12 @@ $banners = array_chunk($getBanners,2);
 
         </div>
     </div>
+</div> <!-- /container -->
 
+<div id="ff-stream-block">
     <table width="100%">
         <tr>
-            <td style="width: 300px;vertical-align: top;padding-top: 113px; background: black;">
+            <td>
                 <?php
                 $stream_id = isset($_REQUEST['stream']) ? $_REQUEST['stream'] : 1;
                 $flowFlowInjector->stream($stream_id);
@@ -92,5 +94,6 @@ $banners = array_chunk($getBanners,2);
 
         </tr>
     </table>
+</div>
 <?php
 include(\App\Config::F_ROOT . 'App/Views/Front/footer.php');

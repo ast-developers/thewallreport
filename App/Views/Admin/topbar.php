@@ -3,7 +3,7 @@
     <div class="navbar-inner">
         <div class="container-fluid">
             <!-- BEGIN LOGO -->
-            <a class="brand" href="index.html">
+            <a class="brand" href="<?php echo \App\Config::W_ROOT.'admin' ?>">
                 <!--<img src="<?php /*echo \App\Config::W_ADMIN_ASSETS */?>/img/logo.png" alt="logo"/>-->
                 The Wall Report
             </a>

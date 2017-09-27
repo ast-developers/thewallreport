@@ -1,4 +1,4 @@
-</div> <!-- /container -->
+
 <!--<div class="container-fluid">
     <section>
         <div class="row">
@@ -18,9 +18,9 @@
     </section>
 </div>-->
 
-<footer id="footer" class="container">
+<footer>
     <div class="row">
-        <div class="col-md-12 text-center">
+        <div class="col-md-12 text-center" id="footer">
             <span class="copyright d-block">2017 © THE WALL REPORT. ALL RIGHTS RESERVED.</span>
             <span class="back-to-top"><i class="fa fa-angle-up"></i></span>
 
