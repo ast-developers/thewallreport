@@ -397,8 +397,7 @@ figure.ff-item-img img { min-height: 437px; }
 }
 
 .details-content .cb-byline {
-    font-size: 13px;
-    letter-spacing: 5px;
+
     font-family: 'Montserrat', sans-serif;
     font-weight: 700;
     text-transform: uppercase;
@@ -406,6 +405,8 @@ figure.ff-item-img img { min-height: 437px; }
 }
 .details-content .cb-byline a {
     color: #777;
+    font-size: 13px;
+    letter-spacing: 5px;
 }
 .details-content .cb-byline img {
     margin: 0 10px 0 0;
@@ -415,10 +416,12 @@ figure.ff-item-img img { min-height: 437px; }
     vertical-align: middle;
 }
 .details-content .cb-byline .cb-separator {
-    margin: 0 8px;
+    margin: 0 8px 0px 4px;
     font-size: 8px;
     line-height: 1;
+    vertical-align: top;
 }
+    .details-content .cb-byline .cb-separator .fa { vertical-align: text-top;}
 
 #searchModal .modal-content { border-radius: 0px; padding: 40px;}
 #searchModal .modal-content input.form-control{

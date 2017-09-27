@@ -238,4 +238,25 @@ class Page extends Model
         }
     }
 
+    /**
+     * @param $slug
+     * @return bool
+     */
+    public function checkSlugExistOrNot($slug)
+    {
+        $sql = "SELECT $this->dbTable.id,$this->dbTable.slug,$this->dbTable.views,$this->dbTable.description,$this->dbTable.name,$this->dbTable.created_by,$this->dbTable.published_at,CONCAT(users.first_name, ' ',users.last_name) as creator,users.profile_image FROM $this->dbTable";
+        $sql .= " LEFT JOIN users on users.id=$this->dbTable.created_by";
+        $sql .= " where slug=:slug";
+        $stm = $this->db->prepare($sql);
+        $stm->bindParam(":slug", $slug);
+        $res = $stm->execute();
+
+        if ($res) {
+            $row = $stm->fetch(\PDO::FETCH_ASSOC);
+            return $row;
+        } else {
+            return false;
+        }
+    }
+
 }
