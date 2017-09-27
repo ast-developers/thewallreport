@@ -36,34 +36,38 @@ $getFeaturedBanners = Core\Helper::getFeaturedBanners();
 
                 <div class="d-block pb-4">
                     <ul class="tags-list pl-0">
+                        <?php
+                        if(!empty($tags)){
+                            foreach($tags as $tag){
+                        ?>
                         <li>
-                            <a href="#">nyc</a>
+                            <a href="#"><?php echo $tag ?></a>
                         </li>
-                        <li>
-                            <a href="#">nyc</a>
-                        </li>
-                        <li>
-                            <a href="#">nyc</a>
-                        </li>
+                        <?php } } ?>
                     </ul>
                 </div>
                 <div class="">
 
-                        <div class="col-lg-12 share-post-block-bg p-4">
+                        <div class="col-lg-12 share-post-block-bg p-4 mb-4">
                             <div class="row d-flex align-items-center">
-                        <div class="col-lg-6">
+                        <div class="col-md-4">
                         <h4>SHARE ON</h4>
                     </div>
-                    <div class="col-lg-6">
-                <div class="fb-like" data-href="<?php echo \App\Config::W_ROOT . $post['slug'] ?>" data-layout="standard" data-action="like" data-size="small" data-show-faces="true" data-share="true"></div>
-                </br>
+                    <div class="col-md-8 d-flex align-items-center justify-content-md-end">
+                        <div class="fb-like" data-href="https://developers.facebook.com/docs/plugins/" data-layout="button_count" data-action="like" data-size="small" data-show-faces="true" data-share="true"></div>
+
                 <iframe
                     src="https://platform.twitter.com/widgets/tweet_button.html?size=l&url=<?php echo \App\Config::W_ROOT . $post['slug'] ?>&related=twitterapi%2Ctwitter&text=<?php echo $post['name'] ?> The Wall Report"
-                    width="140"
-                    height="18"
+                    width="95"
+                    height="40"
                     title="Twitter Share Button"
-                    style="border: 0; overflow: hidden;">
+                    data-size="default"
+                    style="border: 0; overflow: hidden!important;"
+                    class="Twitter-Share-Button"
+                    >
                 </iframe>
+                        <a style="margin-right: 15px;" data-pin-do="buttonPin" href="https://www.pinterest.com/pin/create/button/?url=<?php echo \App\Config::W_ROOT . $post['slug'] ?>" data-pin-height="28"></a>
+                        <g:plusone size="tall"></g:plusone>
                     </div>
                         </div>
                         </div>

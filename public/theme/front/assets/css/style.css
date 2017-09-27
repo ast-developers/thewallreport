@@ -446,3 +446,9 @@ button.close-search-bar { position: absolute; top:-30px; right: -5px; font-size:
     background: #f2f2f2;
 }
 .share-post-block-bg h4 { margin: 0px;}
+
+.fb_iframe_widget { vertical-align: top; padding-right: 15px;}
+#___plusone_0 { margin-left: 15px!important; position: relative; top:2px;}
+
+
+.Twitter-Share-Button { position: relative; top:6px;}

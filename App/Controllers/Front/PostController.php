@@ -15,13 +15,16 @@ class PostController extends Controller
     {
         $this->params = $params;
         $this->repo = new PostRepository();
+        $this->admin_post_repo = new \App\Repositories\Admin\PostRepository();
     }
     public function indexAction()
     {
         $post = $this->repo->checkSlugExistOrNot($this->params['slug']);
         if(!empty($post)){
             $this->repo->updateViewCount($post['id']);
-            return View::render('Front/Post/detail.php', ['post' => $post]);
+            $tags = $this->admin_post_repo->getPostsTagsById($post['id']);
+            $categories = $this->admin_post_repo->getPostsCategoriesById($post['id']);
+            return View::render('Front/Post/detail.php', ['post' => $post,'tags'=>explode(',',$tags)]);
         }else{
             return View::render('Front/error.php');
         }
