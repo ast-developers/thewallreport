@@ -251,7 +251,7 @@ class Post extends Model
      * @param $id
      * @return bool
      */
-    public function getCategoriesByID($id)
+    public function getCategoriesByPostId($id)
     {
         $sql = "SELECT category_id,categories.name FROM post_category";
         $sql .= " LEFT JOIN categories on categories.id=post_category.category_id";
@@ -430,7 +430,7 @@ class Post extends Model
     {
         $sql = " SELECT posts.name,posts.published_at,posts.id,posts.featured_image,posts.slug,CONCAT(u.first_name, ' ',u.last_name) as creator from posts";
         $sql .= " LEFT JOIN users as u on u.id = posts.created_by";
-        $sql .= " ORDER by published_at DESC LIMIT 4";
+        $sql .= " ORDER by published_at DESC LIMIT 5";
         $stm = $this->db->prepare($sql);
         $res = $stm->execute();
 

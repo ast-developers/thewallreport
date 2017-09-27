@@ -46,9 +46,21 @@ class PostRepository
      * @param $id
      * @return bool
      */
-    public function getCategoriesByID($id)
+    public function getCategoriesByPostId($id)
     {
-        return $this->model->getCategoriesByID($id);
+        return $this->model->getCategoriesByPostId($id);
+    }
+
+    public function getPostsTagsById($id)
+    {
+        $data = $this->model->getPostsTagsById($id);
+        $tags = [];
+        if (!empty($data)) {
+            foreach ($data as $value) {
+                $tags[] = $value['name'];
+            }
+        }
+        return implode(',', $tags);
     }
 
 }

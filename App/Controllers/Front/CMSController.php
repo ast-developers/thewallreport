@@ -7,11 +7,7 @@ use Core\Controller;
 use Core\View;
 
 
-/**
- * Class PostController
- * @package App\Controllers\Front
- */
-class PostController extends Controller
+class CMSController extends Controller
 {
 
     /**
@@ -26,7 +22,6 @@ class PostController extends Controller
     {
         $this->params = $params;
         $this->repo = new PostRepository();
-        $this->admin_post_repo = new \App\Repositories\Admin\PostRepository();
     }
 
     /**
@@ -37,17 +32,19 @@ class PostController extends Controller
         $post = $this->repo->checkSlugExistOrNot($this->params['slug']);
         if (!empty($post)) {
             $this->repo->updateViewCount($post['id']);
-            $tags = $this->admin_post_repo->getPostsTagsById($post['id']);
-            $categories = $this->repo->getCategoriesById($post['id']);
+            $cmsData = $this->repo->checkSlugExistOrNot($this->params['slug']);
+            $tags = $this->repo->getPostsTagsById($post['id']);
+            $categories = $this->repo->getCategoriesByPostId($post['id']);
+            $category = [];
             if (!empty($categories)) {
                 foreach ($categories as $value) {
                     $category[] = $value['name'];
                 }
             }
-            return View::render('Front/Post/detail.php', ['post' => $post, 'tags' => explode(',', $tags), 'categories' => $category]);
-        } else {
-            return View::render('Front/error.php');
+            return View::render('Front/CMS/detail.php', ['post' => $cmsData, 'tags' => explode(',', $tags), 'categories' => $category]);
         }
+        return View::render('Front/error.php');
+
     }
 
 }
