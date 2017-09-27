@@ -50,20 +50,21 @@ $getFeaturedBanners = Core\Helper::getFeaturedBanners();
             <div class="col-xl-8">
 
                 <div class="d-block pb-4"><i class="fa fa-eye mr-2"></i>Post Views: <?php echo $post['views'] ?></div>
-
+<?php if (!empty($tags)) { ?>
                 <div class="d-block pb-4">
                     <ul class="tags-list pl-0">
                         <?php
-                        if (!empty($tags)) {
+
                             foreach ($tags as $tag) {
                                 ?>
                                 <li>
                                     <a href="#"><?php echo $tag ?></a>
                                 </li>
                             <?php }
-                        } ?>
+                         ?>
                     </ul>
                 </div>
+                <?php } ?>
                 <div class="">
 
                     <div class="col-lg-12 share-post-block-bg p-4 mb-4">

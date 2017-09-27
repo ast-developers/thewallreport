@@ -2,7 +2,6 @@
 
 namespace App\Controllers\Front;
 
-use App\Repositories\Admin\PageRepository;
 use App\Repositories\Front\CMSRepository;
 use App\Repositories\Front\PostRepository;
 use Core\Controller;
@@ -40,6 +39,7 @@ class CMSController extends Controller
             $this->repo->updateViewCount($post['id']);
             $cmsData = $this->repo->checkSlugExistOrNot($this->params['slug']);
             $tags = $this->repo->getPostsTagsById($post['id']);
+            $tags = (!empty($tags)) ? explode(',', $tags) : [];
             $categories = $this->repo->getCategoriesByPostId($post['id']);
             $category = [];
             if (!empty($categories)) {
@@ -47,7 +47,7 @@ class CMSController extends Controller
                     $category[] = $value['name'];
                 }
             }
-            return View::render('Front/CMS/post_detail.php', ['post' => $cmsData, 'tags' => explode(',', $tags), 'categories' => $category]);
+            return View::render('Front/CMS/post_detail.php', ['post' => $cmsData, 'tags' => $tags, 'categories' => $category]);
         }
         $page = $this->repo->checkPageSlugExistOrNot($this->params['slug']);
         if (!empty($page)) {

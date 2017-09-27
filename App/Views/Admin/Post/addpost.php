@@ -89,10 +89,11 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                             <div class="portlet box blue">
                                 <div class="portlet-title">
                                     <h4><i class="icon-reorder"></i>Publish</h4>
-
+                                    <?php if(!empty($post)){ ?>
                                     <div class="tools">
-                                        <a href="#" class="btn mini green">Preview</a>
+                                        <a href="<?php echo \App\Config::W_ROOT.$post['slug'] ?>" class="btn mini green">Preview</a>
                                     </div>
+                                    <?php } ?>
                                 </div>
                                 <div class="portlet-body form">
                                     <div class="control-group">
