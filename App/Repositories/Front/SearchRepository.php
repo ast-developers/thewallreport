@@ -18,4 +18,8 @@ class SearchRepository
     {
         return $this->post_model->searchForPostData($term);
     }
+
+    public function searchForPageData($term){
+        return $this->page_model->searchForPageData($term);
+    }
 }

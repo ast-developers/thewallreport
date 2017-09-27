@@ -66,6 +66,8 @@
                             <input type="text" id="search-input" class="form-control" placeholder="Search...">
                         </div>
 
+                        <div class="row" style="padding-top: 10%"></div>
+
                     </div>
                 </div>
             </div>

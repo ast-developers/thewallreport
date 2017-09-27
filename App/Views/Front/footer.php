@@ -38,7 +38,6 @@ if(!isset($flowFlowInjector)){ ?>
 <script type="text/javascript"
         src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/jquery-validation/dist/jquery.validate.min.js"></script>
 <script src="<?php echo \App\Config::W_FRONT_ASSETS ?>js/bootstrap.min.js"></script>
-<script src="<?php echo \App\Config::W_FRONT_ASSETS ?>js/owl.carousel.min.js"></script>
 
 <script type="text/javascript">
 var url = "<?php echo \App\Config::W_ROOT.'search-data'; ?>";
@@ -69,13 +68,12 @@ var url = "<?php echo \App\Config::W_ROOT.'search-data'; ?>";
                     }
                 },
                 minLength: 3,
-            }).data("ui-autocomplete")._renderItem = function (ul, item) {
-                console.log(item);
-                var inner_html = '<div class="col-md-4"><div class="thumbnail"><a href="/w3images/lights.jpg"><img src="http://local.thewall.report/uploads/featured_image/budda-quotes-on-life-fb-quotes-web-and-twitter-banner-SOUL.jpg" alt="Lights" style="width:100%"><div class="caption"><p>Lorem ipsum...</p></div></a></div></div>';
-                return $("<li></li>")
+            }).data("ui-autocomplete")._renderItem = function (ul, item) { console.log(item)
+               // var inner_html = "<div class='thumbnail'><a href='/w3images/lights.jpg'><img src='' alt='Lights' style='width:100%'><div class="caption"><p>Lorem ipsum...</p></div></a>";
+                return $("<div class='col-md-4'></div>")
                     .data("ui-autocomplete-item", item)
-                    .append('<div class="row">'+inner_html+'</div>')
-                    .appendTo(ul);
+                    .append("<div class='thumbnail'><a href='"+item.slug+"'><img src="+item.featured_image+"><div class='caption'><p>"+item.name+"</p></div></a>")
+                    .appendTo('.modal-content .row');
             };
         }
 
@@ -84,6 +82,7 @@ var url = "<?php echo \App\Config::W_ROOT.'search-data'; ?>";
             $.ajax({
                 url: url,
                 dataType: "json",
+                method:'POST',
                 data: {term: request.term},
                 beforeSend: function () {
 
