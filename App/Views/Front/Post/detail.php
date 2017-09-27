@@ -20,8 +20,14 @@ $getFeaturedBanners = Core\Helper::getFeaturedBanners();
                 <span class="cb-author"> <a href="#"><img alt="" src="<?php echo $image ?>" class="avatar avatar-20 photo" height="20" width="20"><?php echo $post['creator'] ?></a></span><span
                     class="cb-separator"><i class="fa fa-times"></i></span><span class="cb-date"><time
                         datetime="2017-02-03"><?php echo date("F j, Y", strtotime($post['published_at'])) ?></time></span><span class="cb-separator"><i
-                        class="fa fa-times"></i></span><span class="cb-category cb-element"><!--<a
-                        href="#" >Hip Hop</a>--></span></div>
+                        class="fa fa-times"></i></span><span class="cb-category cb-element">
+                    <?php
+                    if(!empty($categories)){
+                    foreach($categories as $category){
+                    ?>
+                    <a href="#" ><?php echo $category ?></a>
+                    <?php } } ?>
+                    </span></div>
 
             <div class="video pt-5">
 
@@ -54,7 +60,7 @@ $getFeaturedBanners = Core\Helper::getFeaturedBanners();
                         <h4>SHARE ON</h4>
                     </div>
                     <div class="col-md-8 d-flex align-items-center justify-content-md-end">
-                        <div class="fb-like" data-href="https://developers.facebook.com/docs/plugins/" data-layout="button_count" data-action="like" data-size="small" data-show-faces="true" data-share="true"></div>
+                        <div class="fb-like" data-href="https://developers.facebook.com/docs/plugins/" data-layout="button_count"></div>
 
                 <iframe
                     src="https://platform.twitter.com/widgets/tweet_button.html?size=l&url=<?php echo \App\Config::W_ROOT . $post['slug'] ?>&related=twitterapi%2Ctwitter&text=<?php echo $post['name'] ?> The Wall Report"
