@@ -27,8 +27,7 @@ class IndexController extends Controller
      */
     public function indexAction()
     {
-        $banners = $this->repo->getFeaturedBanners();
-        View::render('Front/index.php', ['banners' => $banners]);
+        View::render('Front/index.php');
     }
 
 }

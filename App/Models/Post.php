@@ -251,6 +251,27 @@ class Post extends Model
      * @param $id
      * @return bool
      */
+    public function getCategoriesByPostId($id)
+    {
+        $sql = "SELECT category_id,categories.name FROM post_category";
+        $sql .= " LEFT JOIN categories on categories.id=post_category.category_id";
+        $sql .= "  WHERE post_id=:post_id";
+        $stm = $this->db->prepare($sql);
+        $stm->bindParam(":post_id", $id);
+        $res = $stm->execute();
+
+        if ($res) {
+            $row = $stm->fetchAll(\PDO::FETCH_ASSOC);
+            return $row;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * @param $id
+     * @return bool
+     */
     public function getPostsTagsById($id)
     {
         $sql = "SELECT tag.name,tag.id,post_tag.post_id FROM `post_tag` INNER JOIN tag on tag.id=post_tag.tag_id WHERE post_tag.post_id=:post_id";
@@ -409,7 +430,7 @@ class Post extends Model
     {
         $sql = " SELECT posts.name,posts.published_at,posts.id,posts.featured_image,posts.slug,CONCAT(u.first_name, ' ',u.last_name) as creator from posts";
         $sql .= " LEFT JOIN users as u on u.id = posts.created_by";
-        $sql .= " ORDER by published_at DESC LIMIT 4";
+        $sql .= " ORDER by published_at DESC LIMIT 5";
         $stm = $this->db->prepare($sql);
         $res = $stm->execute();
 
@@ -419,6 +440,37 @@ class Post extends Model
         } else {
             return false;
         }
+    }
+
+    /**
+     * @param $slug
+     * @return bool
+     */
+    public function checkSlugExistOrNot($slug)
+    {
+        $sql = "SELECT $this->dbTable.id,$this->dbTable.slug,$this->dbTable.views,$this->dbTable.description,$this->dbTable.name,$this->dbTable.created_by,$this->dbTable.published_at,CONCAT(users.first_name, ' ',users.last_name) as creator,users.profile_image FROM $this->dbTable";
+        $sql .= " LEFT JOIN users on users.id=$this->dbTable.created_by";
+        $sql .= " where slug=:slug";
+        $stm = $this->db->prepare($sql);
+        $stm->bindParam(":slug", $slug);
+        $res = $stm->execute();
+
+        if ($res) {
+            $row = $stm->fetch(\PDO::FETCH_ASSOC);
+            return $row;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * @param $post_id
+     */
+    public function updateViewCount($post_id)
+    {
+        $sql = "UPDATE $this->dbTable SET views=views+1 WHERE id=$post_id";
+        $stm = $this->db->prepare($sql);
+        $res = $stm->execute();
     }
 
     public function searchForPostData($term){

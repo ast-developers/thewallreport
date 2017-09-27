@@ -123,4 +123,13 @@ class PageRepository
         }
     }
 
+    /**
+     * @param $slug
+     * @return bool
+     */
+    public function checkSlugExistOrNot($slug)
+    {
+        return $this->model->checkSlugExistOrNot($slug);
+    }
+
 }

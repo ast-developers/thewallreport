@@ -2,6 +2,7 @@
 namespace Core;
 
 use App\Repositories\Admin\MenuRepository;
+use App\Repositories\Front\IndexRepository;
 
 /**
  * Class Helper
@@ -81,5 +82,10 @@ class Helper
                 return '<span class="btn red mini active">Inactive</span>';
         }
 
+    }
+
+    public static function getFeaturedBanners(){
+        $repo = new IndexRepository();
+        return $repo->getFeaturedBanners();
     }
 }
