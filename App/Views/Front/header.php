@@ -25,7 +25,14 @@
     <!-- Custom styles for this template -->
     <link href="<?php echo \App\Config::W_FRONT_ASSETS ?>css/responsive.css" rel="stylesheet">
     <link href="<?php echo \App\Config::W_FRONT_ASSETS ?>css/style.css" rel="stylesheet">
+    <link href="<?php echo \App\Config::W_FRONT_ASSETS ?>css/owl.carousel.min.css" rel="stylesheet">
     <script src='https://www.google.com/recaptcha/api.js'></script>
+    <script
+        type="text/javascript"
+        async defer
+        src="//assets.pinterest.com/js/pinit.js"
+        ></script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
     <?php
     if(isset($flowFlowInjector)){
         echo $flowFlowInjector->head(true);

@@ -80,9 +80,11 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                                     <h4><i class="icon-reorder"></i><?php echo (!empty($page)) ? 'Edit' : 'Add'; ?> Page
                                     </h4>
 
-                                    <div class="tools">
-                                        <a href="#" class="btn mini green">Preview</a>
-                                    </div>
+                                    <?php if(!empty($page)){ ?>
+                                        <div class="tools">
+                                            <a href="<?php echo \App\Config::W_ROOT.$page['slug'] ?>" class="btn mini green">Preview</a>
+                                        </div>
+                                    <?php } ?>
                                 </div>
                                 <div class="portlet-body form">
                                     <div class="control-group">
