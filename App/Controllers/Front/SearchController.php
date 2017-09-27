@@ -20,6 +20,8 @@ class SearchController extends Controller
         if(!empty($_GET['term'])){
             $term = $_GET['term'];
             $postData = $this->repo->searchForPostData($term);
+            $data=[];
+            echo json_encode($postData);
         }
     }
 

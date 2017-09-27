@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Front;
 
+use App\Models\Page;
 use App\Models\Post;
 
 class SearchRepository

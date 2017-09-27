@@ -421,6 +421,19 @@ class Post extends Model
         }
     }
 
+    public function searchForPostData($term){
+        $sql = "SELECT *  FROM `posts` WHERE `name` LIKE '%$term%'";
+        $stm = $this->db->prepare($sql);
+        $res = $stm->execute();
+
+        if ($res) {
+            $row = $stm->fetchAll(\PDO::FETCH_ASSOC);
+            return $row;
+        } else {
+            return false;
+        }
+    }
+
 
 
 }

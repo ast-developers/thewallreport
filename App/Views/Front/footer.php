@@ -68,10 +68,18 @@ var url = "<?php echo \App\Config::W_ROOT.'search-data'; ?>";
                     }
                 },
                 minLength: 3,
-            })
+            }).data("ui-autocomplete")._renderItem = function (ul, item) {
+                console.log(item);
+                var inner_html = '<div class="col-md-4"><div class="thumbnail"><a href="/w3images/lights.jpg"><img src="http://local.thewall.report/uploads/featured_image/budda-quotes-on-life-fb-quotes-web-and-twitter-banner-SOUL.jpg" alt="Lights" style="width:100%"><div class="caption"><p>Lorem ipsum...</p></div></a></div></div>';
+                return $("<li></li>")
+                    .data("ui-autocomplete-item", item)
+                    .append('<div class="row">'+inner_html+'</div>')
+                    .appendTo(ul);
+            };
         }
+
         function append_response_data(request, response) {
-            response([{ label: "Loading...", loading: true}]);
+            /*response([{ label: "Loading...", loading: true}]);*/
             $.ajax({
                 url: url,
                 dataType: "json",
@@ -86,6 +94,37 @@ var url = "<?php echo \App\Config::W_ROOT.'search-data'; ?>";
         }
     });
 </script>
-
+<div class="row">
+    <div class="col-md-4">
+        <div class="thumbnail">
+            <a href="/w3images/lights.jpg">
+                <img src="http://local.thewall.report/uploads/featured_image/budda-quotes-on-life-fb-quotes-web-and-twitter-banner-SOUL.jpg" alt="Lights" style="width:100%">
+                <div class="caption">
+                    <p>Lorem ipsum...</p>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="thumbnail">
+            <a href="/w3images/nature.jpg">
+                <img src="http://local.thewall.report/uploads/featured_image/budda-quotes-on-life-fb-quotes-web-and-twitter-banner-SOUL.jpg" alt="Nature" style="width:100%">
+                <div class="caption">
+                    <p>Lorem ipsum...</p>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="thumbnail">
+            <a href="/w3images/fjords.jpg">
+                <img src="http://local.thewall.report/uploads/featured_image/budda-quotes-on-life-fb-quotes-web-and-twitter-banner-SOUL.jpg alt="Fjords" style="width:100%">
+                <div class="caption">
+                    <p>Lorem ipsum...</p>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
 </body>
 </html>
