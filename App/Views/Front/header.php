@@ -6,7 +6,7 @@
 <!--[if IE 8]>
 <html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!-->
-<html lang="en-US"><!--<![endif]-->
+<html lang="en-US" xmlns="http://www.w3.org/1999/html"><!--<![endif]-->
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -26,10 +26,13 @@
     <link href="<?php echo \App\Config::W_FRONT_ASSETS ?>css/responsive.css" rel="stylesheet">
     <link href="<?php echo \App\Config::W_FRONT_ASSETS ?>css/style.css" rel="stylesheet">
     <script src='https://www.google.com/recaptcha/api.js'></script>
+    <!-- Jquery Autocomplete -->
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <?php
-    if(isset($flowFlowInjector)){
+    /*if(isset($flowFlowInjector)){
         echo $flowFlowInjector->head(true);
-    }
+    }*/
     $menus = Core\Helper::getMenus();
     ?>
 </head>
@@ -53,7 +56,7 @@
                     <div class="modal-content">
 
                         <div class="modal-body p-0">
-                            <input type="text" id="text" class="form-control" placeholder="Search...">
+                            <input type="text" id="search-input" class="form-control" placeholder="Search...">
                         </div>
 
                     </div>
@@ -88,3 +91,4 @@
             </div>
         </div>
     </header>
+

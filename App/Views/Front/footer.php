@@ -40,6 +40,7 @@ if(!isset($flowFlowInjector)){ ?>
 <script src="<?php echo \App\Config::W_FRONT_ASSETS ?>js/bootstrap.min.js"></script>
 
 <script type="text/javascript">
+var url = "<?php echo \App\Config::W_ROOT.'search-data'; ?>";
     $(document).ready(function () {
         // Show or hide the sticky footer button
         $(window).scroll(function () {
@@ -56,6 +57,33 @@ if(!isset($flowFlowInjector)){ ?>
 
             $('html, body').animate({scrollTop: 0}, 300);
         })
+
+        // Search result
+        if($("#search-input").length>0){
+
+            $("#search-input").autocomplete({
+                source: function (request, response) {
+                    if ($.trim(request.term) != "") {
+                        append_response_data(request, response);
+                    }
+                },
+                minLength: 3,
+            })
+        }
+        function append_response_data(request, response) {
+            response([{ label: "Loading...", loading: true}]);
+            $.ajax({
+                url: url,
+                dataType: "json",
+                data: {term: request.term},
+                beforeSend: function () {
+
+                },
+                success: function (data) {
+                    response(data);
+                }
+            });
+        }
     });
 </script>
 

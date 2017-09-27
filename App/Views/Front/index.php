@@ -49,19 +49,19 @@ include(\App\Config::F_ROOT . 'App/Views/Front/header.php');
         </div>
     </div>
 </div> <!-- /container -->
-
+<!--
 <div id="ff-stream-block">
     <table width="100%">
         <tr>
             <td>
                 <?php
-                $stream_id = isset($_REQUEST['stream']) ? $_REQUEST['stream'] : 1;
+/*                $stream_id = isset($_REQUEST['stream']) ? $_REQUEST['stream'] : 1;
                 $flowFlowInjector->stream($stream_id);
-                ?>
+                */?>
             </td>
 
         </tr>
     </table>
-</div>
+</div>-->
 <?php
 include(\App\Config::F_ROOT . 'App/Views/Front/footer.php');
