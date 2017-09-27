@@ -59,6 +59,6 @@ if(!isset($flowFlowInjector)){ ?>
         })
     });
 </script>
-
+<script id="dsq-count-scr" src="//thewallreport.disqus.com/count.js" async></script>
 </body>
 </html>
