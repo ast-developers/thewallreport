@@ -409,12 +409,35 @@ button.close-search-bar { position: absolute; top:-30px; right: -5px; font-size:
 .validation-error{
     color:red;
 }
+.tags-list { list-style: none; }
+.tags-list li {
+    display: inline-block;
+    margin: 0 10px 10px 0;
+
+}
+.tags-list li a {
+    color: #161616;
+    border: 1px solid #161616;
+    -webkit-transition: .25s ease all;
+    -transition: .25s ease all;
+    transition: .25s ease all;
+    float: left;
+}
+.tags-list li a {
+    padding: 5px 10px;
+    font-weight: 700;
+    font-size: 9px !important;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+
+.tags-list li a:hover { background: #000; color: #fff;}
 
 
 
 
-
-
-
-
-
+.share-post-block-bg {
+    background: #f2f2f2;
+}
+.share-post-block-bg h4 { margin: 0px;}

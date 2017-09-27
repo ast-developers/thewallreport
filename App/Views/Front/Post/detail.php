@@ -7,7 +7,7 @@ $getFeaturedBanners = Core\Helper::getFeaturedBanners();
         var js, fjs = d.getElementsByTagName(s)[0];
         if (d.getElementById(id)) return;
         js = d.createElement(s); js.id = id;
-        js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.10&appId=516509108520777";
+        js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.10&appId=311382379200231";
         fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));</script>
 
@@ -31,9 +31,44 @@ $getFeaturedBanners = Core\Helper::getFeaturedBanners();
         </div>
         <div class="row">
             <div class="col-xl-8">
-                <i class="fa fa-eye mr-2"></i>Post Views: <?php echo $post['views'] ?>
+
+                <div class="d-block pb-4"><i class="fa fa-eye mr-2"></i>Post Views: <?php echo $post['views'] ?></div>
+
+                <div class="d-block pb-4">
+                    <ul class="tags-list pl-0">
+                        <li>
+                            <a href="#">nyc</a>
+                        </li>
+                        <li>
+                            <a href="#">nyc</a>
+                        </li>
+                        <li>
+                            <a href="#">nyc</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="">
+
+                        <div class="col-lg-12 share-post-block-bg p-4">
+                            <div class="row d-flex align-items-center">
+                        <div class="col-lg-6">
+                        <h4>SHARE ON</h4>
+                    </div>
+                    <div class="col-lg-6">
+                <div class="fb-like" data-href="<?php echo \App\Config::W_ROOT . $post['slug'] ?>" data-layout="standard" data-action="like" data-size="small" data-show-faces="true" data-share="true"></div>
                 </br>
-                <div class="fb-like" data-href="https://developers.facebook.com/docs/plugins/" data-layout="standard" data-action="like" data-size="small" data-show-faces="true" data-share="true"></div>
+                <iframe
+                    src="https://platform.twitter.com/widgets/tweet_button.html?size=l&url=<?php echo \App\Config::W_ROOT . $post['slug'] ?>&related=twitterapi%2Ctwitter&text=<?php echo $post['name'] ?> The Wall Report"
+                    width="140"
+                    height="18"
+                    title="Twitter Share Button"
+                    style="border: 0; overflow: hidden;">
+                </iframe>
+                    </div>
+                        </div>
+                        </div>
+                </div>
+
             </div>
             <div class="col-xl-4">
                 <div class="featured-section">
