@@ -22,4 +22,12 @@ class SearchRepository
     public function searchForPageData($term){
         return $this->page_model->searchForPageData($term);
     }
+
+    public function getPostTagsByID($id){
+        return $this->post_model->getPostsTagsById($id);
+    }
+
+    public function getCategoriesById($id){
+        return $this->post_model->getPostsCategoriesById($id);
+    }
 }

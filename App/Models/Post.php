@@ -474,7 +474,9 @@ class Post extends Model
     }
 
     public function searchForPostData($term){
-        $sql = "SELECT *  FROM `posts` WHERE `name` LIKE '%$term%'";
+        $sql = "SELECT *,CONCAT(users.first_name, ' ',users.last_name) as creator  FROM `posts`";
+        $sql .= " LEFT JOIN users on users.id=$this->dbTable.created_by";
+        $sql .= " WHERE `name` LIKE '%$term%'";
         $stm = $this->db->prepare($sql);
         $res = $stm->execute();
 

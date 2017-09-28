@@ -41,7 +41,9 @@ if(!isset($flowFlowInjector)){ ?>
 <script src="<?php echo \App\Config::W_FRONT_ASSETS ?>js/owl.carousel.min.js"></script>
 
 <script type="text/javascript">
+var search_url = "<?php echo \App\Config::W_ROOT.'search/' ?>";
 var url = "<?php echo \App\Config::W_ROOT.'search-data'; ?>";
+var spinner = "<?php echo \App\Config::W_FRONT_ASSETS.'images/loader.gif' ?>";
     $(document).ready(function () {
         // Show or hide the sticky footer button
         $(window).scroll(function () {
@@ -60,23 +62,39 @@ var url = "<?php echo \App\Config::W_ROOT.'search-data'; ?>";
         })
 
         // Search result
-        if($("#search-input").length>0){
-
-            $("#search-input").autocomplete({
-                source: function (request, response) {
-                    if ($.trim(request.term) != "") {
-                        append_response_data(request, response);
+        $("#search-input").on("keyup", function( event ){
+            var text = $('#search-input').val();
+            var model_content=$('.modal-content').find('.row');
+            if(text.length > 2){
+                $.ajax({
+                    url: url,
+                    dataType: "json",
+                    method:'POST',
+                    data: {term: text},
+                    beforeSend: function () {
+                        $('.spinner').html("<img src='"+spinner+"' />");
+                    },
+                    success: function (data) {
+                        $('.spinner').empty();
+                        $('.no-found-result').empty();
+                        $(model_content).empty();
+                        $('.button-area').empty()
+                        var result_message=(typeof data.count != 'undefined' && data.count>0)?"FOUND " +data.count+ " RESULTS FOR: <span class='search-text'>"+text+"</span>":"NO RESULTS FOUND FOR:<span class='search-text'>"+text+"</span>";
+                        if(typeof data.count != 'undefined' && data.count>0){
+                            $('.found-result').html(result_message);
+                            $.each( data.data, function( key, value ) {
+                                $(model_content).append("<div class='col-lg-4 text-center pb-2'><a href='"+value.slug+"'><div class='search-img hidden-md-down'><img src="+value.featured_image+"></div><h2 class='title'>"+value.name+"</h2></a><span class='search-date d-block'>FEBRUARY 3, 2017</span></div>");
+                            });
+                            $("<a class='see-all-btn' href='"+search_url+text+"'>SEE ALL RESULTS</a>").appendTo('.button-area');
+                        }else{
+                            $('.button-area').empty();
+                            $('.found-result').empty();
+                            $('.no-found-result').html(result_message)
+                        }
                     }
-                },
-                minLength: 3,
-            }).data("ui-autocomplete")._renderItem = function (ul, item) { console.log(item)
-               // var inner_html = "<div class='thumbnail'><a href='/w3images/lights.jpg'><img src='' alt='Lights' style='width:100%'><div class="caption"><p>Lorem ipsum...</p></div></a>";
-                return $("<div class='col-md-4'></div>")
-                    .data("ui-autocomplete-item", item)
-                    .append("<div class='thumbnail'><a href='"+item.slug+"'><img src="+item.featured_image+"><div class='caption'><p>"+item.name+"</p></div></a>")
-                    .appendTo('.modal-content .row');
-            };
-        }
+                });
+            }
+        });
 
         function append_response_data(request, response) {
             /*response([{ label: "Loading...", loading: true}]);*/

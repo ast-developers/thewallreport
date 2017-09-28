@@ -66,8 +66,11 @@
                             <input type="text" id="search-input" class="form-control" placeholder="Search...">
                         </div>
 
-                        <div class="row" style="padding-top: 10%"></div>
-
+                        <div class="pt-3 p-md-4 mt-2 d-block text-center"><h4 class="found-result"></h4></div>
+                        <p class="no-found-result text-center"></p>
+                        <div class="spinner text-center"></div>
+                        <div class="row"></div>
+                        <div class="button-area pt-md-5 text-center"></div>
                     </div>
                 </div>
             </div>
