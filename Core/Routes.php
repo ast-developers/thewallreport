@@ -49,6 +49,7 @@ $router->add('admin/error', ['namespace' => 'Admin', 'controller' => 'UserContro
 /*$router->add('admin/checkuser', ['namespace' => 'Admin','controller' => 'UserController', 'action' => 'checkuser', 'middleware' => 'Auth']);*/
 
 // Front routes
+$router->add('search/{s:[a-zA-Z\d\W]+}/{p:\d+}', ['namespace' => 'Front', 'controller' => 'SearchController', 'action' => 'search']);
 $router->add('search/{s:[a-zA-Z\d\W]+}', ['namespace' => 'Front', 'controller' => 'SearchController', 'action' => 'search']);
 $router->add('search-data', ['namespace' => 'Front','controller' => 'SearchController', 'action' => 'index']);
 $router->add('', ['namespace' => 'Front', 'controller' => 'IndexController', 'action' => 'index']);

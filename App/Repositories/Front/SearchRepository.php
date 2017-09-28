@@ -28,6 +28,6 @@ class SearchRepository
     }
 
     public function getCategoriesById($id){
-        return $this->post_model->getPostsCategoriesById($id);
+        return $this->post_model->getCategoriesByPostId($id);
     }
 }

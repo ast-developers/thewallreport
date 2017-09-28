@@ -43,23 +43,17 @@ class SearchController extends Controller
     }
 
     public function searchAction(){
-
+        $perPage = 2;
         if(!empty($this->params['s'])){
+            $key = (!empty($this->params['p'])) ? $this->params['p'] : 0;
+            $index = ($key!=0) ? $key-1 : 0;
             $term = $this->params['s'];
             $postData = $this->repo->searchForPostData($term);
-            $post_data = [];
-            if(!empty($postData)){
-                foreach($postData as $post){
-                    $tags = $this->repo->getPostTagsByID($post['id']);
-                    $categories = $this->repo->getCategoriesById($post['id']);
-                    $post_data[$post['id']] = $post;
-                    $post_data[$post['id']]['tags'] = $tags;
-                    $post_data[$post['id']]['categories'] = $categories;
-                }
-            } print_r($postData);die;
             $pageData = $this->repo->searchForPageData($term);
-            $data = array_merge($post_data,$pageData);
-            return View::render('Front/search_list.php', ['data' => $data,'search_text'=>$this->params['s']]);
+            $data = array_merge($postData,$pageData);
+            $results = array_chunk($data,$perPage);
+            $totalPages = count($results);
+            return View::render('Front/search_list.php', ['data' => $results[$key],'search_text'=>$this->params['p'],'total_pages'=>$totalPages]);
         }
     }
 

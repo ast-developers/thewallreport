@@ -550,3 +550,54 @@ transition: .35s opacity;
     right: 25px;
     left: 10px;
 }
+.cb-pagination {
+    text-align: center;
+    width: 100%;
+    margin: 20px 0 40px 0;
+    clear: both;
+}
+.clearfix {
+    zoom: 1;
+}
+td, th, ul, ol {
+    padding: 0;
+    list-style-type: none;
+}
+.cb-pagination li {
+    display: inline-block;
+}
+.cb-body-light .cb-pagination a, .cb-body-light .cb-entry-content .cb-pagination a {
+    color: #161616;
+    border: 1px solid #161616;
+}
+.cb-pagination a, .cb-pagination .current, .cb-pagination>.cb-page {
+    padding: 5px 12px;
+    font-weight: 700;
+    font-size: 9px !important;
+    display: inline-block;
+    margin: 0 10px 10px 0;
+    -webkit-transition: .35s all ease;
+    -transition: .35s all ease;
+    transition: .35s all ease;
+}
+.cb-body-light .cb-pagination a:hover, .cb-body-light .cb-entry-content .cb-pagination a:hover {
+    background: #161616;
+    color: #fff;
+}
+.cb-body-light .cb-pagination a, .cb-body-light .cb-entry-content .cb-pagination a {
+    color: #161616;
+    border: 1px solid #161616;
+}
+.cb-body-light .cb-pagination .current, .cb-body-light .cb-pagination>.cb-page, .cb-body-light .cb-entry-content .cb-pagination .current, .cb-body-light .cb-entry-content .cb-pagination>.cb-page {
+    background: #161616;
+    border: 1px solid #161616;
+    color: #fff;
+}
+.fa {
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
