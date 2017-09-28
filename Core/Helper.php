@@ -1,6 +1,7 @@
 <?php
 namespace Core;
 
+use App\Config;
 use App\Repositories\Admin\MenuRepository;
 use App\Repositories\Front\IndexRepository;
 
@@ -17,7 +18,7 @@ class Helper
      */
     public static function randomString($length)
     {
-        $key = '';
+        $key  = '';
         $keys = range('a', 'z');
 
         for ($i = 0; $i < $length; $i++) {
@@ -64,7 +65,7 @@ class Helper
     public static function getMenus()
     {
         $menuRepo = new MenuRepository();
-        $menus = $menuRepo->getMenus();
+        $menus    = $menuRepo->getMenus();
         return $menus;
     }
 
@@ -84,8 +85,40 @@ class Helper
 
     }
 
-    public static function getFeaturedBanners(){
+    /**
+     * @return bool
+     */
+    public static function getFeaturedBanners()
+    {
         $repo = new IndexRepository();
         return $repo->getFeaturedBanners();
+    }
+
+    /**
+     * Get User Avatar
+     * @param array $user
+     * @param string $size
+     * @return string
+     */
+    public static function getUserAvatar($user = [], $size = 'small')
+    {
+        switch ($size) {
+            case 'small':
+                $avatar = Config::W_ADMIN_ASSETS . '/img/avatar.png';
+                break;
+            case 'medium':
+                $avatar = 'http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=no+image';
+                break;
+            case 'actual':
+                $avatar = 'http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=no+image';
+                break;
+            default:
+                $avatar = Config::W_ADMIN_ASSETS . '/img/avatar.png';
+                break;
+        }
+        if (!empty($user['profile_image'])) {
+            $avatar = \App\Config::W_USER_AVATAR_ROOT . $user['profile_image'];
+        }
+        return $avatar;
     }
 }

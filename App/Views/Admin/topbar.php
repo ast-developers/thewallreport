@@ -18,7 +18,10 @@
             <ul class="nav pull-right">
                 <li class="dropdown user">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <!--<img alt="" src="<?php /*\App\Config::W_ROOT.'uploads/profile_images/'.$_SESSION['user']['profile_image'] */ ?>" />-->
+                        <?php
+                        $avatar = \Core\Helper::getUserAvatar(['profile_image' => $_SESSION['user']['profile_image']], 'small');
+                        ?>
+                        <img alt="" src="<?php echo $avatar; ?>" width="29" height="29" />
                         <span
                             class="username"><?php echo $_SESSION['user']['first_name'] . ' ' . $_SESSION['user']['last_name'] ?></span>
                         <i class="icon-angle-down"></i>
