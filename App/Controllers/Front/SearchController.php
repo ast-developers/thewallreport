@@ -53,7 +53,13 @@ class SearchController extends Controller
             $data = array_merge($postData,$pageData);
             $results = array_chunk($data,$perPage);
             $totalPages = count($results);
-            return View::render('Front/search_list.php', ['data' => $results[$key],'search_text'=>$this->params['p'],'total_pages'=>$totalPages]);
+            $resultData = (isset($results[$key-1])) ? $results[$key-1] : [];
+            if(!empty($resultData)){
+                return View::render('Front/search_list.php', ['data' => $resultData,'search_text'=>$this->params['s'],'total_pages'=>$totalPages]);
+            }else{
+                return View::render('Front/error.php');
+            }
+
         }
     }
 
