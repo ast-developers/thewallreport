@@ -15,42 +15,30 @@
     <link href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/css/style.css" rel="stylesheet" />
     <link href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/css/style_responsive.css" rel="stylesheet" />
     <link href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/css/style_default.css" rel="stylesheet" id="style_color" />
-    <link rel="stylesheet" type="text/css" href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/uniform/css/uniform.default.css" />
+    <link href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/uniform/css/uniform.default.css" rel="stylesheet" type="text/css" />
     <link href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" />
-    <link rel="stylesheet" type="text/css" href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/gritter/css/jquery.gritter.css" />
-    <link rel="stylesheet" type="text/css" href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/bootstrap-daterangepicker/daterangepicker.css" />
-    <link href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/fullcalendar/fullcalendar/bootstrap-fullcalendar.css" rel="stylesheet" />
-    <link href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/jqvmap/jqvmap/jqvmap.css" media="screen" rel="stylesheet" type="text/css" />
-    <link href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/fancybox/source/jquery.fancybox.css" rel="stylesheet" />
-    <link rel="stylesheet" type="text/css" href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/chosen-bootstrap/chosen/chosen.css" />
-    <!--<link rel="stylesheet" href="<?php /*echo \App\Config::W_ADMIN_ASSETS */?>/data-tables/DT_bootstrap.css" />-->
-    <!--<link rel="stylesheet" href="<?php /*echo \App\Config::W_ADMIN_ASSETS */?>/bootstrap-toggle-buttons/static/stylesheets/bootstrap-toggle-buttons.css" />-->
-    <link rel="stylesheet" type="text/css" href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/bootstrap-colorpicker/css/colorpicker.css" />
-    <link rel="stylesheet" type="text/css" href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/bootstrap-timepicker/compiled/timepicker.css" />
-    <link rel="stylesheet" type="text/css" href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/bootstrap-datepicker/css/datepicker.css" />
-    <link rel="stylesheet" type="text/css" href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/bootstrap-wysihtml5/bootstrap-wysihtml5.css" />
-    <link rel="stylesheet" type="text/css" href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/clockface/css/clockface.css" />
+    <link href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/gritter/css/jquery.gritter.css" rel="stylesheet" type="text/css" />
     <link href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/bootstrap-fileupload/bootstrap-fileupload.css" rel="stylesheet" />
-    <link rel="stylesheet" type="text/css" href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/jquery-tags-input/jquery.tagsinput.css" />
+    <link href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/jquery-tags-input/jquery.tagsinput.css" rel="stylesheet" type="text/css" />
     <link href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/data-tables/jquery.dataTables.css" rel="stylesheet" />
-    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
     <link href="//code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" type="text/css" rel="stylesheet">
-    <link rel="stylesheet" href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/css/redactor.css" />
-    <script src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/js/redactor.js"></script>
-    <script src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/js/video.js"></script>
-    <script src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/js/inlinestyle.js"></script>
-    <script src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/js/source.js"></script>
-    <script src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/js/alignment.js"></script>
-    <script src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/js/table.js"></script>
-    <script src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/js/fullscreen.js"></script>
-    <script src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/js/fontsize.js"></script>
-    <script src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/js/fontcolor.js"></script>
+    <link href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/redactor/css/redactor.css" rel="stylesheet" />
     <!-- Tokenfield CSS -->
     <link href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/css/tokenfield-typeahead.css" type="text/css" rel="stylesheet">
     <link href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/css/bootstrap-tokenfield.css" type="text/css" rel="stylesheet">
     <link href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/css/custom.css" rel="stylesheet" />
     <link rel="shortcut icon" href="favicon.ico" />
 
+    <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript" ></script>
+    <script src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/redactor/js/redactor.js"></script>
+    <script src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/redactor/js/video.js"></script>
+    <script src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/redactor/js/inlinestyle.js"></script>
+    <script src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/redactor/js/source.js"></script>
+    <script src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/redactor/js/alignment.js"></script>
+    <script src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/redactor/js/table.js"></script>
+    <script src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/redactor/js/fullscreen.js"></script>
+    <script src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/redactor/js/fontsize.js"></script>
+    <script src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/redactor/js/fontcolor.js"></script>
     <?php
     if(isset($flowFlowInjector)){
         echo $flowFlowInjector->head(true, true, false);
