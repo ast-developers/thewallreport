@@ -27,9 +27,7 @@
     <link href="<?php echo \App\Config::W_FRONT_ASSETS ?>css/style.css" rel="stylesheet">
     <link href="<?php echo \App\Config::W_FRONT_ASSETS ?>css/owl.carousel.min.css" rel="stylesheet">
     <script src='https://www.google.com/recaptcha/api.js'></script>
-    <!-- Jquery Autocomplete -->
-    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
     <script
         type="text/javascript"
         async defer
@@ -37,9 +35,9 @@
         ></script>
     <script src="https://apis.google.com/js/platform.js" async defer></script>
     <?php
-    /*if(isset($flowFlowInjector)){
+    if(isset($flowFlowInjector)){
         echo $flowFlowInjector->head(true);
-    }*/
+    }
     $menus = Core\Helper::getMenus();
     ?>
 </head>

@@ -473,8 +473,13 @@ class Post extends Model
         $res = $stm->execute();
     }
 
-    public function searchForPostData($term){
-        $sql = "SELECT *,CONCAT(users.first_name, ' ',users.last_name) as creator  FROM `posts`";
+    /**
+     * @param $term
+     * @return bool
+     */
+    public function searchForPostData($term)
+    {
+        $sql = "SELECT posts.name,posts.published_at,posts.slug,posts.featured_image,posts.id,CONCAT(users.first_name, ' ',users.last_name) as creator  FROM `posts`";
         $sql .= " LEFT JOIN users on users.id=$this->dbTable.created_by";
         $sql .= " WHERE `name` LIKE '%$term%'";
         $stm = $this->db->prepare($sql);
@@ -487,7 +492,6 @@ class Post extends Model
             return false;
         }
     }
-
 
 
 }
