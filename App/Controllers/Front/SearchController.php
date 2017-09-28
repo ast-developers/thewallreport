@@ -26,6 +26,7 @@ class SearchController extends Controller
             $data = array_merge($postData,$pageData);
             $searchData = array_chunk($data,3);
             if(!empty($searchData[0])){
+                $searchResult['count'] = count($data);
                 foreach($searchData[0] as $data){
                     $image = (!empty($data['featured_image'])) ? Config::W_FEATURED_IMAGE_ROOT.$data['featured_image'] : 'http://thewall.report/wp-content/themes/15zine/library/images/placeholders/placeholder-260x170.png';
                     $searchResult[$data['id']]['featured_image'] = $image;

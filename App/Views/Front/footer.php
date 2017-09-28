@@ -94,37 +94,5 @@ var url = "<?php echo \App\Config::W_ROOT.'search-data'; ?>";
         }
     });
 </script>
-<div class="row">
-    <div class="col-md-4">
-        <div class="thumbnail">
-            <a href="/w3images/lights.jpg">
-                <img src="http://local.thewall.report/uploads/featured_image/budda-quotes-on-life-fb-quotes-web-and-twitter-banner-SOUL.jpg" alt="Lights" style="width:100%">
-                <div class="caption">
-                    <p>Lorem ipsum...</p>
-                </div>
-            </a>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="thumbnail">
-            <a href="/w3images/nature.jpg">
-                <img src="http://local.thewall.report/uploads/featured_image/budda-quotes-on-life-fb-quotes-web-and-twitter-banner-SOUL.jpg" alt="Nature" style="width:100%">
-                <div class="caption">
-                    <p>Lorem ipsum...</p>
-                </div>
-            </a>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="thumbnail">
-            <a href="/w3images/fjords.jpg">
-                <img src="http://local.thewall.report/uploads/featured_image/budda-quotes-on-life-fb-quotes-web-and-twitter-banner-SOUL.jpg alt="Fjords" style="width:100%">
-                <div class="caption">
-                    <p>Lorem ipsum...</p>
-                </div>
-            </a>
-        </div>
-    </div>
-</div>
 </body>
 </html>
