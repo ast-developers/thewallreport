@@ -38,6 +38,7 @@ if(!isset($flowFlowInjector)){ ?>
 <script type="text/javascript"
         src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/jquery-validation/dist/jquery.validate.min.js"></script>
 <script src="<?php echo \App\Config::W_FRONT_ASSETS ?>js/bootstrap.min.js"></script>
+<script src="<?php echo \App\Config::W_FRONT_ASSETS ?>js/owl.carousel.min.js"></script>
 
 <script type="text/javascript">
 var url = "<?php echo \App\Config::W_ROOT.'search-data'; ?>";
@@ -94,5 +95,6 @@ var url = "<?php echo \App\Config::W_ROOT.'search-data'; ?>";
         }
     });
 </script>
+<script id="dsq-count-scr" src="//thewallreport.disqus.com/count.js" async></script>
 </body>
 </html>

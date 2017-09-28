@@ -1,6 +1,8 @@
 <?php
 include(\App\Config::F_ROOT . 'App/Views/Front/header.php');
 $getFeaturedBanners = Core\Helper::getFeaturedBanners();
+$disqusPageUrl = \App\Config::W_ROOT.$post['slug'];
+$disqusPageIdentifier = $post['slug'];
 ?>
 <div id="fb-root"></div>
 <script>(function (d, s, id) {
@@ -93,6 +95,11 @@ $getFeaturedBanners = Core\Helper::getFeaturedBanners();
                             </div>
                         </div>
                     </div>
+                    <!-- Disqus Commenting Start -->
+                    <div class="col-md-12">
+                        <?php include_once (\App\Config::F_VIEW.'disqus.php');?>
+                    </div>
+                    <!-- Disqus Commenting End -->
                 </div>
 
             </div>
