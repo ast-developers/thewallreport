@@ -9,8 +9,12 @@ $menuHelper = new \Core\Menu();
             <div class="sidebar-toggler hidden-phone"></div>
             <!-- BEGIN SIDEBAR TOGGLER BUTTON -->
         </li>
-        <li>
-
+        <li>&nbsp;</li>
+        <li class="start <?php echo $menuHelper->menuActiveState('admin.dashboard');?>">
+            <a href="<?php echo \App\Config::W_ROOT . "admin/dashboard" ?>">
+                <i class="icon-home"></i>
+                <span class="title">Dashboard</span>
+            </a>
         </li>
         <li class="has-sub <?php echo $menuHelper->menuActiveState('admin.user');?>">
             <a href="javascript:;">
@@ -54,7 +58,7 @@ $menuHelper = new \Core\Menu();
         </li>
         <li class="has-sub <?php echo $menuHelper->menuActiveState('admin.menu');?>">
             <a href="javascript:;">
-                <i class=""></i>
+                <i class="icon-th-list"></i>
                 <span class="title">Menus</span>
                 <span class="arrow "></span>
             </a>
