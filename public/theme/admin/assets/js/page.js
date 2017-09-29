@@ -5,7 +5,6 @@ var Page = function () {
             "processing": true,
             "serverSide": true,
             "order": [[1, "asc"]],
-            "bPaginate": false,
             "columnDefs": [{
                 "targets": 0,
                 "orderable": false,
