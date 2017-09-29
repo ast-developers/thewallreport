@@ -320,6 +320,7 @@ class Post extends Model
             $res = $stm->execute();
 
             $totalFiltered = $stm->rowCount(); //mysqli_num_rows($query); // when there is a search parameter then we have to modify total number filtered rows as per search result without limit in the query
+            $sql .= " ORDER BY " . $columns[$params['order'][0]['column']] . "   " . $params['order'][0]['dir'] . "   LIMIT " . $params['start'] . " ," . $params['length'] . "   ";
             $stm = $this->db->prepare($sql);
             $res = $stm->execute();
 
@@ -332,7 +333,7 @@ class Post extends Model
             $sql .= " LEFT JOIN post_tag ON post_tag.post_id = posts.id";
             $sql .= " LEFT JOIN tag on tag.id = post_tag.tag_id";
             $sql .= " GROUP BY posts.id";
-            $sql .= " ORDER BY " . $columns[$params['order'][0]['column']] . "   " . $params['order'][0]['dir'] . " ";
+            $sql .= " ORDER BY " . $columns[$params['order'][0]['column']] . "   " . $params['order'][0]['dir'] . "   LIMIT " . $params['start'] . " ," . $params['length'] . "   ";
 
             $stm = $this->db->prepare($sql);
             $res = $stm->execute();
