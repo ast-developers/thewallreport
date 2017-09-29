@@ -43,7 +43,7 @@ $getFeaturedBanners = Core\Helper::getFeaturedBanners();
                                                 <li><a href=""><?php echo $category ?></a></li>
 
                                             <?php } } } ?>
-                                        <li><a href="<?php echo \App\Config::W_ROOT.$value['slug']; ?>#disqus_thread">Comment</a></li>
+                                        <li><a href="<?php echo \App\Config::W_ROOT.$value['slug']; ?>#disqus_thread" data-disqus-identifier="<?php echo $value['slug']; ?>">Comments</a></li>
                                     </ul>
                                 </div>
 
