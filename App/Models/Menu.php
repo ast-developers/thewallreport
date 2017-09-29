@@ -139,6 +139,7 @@ class Menu extends Model
             $res = $stm->execute();
 
             $totalFiltered = $stm->rowCount();
+            $sql .= " ORDER BY " . $columns[$params['order'][0]['column']] . "   " . $params['order'][0]['dir'] . "   LIMIT " . $params['start'] . " ," . $params['length'] . "   ";
             $stm = $this->db->prepare($sql);
             $res = $stm->execute();
 
@@ -146,7 +147,7 @@ class Menu extends Model
 
             $sql = "SELECT $this->dbTable.name,$this->dbTable.type,$this->dbTable.id,$this->dbTable.created_at,$this->dbTable.status";
             $sql .= " FROM $this->dbTable";
-            $sql .= " ORDER BY " . $columns[$params['order'][0]['column']] . "   " . $params['order'][0]['dir'] . " ";
+            $sql .= " ORDER BY " . $columns[$params['order'][0]['column']] . "   " . $params['order'][0]['dir'] . "   LIMIT " . $params['start'] . " ," . $params['length'] . "   ";
 
             $stm = $this->db->prepare($sql);
             $res = $stm->execute();
