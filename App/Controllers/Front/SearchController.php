@@ -86,7 +86,7 @@ class SearchController extends Controller
      */
     public function searchAction()
     {
-        $perPage = 1;
+        $perPage = 10;
         if (!empty($this->params['s'])) {
             $term = $this->params['s'];
 
