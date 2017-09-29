@@ -35,12 +35,18 @@
 if(!isset($flowFlowInjector)){ ?>
     <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
 <?php } ?>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script type="text/javascript"
         src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/jquery-validation/dist/jquery.validate.min.js"></script>
 <script src="<?php echo \App\Config::W_FRONT_ASSETS ?>js/bootstrap.min.js"></script>
 <script src="<?php echo \App\Config::W_FRONT_ASSETS ?>js/owl.carousel.min.js"></script>
+<script src="<?php echo \App\Config::W_FRONT_ASSETS ?>js/app.js"></script>
 
 <script type="text/javascript">
+var search_url = "<?php echo \App\Config::W_ROOT.'search/' ?>";
+var url = "<?php echo \App\Config::W_ROOT.'search-data'; ?>";
+var spinner = "<?php echo \App\Config::W_FRONT_ASSETS.'images/loader.gif' ?>";
     $(document).ready(function () {
         // Show or hide the sticky footer button
         $(window).scroll(function () {
@@ -59,6 +65,7 @@ if(!isset($flowFlowInjector)){ ?>
         })
     });
 </script>
+<script src="<?php echo \App\Config::W_FRONT_ASSETS ?>js/search.js"></script>
 <script id="dsq-count-scr" src="//thewallreport.disqus.com/count.js" async></script>
 </body>
 </html>

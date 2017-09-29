@@ -19,6 +19,10 @@ namespace App;
  * Class Config
  * @package App
  */
+/**
+ * Class Config
+ * @package App
+ */
 class Config
 {
 
@@ -113,6 +117,38 @@ class Config
      * Front Assets Root
      */
     const W_FRONT_ASSETS = self::W_ROOT . "theme/front/assets/";
-    const F_UPLOAD_IMAGE = self::F_ROOT . "public/uploads/redactor_image/";
-    const W_UPLOAD_IMAGE = self::W_ROOT . "uploads/redactor_image/";
+    /**
+     * Redactor Images Path
+     */
+    const F_REDACTOR_IMAGE = self::F_ROOT . "public/uploads/redactor_image/";
+    /**
+     * Redactor Images Path
+     */
+    const W_REDACTOR_IMAGE = self::W_ROOT . "uploads/redactor_image/";
+    /**
+     * Contact us Email
+     */
+    const CONTACT_US_TO_EMAIL = "developers@arsenaltech.com";
+    /**
+     * Google Recaptcha site key
+     */
+    const GOOGLE_RECAPTCHA_SITE_KEY = "6LfE7zEUAAAAAFWx18Ig3tHozskPh0tzYxqfvJeF";
+    /**
+     * Google Recaptcha secret key
+     */
+    const GOOGLE_RECAPTCHA_SECRET_KEY = "6LfE7zEUAAAAAIA1In49BZ7EcUQ-WXtOq5nZDKz9";
+    /**
+     * Featured Image Path
+     */
+    const F_FEATURED_IMAGE_ROOT = self::F_ROOT . "public/uploads/featured_image/";
+    /**
+     * Featured Image Path
+     */
+    const W_FEATURED_IMAGE_ROOT = self::W_ROOT . "uploads/featured_image/";
+    /**
+     * Share on facebook App id
+     */
+    const SHARE_ON_FACEBOOK_APP_ID = "311382379200231";
+
+
 }

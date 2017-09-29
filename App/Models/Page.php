@@ -259,4 +259,24 @@ class Page extends Model
         }
     }
 
+    /**
+     * @param $term
+     * @return bool
+     */
+    public function searchForPageData($term)
+    {
+        $sql = "SELECT pages.name,pages.published_at,pages.slug,pages.featured_image,pages.id,CONCAT(users.first_name, ' ',users.last_name) as creator  FROM `pages`";
+        $sql .= " LEFT JOIN users on users.id=$this->dbTable.created_by";
+        $sql .= " WHERE `name` LIKE '%$term%'";
+        $stm = $this->db->prepare($sql);
+        $res = $stm->execute();
+
+        if ($res) {
+            $row = $stm->fetchAll(\PDO::FETCH_ASSOC);
+            return $row;
+        } else {
+            return false;
+        }
+    }
+
 }

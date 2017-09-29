@@ -4,6 +4,13 @@
     .navbar-brand { padding-right: 65px;}
     .navbar-toggler-right { right: 0px;}
     .navbar-collapse#navbar-top { margin-top: 15px;}
+
+    #searchModal .modal-content { padding: 20px!important; }
+    #searchModal .modal-content h4.found-result{ font-size: 14px;}
+    #searchModal .modal-content .p-4 { padding: 15px!important;}
+    #searchModal .modal-content .title {letter-spacing: 1px; font-size: 12px; font-weight: bold; margin-bottom: 5px;}
+    #searchModal .modal-content .search-date { margin-bottom: 5px;}
+    #searchModal .modal-content .see-all-btn { font-size: 14px; height: 38px; line-height: 35px; letter-spacing: 1px; padding: 0 15px; }
 }
 
 @media (min-width: 1200px){

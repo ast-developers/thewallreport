@@ -121,4 +121,18 @@ class Helper
         }
         return $avatar;
     }
+
+    /**
+     * @param array $cms
+     * @param string $size
+     * @return string
+     */
+    public static function getCMSFeaturedImage($cms = [], $size = '100x65')
+    {
+        $image = Config::W_FRONT_ASSETS . "images/placeholders/placeholder-$size.png";
+        if (!empty($cms['featured_image'])) {
+            $image = Config::W_FEATURED_IMAGE_ROOT . $cms['featured_image'];
+        }
+        return $image;
+    }
 }
