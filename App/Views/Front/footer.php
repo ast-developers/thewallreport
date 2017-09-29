@@ -35,7 +35,6 @@
 if(!isset($flowFlowInjector)){ ?>
     <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
 <?php } ?>
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script type="text/javascript"
         src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/jquery-validation/dist/jquery.validate.min.js"></script>
