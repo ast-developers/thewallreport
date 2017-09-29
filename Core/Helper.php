@@ -18,7 +18,7 @@ class Helper
      */
     public static function randomString($length)
     {
-        $key  = '';
+        $key = '';
         $keys = range('a', 'z');
 
         for ($i = 0; $i < $length; $i++) {
@@ -65,7 +65,7 @@ class Helper
     public static function getMenus()
     {
         $menuRepo = new MenuRepository();
-        $menus    = $menuRepo->getMenus();
+        $menus = $menuRepo->getMenus();
         return $menus;
     }
 
@@ -134,5 +134,15 @@ class Helper
             $image = Config::W_FEATURED_IMAGE_ROOT . $cms['featured_image'];
         }
         return $image;
+    }
+
+    /**
+     * @param $string
+     * @param int $limit
+     * @return string
+     */
+    public static function getShortDescription($string, $limit = 100)
+    {
+        return (!empty($string)) ? substr(strip_tags($string), 0, $limit) . '...' : '...';
     }
 }
