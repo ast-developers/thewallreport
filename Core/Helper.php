@@ -1,6 +1,7 @@
 <?php
 namespace Core;
 
+use App\Config;
 use App\Repositories\Admin\MenuRepository;
 use App\Repositories\Front\IndexRepository;
 
@@ -84,8 +85,54 @@ class Helper
 
     }
 
-    public static function getFeaturedBanners(){
+    /**
+     * @return bool
+     */
+    public static function getFeaturedBanners()
+    {
         $repo = new IndexRepository();
         return $repo->getFeaturedBanners();
+    }
+
+    /**
+     * Get User Avatar
+     * @param array $user
+     * @param string $size
+     * @return string
+     */
+    public static function getUserAvatar($user = [], $size = 'small')
+    {
+        switch ($size) {
+            case 'small':
+                $avatar = Config::W_ADMIN_ASSETS . '/img/avatar.png';
+                break;
+            case 'medium':
+                $avatar = 'http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=no+image';
+                break;
+            case 'actual':
+                $avatar = 'http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=no+image';
+                break;
+            default:
+                $avatar = Config::W_ADMIN_ASSETS . '/img/avatar.png';
+                break;
+        }
+        if (!empty($user['profile_image'])) {
+            $avatar = \App\Config::W_USER_AVATAR_ROOT . $user['profile_image'];
+        }
+        return $avatar;
+    }
+
+    /**
+     * @param array $cms
+     * @param string $size
+     * @return string
+     */
+    public static function getCMSFeaturedImage($cms = [], $size = '100x65')
+    {
+        $image = Config::W_FRONT_ASSETS . "images/placeholders/placeholder-$size.png";
+        if (!empty($cms['featured_image'])) {
+            $image = Config::W_FEATURED_IMAGE_ROOT . $cms['featured_image'];
+        }
+        return $image;
     }
 }

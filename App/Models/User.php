@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Core\Helper;
 use Core\Model;
 
 /**
@@ -213,7 +214,7 @@ class User extends Model
 
         if (!empty($params['search']['value'])) {
             // if there is a search parameter
-            $sql = "SELECT $this->dbTable.id, username, CONCAT(first_name,' ',last_name) as name, email, roles.name as role_name ";
+            $sql = "SELECT $this->dbTable.id, username, CONCAT(first_name,' ',last_name) as name, email, profile_image, roles.name as role_name ";
             $sql .= " FROM $this->dbTable";
             $sql .= " LEFT JOIN roles ON roles.id = $this->dbTable.role_id";
             $sql .= " WHERE username LIKE '%" . $params['search']['value'] . "%' ";    // $params['search']['value'] contains search parameter
@@ -232,7 +233,7 @@ class User extends Model
 
         } else {
 
-            $sql = "SELECT $this->dbTable.id, username, CONCAT(first_name,' ',last_name) as name, email, roles.name as role_name ";
+            $sql = "SELECT $this->dbTable.id, username, CONCAT(first_name,' ',last_name) as name, email, profile_image, roles.name as role_name ";
             $sql .= " FROM $this->dbTable";
             $sql .= " LEFT JOIN roles ON roles.id = $this->dbTable.role_id";
             $sql .= " ORDER BY " . $columns[$params['order'][0]['column']] . "   " . $params['order'][0]['dir'] . "   LIMIT " . $params['start'] . " ," . $params['length'] . "   ";
@@ -245,8 +246,9 @@ class User extends Model
         while ($row = $stm->fetch(\PDO::FETCH_ASSOC)) {
             $nestedData = array();
 
+            $avatar = Helper::getUserAvatar($row, 'small');
             $nestedData[] = "<input type='checkbox'  class='deleteRow' value='" . $row['id'] . "'  />";
-            $nestedData[] = '<a href="' . \App\Config::W_ROOT . "admin/edit-user/" . $row['id'] . '">' . $row["username"] . "</a>";
+            $nestedData[] = '<img src="'.$avatar.'" height="32" width="32"/> <a href="' . \App\Config::W_ROOT . "admin/edit-user/" . $row['id'] . '">' . $row["username"] . "</a>";
             $nestedData[] = $row["name"];
             $nestedData[] = $row["email"];
             $nestedData[] = $row["role_name"];

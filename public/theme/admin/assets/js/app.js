@@ -78,7 +78,7 @@ var App = function () {
         // handle all elements which require to re-initialize on screen width change(on resize or on rotate mobile device)
         var handleElements = function () {
             if (App.isPage("index")) {
-                handleDashboardCalendar(); // handles full calendar for main page
+                //handleDashboardCalendar(); // handles full calendar for main page
                 jQuery('.vmaps').each(function () {
                     var map = jQuery(this);
                     map.width(map.parent().width());
@@ -97,7 +97,7 @@ var App = function () {
             }
 
             if (App.isPage("calendar")) { // full calendar requires to fix the width on screen resized.
-                handleCalendar();
+                //handleCalendar();
             }
 
             if ($(window).width() < 900) { // remove sidebar toggler
@@ -3210,8 +3210,8 @@ var App = function () {
             // page level handlers
             if (App.isPage("index")) {
                 handleDashboardCharts(); // handles plot charts for main page
-                handleJQVMAP(); // handles vector maps for home page
-                handleDashboardCalendar(); // handles full calendar for main page
+                //handleJQVMAP(); // handles vector maps for home page
+                //handleDashboardCalendar(); // handles full calendar for main page
                 handleChat(); // handles chat samples
                 //handleIntro(); // this is for demo purpose. you may enable or disable this function.
             }
@@ -3221,7 +3221,7 @@ var App = function () {
             }
 
             if (App.isPage("calendar")) {
-                handleCalendar(); // handles full calendars
+                //handleCalendar(); // handles full calendars
             }
 
             if (App.isPage("maps_vector")) {
@@ -3266,7 +3266,7 @@ var App = function () {
             handleClockfaceTimePickers(); //handles form clockface timepickers
             handleColorPicker(); // handles form color pickers            
             handlePortletTools(); // handles portlet action bar functionality(refresh, configure, toggle, remove)
-            handlePulsate(); // handles pulsate functionality on page elements
+            //handlePulsate(); // handles pulsate functionality on page elements
             handleGritterNotifications(); // handles gritter notifications
             handleTooltip(); // handles bootstrap tooltips
             handlePopover(); // handles bootstrap popovers

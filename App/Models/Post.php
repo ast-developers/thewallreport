@@ -473,4 +473,28 @@ class Post extends Model
         $res = $stm->execute();
     }
 
+    /**
+     * @param $term
+     * @return bool
+     */
+    public function searchForPostData($term)
+    {
+        $sql = "SELECT GROUP_CONCAT(DISTINCT (categories.name)  SEPARATOR ', ') as category_name,posts.name,posts.published_at,posts.slug,posts.featured_image,posts.id,CONCAT(users.first_name, ' ',users.last_name) as creator  FROM `posts`";
+        $sql .= " LEFT JOIN users on users.id=$this->dbTable.created_by";
+        $sql .= " LEFT JOIN post_category on post_category.post_id = posts.id";
+        $sql .= " LEFT JOIN categories on categories.id = post_category.category_id";
+        $sql .= " WHERE posts.name LIKE '%$term%'";
+        $sql .= " GROUP BY posts.id";
+        $stm = $this->db->prepare($sql);
+        $res = $stm->execute();
+
+        if ($res) {
+            $row = $stm->fetchAll(\PDO::FETCH_ASSOC);
+            return $row;
+        } else {
+            return false;
+        }
+    }
+
+
 }

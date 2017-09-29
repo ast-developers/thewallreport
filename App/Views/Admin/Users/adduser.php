@@ -144,15 +144,10 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                                             <div class="fileupload fileupload-new" data-provides="fileupload">
                                                 <div class="fileupload-new thumbnail"
                                                      style="width: 200px; height: 150px;">
-                                                    <?php if (!empty($user['profile_image'])) { ?>
-                                                        <img
-                                                            src="<?php echo \App\Config::W_USER_AVATAR_ROOT . $user['profile_image']; ?>"
-                                                            style="width: 200px; height: 160px;">
-                                                    <?php } else { ?>
-                                                        <img
-                                                            src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=no+image"
-                                                            alt=""/>
-                                                    <?php } ?>
+                                                    <?php
+                                                    $avatar = \Core\Helper::getUserAvatar((!empty($user) ? $user : []), 'medium');
+                                                    ?>
+                                                    <img src="<?php echo $avatar; ?>" style="width: 200px; height: 160px;">
                                                 </div>
                                                 <div class="fileupload-preview fileupload-exists thumbnail"
                                                      style="max-width: 200px; max-height: 150px; line-height: 20px;"></div>
