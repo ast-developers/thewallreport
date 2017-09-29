@@ -33,7 +33,7 @@ class SearchController extends Controller
     public function indexAction()
     {
         if (!empty($_POST['term'])) {
-            $searchResult = [];
+            $searchResult = ['count' => 0, 'data' => []];
             $term = $_POST['term'];
             $postData = $this->repo->searchForPostData($term);
             $pageData = $this->repo->searchForPageData($term);
@@ -42,7 +42,7 @@ class SearchController extends Controller
             if (!empty($searchData[0])) {
                 $searchResult['count'] = count($data);
                 foreach ($searchData[0] as $data) {
-                    $image = (!empty($data['featured_image'])) ? Config::W_FEATURED_IMAGE_ROOT . $data['featured_image'] : 'http://thewall.report/wp-content/themes/15zine/library/images/placeholders/placeholder-260x170.png';
+                    $image = (!empty($data['featured_image'])) ? Config::W_FEATURED_IMAGE_ROOT . $data['featured_image'] : \App\Config::W_FRONT_ASSETS . 'images/placeholder-360x240.png';
                     $searchResult['data'][$data['id']]['featured_image'] = $image;
                     $searchResult['data'][$data['id']]['slug'] = Config::W_ROOT . $data['slug'];
                     $searchResult['data'][$data['id']]['name'] = $data['name'];
@@ -50,7 +50,33 @@ class SearchController extends Controller
                     $searchResult['data'][$data['id']]['published_at'] = (!empty($data['published_at'])) ? date("F j, Y", strtotime($data['published_at'])) : '';
                 }
             }
-            echo json_encode($searchResult);
+            ?>
+            <div class="pt-3 p-md-4 mt-2 d-block text-center">
+                <h4 class="found-result">
+                    <?php if($searchResult['count']) { ?>
+                    FOUND <?php echo $searchResult['count'];?> RESULTS FOR: <span class='search-text'> <?php echo $term;?> </span>
+                    <?php } else { ?>
+                    NO RESULTS FOUND FOR:<span class='search-text'><?php echo $term;?></span>
+                    <?php } ?>
+                </h4>
+            </div>
+
+            <?php if($searchResult['count']) { ?>
+            <div class="row">
+                <?php foreach($searchResult['data'] as $id => $row){ ?>
+                    <div class='col-lg-4 text-center pb-2'>
+                        <a href='<?php echo $row['slug'];?>'>
+                            <div class='search-img hidden-md-down'>
+                                <img src="<?php echo $row['featured_image'];?>">
+                            </div>
+                            <h2 class='title'><?php echo $row['name'];?></h2>
+                        </a>
+                        <span class='search-date d-block'><?php echo $row['published_at'];?></span>
+                    </div>
+                <?php }?>
+            </div>
+            <div class="button-area pt-md-5 text-center"><a class='see-all-btn' href='<?php echo \App\Config::W_ROOT.'search/' . $term ?>'>SEE ALL RESULTS</a></div>
+            <?php }
         }
     }
 

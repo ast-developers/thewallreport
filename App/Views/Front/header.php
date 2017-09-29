@@ -52,7 +52,7 @@
                 <a href="#" data-toggle="modal" data-target="#searchModal" title="Search" class="search-bar text-white text-uppercase float-right"><i
                         class="fa fa-search mr-2"></i>Search</a>
             </div>
-            <!-- Modal -->
+            <!-- Search Modal -->
             <div class="modal fade" id="searchModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-lg" role="document">
                     <button type="button" class="close-search-bar" data-dismiss="modal" aria-label="Close">
@@ -60,15 +60,12 @@
                     </button>
                     <div class="modal-content">
 
-                        <div class="modal-body p-0">
+                        <div class="p-0">
                             <input type="text" id="search-input" class="form-control" placeholder="Search...">
                         </div>
 
-                        <div class="pt-3 p-md-4 mt-2 d-block text-center"><h4 class="found-result"></h4></div>
-                        <p class="no-found-result text-center"></p>
-                        <div class="spinner text-center"></div>
-                        <div class="row"></div>
-                        <div class="button-area pt-md-5 text-center"></div>
+                        <div class="spinner text-center" style="display: none;"><img src='<?php echo \App\Config::W_FRONT_ASSETS.'images/loader.gif' ?>' /></div>
+                        <div class="model-body"></div>
                     </div>
                 </div>
             </div>

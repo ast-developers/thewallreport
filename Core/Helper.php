@@ -121,4 +121,32 @@ class Helper
         }
         return $avatar;
     }
+
+    /**
+     * Get User Avatar
+     * @param array $user
+     * @param string $size
+     * @return string
+     */
+    public static function getCMSFeaturedImage($cms = [], $size = 'small')
+    {
+        switch ($size) {
+            case 'small':
+                $avatar = Config::W_FRONT_ASSETS . 'images/placeholder-360x240.png';
+                break;
+            case 'medium':
+                $avatar = 'http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=no+image';
+                break;
+            case 'actual':
+                $avatar = 'http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=no+image';
+                break;
+            default:
+                $avatar = Config::W_ADMIN_ASSETS . '/img/avatar.png';
+                break;
+        }
+        if (!empty($user['profile_image'])) {
+            $avatar = \App\Config::W_USER_AVATAR_ROOT . $user['profile_image'];
+        }
+        return $avatar;
+    }
 }

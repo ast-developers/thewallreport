@@ -423,20 +423,6 @@ figure.ff-item-img img { min-height: 437px; }
 }
     .details-content .cb-byline .cb-separator .fa { vertical-align: text-top;}
 
-#searchModal .modal-content { border-radius: 0px; padding: 40px;}
-#searchModal .modal-content input.form-control{
-    color: #161616;
-    padding: 0 0 0 10px;
-    width: 100%;
-    font-size: 20px;
-    height: 40px;
-    line-height: 40px;
-    letter-spacing: 1px;
-    border: none;
-    border-radius: 0px;
-    padding-left: 0px;
-    border-bottom: 3px solid #161616;
-}
 button.close-search-bar { position: absolute; top:-30px; right: -5px; font-size: 20px; color: #fff; opacity: 0.9; background: none; border: none;}
 
 .modal-dialog {
@@ -542,9 +528,46 @@ transition: .35s opacity;
     color: #161616;
 }
  .see-all-btn:hover { background: #000; color: #fff;}
+#searchModal .modal-content { border-radius: 0px; padding: 40px; background-color: #f2f2f2;}
+#searchModal .modal-content input.form-control{
+    color: #161616;
+    padding: 0 0 0 10px;
+    width: 100%;
+    font-size: 20px;
+    height: 40px;
+    line-height: 40px;
+    letter-spacing: 1px;
+    border: none;
+    border-radius: 0px;
+    padding-left: 0px;
+    border-bottom: 3px solid #161616;
+    background-color: #f2f2f2;
+}
+/*
+#searchModal .modal-content .model-body {min-height: 100px;}
 
-#searchModal .modal-content { background-color: #f2f2f2; }
-#searchModal .modal-content .form-control { background-color: #f2f2f2; }
+#searchModal .pro-load:before {
+    opacity: 1;
+}
+#searchModal .pro-load:before {
+    margin-top: -30px;
+    margin-left: -20px;
+    font-family: 'fontawesome';
+    content: '\f110';
+    -webkit-animation: cb-spinner 2.5s infinite linear;
+    animation: cb-spinner 2.5s infinite linear;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    font-size: 40px;
+    z-index: 1;
+    opacity: 0;
+    -webkit-transition: .25s opacity ease;
+    -transition: .25s opacity ease;
+    transition: .25s opacity ease;
+}
+*/
+
 
 .modal#searchModal{
     right: 25px;
@@ -606,3 +629,5 @@ td, th, ul, ol {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
+
+.spinner { position: absolute; left: 50%; top:50%; text-align: center; margin-top: -20px; margin-left: -20px;}
