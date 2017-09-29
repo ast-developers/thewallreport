@@ -18,7 +18,7 @@ class Helper
      */
     public static function randomString($length)
     {
-        $key  = '';
+        $key = '';
         $keys = range('a', 'z');
 
         for ($i = 0; $i < $length; $i++) {
@@ -65,7 +65,7 @@ class Helper
     public static function getMenus()
     {
         $menuRepo = new MenuRepository();
-        $menus    = $menuRepo->getMenus();
+        $menus = $menuRepo->getMenus();
         return $menus;
     }
 
@@ -123,30 +123,16 @@ class Helper
     }
 
     /**
-     * Get User Avatar
-     * @param array $user
+     * @param array $cms
      * @param string $size
      * @return string
      */
-    public static function getCMSFeaturedImage($cms = [], $size = 'small')
+    public static function getCMSFeaturedImage($cms = [], $size = '100x65')
     {
-        switch ($size) {
-            case 'small':
-                $avatar = Config::W_FRONT_ASSETS . 'images/placeholder-360x240.png';
-                break;
-            case 'medium':
-                $avatar = 'http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=no+image';
-                break;
-            case 'actual':
-                $avatar = 'http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=no+image';
-                break;
-            default:
-                $avatar = Config::W_ADMIN_ASSETS . '/img/avatar.png';
-                break;
+        $image = Config::W_FRONT_ASSETS . "images/placeholders/placeholder-$size.png";
+        if (!empty($cms['featured_image'])) {
+            $image = Config::W_FEATURED_IMAGE_ROOT . $cms['featured_image'];
         }
-        if (!empty($user['profile_image'])) {
-            $avatar = \App\Config::W_USER_AVATAR_ROOT . $user['profile_image'];
-        }
-        return $avatar;
+        return $image;
     }
 }

@@ -41,6 +41,7 @@ if(!isset($flowFlowInjector)){ ?>
         src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/jquery-validation/dist/jquery.validate.min.js"></script>
 <script src="<?php echo \App\Config::W_FRONT_ASSETS ?>js/bootstrap.min.js"></script>
 <script src="<?php echo \App\Config::W_FRONT_ASSETS ?>js/owl.carousel.min.js"></script>
+<script src="<?php echo \App\Config::W_FRONT_ASSETS ?>js/app.js"></script>
 
 <script type="text/javascript">
 var search_url = "<?php echo \App\Config::W_ROOT.'search/' ?>";

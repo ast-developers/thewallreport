@@ -26,13 +26,6 @@ include(\App\Config::F_ROOT . 'App/Views/Front/footer.php');
 ?>
 <script type="text/javascript">
     $(document).ready(function () {
-        $('.owl-carousel').owlCarousel({
-            loop: true,
-            items: 1,
-            margin: 10,
-            nav: true,
-            smartSpeed: 800
-            //autoHeight:true
-        })
+        App.init();
     });
 </script>

@@ -33,6 +33,21 @@ $getFeaturedBanners = Core\Helper::getFeaturedBanners();
                                             class="cb-date"><?php echo date("F j, Y", strtotime($value['published_at'])) ?></span>
                                     <?php } ?>
                                 </div>
+                                <div class="cb-excerpt mt-3">...</div>
+                                <div class="cb-post-meta mt-3">
+                                    <ul>
+                                        <?php if ($categories = (explode(',', $value['category_name']))) {
+                                            if(!empty($categories[0])){
+                                            foreach ($categories as $category) {
+                                                ?>
+                                                <li><a href=""><?php echo $category ?></a></li>
+
+                                            <?php } } } ?>
+                                        <li><a href="<?php echo \App\Config::W_ROOT.$value['slug']; ?>#disqus_thread">Comment</a></li>
+                                    </ul>
+                                </div>
+
+
                             </div>
                             <div class="col-lg-12">
                                 <hr>
@@ -79,13 +94,6 @@ include(\App\Config::F_ROOT . 'App/Views/Front/footer.php');
 ?>
 <script type="text/javascript">
     $(document).ready(function () {
-        $('.owl-carousel').owlCarousel({
-            loop: true,
-            items: 1,
-            margin: 10,
-            nav: true,
-            smartSpeed: 800
-            autoHeight:true
-        })
+        App.init();
     });
 </script>

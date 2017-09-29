@@ -5,6 +5,7 @@ namespace App\Controllers\Front;
 use App\Config;
 use App\Repositories\Front\SearchRepository;
 use Core\Controller;
+use Core\Helper;
 use Core\View;
 
 /**
@@ -42,7 +43,7 @@ class SearchController extends Controller
             if (!empty($searchData[0])) {
                 $searchResult['count'] = count($data);
                 foreach ($searchData[0] as $data) {
-                    $image = (!empty($data['featured_image'])) ? Config::W_FEATURED_IMAGE_ROOT . $data['featured_image'] : \App\Config::W_FRONT_ASSETS . 'images/placeholder-360x240.png';
+                    $image = Helper::getCMSFeaturedImage($data, '360x240');
                     $searchResult['data'][$data['id']]['featured_image'] = $image;
                     $searchResult['data'][$data['id']]['slug'] = Config::W_ROOT . $data['slug'];
                     $searchResult['data'][$data['id']]['name'] = $data['name'];
@@ -85,7 +86,7 @@ class SearchController extends Controller
      */
     public function searchAction()
     {
-        $perPage = 10;
+        $perPage = 1;
         if (!empty($this->params['s'])) {
             $term = $this->params['s'];
 
