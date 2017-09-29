@@ -33,17 +33,17 @@ $getFeaturedBanners = Core\Helper::getFeaturedBanners();
                                             class="cb-date"><?php echo date("F j, Y", strtotime($value['published_at'])) ?></span>
                                     <?php } ?>
                                 </div>
-                                <div class="cb-excerpt mt-3">...</div>
+                                <div class="cb-excerpt mt-3"><?php echo Core\Helper::getShortDescription($value['description']); ?></div>
                                 <div class="cb-post-meta mt-3">
                                     <ul>
-                                        <?php if ($categories = (explode(',', $value['category_name']))) {
+                                        <?php if (isset($value['category_name']) && $categories = (explode(',', $value['category_name']))) {
                                             if(!empty($categories[0])){
                                             foreach ($categories as $category) {
                                                 ?>
                                                 <li><a href=""><?php echo $category ?></a></li>
 
                                             <?php } } } ?>
-                                        <li><a href="<?php echo \App\Config::W_ROOT.$value['slug']; ?>#disqus_thread">Comment</a></li>
+                                        <li><a href="<?php echo \App\Config::W_ROOT.$value['slug']; ?>#disqus_thread" data-disqus-identifier="<?php echo $value['slug']; ?>">Comment</a></li>
                                     </ul>
                                 </div>
 
