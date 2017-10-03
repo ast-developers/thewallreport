@@ -111,3 +111,122 @@ input:checked + .slider:before {
     margin: 1px 1px 1px 91px;
 }
 input[type="checkbox"].ff-switcher+div{margin-top:0}
+.ff-item-bar {
+    margin: 0;
+    border-top: 1px solid rgba(229, 226, 220, 0.4);
+    padding: 10px 7%;
+    font-weight: 300;
+    font-size: 12px;
+    line-height: 21px;
+    height: 44px;
+    text-align: left;
+    clear: both;
+    box-sizing: border-box
+}
+.ff-item-bar>a {
+    white-space: nowrap;
+    margin-left: 6%;
+    opacity: 0.75;
+    text-decoration: none
+}
+.ff-slideshow .ff-item-bar>a {
+    margin: 0 10px 0 0
+}
+.ff-item-bar a:first-child {
+    margin-left: 0
+}
+.ff-item-bar a:hover,
+.ff-slideshow .ff-share-wrapper:hover .ff-icon-share {
+    text-decoration: none !important;
+    opacity: 1
+}
+[class*="ff-icon-"] {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 146%;
+    line-height: 100%
+}
+[class*="ff-icon-"]:before {
+    font-family: 'ff-icons';
+    font-style: normal;
+    font-weight: normal;
+    speak: none;
+    display: inline-block;
+    text-decoration: inherit;
+    width: 1em;
+    text-align: center;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1em
+}
+.ff-icon-like:before {
+    content: "\e630"
+}
+.ff-pinterest .ff-icon-like:before {
+    content: "\e63c"
+}
+.ff-icon-comment {
+    font-size: 161%;
+    margin-left: 4%
+}
+.ff-icon-comment:before {
+    content: "\e637"
+}
+.ff-icon-share {
+    float: right;
+    font-size: 171%;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+    opacity: 0.75
+}
+.ff-share-wrapper:hover .ff-icon-share {
+    opacity: 1
+}
+.ff-icon-share:before {
+    content: "\e63f"
+}
+.ff-icon-reply:before {
+    content: "\e63d"
+}
+.ff-icon-shares:before {
+    content: "\e63e"
+}
+.ff-icon-view:before {
+    content: "\e642"
+}
+.ff-soundcloud .ff-icon-view:before {
+    content: "\e91b"
+}
+.ff-fill-icon .ff-soundcloud .ff-icon-view:before {
+    content: "\e919";
+    font-size: inherit
+}
+.ff-fill-icon .ff-icon-like:before {
+    content: '\e912'
+}
+.ff-fill-icon .ff-pinterest .ff-icon-like:before {
+    content: "\e914"
+}
+.ff-fill-icon .ff-icon-comment:before {
+    content: "\e910"
+}
+.ff-fill-icon .ff-icon-share:before {
+    content: "\e916"
+}
+.ff-fill-icon .ff-icon-reply:before {
+    content: "\e612";
+    font-size: 14px
+}
+.ff-fill-icon .ff-twitter .ff-comments {
+    margin-right: 12px
+}
+.ff-fill-icon .ff-icon-shares:before {
+    content: "\e915"
+}
+.ff-fill-icon .ff-icon-view:before {
+    content: "\e918"
+}
+.ff-item-bar a {
+    color: rgb(132, 118, 129) !important;
+}
