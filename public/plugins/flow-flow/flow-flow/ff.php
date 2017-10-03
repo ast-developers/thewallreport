@@ -77,6 +77,12 @@ if (isset($_REQUEST['action'])){
 		case 'flow_flow_social_auth':
 			$db->social_auth();
 			break;
+        case 'featured_post_apply_action':
+            $db->updatePostFeaturedFlag();
+            break;
+        case 'post_display_action':
+            $db->updatePostActiveFlag();
+            break;
 		default:
 			if (strpos($_REQUEST['action'], "backup") !== false) {
 				define('FF_SNAPSHOTS_TABLE_NAME', DB_TABLE_PREFIX . 'ff_snapshots');

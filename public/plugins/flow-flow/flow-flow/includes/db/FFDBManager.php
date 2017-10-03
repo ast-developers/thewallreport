@@ -606,4 +606,38 @@ class FFDBManager extends LADBManager{
 		curl_close( $ch );
 		return array($result, $error);
 	}
+
+	public function updatePostFeaturedFlag()
+	{
+		$status = array('status' => false);
+		$featured = (filter_var($_POST['featured'], FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE)) ? 1 : 0;
+		$post_id = $_POST['post_id'];
+		$sql = "UPDATE ?n SET `featured` = ?s WHERE `post_id` = ?s";
+		if (false == FFDB::conn()->query($sql, $this->posts_table_name, $featured, $post_id)) {
+			$status['error'] = FFDB::conn()->conn->error;
+			echo json_encode($status);
+			exit;
+//            throw new \Exception(FFDB::conn()->conn->error);
+		}
+		$status['status'] = true;
+		echo json_encode($status);
+		exit;
+	}
+
+	public function updatePostActiveFlag()
+	{
+		$status = array('status' => false);
+		$active = (filter_var($_POST['is_active'], FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE)) ? 1 : 0;
+		$post_id = $_POST['post_id'];
+		$sql = "UPDATE ?n SET `is_active` = ?s WHERE `post_id` = ?s";
+		if (false == FFDB::conn()->query($sql, $this->posts_table_name, $active, $post_id)) {
+			$status['error'] = FFDB::conn()->conn->error;
+			echo json_encode($status);
+			exit;
+//            throw new \Exception(FFDB::conn()->conn->error);
+		}
+		$status['status'] = true;
+		echo json_encode($status);
+		exit;
+	}
 }
