@@ -154,3 +154,20 @@ ALTER TABLE `posts` ADD `published_at` DATETIME NULL AFTER `updated_at`;
 * Add featured and is_active flags for the feed posts in flow flow
 */
 ALTER TABLE `ff_posts` ADD `featured` BOOLEAN NULL DEFAULT 0 AFTER `post_additional`, ADD `is_active` BOOLEAN NULL DEFAULT 1 AFTER `featured`;
+
+/* 4 Oct 2017
+Add Advertisement table
+*/
+
+CREATE TABLE `advertise` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `type` enum('banner','adsense') NOT NULL,
+  `banner_image` varchar(255) DEFAULT NULL,
+  `adsense_code` text,
+  `status` enum('active','inactive') NOT NULL,
+  `position` enum('left','right','center') NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
