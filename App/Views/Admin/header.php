@@ -48,7 +48,9 @@
 
 <?php
 /* For Logged in User only, also check footer.php if any changes made here. */
-if(isset($_SESSION['user'])){ ?>
+if(isset($_SESSION['user'])){
+    $sessionUser = \App\Models\PrivilegedUser::getByUsername($_SESSION['user']['username']);
+    ?>
     <body class="fixed-top">
 
     <!-- BEGIN HEADER -->
