@@ -507,40 +507,4 @@ class FlowFlow {
 			return array($status, array());
 		}
 	}
-
-	/* Featured section */
-	public function featured_post_apply( ){
-		$status = array('status'=>false);
-		try{
-			if(isset($_POST['featured'] ) && $_POST['post_id'] ){
-				global $wpdb;
-				$table_name = 'ff_posts';
-				$result = $wpdb->update( $table_name, array( 'featured' => $_POST['featured']),array('post_id'=>$_POST['post_id']),array('%s'),array( '%s' ));
-				if($result){
-					$status = array('status'=>true);
-				}
-				echo json_encode($status);exit;
-			}
-		}catch (\Exception $e){
-			echo json_encode($status);exit;
-		}
-
-	}
-	/* show/hide post section */
-	public function post_display_action( ){
-		$status = array('status'=>false);
-		try{
-			if(isset($_POST['is_active'] ) && $_POST['post_id'] ){
-				global $wpdb;
-				$table_name = 'ff_posts';
-				$result = $wpdb->update( $table_name, array( 'is_active' => $_POST['is_active']),array('post_id'=>$_POST['post_id']),array('%s'),array( '%s' ));
-				if($result){
-					$status = array('status'=>true);
-				}
-				echo json_encode($status);exit;
-			}
-		}catch (\Exception $e){
-			echo json_encode($status);exit;
-		}
-	}
 }
