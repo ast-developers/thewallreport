@@ -109,11 +109,18 @@ class Router
 
         if ($this->match($url)) {
             // Middleware Implementation.
-            $middlewareName = isset($this->params['middleware']) ? $this->params['middleware'] : false;
-            if($middlewareName){
-                $middlewareNamespace = "\\App\\Middlewares\\".$middlewareName;
-                $middleware = new $middlewareNamespace;
-                $middleware->handel();
+            $middlewareNames = isset($this->params['middleware']) ? $this->params['middleware'] : false;
+            if($middlewareNames){
+                if(!is_array($middlewareNames)){
+                    $middlewareNames = [$middlewareNames];
+                }
+
+                foreach($middlewareNames as $middlewareName){
+                    $middlewareNamespace = "\\App\\Middlewares\\".$middlewareName;
+                    $middleware = new $middlewareNamespace;
+                    $middleware->handel();
+                }
+
             }
             $controller = $this->params['controller'];
             $controller = $this->convertToStudlyCaps($controller);

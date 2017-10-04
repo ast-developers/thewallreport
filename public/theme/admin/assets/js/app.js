@@ -3209,7 +3209,7 @@ var App = function () {
             handleUniform(); // handles uniform elements
             // page level handlers
             if (App.isPage("index")) {
-                handleDashboardCharts(); // handles plot charts for main page
+                //handleDashboardCharts(); // handles plot charts for main page
                 //handleJQVMAP(); // handles vector maps for home page
                 //handleDashboardCalendar(); // handles full calendar for main page
                 handleChat(); // handles chat samples

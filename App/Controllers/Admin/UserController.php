@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Validations\UserValidation;
 use Core\Controller;
 use App\Repositories\Admin\UserRepository;
+use App\Repositories\Admin\DashboardRepository;
 use Core\View;
 use Core\Router;
 use App\Validations\Login;
@@ -149,7 +150,9 @@ class UserController extends Controller
      */
     public function dashboardAction()
     {
-        View::render('Admin/dashboard.php', ['flash_message' => ['Logged in successfully.'], 'error_class' => 'alert-success']);
+        $dashboardRepo = new DashboardRepository();
+        $data = $dashboardRepo->getDashboardData();
+        View::render('Admin/dashboard.php', ['data' => $data]);
     }
 
     /**
