@@ -33,7 +33,7 @@ class User extends Model
      */
     public function getUserForLogin($username, $password)
     {
-        $sql = "SELECT *, COUNT(id) AS count FROM $this->dbTable WHERE ( username = :username OR email = :username) and password = :password";
+        $sql = "SELECT *, COUNT(id) AS count FROM $this->dbTable WHERE ( username = :username OR email = :username) and password = :password GROUP BY id";
         $stm = $this->db->prepare($sql);
 
         $stm->bindParam(":username", $username);
@@ -247,7 +247,7 @@ class User extends Model
             $nestedData = array();
 
             $avatar = Helper::getUserAvatar($row, 'small');
-            $nestedData[] = "<input type='checkbox'  class='deleteRow' value='" . $row['id'] . "'  />";
+            $nestedData[] = (!empty($_SESSION['user']) && $_SESSION['user']['id'] !== $row["id"]) ? "<input type='checkbox'  class='deleteRow' value='" . $row['id'] . "'  />" : "";
             $nestedData[] = '<img src="'.$avatar.'" height="32" width="32"/> <a href="' . \App\Config::W_ROOT . "admin/edit-user/" . $row['id'] . '">' . $row["username"] . "</a>";
             $nestedData[] = $row["name"];
             $nestedData[] = $row["email"];
