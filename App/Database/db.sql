@@ -148,3 +148,9 @@ ALTER TABLE `pages` ADD `published_at` DATETIME NULL AFTER `updated_at`;
 ALTER TABLE `posts` CHANGE `status` `status` ENUM('pending','draft','publish') CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL;
 ALTER TABLE `posts` ADD `featured_image` VARCHAR(255) NULL AFTER `slug`, ADD `views` INT(11) NOT NULL DEFAULT '0' AFTER `featured_image`;
 ALTER TABLE `posts` ADD `published_at` DATETIME NULL AFTER `updated_at`;
+
+/*
+* 3 Oct 2017
+* Add featured and is_active flags for the feed posts in flow flow
+*/
+ALTER TABLE `ff_posts` ADD `featured` BOOLEAN NULL DEFAULT 0 AFTER `post_additional`, ADD `is_active` BOOLEAN NULL DEFAULT 1 AFTER `featured`;
