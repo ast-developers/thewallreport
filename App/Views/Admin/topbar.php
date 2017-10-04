@@ -27,6 +27,7 @@
                         <i class="icon-angle-down"></i>
                     </a>
                     <ul class="dropdown-menu">
+                        <li><a href="<?php echo \App\Config::W_ROOT . "admin/edit-user/".$_SESSION['user']['id'] ?>"><i class="icon-user"></i> Profile </a></li>
                         <li><a href="<?php echo \App\Config::W_ROOT . "admin/logout" ?>"><i class="icon-key"></i> Log
                                 Out</a></li>
                     </ul>
