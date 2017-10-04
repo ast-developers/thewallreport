@@ -53,6 +53,7 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                                 <th>Name</th>
                                 <th>Type</th>
                                 <th>Created at</th>
+                                <th>Position</th>
                                 <th>Status</th>
                             </tr>
                             </thead>

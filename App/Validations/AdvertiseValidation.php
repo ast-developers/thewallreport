@@ -65,6 +65,16 @@ class AdvertiseValidation
                 $messages[] = 'Please choose valid advertise type.';
             }
 
+            if (empty($_POST['position'])) {
+                $success = false;
+                $messages[] = 'Please enter position.';
+            }
+
+            if (!empty($_POST['position']) && $_POST['position'] != 'left' && $_POST['position'] != 'right' && $_POST['position'] != 'center') {
+                $success = false;
+                $messages[] = 'Please choose valid position.';
+            }
+
             if (!empty($_FILES['banner_image']['name'])) {
                 // Check extension
                 $imagesizedata = getimagesize($_FILES['banner_image']['tmp_name']);

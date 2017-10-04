@@ -54,6 +54,26 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                                         </div>
                                     </div>
                                     <div class="control-group">
+                                        <label class="control-label" for="type">Advertise Position</label>
+
+                                        <div class="controls">
+                                            <select class="chosen_category" name="position" id="position">
+                                                <option
+                                                    value="left" <?php echo (!empty($advertise['position']) && $advertise['position'] == 'left') ? 'selected="selected"' : ''; ?>>
+                                                    Left Side
+                                                </option>
+                                                <option
+                                                    value="right" <?php echo (!empty($advertise['position']) && $advertise['position'] == 'right') ? 'selected="selected"' : ''; ?>>
+                                                    Right Side
+                                                </option>
+                                                <option
+                                                    value="center" <?php echo (!empty($advertise['position']) && $advertise['position'] == 'center') ? 'selected="selected"' : ''; ?>>
+                                                    Center
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="control-group">
                                         <label class="control-label" for="type">Advertise Type</label>
 
                                         <div class="controls">

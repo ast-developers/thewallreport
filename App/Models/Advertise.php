@@ -44,7 +44,7 @@ class Advertise extends Model
             $adsenseCode = $params['adsense_code'];
         }
         $updated_at = date('Y-m-d H:i:s');
-        $sql = "INSERT INTO $this->dbTable(name,type,banner_image,adsense_code,updated_at,status) VALUES(:name,:type,:banner_image,:adsense_code,:updated_at,:status)";
+        $sql = "INSERT INTO $this->dbTable(name,type,banner_image,adsense_code,updated_at,status,position) VALUES(:name,:type,:banner_image,:adsense_code,:updated_at,:status,:position)";
         $stm = $this->db->prepare($sql);
         $stm->bindParam(":name", $params['name']);
         $stm->bindParam(":type", $params['type']);
@@ -52,6 +52,7 @@ class Advertise extends Model
         $stm->bindParam(":adsense_code", $adsenseCode);
         $stm->bindParam(":updated_at", $updated_at);
         $stm->bindParam(":status", $params['status']);
+        $stm->bindParam(":position", $params['position']);
         try {
             $stm->execute();
             $last_insert_id = $this->db->lastInsertId();
@@ -76,7 +77,7 @@ class Advertise extends Model
             $adsenseCode = $params['adsense_code'];
         }
         $updated_at = date('Y-m-d H:i:s');
-        $sql = "UPDATE  $this->dbTable SET name=:name,type=:type,banner_image=:banner_image,adsense_code=:adsense_code,updated_at=:updated_at,status=:status WHERE id = :id;";
+        $sql = "UPDATE  $this->dbTable SET name=:name,type=:type,banner_image=:banner_image,adsense_code=:adsense_code,updated_at=:updated_at,status=:status,position=:position WHERE id = :id;";
         $stm = $this->db->prepare($sql);
         $stm->bindParam(":name", $params['name']);
         $stm->bindParam(":type", $params['type']);
@@ -85,6 +86,7 @@ class Advertise extends Model
         $stm->bindParam(":updated_at", $updated_at);
         $stm->bindParam(":status", $params['status']);
         $stm->bindParam(":id", $params['id']);
+        $stm->bindParam(":position", $params['position']);
         try {
             return $stm->execute();
         } catch (PDOException $e) {
@@ -131,7 +133,7 @@ class Advertise extends Model
 
         if (!empty($params['search']['value'])) {
 
-            $sql = "SELECT $this->dbTable.name,$this->dbTable.type,$this->dbTable.id,$this->dbTable.created_at,$this->dbTable.status";
+            $sql = "SELECT $this->dbTable.name,$this->dbTable.type,$this->dbTable.id,$this->dbTable.created_at,$this->dbTable.status,$this->dbTable.position";
             $sql .= " FROM $this->dbTable";
             $sql .= " WHERE $this->dbTable.name LIKE '%" . $params['search']['value'] . "%' ";
 
@@ -145,7 +147,7 @@ class Advertise extends Model
 
         } else {
 
-            $sql = "SELECT $this->dbTable.name,$this->dbTable.type,$this->dbTable.id,$this->dbTable.created_at,$this->dbTable.status";
+            $sql = "SELECT $this->dbTable.name,$this->dbTable.type,$this->dbTable.id,$this->dbTable.created_at,$this->dbTable.status,$this->dbTable.position";
             $sql .= " FROM $this->dbTable";
             $sql .= " ORDER BY " . $columns[$params['order'][0]['column']] . "   " . $params['order'][0]['dir'] . "   LIMIT " . $params['start'] . " ," . $params['length'] . "   ";
 
@@ -162,6 +164,7 @@ class Advertise extends Model
             $nestedData[] = '<a href="' . \App\Config::W_ROOT . "admin/edit-advertise/" . $row['id'] . '">' . $row["name"] . "</a>";
             $nestedData[] = $row['type'];
             $nestedData[] = date("Y/m/d", strtotime($row["created_at"]));
+            $nestedData[] = $row['position'];
             $nestedData[] = Helper::getStatus($row['status']);
 
             $data[] = $nestedData;
@@ -215,6 +218,21 @@ class Advertise extends Model
         $sql = "SELECT * FROM $this->dbTable WHERE status=:status ORDER BY sort_order";
         $stm = $this->db->prepare($sql);
         $stm->bindParam(":status", $status);
+        $res = $stm->execute();
+
+        if ($res) {
+            $row = $stm->fetchAll(\PDO::FETCH_ASSOC);
+            return $row;
+        } else {
+            return false;
+        }
+    }
+
+    public function getAdvertisements(){
+
+        $sql = "SELECT * FROM (SELECT * FROM `advertise` WHERE `status`='active' ORDER BY created_at DESC) as d GROUP BY d.position";
+        $stm = $this->db->prepare($sql);
+
         $res = $stm->execute();
 
         if ($res) {
