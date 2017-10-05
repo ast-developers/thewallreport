@@ -30,8 +30,10 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                         <div class="actions">
                             <a href="<?php echo \App\Config::W_ROOT . "admin/add-page" ?>" class="btn blue"><i
                                     class="icon-pencil"></i> Add</a>
+                            <?php if ($sessionUser->hasPrivilege("delete_page")) { ?>
                             <a href="#deleteModel" role="button" id="delete-btn" class="btn btn-danger red hidden"
                                data-toggle="modal">Delete</a>
+                            <?php } ?>
 
                             <div class="btn-group">
                                 <ul class="dropdown-menu pull-right">

@@ -155,6 +155,43 @@ ALTER TABLE `posts` ADD `published_at` DATETIME NULL AFTER `updated_at`;
 */
 ALTER TABLE `ff_posts` ADD `featured` BOOLEAN NULL DEFAULT 0 AFTER `post_additional`, ADD `is_active` BOOLEAN NULL DEFAULT 1 AFTER `featured`;
 
+/*
+* 4 Oct 2017
+* Roles and Permission
+ */
+DROP TABLE IF EXISTS `permissions`;
+
+CREATE TABLE `permissions` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `section` varchar(255) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `value` varbinary(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `permissions` */
+
+insert  into `permissions`(`id`,`section`,`name`,`value`) values (1,'user','Add User','add_user'),(2,'user','Edit User','edit_user'),(3,'user','Delete User','delete_user'),(4,'user','List User','list_user'),(5,'post','Add Post','add_post'),(6,'post','Edit Post','edit_post'),(7,'post','Delete Post','delete_post'),(8,'post','List Post','list_post'),(9,'post_category','Add Category','add_category'),(10,'post_category','Edit Category','edit_category'),(11,'post_category','Delete Category','delete_category'),(12,'post_category','List Category','list_category'),(13,'page','Add Page','add_page'),(14,'page','Edit Page','edit_page'),(15,'page','Delete Page','delete_page'),(16,'page','List Page','list_page'),(17,'menu','Add Menu','add_menu'),(18,'menu','Edit Menu','edit_menu'),(19,'menu','Delete Menu','delete_menu'),(20,'menu','List Menu','list_menu'),(21,'flow_flow','Manage Flow Flow Plugin','manage_flow_flow');
+
+/*Table structure for table `role_permission` */
+
+DROP TABLE IF EXISTS `role_permission`;
+
+CREATE TABLE `role_permission` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `role_id` int(11) unsigned NOT NULL,
+  `permission_id` int(11) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `role_id` (`role_id`),
+  KEY `permission_id` (`permission_id`),
+  CONSTRAINT `role_permission_ibfk_1` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `role_permission_ibfk_2` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `role_permission` */
+
+insert  into `role_permission`(`id`,`role_id`,`permission_id`) values (1,1,1),(2,1,2),(3,1,3),(4,1,4),(5,1,5),(6,1,6),(7,1,7),(8,1,8),(9,1,9),(10,1,10),(12,1,11),(13,1,12),(14,1,13),(15,1,14),(16,1,15),(17,1,16),(18,1,17),(19,1,18),(20,1,19),(21,1,20),(22,1,21),(23,2,5),(24,2,6),(26,2,8),(27,2,13),(28,2,14),(30,2,16);ALTER TABLE `ff_posts` ADD `featured` BOOLEAN NULL DEFAULT 0 AFTER `post_additional`, ADD `is_active` BOOLEAN NULL DEFAULT 1 AFTER `featured`;
+
 /* 4 Oct 2017
 Add Advertisement table
 */
