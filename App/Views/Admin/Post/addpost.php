@@ -28,7 +28,7 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                 <div class="span9">
                     <div class="tabbable tabbable-custom boxless">
                         <div class="tab-pane">
-                            <div class="portlet box blue">
+                            <div class="portlet box grey">
                                 <div class="portlet-title">
                                     <h4><i class="icon-reorder"></i><?php echo (!empty($post)) ? 'Edit' : 'Add'; ?> Post
                                     </h4>
@@ -85,7 +85,7 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                 <div class="span3">
                     <div class="tabbable tabbable-custom boxless edit-post">
                         <div class="tab-pane">
-                            <div class="portlet box blue">
+                            <div class="portlet box grey">
                                 <div class="portlet-title">
                                     <h4><i class="icon-reorder"></i>Publish</h4>
                                     <?php if(!empty($post)){ ?>
@@ -129,8 +129,7 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                                     </div>
                                     <div>
                                         <button type="submit" name="status_submit" id="status_submit" class="btn blue">
-                                            <i
-                                                class="icon-ok"></i>
+                                            <i class="icon-ok"></i>
                                         </button>
                                     </div>
                                 </div>
@@ -139,7 +138,7 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                     </div>
                     <div class="tabbable tabbable-custom boxless edit-post">
                         <div class="tab-pane">
-                            <div class="portlet box blue">
+                            <div class="portlet box grey">
                                 <div class="portlet-title">
                                     <h4><i class="icon-reorder"></i>Categories</h4>
                                 </div>
@@ -164,7 +163,7 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                     </div>
                     <div class="tabbable tabbable-custom boxless edit-post">
                         <div class="tab-pane">
-                            <div class="portlet box blue">
+                            <div class="portlet box grey">
                                 <div class="portlet-title">
                                     <h4><i class="icon-reorder"></i>Featured Image</h4>
                                 </div>

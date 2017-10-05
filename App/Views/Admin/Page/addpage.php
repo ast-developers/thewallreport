@@ -27,7 +27,7 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                 <div class="span9">
                     <div class="tabbable tabbable-custom boxless">
                         <div class="tab-pane">
-                            <div class="portlet box blue">
+                            <div class="portlet box grey">
                                 <div class="portlet-title">
                                     <h4><i class="icon-reorder"></i><?php echo (!empty($page)) ? 'Edit' : 'Add'; ?> Page
                                     </h4>
@@ -74,7 +74,7 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                 <div class="span3">
                     <div class="tabbable tabbable-custom boxless edit-page">
                         <div class="tab-pane">
-                            <div class="portlet box blue">
+                            <div class="portlet box grey">
                                 <div class="portlet-title">
                                     <h4><i class="icon-reorder"></i><?php echo (!empty($page)) ? 'Edit' : 'Add'; ?> Page
                                     </h4>
@@ -131,7 +131,7 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                     </div>
                     <div class="tabbable tabbable-custom boxless edit-post">
                         <div class="tab-pane">
-                            <div class="portlet box blue">
+                            <div class="portlet box grey">
                                 <div class="portlet-title">
                                     <h4><i class="icon-reorder"></i>Featured Image</h4>
                                 </div>

@@ -25,7 +25,7 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                 <div class="span6">
                     <div class="tabbable tabbable-custom boxless">
                         <div class="tab-pane">
-                            <div class="portlet box blue">
+                            <div class="portlet box grey">
                                 <div class="portlet-title">
                                     <h4><i class="icon-reorder"></i><?php echo (!empty($category)) ? 'Edit' : 'Add'; ?> Category
                                     </h4>
