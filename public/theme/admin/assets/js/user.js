@@ -82,8 +82,6 @@ var User = function () {
                 } else {
                     error.addClass('help-small no-left-padding').insertAfter(element.closest('.validation'));
                 }
-                    error.addClass('help-small no-left-padding').insertAfter(element.closest('.input-icon'));
-                }
             }
         });
     };
