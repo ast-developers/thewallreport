@@ -70,7 +70,7 @@
                 </div>
             </div>
 
-            <div class="col-lg-12 p-4 bg-white">
+            <div class="col-lg-12 p-4 bg-white hidden-sm-down">
                 <a href="<?php echo App\Config::W_ROOT; ?>"><img src="<?php echo \App\Config::W_FRONT_ASSETS ?>images/Logo.png"></a>
             </div>
             <div class="col-lg-12 bg-white">

@@ -21,7 +21,7 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
 
         <!-- BEGIN PAGE CONTENT-->
         <div class="row-fluid">
-            <div class="span8 responsive" data-tablet="span12 fix-offset" data-desktop="span12">
+            <div class="span12 responsive" data-tablet="span12 fix-offset" data-desktop="span12">
                 <!-- BEGIN EXAMPLE TABLE PORTLET-->
                 <div class="portlet box grey">
                     <div class="portlet-title">

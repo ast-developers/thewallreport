@@ -79,6 +79,37 @@ $banners = array_chunk($getBanners,2);
 
 
         </div>
+        <?php if(!empty($advertisement['left'])){ ?>
+            <div class="left-ads">
+                <?php if($advertisement['left']['type']=='banner'){ ?>
+                    <img src="<?php echo \App\Config::W_BANNER_IMAGE_ROOT.$advertisement['left']['banner_image']; ?>">
+                <?php }else{
+                    echo $advertisement['left']['adsense_code'];
+                } ?>
+            </div>
+        <?php } ?>
+        <?php if(!empty($advertisement['right'])){ ?>
+            <div class="right-ads">
+                <?php if($advertisement['right']['type']=='banner'){ ?>
+                    <img src="<?php echo \App\Config::W_BANNER_IMAGE_ROOT.$advertisement['right']['banner_image']; ?>">
+                <?php }else{
+                    echo $advertisement['right']['adsense_code'];
+                } ?>
+            </div>
+        <?php } ?>
+
+        <div class="col-xl-12">
+            <?php if(!empty($advertisement['center'])){ ?>
+                <div class="bottom-ads">
+                    <?php if($advertisement['center']['type']=='banner'){ ?>
+                        <img src="<?php echo \App\Config::W_BANNER_IMAGE_ROOT.$advertisement['center']['banner_image']; ?>">
+                    <?php }else{
+                        echo $advertisement['center']['adsense_code'];
+                    } ?>
+
+                </div>
+            <?php } ?>
+        </div>
     </div>
 </div> <!-- /container -->
 
