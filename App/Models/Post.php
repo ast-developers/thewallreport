@@ -400,7 +400,7 @@ class Post extends Model
     {
         $page_ids = explode(',', $ids['data_ids']);
         foreach ($page_ids as $id) {
-            $page = $this->getPageById($id);
+            $page = $this->getPostById($id);
             if (!empty($page[0]['featured_image']) && file_exists(Config::F_FEATURED_IMAGE_ROOT . $page[0]['featured_image'])) {
                 unlink(Config::F_FEATURED_IMAGE_ROOT . $page[0]['featured_image']);
             }

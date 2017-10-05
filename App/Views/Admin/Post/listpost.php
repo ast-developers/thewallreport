@@ -28,7 +28,7 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                         <h4>Posts</h4>
 
                         <div class="actions">
-                            <a href="<?php echo \App\Config::W_ROOT . "admin/add-post" ?>" class="btn blue"><i class="icon-pencil"></i> Add</a>
+                            <a href="<?php echo \App\Config::W_ROOT . "admin/add-post" ?>" class="btn blue"><i class="icon-plus"></i> Add</a>
                             <?php if ($sessionUser->hasPrivilege("delete_post")) { ?>
                             <a href="#deleteModel" role="button" id="delete-btn" class="btn btn-danger red hidden"
                                data-toggle="modal">Delete</a>

@@ -4,17 +4,18 @@ var Category = function () {
         dataTable = $('#category-grid').DataTable({
             "processing": true,
             "serverSide": true,
-            "order": [[ 1, "asc" ]],
-            "bPaginate": false,
+            "order"     : [[1, "asc"]],
+            "bPaginate" : false,
             "columnDefs": [{
-                "targets": 0,
-                "orderable": false,
-                "searchable": false
+                "targets"   : 0,
+                "orderable" : false,
+                "searchable": false,
+                "className": 'selectall-checkbox',
 
             }],
-            "ajax": {
-                url: categoryAjaxPaginateUrl, // json datasource
-                type: "post",  // method  , by default get
+            "ajax"      : {
+                url  : categoryAjaxPaginateUrl, // json datasource
+                type : "post",  // method  , by default get
                 error: function (data) {  // error handling
                     $(".category-grid-error").html("");
                     $("#category-grid").append('<tbody class="user-grid-error"><tr><th colspan="3">No data found in the server</th></tr></tbody>');
@@ -24,72 +25,16 @@ var Category = function () {
             }
         });
     };
-
-    var deleteCategory = function () {
-        $("#bulkDelete").on('click', function () { // bulk checked
-            var status = this.checked;
-            $(".deleteRow").each(function () {
-                $(this).prop("checked", status);
-            });
-            if ($("#bulkDelete").is(':checked')) {
-                $("#delete-btn").removeClass('hidden');
-            } else {
-                $("#delete-btn").addClass('hidden')
-            }
-        });
-        $(document).on('click', '.deleteRow', function (event) {
-            $("#delete-btn").addClass('hidden')
-            var $checked = false;
-
-            $.each($(".deleteRow"), function(index, value){
-                if ($(this).is(':checked')) {
-                    $checked = true;
-                    $("#delete-btn").addClass('hidden')
-                }
-            });
-
-            if($checked){
-                $("#delete-btn").removeClass('hidden');
-            } else {
-                $('#bulkDelete').prop("checked", false);
-            }
-
-        });
-
-        $('#deleteCategories').on("click", function (event) { // triggering delete one by one
-            if ($('.deleteRow:checked').length > 0) {  // at-least one checkbox checked
-                var ids = [];
-                $('.deleteRow').each(function () {
-                    if ($(this).is(':checked')) {
-                        ids.push($(this).val());
-                    }
-                });
-                var ids_string = ids.toString();
-                // array to string conversion
-                $.ajax({
-                    type: "POST",
-                    url: categoryBulkDeleteUrl,
-                    data: {data_ids: ids_string},
-                    success: function (result) {
-                        dataTable.draw(); // redrawing datatable
-                        $('.header-title').after('<div class="alert alert-success">'+
-                            '<strong>'+'Categories deleted successfully.'+'</strong></div>');
-                    },
-                    async: false
-                });
-            }
-        });
-    };
-    var validateCategory = function () {
+    var validateCategory      = function () {
         $('.category-form').validate({
             errorElement: 'label', //default input error message container
-            errorClass: 'help-inline', // default input error message class
+            errorClass  : 'help-inline', // default input error message class
             focusInvalid: false, // do not focus the last invalid input
-            rules: {
+            rules       : {
                 name: {
                     required: true
                 },
-                slug:{
+                slug: {
                     required: true
                 },
             },
@@ -118,20 +63,18 @@ var Category = function () {
             },
 
             errorPlacement: function (error, element) {
-                error.addClass('help-small no-left-padding').insertAfter(element.closest('.input-icon'));
+                error.addClass('help-small no-left-padding').insertAfter(element.closest('.validation'));
             }
         });
     };
 
     return {
-
         //function to initiate User Listing Page
         initList: function () {
             App.init();
             initCategoryDataTable();
-            deleteCategory();
+            App.initBulkDelete({'deleteElement': $('#deleteCategories'), 'deleteUrl': categoryBulkDeleteUrl, 'deleteSuccessMsg': 'Categories deleted successfully.', 'dataTable': dataTable});
             validateCategory();
-        },
-
+        }
     };
 }();

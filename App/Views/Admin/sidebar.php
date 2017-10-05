@@ -102,6 +102,17 @@ $menuHelper = new \Core\Menu();
             </ul>
         </li>
         <?php } ?>
+        <li class="has-sub <?php echo $menuHelper->menuActiveState('admin.advertise');?>">
+            <a href="javascript:;">
+                <i class="icon-th-list"></i>
+                <span class="title">Advertise</span>
+                <span class="arrow "></span>
+            </a>
+            <ul class="sub">
+                <li class="<?php echo $menuHelper->menuActiveState('admin.advertise.list');?>"><a href="<?php echo \App\Config::W_ROOT . "admin/advertise" ?>">All Advertises</a></li>
+                <li class="<?php echo $menuHelper->menuActiveState('admin.advertise.manage');?>"><a href="<?php echo \App\Config::W_ROOT . "admin/add-advertise" ?>">Add New</a></li>
+            </ul>
+        </li>
     </ul>
     </ul>
     <!-- END SIDEBAR MENU -->

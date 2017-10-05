@@ -25,7 +25,7 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                 <div class="span6">
                     <div class="tabbable tabbable-custom boxless">
                         <div class="tab-pane">
-                            <div class="portlet box blue">
+                            <div class="portlet box grey">
                                 <div class="portlet-title">
                                     <h4><i class="icon-reorder"></i><?php echo (!empty($category)) ? 'Edit' : 'Add'; ?> Category
                                     </h4>
@@ -42,8 +42,9 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                             <label class="control-label">Name</label>
 
                             <div class="controls">
+                                <div class="validation">
                                     <input type="text" name="name" placeholder="Name" class="m-wrap medium"
-                                           value="<?php echo $name; ?>"/>
+                                           value="<?php echo $name; ?>"/></div>
                             </div>
                         </div>
                         <?php $slug = (!empty($category['slug'])) ? $category['slug'] : '' ?>
@@ -51,8 +52,9 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                             <label class="control-label">Slug</label>
 
                             <div class="controls">
+                                <div class="validation">
                                     <input type="text" name="slug" placeholder="Slug" class="m-wrap medium"
-                                           value="<?php echo $slug; ?>"/>
+                                           value="<?php echo $slug; ?>"/></div>
                             </div>
                         </div>
 
@@ -74,7 +76,7 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                             <label class="control-label">Description</label>
 
                             <div class="controls">
-                                <textarea class="large m-wrap" name="description"
+                                <textarea class="m-wrap medium" name="description"
                                           rows="3"><?php echo $description; ?></textarea>
                             </div>
                         </div>

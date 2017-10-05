@@ -27,7 +27,7 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                 <div class="span9">
                     <div class="tabbable tabbable-custom boxless">
                         <div class="tab-pane">
-                            <div class="portlet box blue">
+                            <div class="portlet box grey">
                                 <div class="portlet-title">
                                     <h4><i class="icon-reorder"></i><?php echo (!empty($page)) ? 'Edit' : 'Add'; ?> Page
                                     </h4>
@@ -47,8 +47,7 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
 
                                         <div class="controls">
                                             <div class="validation">
-                                                <input class="m-wrap  span6 m-wrap" type="text"
-                                                       placeholder="Page name" name="name" id="name"
+                                                <input class="m-wrap  span12 m-wrap" type="text" name="name" id="name"
                                                        value='<?php echo $name; ?>'/></div>
                                         </div>
                                     </div>
@@ -61,7 +60,7 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                                                       name="description"><?php echo $description; ?></textarea>
                                         </div>
                                     </div>
-                                    <div class="form-actions">
+                                    <div class="form-actions pl-20">
                                         <button type="submit" name="submit" class="btn blue"><i
                                                 class="icon-ok"></i> Save Page
                                         </button>
@@ -75,7 +74,7 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                 <div class="span3">
                     <div class="tabbable tabbable-custom boxless edit-page">
                         <div class="tab-pane">
-                            <div class="portlet box blue">
+                            <div class="portlet box grey">
                                 <div class="portlet-title">
                                     <h4><i class="icon-reorder"></i><?php echo (!empty($page)) ? 'Edit' : 'Add'; ?> Page
                                     </h4>
@@ -91,7 +90,7 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                                         <label class="control-label" for="status">Status</label>
 
                                         <div class="controls">
-                                            <select class="chosen_category" name="status" id="status-type"
+                                            <select class="chosen_category span12 m-wrap" name="status" id="status-type"
                                                     tabindex="1">
                                                 <option
                                                     value="draft" <?php echo (!empty($page['status']) && $page['status'] == 'draft') ? 'selected="selected"' : ''; ?>>
@@ -115,7 +114,7 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
 
                                         <div class="controls">
                                             <div class="validation">
-                                                <input class="m-wrap  span6 m-wrap" type="text"
+                                                <input class="span12 m-wrap" type="text"
                                                        name="views"
                                                        value='<?php echo $views ?>' id="views"/></div>
                                         </div>
@@ -132,7 +131,7 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                     </div>
                     <div class="tabbable tabbable-custom boxless edit-post">
                         <div class="tab-pane">
-                            <div class="portlet box blue">
+                            <div class="portlet box grey">
                                 <div class="portlet-title">
                                     <h4><i class="icon-reorder"></i>Featured Image</h4>
                                 </div>
