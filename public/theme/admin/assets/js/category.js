@@ -9,7 +9,8 @@ var Category = function () {
             "columnDefs": [{
                 "targets"   : 0,
                 "orderable" : false,
-                "searchable": false
+                "searchable": false,
+                "className": 'selectall-checkbox',
 
             }],
             "ajax"      : {
@@ -62,7 +63,7 @@ var Category = function () {
             },
 
             errorPlacement: function (error, element) {
-                error.addClass('help-small no-left-padding').insertAfter(element.closest('.input-icon'));
+                error.addClass('help-small no-left-padding').insertAfter(element.closest('.validation'));
             }
         });
     };

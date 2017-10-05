@@ -45,6 +45,12 @@ $router->add('admin/menu-ajax-paginate', ['namespace' => 'Admin', 'controller' =
 $router->add('admin/bulk-delete-menu', ['namespace' => 'Admin', 'controller' => 'MenuController', 'action' => 'bulkDeleteMenu', 'middleware' => ['Auth', 'Permission']]);
 $router->add('admin/update-menu-sort-order', ['namespace' => 'Admin', 'controller' => 'MenuController', 'action' => 'updateMenuSortOrder', 'middleware' => 'Auth']);
 
+$router->add('admin/add-advertise', ['namespace' => 'Admin', 'controller' => 'AdvertiseController', 'action' => 'store', 'middleware' => 'Auth']);
+$router->add('admin/edit-advertise/{id:\d+}', ['namespace' => 'Admin', 'controller' => 'AdvertiseController', 'action' => 'store', 'middleware' => 'Auth']);
+$router->add('admin/advertise', ['namespace' => 'Admin', 'controller' => 'AdvertiseController', 'action' => 'index', 'middleware' => 'Auth']);
+$router->add('admin/advertise-ajax-paginate', ['namespace' => 'Admin', 'controller' => 'AdvertiseController', 'action' => 'advertisePaginate', 'middleware' => 'Auth']);
+$router->add('admin/bulk-delete-advertise', ['namespace' => 'Admin', 'controller' => 'AdvertiseController', 'action' => 'bulkDeleteAdvertise', 'middleware' => 'Auth']);
+
 $router->add('admin/error', ['namespace' => 'Admin', 'controller' => 'UserController', 'action' => 'error']);
 /*$router->add('admin/checkuser', ['namespace' => 'Admin','controller' => 'UserController', 'action' => 'checkuser', 'middleware' => 'Auth']);*/
 

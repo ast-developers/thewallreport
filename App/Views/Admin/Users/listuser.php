@@ -29,8 +29,10 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
 
                             <div class="actions">
                                 <a href="<?php echo \App\Config::W_ROOT . "admin/add-user" ?>" class="btn blue"><i
-                                        class="icon-pencil"></i> Add</a>
-                                <a href="#deleteModel" id="delete-btn" role="button" class="btn btn-danger red hidden" data-toggle="modal">Delete</a>
+                                        class="icon-plus"></i> Add</a>
+                                <a href="#deleteModel" id="delete-btn" role="button" class="btn btn-danger red hidden" data-toggle="modal">
+                                    <i class="icon-trash"></i>
+                                    Delete</a>
                                 <div class="btn-group">
                                     <ul class="dropdown-menu pull-right">
                                         <li><a href="#"><i class="icon-pencil"></i> Edit</a></li>

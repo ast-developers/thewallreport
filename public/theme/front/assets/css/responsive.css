@@ -12,7 +12,10 @@
     #searchModal .modal-content .search-date { margin-bottom: 5px;}
     #searchModal .modal-content .see-all-btn { font-size: 14px; height: 38px; line-height: 35px; letter-spacing: 1px; padding: 0 15px; }
 }
-
+@media (max-width: 1519px) {
+    .left-ads,
+    .right-ads { display: none;}
+}
 @media (min-width: 1200px){
 
     .grid-img:last-of-type { padding-left: 4px;}

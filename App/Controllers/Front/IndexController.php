@@ -27,7 +27,8 @@ class IndexController extends Controller
      */
     public function indexAction()
     {
-        View::render('Front/index.php');
+        $advertisement = $this->repo->getAdvertisements();
+        View::render('Front/index.php',['advertisement'=>$advertisement]);
     }
 
 }

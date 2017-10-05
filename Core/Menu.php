@@ -53,6 +53,13 @@ class Menu
                         'admin/add-menu',
                         'admin/edit-menu',
                     ]
+                ],
+                'advertise'      => [
+                    'list'   => 'admin/advertise',
+                    'manage' => [
+                        'admin/add-advertise',
+                        'admin/edit-advertise',
+                    ]
                 ]
             ]
         ];

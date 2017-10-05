@@ -631,3 +631,14 @@ td, th, ul, ol {
 }
 
 .spinner { position: absolute; left: 50%; top:50%; text-align: center; margin-top: -20px; margin-left: -20px;}
+
+.left-ads,
+.right-ads { width: 160px; height: 100%; position: absolute; top:0px; z-index: 2; border: #d8d8d8 solid 1px;}
+
+.left-ads { left: -160px;}
+.right-ads { right: -160px;}
+
+.bottom-ads {width: 100%; max-height: 100px; border: #d8d8d8 solid 1px; text-align: center; margin-top: 20px;}
+.bottom-ads img { max-height: 100%;}
+
+.ff-filter-holder { height: inherit!important;}
