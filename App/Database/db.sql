@@ -190,7 +190,7 @@ CREATE TABLE `role_permission` (
 
 /*Data for the table `role_permission` */
 
-insert  into `role_permission`(`id`,`role_id`,`permission_id`) values (1,1,1),(2,1,2),(3,1,3),(4,1,4),(5,1,5),(6,1,6),(7,1,7),(8,1,8),(9,1,9),(10,1,10),(12,1,11),(13,1,12),(14,1,13),(15,1,14),(16,1,15),(17,1,16),(18,1,17),(19,1,18),(20,1,19),(21,1,20),(22,1,21),(23,2,5),(24,2,6),(26,2,8),(27,2,13),(28,2,14),(30,2,16);ALTER TABLE `ff_posts` ADD `featured` BOOLEAN NULL DEFAULT 0 AFTER `post_additional`, ADD `is_active` BOOLEAN NULL DEFAULT 1 AFTER `featured`;
+insert  into `role_permission`(`id`,`role_id`,`permission_id`) values (1,1,1),(2,1,2),(3,1,3),(4,1,4),(5,1,5),(6,1,6),(7,1,7),(8,1,8),(9,1,9),(10,1,10),(12,1,11),(13,1,12),(14,1,13),(15,1,14),(16,1,15),(17,1,16),(18,1,17),(19,1,18),(20,1,19),(21,1,20),(22,1,21),(23,2,5),(24,2,6),(26,2,8),(27,2,13),(28,2,14),(30,2,16);
 
 /* 4 Oct 2017
 Add Advertisement table
