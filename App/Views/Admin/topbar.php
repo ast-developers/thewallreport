@@ -10,8 +10,7 @@
             <!-- END LOGO -->
             <!-- BEGIN RESPONSIVE MENU TOGGLER -->
             <a href="javascript:;" class="btn-navbar collapsed" data-toggle="collapse" data-target=".nav-collapse">
-                <!--<img src="assets/img/menu-toggler.png" alt=""/>-->
-                The Wall Report
+                <img src="<?php echo \App\Config::W_ADMIN_ASSETS;?>/img/menu-toggler.png" alt="The Wall Report"/>
             </a>
             <!-- END RESPONSIVE MENU TOGGLER -->
             <!-- BEGIN TOP NAVIGATION MENU -->
