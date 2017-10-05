@@ -34,7 +34,7 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                                 <!-- BEGIN FORM-->
                                 <form action="<?php echo \App\Config::W_ROOT . 'admin/add-advertise' ?>" method="post"
                                       enctype="multipart/form-data"
-                                      class="form-horizontal form-row-seperated advertise-form">
+                                      class="form-horizontal advertise-form">
                                     <input type="hidden" name="token" value="<?php echo \Core\Csrf::getToken(); ?>">
                                     <input type="hidden" name="delete_banner_image" class="delete_banner_image"
                                            value="0">
@@ -47,8 +47,8 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
 
                                         <div class="controls">
                                             <div class="validation">
-                                                <input class="m-wrap  span6 m-wrap" type="text"
-                                                       placeholder="Advertise name" name="name" id="name"
+                                                <input class="m-wrap" type="text"
+                                                       name="name" id="name"
                                                        value='<?php echo $name; ?>'/>
                                             </div>
                                         </div>
@@ -57,7 +57,7 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                                         <label class="control-label" for="type">Advertise Position</label>
 
                                         <div class="controls">
-                                            <select class="chosen_category" name="position" id="position">
+                                            <select class="chosen_category m-wrap" name="position" id="position">
                                                 <option
                                                     value="left" <?php echo (!empty($advertise['position']) && $advertise['position'] == 'left') ? 'selected="selected"' : ''; ?>>
                                                     Left Side
@@ -77,7 +77,7 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                                         <label class="control-label" for="type">Advertise Type</label>
 
                                         <div class="controls">
-                                            <select class="chosen_category" name="type" id="advertise-type" id="type">
+                                            <select class="chosen_category m-wrap" name="type" id="advertise-type" id="type">
                                                 <option
                                                     value="banner" <?php echo (!empty($advertise['type']) && $advertise['type'] == 'banner') ? 'selected="selected"' : ''; ?>>
                                                     Banner
@@ -154,7 +154,7 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                                         <label class="control-label">Status</label>
 
                                         <div class="controls">
-                                            <select class="chosen_category" name="status"
+                                            <select class="chosen_category m-wrap" name="status"
                                                     tabindex="1">
                                                 <option
                                                     value="active" <?php echo (!empty($advertise['status']) && $advertise['status'] == 'active') ? 'selected="selected"' : ''; ?>>

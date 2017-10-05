@@ -5,10 +5,12 @@ var User = function () {
             "processing": true,
             "serverSide": true,
             "order"     : [[1, "asc"]],
+            "responsive": true,
             "columnDefs": [{
                 "targets"   : 0,
                 "orderable" : false,
-                "searchable": false
+                "searchable": false,
+                "className": 'selectall-checkbox'
 
             }],
             "ajax"      : {
@@ -78,7 +80,7 @@ var User = function () {
                 if (element.attr("name") == "avatar") {
                     error.insertAfter(element.closest('.file-upload-button-area'));
                 } else {
-                    error.addClass('help-small no-left-padding').insertAfter(element.closest('.input-icon'));
+                    error.addClass('help-small no-left-padding').insertAfter(element.closest('.validation'));
                 }
             }
         });

@@ -34,7 +34,7 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                                 <?php $route = (!empty($user)) ? 'admin/update-user' : 'admin/add-user'; ?>
                                 <form action="<?php echo \App\Config::W_ROOT . $route ?>" method="post"
                                       enctype="multipart/form-data"
-                                      class="form-horizontal form-row-seperated user-form">
+                                      class="form-horizontal user-form">
                                     <input type="hidden" name="token" value="<?php echo \Core\Csrf::getToken(); ?>">
                                     <?php if ((!empty($user))) { ?>
                                         <input type="hidden" name="id" value="<?php echo $user['id'] ?>">
@@ -45,19 +45,17 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                                         <label class="control-label" for="name">Username</label>
 
                                         <div class="controls">
-                                            <div class="input-icon left">
-                                                <i class="icon-user"></i>
+                                            <div class="validation">
                                                 <input class="m-wrap placeholder-no-fix" type="text" id="name"
-                                                       placeholder="Username" name="username"
-                                                       value="<?php echo $username ?>"/>
-                                            </div>
+                                                       name="username"
+                                                       value="<?php echo $username ?>"/></div>
                                         </div>
                                     </div>
                                     <div class="control-group">
                                         <label class="control-label" for="role_id">Role</label>
 
                                         <div class="controls">
-                                            <select class="chosen_category" name="role_id" id="role_id"
+                                            <select class="chosen_category m-wrap" name="role_id" id="role_id"
                                                     data-placeholder="Choose a Category">
                                                 <?php if (!empty($roles)) {
                                                     foreach ($roles as $role) {
@@ -74,7 +72,7 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                                         <label class="control-label" for="first_name">First Name</label>
 
                                         <div class="controls">
-                                            <input type="text" name="first_name" placeholder="First Name" id="first_name"
+                                            <input type="text" name="first_name" id="first_name"
                                                    class="m-wrap" value="<?php echo $first_name ?>"/>
                                         </div>
                                     </div>
@@ -83,7 +81,7 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                                         <label class="control-label" for="last_name">Last Name</label>
 
                                         <div class="controls">
-                                            <input type="text" name="last_name" placeholder="Last Name" id="last_name"
+                                            <input type="text" name="last_name" id="last_name"
                                                    class="m-wrap" value="<?php echo $last_name ?>"/>
                                         </div>
                                     </div>
@@ -92,7 +90,7 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                                         <label class="control-label" for="nick_name">Nick Name</label>
 
                                         <div class="controls">
-                                            <input type="text" name="nick_name" placeholder="Nick name" id="nick_name"
+                                            <input type="text" name="nick_name" id="nick_name"
                                                    class="m-wrap" value="<?php echo $nick_name ?>"/>
                                         </div>
                                     </div>
@@ -102,12 +100,10 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                                         <label class="control-label" for="email">Email</label>
 
                                         <div class="controls">
-                                            <div class="input-icon left">
-                                                <i class="icon-envelope"></i>
+                                            <div class="validation">
                                                 <input class="m-wrap placeholder-no-fix" type="text" id="email"
-                                                       placeholder="Email" name="email"
-                                                       value="<?php echo $email ?>"/>
-                                            </div>
+                                                       name="email"
+                                                       value="<?php echo $email ?>"/></div>
                                         </div>
                                     </div>
                                     <?php if (empty($user)) { ?>
@@ -116,24 +112,20 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                                             <label class="control-label" for="password">Password</label>
 
                                             <div class="controls">
-                                                <div class="input-icon left">
-                                                    <i class="icon-lock"></i>
+                                                <div class="validation">
                                                     <input class="m-wrap placeholder-no-fix" type="password" id="password"
-                                                           id="register_password" placeholder="Password"
-                                                           name="password" value="<?php echo $password ?>"/>
-                                                </div>
+                                                           id="register_password"
+                                                           name="password" value="<?php echo $password ?>"/></div>
                                             </div>
                                         </div>
                                         <div class="control-group">
                                             <label class="control-label" for="rpassword">Re-type Your Password</label>
 
                                             <div class="controls">
-                                                <div class="input-icon left">
-                                                    <i class="icon-ok"></i>
+                                                <div class="validation">
                                                     <input class="m-wrap placeholder-no-fix" type="password"
-                                                           placeholder="Re-type Your Password" name="rpassword" id="rpassword"
-                                                           value="<?php echo $password ?>"/>
-                                                </div>
+                                                           name="rpassword" id="rpassword"
+                                                           value="<?php echo $password ?>"/></div>
                                             </div>
                                         </div>
                                     <?php } ?>

@@ -8,7 +8,8 @@ var Post = function () {
             "columnDefs": [{
                 "targets"   : 0,
                 "orderable" : false,
-                "searchable": false
+                "searchable": false,
+                "className": 'selectall-checkbox',
 
             }],
             "ajax"      : {

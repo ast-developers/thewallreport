@@ -48,8 +48,7 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
 
                                         <div class="controls">
                                             <div class="validation">
-                                                <input class="m-wrap  span6 m-wrap" type="text"
-                                                       placeholder="Post name" name="name"
+                                                <input class="m-wrap  span12" type="text" name="name"
                                                        value='<?php echo $name; ?>' id="name"/></div>
                                         </div>
                                     </div>
@@ -72,7 +71,7 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                                                    value="<?php echo $post_tags ?>"/>
                                         </div>
                                     </div>
-                                    <div class="form-actions">
+                                    <div class="form-actions pl-20">
                                         <button type="submit" name="submit" class="btn blue"><i
                                                 class="icon-ok"></i> Save Post
                                         </button>
@@ -100,7 +99,7 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                                         <label class="control-label" id="status">Status</label>
 
                                         <div class="controls">
-                                            <select class="chosen_category" name="status" id="status-type">
+                                            <select class="chosen_category span12" name="status" id="status-type">
                                                 <option
                                                     value="draft" <?php echo (!empty($post['status']) && $post['status'] == 'draft') ? 'selected="selected"' : ''; ?>>
                                                     Draft
@@ -123,7 +122,7 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
 
                                         <div class="controls">
                                             <div class="validation">
-                                                <input class="m-wrap  span6 m-wrap" type="text"
+                                                <input class="m-wrap  span12" type="text"
                                                        name="views"
                                                        value='<?php echo $views ?>' id="views"/></div>
                                         </div>
@@ -149,7 +148,7 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                                         <label class="control-label" id="category">Category</label>
 
                                         <div class="controls">
-                                            <select class="span6 m-wrap" multiple="multiple" name="category_id[]"
+                                            <select class="span12 m-wrap" multiple="multiple" name="category_id[]"
                                                     id="category"
                                                     data-placeholder="Choose a Category">
                                                 <?php foreach ($parent_cat as $option) { ?>

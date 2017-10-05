@@ -32,7 +32,7 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                             <div class="portlet-body form">
                                 <!-- BEGIN FORM-->
                                 <form action="<?php echo \App\Config::W_ROOT . 'admin/add-menu' ?>" method="post"
-                                      class="form-horizontal form-row-seperated menu-form">
+                                      class="form-horizontal menu-form">
                                     <input type="hidden" name="token" value="<?php echo \Core\Csrf::getToken(); ?>">
                                     <?php if ((!empty($menu))) { ?>
                                         <input type="hidden" name="id" value="<?php echo $menu['id'] ?>">
@@ -43,8 +43,8 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
 
                                         <div class="controls">
                                             <div class="validation">
-                                                <input class="m-wrap  span6 m-wrap" type="text"
-                                                       placeholder="Menu name" name="name" id="name"
+                                                <input class="span6 m-wrap" type="text"
+                                                       name="name" id="name"
                                                        value='<?php echo $name; ?>'/>
                                             </div>
                                         </div>
@@ -53,7 +53,7 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                                         <label class="control-label" for="type">Menu Type</label>
 
                                         <div class="controls">
-                                            <select class="chosen_category" name="type" id="menu-type" id="type">
+                                            <select class="chosen_category span6 m-wrap" name="type" id="menu-type" id="type">
                                                 <option
                                                     value="1" <?php echo (!empty($menu['type']) && $menu['type'] == '1') ? 'selected="selected"' : ''; ?>>
                                                     Post
@@ -74,7 +74,7 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                                         <label class="control-label" for="post">Posts</label>
 
                                         <div class="controls">
-                                            <select class="chosen_category span6" name="post" id="post">
+                                            <select class="chosen_category span6 m-wrap" name="post" id="post">
                                                 <?php foreach ($posts as $value) { ?>
                                                     <option
                                                         value="<?php echo $value['id'] ?>" <?php echo (!empty($menu['type']) && $menu['type'] == 1 && $value['id'] == $menu['link']) ? 'selected="selected"' : ''; ?>><?php echo $value['name'] ?></option>
@@ -117,7 +117,7 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                                     <div class="control-group">
                                         <label class="control-label">Status</label>
                                     <div class="controls">
-                                        <select class="chosen_category" name="status"
+                                        <select class="chosen_category m-wrap" name="status"
                                                 tabindex="1">
                                             <option
                                                 value="active" <?php echo (!empty($menu['status']) && $menu['status'] == 'active') ? 'selected="selected"' : ''; ?>>
