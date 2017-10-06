@@ -5,7 +5,9 @@ var Post = function () {
             "processing": true,
             "serverSide": true,
             "order"     : [[1, "asc"]],
-            "columnDefs": [{
+            "responsive" : true,
+            "columnDefs": [
+                {
                 "targets"   : 0,
                 "orderable" : false,
                 "searchable": false,

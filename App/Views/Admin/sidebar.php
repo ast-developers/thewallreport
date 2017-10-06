@@ -102,6 +102,8 @@ $menuHelper = new \Core\Menu();
             </ul>
         </li>
         <?php } ?>
+
+        <?php if($sessionUser->hasPrivilege("list_advertise") || $sessionUser->hasPrivilege("add_advertise")) { ?>
         <li class="has-sub <?php echo $menuHelper->menuActiveState('admin.advertise');?>">
             <a href="javascript:;">
                 <i class="icon-th-list"></i>
@@ -109,10 +111,16 @@ $menuHelper = new \Core\Menu();
                 <span class="arrow "></span>
             </a>
             <ul class="sub">
+                <?php if ($sessionUser->hasPrivilege("list_advertise")) { ?>
                 <li class="<?php echo $menuHelper->menuActiveState('admin.advertise.list');?>"><a href="<?php echo \App\Config::W_ROOT . "admin/advertise" ?>">All Advertises</a></li>
+                <?php } ?>
+
+                <?php if ($sessionUser->hasPrivilege("add_advertise")) { ?>
                 <li class="<?php echo $menuHelper->menuActiveState('admin.advertise.manage');?>"><a href="<?php echo \App\Config::W_ROOT . "admin/add-advertise" ?>">Add New</a></li>
+                <?php } ?>
             </ul>
         </li>
+        <?php } ?>
     </ul>
     </ul>
     <!-- END SIDEBAR MENU -->

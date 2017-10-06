@@ -37,6 +37,10 @@ class Permission
                 'admin/bulk-delete-menu'       => 'delete_menu',
                 'admin/add-menu'               => 'add_menu',
                 'admin/edit-menu'              => 'edit_menu',
+                'admin/advertise'              => 'list_advertise',
+                'admin/bulk-delete-advertise'  => 'delete_advertise',
+                'admin/add-advertise'          => 'add_advertise',
+                'admin/edit-advertise'         => 'edit_advertise',
             ];
 
             foreach ($pages as $menuToCheck => $permission) {

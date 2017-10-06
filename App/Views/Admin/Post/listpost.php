@@ -31,7 +31,7 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                             <a href="<?php echo \App\Config::W_ROOT . "admin/add-post" ?>" class="btn blue"><i class="icon-plus"></i> Add</a>
                             <?php if ($sessionUser->hasPrivilege("delete_post")) { ?>
                             <a href="#deleteModel" role="button" id="delete-btn" class="btn btn-danger red hidden"
-                               data-toggle="modal">Delete</a>
+                               data-toggle="modal"><i class="icon-trash"></i> Delete</a>
                             <?php } ?>
 
                             <div class="btn-group">
@@ -46,11 +46,10 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                         </div>
                     </div>
                     <div class="portlet-body">
-                        <table id="post-grid" class="display table table-striped table-bordered table-hover">
+                        <table id="post-grid" class="display table table-striped table-bordered table-hover responsive nowrap" cellspacing="0" width="100%">
                             <thead>
                             <tr>
-                                <th style="width:8px;"><input type="checkbox" id="bulkDelete"/>
-                                </th>
+                                <th style="width:8px;"><input type="checkbox" id="bulkDelete"/> </th>
                                 <th>Name</th>
                                 <th>Categories</th>
                                 <th>Tags</th>
