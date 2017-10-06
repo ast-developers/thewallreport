@@ -10,7 +10,8 @@ var ContatcUs = function () {
                     required: true
                 },
                 email: {
-                    required: true
+                    required: true,
+                    email: true
                 },
                 message: {
                     required: true

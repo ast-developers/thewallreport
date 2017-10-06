@@ -88,7 +88,7 @@
                                 foreach($menus as $key=>$menu){
                              ?>
                             <li class="nav-item">
-                                <a class="nav-link" href="<?php echo $menu['slug'] ?>"><?php echo $menu['name'] ?></a>
+                                <a class="nav-link" href="<?php echo $menu['slug'] ?>" target="<?php echo ($menu['new_tab'] ? '_blank' : '');?>"><?php echo $menu['name'] ?></a>
                             </li>
                             <?php } } ?>
                         </ul>

@@ -28,7 +28,7 @@ $banners = array_chunk($getBanners,2);
                 <?php $parent_class = ($key % 2 == 0) ? '<div class="row no-gutters">' : '' ?>
                 <?php $end_of_div = ($key % 2 == 0) ? '' : '</div>' ?>
                 <?php $class = ($key % 2 == 0) ? ' col-xl-8 ' : ' col-xl-4 ' ?>
-                <?php $image = (!empty($banner['featured_image'])) ? \App\Config::W_FEATURED_IMAGE_ROOT . $banner['featured_image'] : 'http://thewall.report/wp-content/themes/15zine/library/images/placeholders/placeholder-759x300.png' ?>
+                <?php $image = (!empty($banner['featured_image'])) ? (\App\Config::W_FEATURED_IMAGE_ROOT . $banner['featured_image']) : '' ?>
                 <?php echo $parent_class ?>
                 <div class="<?php echo $class; ?> grid-img">
                     <a href="<?php echo \App\Config::W_ROOT . $banner['slug'] ?>"><img src="<?php echo $image; ?>"></a>
@@ -55,7 +55,7 @@ $banners = array_chunk($getBanners,2);
                     <?php $parent_class = ($key % 2 == 0) ? '<div class="row no-gutters">' : '' ?>
                     <?php $end_of_div = ($key % 2 == 0) ? '' : '</div>' ?>
                     <?php $class = ($key % 2 != 0) ? ' col-xl-8 ' : ' col-xl-4 ' ?>
-                    <?php $image = (!empty($banner['featured_image'])) ? \App\Config::W_FEATURED_IMAGE_ROOT . $banner['featured_image'] : 'http://thewall.report/wp-content/themes/15zine/library/images/placeholders/placeholder-759x300.png' ?>
+                    <?php $image = (!empty($banner['featured_image'])) ? (\App\Config::W_FEATURED_IMAGE_ROOT . $banner['featured_image']) : '' ?>
                     <?php echo $parent_class ?>
                     <div class="<?php echo $class; ?> grid-img">
                         <a href="<?php echo \App\Config::W_ROOT . $banner['slug'] ?>"><img src="<?php echo $image; ?>"></a>

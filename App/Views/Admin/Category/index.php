@@ -1,6 +1,12 @@
 <?php
 $pagetitle = 'Categories';
-include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
+include(\App\Config::F_ROOT . 'App/Views/Admin/header.php');
+$post = false;
+if(isset($_SESSION['post'])){
+    $post = $_SESSION['post'];
+    unset($_SESSION['post']);
+}
+?>
 
 <!-- BEGIN PAGE -->
 <div class="page-content">
@@ -37,7 +43,7 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                         <?php if ((!empty($category))) { ?>
                             <input type="hidden" name="id" value="<?php echo $category['id'] ?>">
                         <?php } ?>
-                        <?php $name = (!empty($category['name'])) ? $category['name'] : '' ?>
+                        <?php $name = (!empty($category['name'])) ? $category['name'] : ($post ? $post['name'] : '') ?>
                         <div class="control-group">
                             <label class="control-label">Name</label>
 
@@ -47,7 +53,7 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                                            value="<?php echo $name; ?>"/></div>
                             </div>
                         </div>
-                        <?php $slug = (!empty($category['slug'])) ? $category['slug'] : '' ?>
+                        <?php $slug = (!empty($category['slug'])) ? $category['slug'] : ($post ? $post['slug'] : '') ?>
                         <div class="control-group">
                             <label class="control-label">Slug</label>
 
@@ -64,14 +70,21 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                             <div class="controls">
                                 <select class="medium m-wrap" name="parent_id" tabindex="1">
                                     <option value="0">None</option>
-                                    <?php foreach ($parent_cat as $option) { ?>
+                                    <?php foreach ($parent_cat as $option) {
+                                        $selected = "";
+                                        if(!empty($category['parent_id']) && $category['parent_id'] == $option['4']){
+                                            $selected = 'selected="selected"';
+                                        } else if($post && isset($post['parent_id']) && $post['parent_id'] == $option['4']){
+                                            $selected = 'selected="selected"';
+                                        }
+                                        ?>
                                         <option
-                                            value="<?php echo $option['4'] ?>" <?php echo (!empty($category['parent_id']) && $category['parent_id'] == $option['4']) ? 'selected="selected"' : ''; ?>><?php echo $option['1'] ?></option>
+                                            value="<?php echo $option['4'] ?>" <?php echo $selected; ?>><?php echo $option['1'] ?></option>
                                     <?php } ?>
                                 </select>
                             </div>
                         </div>
-                        <?php $description = (!empty($category['description'])) ? $category['description'] : '' ?>
+                        <?php $description = (!empty($category['description'])) ? $category['description'] : ($post ? $post['description'] : '') ?>
                         <div class="control-group">
                             <label class="control-label">Description</label>
 

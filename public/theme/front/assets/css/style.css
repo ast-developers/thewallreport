@@ -58,6 +58,7 @@ a:hover, a:focus { text-decoration: none; }
     display: inline-block;
     height: 100%;
     vertical-align: top;
+    width: 100%;
 }
 .top-article .article-content { position: absolute; bottom: 0px; left: 0px; color: #fff; padding: 20px;}
 .top-article .article-content h2 {letter-spacing: 5px; white-space: normal; word-break: break-all;}

@@ -21,20 +21,20 @@ $recaptcha = new Recaptcha();
                         <label for="name">Name<span class="text-danger">*</span></label>
 
                         <div class="validation">
-                            <input type="text" name="name" class="form-control" id="name">
+                            <input type="text" name="name" class="form-control" id="name" value="<?php echo ($_POST && isset($_POST['name']) ? $_POST['name'] : '');?>">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="email">Email<span class="text-danger">*</span></label>
 
                         <div class="validation">
-                            <input type="text" name="email" class="form-control" id="email"></div>
+                            <input type="text" name="email" class="form-control" id="email" value="<?php echo ($_POST && isset($_POST['email']) ? $_POST['email'] : '');?>"></div>
                     </div>
                     <div class="form-group">
                         <label for="message">Message<span class="text-danger">*</span></label>
 
                         <div class="validation">
-                            <textarea class="form-control" name="message" id="message" rows="4"></textarea></div>
+                            <textarea class="form-control" name="message" id="message" rows="4"><?php echo ($_POST && isset($_POST['message']) ? $_POST['message'] : '');?></textarea></div>
                     </div>
                     <div class="form-group">
                             <?php echo $recaptcha->buildRecaptchaHtml(); ?>

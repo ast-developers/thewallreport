@@ -1,6 +1,7 @@
 <?php
 $pagetitle = (!empty($user)) ? 'Edit' : 'Add' . ' User';
-include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
+include(\App\Config::F_ROOT . 'App/Views/Admin/header.php');
+?>
 
 <!-- BEGIN PAGE -->
 <div class="page-content">
@@ -41,7 +42,7 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                                     <?php } ?>
                                     <div class="control-group">
                                         <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
-                                        <?php $username = (!empty($user['username'])) ? $user['username'] : '' ?>
+                                        <?php $username = (!empty($user['username'])) ? $user['username'] : ($_POST && isset($_POST['username']) ? $_POST['username'] : '') ?>
                                         <label class="control-label" for="name">Username</label>
 
                                         <div class="controls">
@@ -59,16 +60,22 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                                                     data-placeholder="Choose a Category">
                                                 <?php if (!empty($roles)) {
                                                     foreach ($roles as $role) {
+                                                        $selected = "";
+                                                        if(!empty($user['role_id']) && $user['role_id'] == $role['id']){
+                                                            $selected = 'selected="selected"';
+                                                        } else if($_POST && isset($_POST['role_id']) && $_POST['role_id'] == $role['id']){
+                                                            $selected = 'selected="selected"';
+                                                        }
                                                         ?>
                                                         <option
-                                                            value="<?php echo $role['id']; ?>" <?php echo (!empty($user['role_id']) && $user['role_id'] == $role['id']) ? 'selected="selected"' : ''; ?>><?php echo $role['name']; ?></option>
+                                                            value="<?php echo $role['id']; ?>" <?php echo $selected; ?>><?php echo $role['name']; ?></option>
                                                     <?php }
                                                 } ?>
                                             </select>
                                         </div>
                                     </div>
                                     <div class="control-group">
-                                        <?php $first_name = (!empty($user['first_name'])) ? $user['first_name'] : '' ?>
+                                        <?php $first_name = (!empty($user['first_name'])) ? $user['first_name'] : ($_POST && isset($_POST['first_name']) ? $_POST['first_name'] : '') ?>
                                         <label class="control-label" for="first_name">First Name</label>
 
                                         <div class="controls">
@@ -77,7 +84,7 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                                         </div>
                                     </div>
                                     <div class="control-group">
-                                        <?php $last_name = (!empty($user['last_name'])) ? $user['last_name'] : '' ?>
+                                        <?php $last_name = (!empty($user['last_name'])) ? $user['last_name'] : ($_POST && isset($_POST['last_name']) ? $_POST['last_name'] : '') ?>
                                         <label class="control-label" for="last_name">Last Name</label>
 
                                         <div class="controls">
@@ -86,7 +93,7 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                                         </div>
                                     </div>
                                     <div class="control-group">
-                                        <?php $nick_name = (!empty($user['nick_name'])) ? $user['nick_name'] : '' ?>
+                                        <?php $nick_name = (!empty($user['nick_name'])) ? $user['nick_name'] : ($_POST && isset($_POST['nick_name']) ? $_POST['nick_name'] : '') ?>
                                         <label class="control-label" for="nick_name">Nick Name</label>
 
                                         <div class="controls">
@@ -95,7 +102,7 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                                         </div>
                                     </div>
                                     <div class="control-group">
-                                        <?php $email = (!empty($user['email'])) ? $user['email'] : '' ?>
+                                        <?php $email = (!empty($user['email'])) ? $user['email'] : ($_POST && isset($_POST['email']) ? $_POST['email'] : '') ?>
                                         <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
                                         <label class="control-label" for="email">Email</label>
 
