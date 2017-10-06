@@ -207,4 +207,14 @@ CREATE TABLE `advertise` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/* 06 Oct 2017 */
+INSERT INTO `permissions` (`section`, `name`, `value`) VALUES ('advertise', 'Add Advertise', 'add_advertise');
+INSERT INTO `permissions` (`section`, `name`, `value`) VALUES ('advertise', 'Edit Advertise', 'edit_advertise');
+INSERT INTO `permissions` (`section`, `name`, `value`) VALUES ('advertise', 'Delete Advertise', 'delete_advertise');
+INSERT INTO `permissions` (`section`, `name`, `value`) VALUES ('advertise', 'List Advertise', 'list_advertise');
+INSERT INTO `role_permission` (`role_id`, `permission_id`) VALUES ('1', '22');
+INSERT INTO `role_permission` (`role_id`, `permission_id`) VALUES ('1', '23');
+INSERT INTO `role_permission` (`role_id`, `permission_id`) VALUES ('1', '24');
+INSERT INTO `role_permission` (`role_id`, `permission_id`) VALUES ('1', '25');
