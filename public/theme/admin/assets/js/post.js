@@ -5,8 +5,11 @@ var Post = function () {
             "processing": true,
             "serverSide": true,
             "order"     : [[1, "asc"]],
-            "columnDefs": [{
-                "targets"   : 0,
+            "responsive" : true,
+            "columnDefs": [
+                { responsivePriority: 1, targets: 1 },
+                {
+               "targets"   : [1],
                 "orderable" : false,
                 "searchable": false,
                 "className": 'selectall-checkbox',
