@@ -7,9 +7,8 @@ var Post = function () {
             "order"     : [[1, "asc"]],
             "responsive" : true,
             "columnDefs": [
-                { responsivePriority: 1, targets: 1 },
                 {
-               "targets"   : [1],
+                "targets"   : 0,
                 "orderable" : false,
                 "searchable": false,
                 "className": 'selectall-checkbox',

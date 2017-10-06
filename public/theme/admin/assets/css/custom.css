@@ -75,8 +75,12 @@ table.dataTable td.selectall-checkbox {
     outline: none;
     text-align: center;
 }
-
-
+table.dataTable td {
+    max-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
 .dataTables_length select {
     border: 1px solid #e5e5e5;
     height: 34px;
