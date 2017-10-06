@@ -46,11 +46,10 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                         </div>
                     </div>
                     <div class="portlet-body">
-                        <table id="post-grid" class="display table table-striped table-bordered table-hover">
+                        <table id="post-grid" class="display table table-striped table-bordered table-hover responsive nowrap" cellspacing="0" width="100%">
                             <thead>
                             <tr>
-                                <th style="width:8px;"><input type="checkbox" id="bulkDelete"/>
-                                </th>
+                                <th style="width:8px;"><input type="checkbox" id="bulkDelete"/> </th>
                                 <th>Name</th>
                                 <th>Categories</th>
                                 <th>Tags</th>

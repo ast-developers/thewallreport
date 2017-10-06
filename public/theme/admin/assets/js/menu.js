@@ -8,8 +8,8 @@ var Menu = function () {
             "columnDefs": [{
                 "targets"   : 0,
                 "orderable" : false,
-                "searchable": false
-
+                "searchable": false,
+                "className": 'selectall-checkbox'
             }],
             "ajax"      : {
                 url  : menuAjaxPaginateUrl, // json datasource

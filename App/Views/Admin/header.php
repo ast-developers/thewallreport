@@ -21,6 +21,7 @@
     <link href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/bootstrap-fileupload/bootstrap-fileupload.css" rel="stylesheet" />
     <link href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/jquery-tags-input/jquery.tagsinput.css" rel="stylesheet" type="text/css" />
     <link href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/data-tables/jquery.dataTables.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/responsive/2.2.0/css/responsive.dataTables.min.css" rel="stylesheet" />
     <link href="//code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" type="text/css" rel="stylesheet">
     <link href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/redactor/css/redactor.css" rel="stylesheet" />
     <!-- Tokenfield CSS -->
