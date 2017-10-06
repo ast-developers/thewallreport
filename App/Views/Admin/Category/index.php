@@ -108,7 +108,7 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                             </div>
                         </div>
                         <div class="portlet-body">
-                            <table id="category-grid" class="display table table-striped table-bordered table-hover">
+                            <table id="category-grid" class="display table table-striped table-bordered table-hover responsive nowrap">
                                 <thead>
                                 <tr>
                                     <th style="width:8px;"><input type="checkbox" id="bulkDelete"/>

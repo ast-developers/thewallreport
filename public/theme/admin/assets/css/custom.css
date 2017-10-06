@@ -86,7 +86,9 @@ table.dataTable td {
     height: 34px;
     line-height: 34px;
     margin: 0px 15px;
+    max-width: 140px;
 }
+table.dataTable td.selectall-checkbox .deleteRow { margin-top: 0px!important; position: relative; bottom: 2px;}
 .dataTables_length label,
 .dataTables_filter label { margin-bottom: 10px!important;}
 .dataTables_filter input{
@@ -116,5 +118,12 @@ table.dataTable.no-footer {
 @media (max-width: 979px) {
     .navbar .brand {
         padding: 12px 0px 10px;
+    }
+}
+
+@media screen and (max-width: 640px) {
+
+    .dataTables_wrapper .dataTables_length, .dataTables_wrapper .dataTables_filter {
+        text-align: left;
     }
 }

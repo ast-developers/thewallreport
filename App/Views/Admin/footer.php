@@ -20,9 +20,8 @@ if(isset($_SESSION['user'])){ ?>
 <script type="text/javascript" src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/jquery-tags-input/jquery.tagsinput.min.js"></script>
 <script type="text/javascript" src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/gritter/js/jquery.gritter.js"></script>
 <script type="text/javascript" src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/bootstrap-fileupload/bootstrap-fileupload.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
-<!--<script type="text/javascript" src="<?php /*echo \App\Config::W_ADMIN_ASSETS */?>/data-tables/jquery.dataTables.js"></script>-->
-<script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.0/js/dataTables.responsive.min.js"></script>
+<script type="text/javascript" src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/data-tables/jquery.dataTables.js"></script>
+<script type="text/javascript" src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/data-tables/dataTables.responsive.min.js"></script>
 <script type="text/javascript" src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/jquery-validation/dist/jquery.validate.min.js"></script>
 <script type="text/javascript" src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/jquery-validation/dist/additional-methods-1.17.0.min.js"></script>
 <script type="text/javascript" src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/js/bootstrap-tokenfield.js" charset="UTF-8"></script>
