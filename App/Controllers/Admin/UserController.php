@@ -130,7 +130,7 @@ class UserController extends Controller
             }
             $this->repo->changePassword(md5($_POST['password']), $email['email']);
             $this->repo->removeTokenByEmail($email['email']);
-            $_SESSION["flash_message"] = 'Your Password Changed Successfully.';
+            $_SESSION["flash_message"] = ['Your Password Changed Successfully.'];
             $_SESSION["error_class"] = 'alert-success';
         }
         Router::redirectTo('admin/login');
@@ -190,58 +190,53 @@ class UserController extends Controller
             $formValid = $this->uservalidate->addUserValidation();
 
             if (!$formValid['success']) {
-                if (!empty($_POST['id'])) {
-                    return Router::redirectTo('admin/edit-user/' . $_POST['id'], $formValid['messages'], 'alert-danger');
-                } else {
-                    return Router::redirectTo('admin/add-user', $formValid['messages'], 'alert-danger');
-                }
-            }
-
-            if (!empty($_FILES['avatar'])) {
-                // DELETE OLD AVATAR
-                if (!empty($_POST['id'])) {
-                    $this->repo->removeUserAvatar($_POST['id']);
-                }
-                // UPLOAD NEW AVATAR
-                $avatarUpload = $this->repo->uploadAvatar($_FILES['avatar']);
-                if (!$avatarUpload['success']) {
-                    $message = $avatarUpload['messages'];
+                $_SESSION["flash_message"] = $formValid['messages'];
+                $_SESSION["error_class"] = 'alert-danger';
+            } else {
+                if (!empty($_FILES['avatar'])) {
+                    // DELETE OLD AVATAR
                     if (!empty($_POST['id'])) {
-                        return Router::redirectTo('admin/edit-user/' . $_POST['id'], $message, 'alert-danger');
-                    } else {
-                        return Router::redirectTo('admin/add-user', $message, 'alert-danger');
+                        $this->repo->removeUserAvatar($_POST['id']);
+                    }
+                    // UPLOAD NEW AVATAR
+                    $avatarUpload = $this->repo->uploadAvatar($_FILES['avatar']);
+                    if (!$avatarUpload['success']) {
+                        $message = $avatarUpload['messages'];
+                        if (!empty($_POST['id'])) {
+                            return Router::redirectTo('admin/edit-user/' . $_POST['id'], $message, 'alert-danger');
+                        } else {
+                            return Router::redirectTo('admin/add-user', $message, 'alert-danger');
+                        }
                     }
                 }
-            }
 
-            $filename = (!empty($_POST['id']) && empty($_FILES['avatar']['name'])) ? NULL : $avatarUpload['filename'];
+                $filename = (!empty($_POST['id']) && empty($_FILES['avatar']['name'])) ? NULL : $avatarUpload['filename'];
 
-            $message = 'Something went wrong. Please try again later.';
-            $messageClass = 'alert-danger';
-            if (!empty($_POST['id'])) {
-                $file = $this->repo->getUserById($_POST['id']);
-                $avatar = (is_null($filename)) ? $file['profile_image'] : $filename;
-                if ($this->repo->updateUserData($_POST, $avatar)) {
-                    $message = ['User Edited Successfully.'];
-                    $messageClass = 'alert-success';
+                $message = 'Something went wrong. Please try again later.';
+                $messageClass = 'alert-danger';
+                if (!empty($_POST['id'])) {
+                    $file = $this->repo->getUserById($_POST['id']);
+                    $avatar = (is_null($filename)) ? $file['profile_image'] : $filename;
+                    if ($this->repo->updateUserData($_POST, $avatar)) {
+                        $message = ['User Edited Successfully.'];
+                        $messageClass = 'alert-success';
+                    }
+                } else {
+                    //echo "add";exit;
+                    if ($this->repo->insertUserData($_POST, $filename)) {
+                        $message = ['User Added Successfully.'];
+                        $messageClass = 'alert-success';
+                    }
                 }
-            } else {
-                //echo "add";exit;
-                if ($this->repo->insertUserData($_POST, $filename)) {
-                    $message = ['User Added Successfully.'];
-                    $messageClass = 'alert-success';
-                }
+                Router::redirectTo('admin/users', $message, $messageClass);
             }
-            Router::redirectTo('admin/users', $message, $messageClass);
-
+        }
+        $roles = $this->repo->getRoles();
+        if (!empty($this->params['id'])) {
+            $user = $this->repo->getUserById($this->params['id']);
+            View::render('Admin/Users/adduser.php', ['user' => $user, 'roles' => $roles]);
         } else {
-            $roles = $this->repo->getRoles();
-            if (!empty($this->params['id'])) {
-                $user = $this->repo->getUserById($this->params['id']);
-                View::render('Admin/Users/adduser.php', ['user' => $user, 'roles' => $roles]);
-            } else {
-                View::render('Admin/Users/adduser.php', ['roles' => $roles]);
-            }
+            View::render('Admin/Users/adduser.php', ['roles' => $roles]);
         }
     }
 

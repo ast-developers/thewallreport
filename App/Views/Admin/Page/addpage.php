@@ -108,17 +108,16 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                                         </div>
                                     </div>
                                     <?php $views = (isset($page['views'])) ? $page['views'] : 0 ?>
-                                    <div class="control-group">
-                                        <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
+                                    <!--<div class="control-group">
                                         <label class="control-label" for="name">Views</label>
 
                                         <div class="controls">
                                             <div class="validation">
                                                 <input class="span12 m-wrap" type="text"
                                                        name="views"
-                                                       value='<?php echo $views ?>' id="views"/></div>
+                                                       value='<?php /*echo $views */?>' id="views"/></div>
                                         </div>
-                                    </div>
+                                    </div>-->
                                     <div>
                                         <button type="submit" name="status_submit" id="status_submit" class="btn blue">
                                             <i
