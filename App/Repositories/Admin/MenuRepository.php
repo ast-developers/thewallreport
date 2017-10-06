@@ -93,6 +93,7 @@ class MenuRepository
         foreach ($allMenu as $value) {
 
             $menuData[$value['id']]['name'] = $value['name'];
+            $menuData[$value['id']]['new_tab'] = $value['new_tab'];
             if ($value['type'] == 1) {
                 $data = $this->post_repo->getPostById($value['link']);
                 $menuData[$value['id']]['slug'] = $data['0']['slug'];

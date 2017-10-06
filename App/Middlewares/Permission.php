@@ -49,10 +49,11 @@ class Permission
                     $parts          = explode('/', $queryString);
                     $privilegedUser = new PrivilegedUser();
                     $user           = $privilegedUser->getUserById($parts[2]);
-                    if ($user && $user['id'] == $_SESSION['user']['id']) {
-
-                    } else {
-                        Router::redirectTo('admin/dashboard', ['You Don\'t have privileges to access this page.'], 'alert-danger');
+                    if(strpos($queryString, $menuToCheck) !== false && !$sessionUser->hasPrivilege($permission)){
+                        if ($user && $user['id'] == $_SESSION['user']['id']) {
+                        } else {
+                            Router::redirectTo('admin/dashboard', ['You Don\'t have privileges to access this page.'], 'alert-danger');
+                        }
                     }
                 } else if (strpos($queryString, $menuToCheck) !== false && !$sessionUser->hasPrivilege($permission)) {
                     Router::redirectTo('admin/dashboard', ['You Don\'t have privileges to access this page.'], 'alert-danger');
