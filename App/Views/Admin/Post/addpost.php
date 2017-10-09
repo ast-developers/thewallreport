@@ -248,10 +248,14 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                 delay: 100,
                 focus: function (event, ui) {
                     event.preventDefault();
-                }
+                },
+                select: function(event, ui) {
+                    document.activeElement.blur();
+                    return false;
+                },
             },
             showAutocompleteOnFocus: true
-        })
+        });
         $('.autocompleteContainer').on('touchstart', 'li.ui-menu-item', function () {
 
             var $container = $(this).closest('.autocompleteContainer'),
