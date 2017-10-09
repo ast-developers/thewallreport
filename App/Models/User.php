@@ -17,6 +17,9 @@ class User extends Model
      */
     public $db;
 
+    /**
+     * @var string
+     */
     public $dbTable;
 
     /**
@@ -123,6 +126,26 @@ class User extends Model
     }
 
     /**
+     * @param $email
+     * @return bool
+     */
+    public function isEmailExist($email)
+    {
+        $sql = "SELECT *,COUNT(id) AS count FROM $this->dbTable WHERE email = :email";
+        $stm = $this->db->prepare($sql);
+        $stm->bindParam(":email", $email);
+        $res = $stm->execute();
+
+        if ($res) {
+            $row = $stm->fetch(\PDO::FETCH_ASSOC);
+            return $row['count'] > 0 ? false : true;
+        } else {
+            return true;
+        }
+    }
+
+
+    /**
      * @param $user
      * @param $filename
      * @return bool
@@ -141,9 +164,11 @@ class User extends Model
         $stm->bindParam(":password", $password);
         $stm->bindParam(":role_id", $user['role_id']);
         $stm->bindParam(":profile_image", $filename);
-        $stm->bindParam(":updated_at",$updated_at);
+        $stm->bindParam(":updated_at", $updated_at);
         try {
-            return $stm->execute();
+            $stm->execute();
+            $last_insert_id = $this->db->lastInsertId();
+            return $last_insert_id;
         } catch (PDOException $e) {
             return false;
         }
@@ -168,7 +193,7 @@ class User extends Model
         $stm->bindParam(":nick_name", $user['nick_name']);
         $stm->bindParam(":role_id", $user['role_id']);
         $stm->bindParam(":profile_image", $filename);
-        $stm->bindParam(":updated_at",$updated_at);
+        $stm->bindParam(":updated_at", $updated_at);
         try {
             return $stm->execute();
         } catch (PDOException $e) {
@@ -229,7 +254,7 @@ class User extends Model
 
             $totalFiltered = $stm->rowCount(); //mysqli_num_rows($query); // when there is a search parameter then we have to modify total number filtered rows as per search result without limit in the query
 
-            $sql .= " ORDER BY " . $columns[$params['order'][0]['column']] . "   " . $params['order'][0]['dir'] . "   LIMIT " . $params['start'] . " ," . $params['length'] . "   "; // $params['order'][0]['column'] contains colmun index, $params['order'][0]['dir'] contains order such as asc/desc , $params['start'] contains start row number ,$params['length'] contains limit length.
+            $sql .= " ORDER BY " . $columns[ $params['order'][0]['column'] ] . "   " . $params['order'][0]['dir'] . "   LIMIT " . $params['start'] . " ," . $params['length'] . "   "; // $params['order'][0]['column'] contains colmun index, $params['order'][0]['dir'] contains order such as asc/desc , $params['start'] contains start row number ,$params['length'] contains limit length.
             $stm = $this->db->prepare($sql);
             $res = $stm->execute();
 
@@ -238,7 +263,7 @@ class User extends Model
             $sql = "SELECT $this->dbTable.id, username, CONCAT(first_name,' ',last_name) as name, email, profile_image, roles.name as role_name ";
             $sql .= " FROM $this->dbTable";
             $sql .= " LEFT JOIN roles ON roles.id = $this->dbTable.role_id";
-            $sql .= " ORDER BY " . $columns[$params['order'][0]['column']] . "   " . $params['order'][0]['dir'] . "   LIMIT " . $params['start'] . " ," . $params['length'] . "   ";
+            $sql .= " ORDER BY " . $columns[ $params['order'][0]['column'] ] . "   " . $params['order'][0]['dir'] . "   LIMIT " . $params['start'] . " ," . $params['length'] . "   ";
 
             $stm = $this->db->prepare($sql);
             $res = $stm->execute();
@@ -250,7 +275,7 @@ class User extends Model
 
             $avatar = Helper::getUserAvatar($row, 'small');
             $nestedData[] = (!empty($_SESSION['user']) && $_SESSION['user']['id'] !== $row["id"]) ? "<input type='checkbox'  class='deleteRow' value='" . $row['id'] . "'  />" : "";
-            $nestedData[] = '<img src="'.$avatar.'" height="32" width="32"/> <a href="' . \App\Config::W_ROOT . "admin/edit-user/" . $row['id'] . '">' . $row["username"] . "</a>";
+            $nestedData[] = '<img src="' . $avatar . '" height="32" width="32"/> <a href="' . \App\Config::W_ROOT . "admin/edit-user/" . $row['id'] . '">' . $row["username"] . "</a>";
             $nestedData[] = $row["name"];
             $nestedData[] = $row["email"];
             $nestedData[] = $row["role_name"];
@@ -259,10 +284,10 @@ class User extends Model
         }
 
         $json_data = array(
-            "draw" => intval($params['draw']),   // for every request/draw by clientside , they send a number as a parameter, when they recieve a response/data they first check the draw number, so we are sending same number in draw.
-            "recordsTotal" => intval($totalData),  // total number of records
+            "draw"            => intval($params['draw']),   // for every request/draw by clientside , they send a number as a parameter, when they recieve a response/data they first check the draw number, so we are sending same number in draw.
+            "recordsTotal"    => intval($totalData),  // total number of records
             "recordsFiltered" => intval($totalFiltered), // total number of records after searching, if there is no searching then totalFiltered = totalData
-            "data" => $data   // total data array
+            "data"            => $data   // total data array
         );
 
         echo json_encode($json_data);  // send data as json format

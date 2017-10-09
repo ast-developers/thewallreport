@@ -62,12 +62,13 @@ class UserValidation
             // Check Username Exist or Not
             if (!empty($_POST['email'])) {
                 if (!empty($_POST['id'])) {
-                    $user = $this->model->getUserByEmail($_POST['email']);
-                    $is_exist = ($_POST['id'] == $user['id']) ? false : true;
+                    $user = $this->model->getUserById($_POST['id']);
+                    $if_user_not_exist = $this->model->isEmailExist($_POST['email']);
+                    $is_exist = ($_POST['email'] == $user['email']) ? true : $if_user_not_exist;
                 } else {
-                    $is_exist = $this->model->getUserByEmail($_POST['email']);
+                    $is_exist = $this->model->isEmailExist($_POST['email']);
                 }
-                if ($is_exist) {
+                if (!$is_exist) {
                     $success = false;
                     $messages[] = 'Email Already Exist.';
                 }

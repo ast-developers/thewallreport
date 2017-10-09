@@ -332,6 +332,13 @@ var App = function () {
             }
         });
 
+        $('#login-password,#login-username').keydown(function(event) {
+            // enter has keyCode = 13, change it if you want to use another button
+            if (event.keyCode == 13) {
+                event.preventDefault();
+            }
+        });
+
         $('.forget-form').validate({
             errorElement: 'label', //default input error message container
             errorClass  : 'help-inline', // default input error message class
