@@ -14,7 +14,7 @@
         <div class="controls">
             <div class="input-icon left">
                 <i class="icon-user"></i>
-                <input class="m-wrap placeholder-no-fix" type="text" placeholder="Username" name="username"/>
+                <input class="m-wrap placeholder-no-fix" id="login-username" type="text" placeholder="Username" name="username"/>
             </div>
         </div>
     </div>
@@ -24,7 +24,7 @@
         <div class="controls">
             <div class="input-icon left">
                 <i class="icon-lock"></i>
-                <input class="m-wrap placeholder-no-fix" type="password" placeholder="Password" name="password"/>
+                <input class="m-wrap placeholder-no-fix" id="login-password" type="password" placeholder="Password" name="password"/>
             </div>
         </div>
     </div>
@@ -32,7 +32,7 @@
         <!-- <label class="checkbox">
              <input type="checkbox" name="remember" value="1"/> Remember me
          </label>-->
-        <button type="submit" name="submit" class="btn green pull-right">
+        <button type="submit" name="submit" class="btn login-btn green pull-right">
             Login <i class="m-icon-swapright m-icon-white"></i>
         </button>
     </div>
