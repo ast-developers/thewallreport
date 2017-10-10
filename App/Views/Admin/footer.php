@@ -7,7 +7,7 @@ if(isset($_SESSION['user'])){ ?>
 
 <script src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/js/app.js"></script>
 <script src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/bootstrap/js/bootstrap.min.js"></script>
-<script src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/uniform/jquery.uniform.min.js"></script>
+<script src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/uniform3.0.0/js/jquery.uniform.standalone.js"></script>
 <script src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/js/jquery.blockui.js"></script>
 <script src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/js/excanvas.js"></script>
 <script src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/js/respond.js"></script>

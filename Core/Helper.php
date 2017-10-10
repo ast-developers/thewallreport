@@ -2,6 +2,7 @@
 namespace Core;
 
 use App\Config;
+use App\Models\Post;
 use App\Repositories\Admin\MenuRepository;
 use App\Repositories\Front\IndexRepository;
 
@@ -144,5 +145,65 @@ class Helper
     public static function getShortDescription($string, $limit = 100)
     {
         return (!empty($string)) ? substr(strip_tags($string), 0, $limit) . '...' : '...';
+    }
+
+    public static function parseCategoryShortCode($description){
+
+        /*
+         * This function should return you array consisting id and count of each Cat short code in description.
+         * Remember we can have multiple short codes for category in single description. so we need multi dimensional array.
+         * e.g. [cat id="13" count="3"] test [cat id="14" count="5"] should return you below output
+         */
+        $category_array = [];
+        preg_match_all("/\[cat([^\]]*)\]/", $description, $cat_matches);
+        if($cat_matches[1]){
+            foreach($cat_matches[1] as $key=>$cat_string){
+                preg_match_all('/id="([^"]+)"/', $cat_string, $id_matches);
+                preg_match_all('/count="([^"]+)"/', $cat_string, $count_matches);
+                $category_array[$key]['id'] = $id_matches[1][0];
+                $category_array[$key]['count'] = $count_matches[1][0];
+            }
+        }
+        return $category_array;
+    }
+
+    public static function parseFlowStreamShortCode($description){
+
+        /*
+         * This function should return you array consisting ids of each FF short code in description.
+         * Remember we can have multiple short codes for FF in single description. so we need multi dimensional array.
+         */
+        preg_match_all("/\[ff([^\]]*)\]/", $description, $ff_matches);
+        $feed_array = [];
+        if($ff_matches[1]){
+            foreach($ff_matches[1] as $key=>$ff_string){
+                preg_match_all('/id="([^"]+)"/', $ff_string, $id_matches);
+                $feed_array[$key]['id'] = $id_matches[1][0];
+            }
+        }
+        return $feed_array;
+
+    }
+
+    public static function getFeaturedPostByCategoryData($data){
+        $featuredPost = [];
+        foreach ($data as $key=>$val){
+            $post = new Post();
+            $posts = $post->getPostsByCategoryId($val['id'],$val['count']);
+                foreach ($posts as $key=>$post){
+                    $featuredPost[$post['post_id']]['name'] = $post['name'];
+                    $featuredPost[$post['post_id']]['id'] = $post['post_id'];
+                    $featuredPost[$post['post_id']]['slug'] = $post['slug'];
+                    $featuredPost[$post['post_id']]['published_at'] = $post['published_at'];
+                    $featuredPost[$post['post_id']]['featured_image'] = $post['featured_image'];
+                }
+        }
+        return $featuredPost;
+    }
+    public static function removeShortCodeFromDescription($description){
+        $remove_ff = preg_replace('/\[ff([^\]]*)\]/', '', $description);
+        $remove_count = preg_replace('/count="([^"]+)"/', '', $remove_ff);
+        $remove_cat = preg_replace('/\[cat([^\]]*)\]/', '', $remove_count);
+        return $remove_cat;
     }
 }

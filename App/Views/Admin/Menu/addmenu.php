@@ -150,7 +150,6 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
 
 </div>
 <!-- END PAGE -->
-<script src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/js/jquery-1.8.3.min.js"></script>
 <?php include(\App\Config::F_ROOT . 'App/Views/Admin/footer.php') ?>
 <script src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/js/menu.js"></script>
 <script>
