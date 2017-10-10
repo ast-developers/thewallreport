@@ -27,13 +27,20 @@ include(\App\Config::F_ROOT . 'App/Views/Front/header.php');
                                     $image = \Core\Helper::getCMSFeaturedImage($post, '360x240');
                                     ?>
                                     <div class="col-sm-4">
-                                        <a href="<?php echo \App\Config::W_ROOT . $post['slug']; ?>">
-                                            <?php echo $post['name'];  ?>
+                                        <a href="<?php echo \App\Config::W_ROOT . $post['slug']; ?>" class="model-blocks">
+                                            <div class="block-details">
+                                                <div class="block-name">
+                                                    <?php echo $post['name'];  ?>
+                                                </div>
+                                                <div class="block-date">
+                                                    <?php echo $post['published_at'];  ?>
+                                                </div>
+                                            </div>
+
                                             <img width="360" height="490"
                                                  src="<?php echo $image; ?>"
                                                  class="attachment-cb-360-490 size-cb-360-490 wp-post-image">
                                         </a>
-                                        <?php echo $post['published_at'];  ?>
                                     </div>
                                 <?php } ?>
                             </div>
