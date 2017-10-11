@@ -147,26 +147,64 @@ class Helper
         return (!empty($string)) ? substr(strip_tags($string), 0, $limit) . '...' : '...';
     }
 
-    public static function parseCategoryShortCode($description){
-
-        /*
-         * This function should return you array consisting id and count of each Cat short code in description.
-         * Remember we can have multiple short codes for category in single description. so we need multi dimensional array.
-         * e.g. [cat id="13" count="3"] test [cat id="14" count="5"] should return you below output
-         */
-        $category_array = [];
-        preg_match_all("/\[cat([^\]]*)\]/", $description, $cat_matches);
-        if($cat_matches[1]){
-            foreach($cat_matches[1] as $key=>$cat_string){
-                preg_match_all('/id="([^"]+)"/', $cat_string, $id_matches);
-                preg_match_all('/count="([^"]+)"/', $cat_string, $count_matches);
-                $category_array[$key]['id'] = $id_matches[1][0];
-                $category_array[$key]['count'] = $count_matches[1][0];
-            }
-        }
-        return $category_array;
+    /**
+     * @param $description
+     * @return mixed
+     */
+    public  function parsePageDesc($description){
+        $catParsedDetail = preg_replace_callback(
+            "/\[cat([^\]]*)\]/",
+            array($this, 'replacePageShortCode'),
+            $description);
+        return self::removeShortCodeFromDescription($catParsedDetail);
     }
 
+    /**
+     * @param $matches
+     * @return string
+     */
+    public function replacePageShortCode($matches)
+    {
+        if($matches[1]){
+            $cat_string = $matches[1];
+            preg_match_all('/id="([^"]+)"/', $cat_string, $id_matches);
+            preg_match_all('/count="([^"]+)"/', $cat_string, $count_matches);
+            $catData[0]['id'] = $id_matches[1][0];
+            $catData[0]['count'] = $count_matches[1][0];
+            $featuredPost = Helper::getFeaturedPostByCategoryData($catData);
+            return $this->renderCatShortCodePost($featuredPost);
+        }
+        return '';
+    }
+
+    /**
+     * @param $featuredPost
+     * @return string
+     */
+    public function renderCatShortCodePost($featuredPost){
+        $echo = '';
+        if (!empty($featuredPost)) {
+            $echo .= '<div class="row">';
+                foreach ($featuredPost as $post) {
+                    $image = self::getCMSFeaturedImage($post, '360x240');
+                    $echo .= '<div class="col-sm-4">
+                                <a href="'.Config::W_ROOT . $post['slug'].'" class="model-blocks">
+                                    <div class="block-details">
+                                        <div class="block-name">'.$post['name'].'</div>
+                                        <div class="block-date">'.$post['published_at'].'</div>
+                                    </div>
+                                    <img width="360" height="490" src="'.$image.'" class="attachment-cb-360-490 size-cb-360-490 wp-post-image">
+                                </a>
+                            </div>';
+                }
+            $echo .= '</div>';
+        }
+        return $echo;
+    }
+    /**
+     * @param $description
+     * @return array
+     */
     public static function parseFlowStreamShortCode($description){
 
         /*
@@ -185,25 +223,28 @@ class Helper
 
     }
 
+    /**
+     * @param $data
+     * @return array
+     */
     public static function getFeaturedPostByCategoryData($data){
         $featuredPost = [];
         foreach ($data as $key=>$val){
             $post = new Post();
             $posts = $post->getPostsByCategoryId($val['id'],$val['count']);
                 foreach ($posts as $key=>$post){
-                    $featuredPost[$post['post_id']]['name'] = $post['name'];
-                    $featuredPost[$post['post_id']]['id'] = $post['post_id'];
-                    $featuredPost[$post['post_id']]['slug'] = $post['slug'];
-                    $featuredPost[$post['post_id']]['published_at'] = $post['published_at'];
-                    $featuredPost[$post['post_id']]['featured_image'] = $post['featured_image'];
+                    $featuredPost[] = $post;
                 }
         }
         return $featuredPost;
     }
+
+    /**
+     * @param $description
+     * @return mixed
+     */
     public static function removeShortCodeFromDescription($description){
         $remove_ff = preg_replace('/\[ff([^\]]*)\]/', '', $description);
-        $remove_count = preg_replace('/count="([^"]+)"/', '', $remove_ff);
-        $remove_cat = preg_replace('/\[cat([^\]]*)\]/', '', $remove_count);
-        return $remove_cat;
+        return $remove_ff;
     }
 }
