@@ -107,6 +107,22 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                                             </select>
                                         </div>
                                     </div>
+                                    <div class="control-group">
+                                        <?php $showTitle = (!empty($page['show_title']) && $page['show_title'] == '1') ? 'checked=”checked”' : '' ?>
+                                        <div class="controls">
+                                            <label class="checkbox">
+                                                <input type="checkbox" name="show_title" value="1" <?php echo $showTitle ?>/> Show title?
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="control-group">
+                                        <?php $showSideBar = (!empty($page['show_featured_sidebar']) && $page['show_featured_sidebar'] == '1') ? 'checked=”checked”' : '' ?>
+                                        <div class="controls">
+                                            <label class="checkbox">
+                                                <input type="checkbox" name="show_featured_sidebar" value="1" <?php echo $showSideBar ?>/> Show Featured sidebar?
+                                            </label>
+                                        </div>
+                                    </div>
                                     <?php $views = (isset($page['views'])) ? $page['views'] : 0 ?>
                                     <!--<div class="control-group">
                                         <label class="control-label" for="name">Views</label>
@@ -197,7 +213,6 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
     <!-- END PAGE CONTENT-->
 </div>
 <!-- END PAGE CONTAINER-->
-
 </div>
 <!-- END PAGE -->
 

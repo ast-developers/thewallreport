@@ -44,9 +44,11 @@ class Page extends Model
         } else {
             $publish_at = NULL;
         }
+        $show_title = (isset($params['show_title']) && $params['show_title']==1) ? 1 : 0;
+        $show_featured_sidebar = (isset($params['show_featured_sidebar']) && $params['show_featured_sidebar']==1) ? 1 : 0;
         $slug = Helper::slugify($params['name']);
         $updated_at = date('Y-m-d H:i:s');
-        $sql = "INSERT INTO $this->dbTable(name,description,status,slug,created_by,updated_at,published_at,featured_image,views) VALUES(:name,:description,:status,:slug,:created_by,:updated_at,:published_at,:featured_image,:views)";
+        $sql = "INSERT INTO $this->dbTable(name,description,status,slug,created_by,updated_at,published_at,featured_image,views,show_title,show_featured_sidebar) VALUES(:name,:description,:status,:slug,:created_by,:updated_at,:published_at,:featured_image,:views,:show_title,:show_featured_sidebar)";
         $stm = $this->db->prepare($sql);
         $stm->bindParam(":name", $params['name']);
         $stm->bindParam(":description", $params['description']);
@@ -57,6 +59,8 @@ class Page extends Model
         $stm->bindParam(":published_at", $publish_at);
         $stm->bindParam(":featured_image", $filename);
         $stm->bindParam(":views", $params['views']);
+        $stm->bindParam(":show_title", $show_title);
+        $stm->bindParam(":show_featured_sidebar", $show_featured_sidebar);
         try {
             $stm->execute();
             $last_insert_id = $this->db->lastInsertId();
@@ -77,9 +81,11 @@ class Page extends Model
         } else {
             $publish_at = NULL;
         }
+        $show_title = (isset($params['show_title']) && $params['show_title']==1) ? 1 : 0;
+        $show_featured_sidebar = (isset($params['show_featured_sidebar']) && $params['show_featured_sidebar']==1) ? 1 : 0;
         $slug = Helper::slugify($params['name']);
         $updated_at = date('Y-m-d H:i:s');
-        $sql = "UPDATE  $this->dbTable SET name = :name,description=:description,status=:status,slug=:slug,created_by=:created_by,updated_at=:updated_at,published_at=:published_at,featured_image=:featured_image,views=:views WHERE id = :id;";
+        $sql = "UPDATE  $this->dbTable SET name = :name,description=:description,status=:status,slug=:slug,created_by=:created_by,updated_at=:updated_at,published_at=:published_at,featured_image=:featured_image,views=:views,show_title=:show_title,show_featured_sidebar=:show_featured_sidebar WHERE id = :id;";
         $stm = $this->db->prepare($sql);
         $stm->bindParam(":name", $params['name']);
         $stm->bindParam(":description", $params['description']);
@@ -91,6 +97,9 @@ class Page extends Model
         $stm->bindParam(":published_at", $publish_at);
         $stm->bindParam(":featured_image", $featured_image);
         $stm->bindParam(":views", $params['views']);
+        $stm->bindParam(":show_title", $show_title);
+        $stm->bindParam(":show_featured_sidebar", $show_featured_sidebar);
+
         try {
             return $stm->execute();
         } catch (PDOException $e) {
@@ -245,7 +254,7 @@ class Page extends Model
      */
     public function checkSlugExistOrNot($slug)
     {
-        $sql = "SELECT $this->dbTable.id,$this->dbTable.slug,$this->dbTable.views,$this->dbTable.description,$this->dbTable.name,$this->dbTable.created_by,$this->dbTable.published_at,CONCAT(users.first_name, ' ',users.last_name) as creator,users.profile_image FROM $this->dbTable";
+        $sql = "SELECT $this->dbTable.id,$this->dbTable.show_title,$this->dbTable.show_featured_sidebar,$this->dbTable.slug,$this->dbTable.views,$this->dbTable.description,$this->dbTable.name,$this->dbTable.created_by,$this->dbTable.published_at,CONCAT(users.first_name, ' ',users.last_name) as creator,users.profile_image FROM $this->dbTable";
         $sql .= " LEFT JOIN users on users.id=$this->dbTable.created_by";
         $sql .= " where slug=:slug";
         $stm = $this->db->prepare($sql);

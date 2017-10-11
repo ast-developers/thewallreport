@@ -497,5 +497,26 @@ class Post extends Model
         }
     }
 
+    /**
+     * @param $id
+     * @param int $count
+     * @return bool
+     */
+    public function getPostsByCategoryId($id, $count = 1)
+    {
+        $sql = "SELECT * FROM $this->dbTable";
+        $sql .= " LEFT JOIN post_category on post_category.post_id = posts.id";
+        $sql .= " where post_category.category_id=$id AND $this->dbTable.status='publish'";
+        $sql .= " LIMIT $count";
+        $stm = $this->db->prepare($sql);
+        $res = $stm->execute();
+
+        if ($res) {
+            $row = $stm->fetchAll(\PDO::FETCH_ASSOC);
+            return $row;
+        } else {
+            return false;
+        }
+    }
 
 }

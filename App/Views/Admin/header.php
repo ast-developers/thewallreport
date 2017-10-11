@@ -15,7 +15,7 @@
     <link href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/css/style.css" rel="stylesheet" />
     <link href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/css/style_responsive.css" rel="stylesheet" />
     <link href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/css/style_default.css" rel="stylesheet" id="style_color" />
-    <link href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/uniform/css/uniform.default.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/uniform3.0.0/css/default.css" rel="stylesheet" />
     <link href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" />
     <link href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/gritter/css/jquery.gritter.css" rel="stylesheet" type="text/css" />
     <link href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/bootstrap-fileupload/bootstrap-fileupload.css" rel="stylesheet" />
