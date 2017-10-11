@@ -140,15 +140,10 @@ class PostController extends Controller
     }
 
     /**
-     *
+     * Upload Redactor Image
      */
     public function uploadImage()
     {
-
-        $dir = Config::F_REDACTOR_IMAGE;
-        if (!file_exists($dir)) {
-            mkdir($dir, 0755, true);
-        }
 
         $_FILES['file']['type'] = strtolower($_FILES['file']['type']);
 
@@ -158,21 +153,15 @@ class PostController extends Controller
             || $_FILES['file']['type'] == 'image/jpeg'
             || $_FILES['file']['type'] == 'image/pjpeg'
         ) {
-            // setting file's mysterious name
-            $filename = md5(date('YmdHis')) . '.jpg';
-            $file = $dir . $filename;
-
-            // copying
-            move_uploaded_file($_FILES['file']['tmp_name'], $file);
-
-            // displaying file
-            $array = array(
-                'url' => Config::W_REDACTOR_IMAGE . $filename,
-                'id' => 123
-            );
-
-            echo stripslashes(json_encode($array));
-
+            $fileData = $_FILES['file'];
+            $upload   = $this->repo->uploadRedactorImage($fileData);
+            if ($upload['success']) {
+                $array = array(
+                    'url' => (Config::S3_BASE_URL . Config::S3_REDACTOR_IMAGE_DIR . "/" . $upload['filename']),
+                    'id'  => 123
+                );
+                echo stripslashes(json_encode($array));
+            }
         }
     }
 

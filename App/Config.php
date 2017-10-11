@@ -135,16 +135,6 @@ class Config
     const W_FRONT_ASSETS = self::W_ROOT . "theme/front/assets/";
 
     /**
-     * Redactor Image File Root
-     */
-    const F_REDACTOR_IMAGE = self::F_ROOT . "public/uploads/redactor_image/";
-
-    /**
-     * Redactor Image Web root
-     */
-    const W_REDACTOR_IMAGE = self::W_ROOT . "uploads/redactor_image/";
-
-    /**
      * Amazon S3 Profile Image (User Avatar) Directory
      */
     const S3_PROFILE_IMAGE_DIR = 'profile_images';
@@ -158,5 +148,10 @@ class Config
      * Amazon S3 Advertisement Image Directory
      */
     const S3_ADVERT_IMAGE_DIR = 'advert_images';
+
+    /**
+     * Amazon S3 Redactor Image Directory
+     */
+    const S3_REDACTOR_IMAGE_DIR = 'redactor_images';
 
 }

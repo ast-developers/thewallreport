@@ -167,5 +167,21 @@ class PostRepository
         }
     }
 
-
+    /**
+     * @param $fileData
+     * @return array
+     */
+    public function uploadRedactorImage($fileData)
+    {
+        $filePath = $fileData['tmp_name'];
+        $name     = time() . "_" . basename($fileData["name"]);
+        $fileName = Config::S3_REDACTOR_IMAGE_DIR . "/" . $name;
+        $s3       = new S3();
+        $upload   = $s3->uploadObject($filePath, $fileName);
+        if ($upload['success']) {
+            return ['success' => true, 'filename' => $name];
+        } else {
+            return ['success' => false, 'messages' => ['Failed to upload Featured Image.']];
+        }
+    }
 }
