@@ -191,7 +191,7 @@ class Helper
                                 <a href="'.Config::W_ROOT . $post['slug'].'" class="model-blocks">
                                     <div class="block-details">
                                         <div class="block-name">'.$post['name'].'</div>
-                                        <div class="block-date">'.$post['published_at'].'</div>
+                                        <div class="block-date">'.date("F j, Y", strtotime($post['published_at'])).'</div>
                                     </div>
                                     <img width="360" height="490" src="'.$image.'" class="attachment-cb-360-490 size-cb-360-490 wp-post-image">
                                 </a>
