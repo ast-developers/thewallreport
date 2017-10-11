@@ -17,7 +17,7 @@ $disqusPageIdentifier = $post['slug'];
 <div class="row">
     <div class="col-lg-12 bg-white p-4 details-block">
         <div class="details-content pb-5">
-            <?php $image = (!empty($post['profile_image'])) ? \App\Config::W_USER_AVATAR_ROOT . $post['profile_image'] : 'http://2.gravatar.com/avatar/b4b0cd6cbad741f702799b03c5a7e4ff?s=20&amp;d=mm&amp;r=g'; ?>
+            <?php $image = (!empty($post['profile_image'])) ? (\App\Config::S3_BASE_URL . \App\Config::S3_PROFILE_IMAGE_DIR . "/" . $post['profile_image']) : 'http://2.gravatar.com/avatar/b4b0cd6cbad741f702799b03c5a7e4ff?s=20&amp;d=mm&amp;r=g'; ?>
             <h1><?php echo $post['name'] ?></h1>
 
             <div class="cb-byline">

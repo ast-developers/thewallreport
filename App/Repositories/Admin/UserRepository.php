@@ -9,6 +9,7 @@ use App\Models\User;
 use Core\Helper;
 use Core\Mail;
 use Exception;
+use Core\S3;
 
 
 /**
@@ -158,41 +159,38 @@ class UserRepository
     }
 
     /**
-     * @param $filedata
+     * @param $fileData
      * @return array
      */
-    public function uploadAvatar($filedata)
+    public function uploadAvatar($fileData)
     {
-        $target_dir = Config::F_USER_AVATAR_ROOT;
-        if(!file_exists($target_dir)){
-            mkdir($target_dir, 0755, true);
-        }
-        $target_file = $target_dir . basename($filedata["name"]);
-        if (!file_exists($target_file)) {
-            if (move_uploaded_file($filedata["tmp_name"], $target_file)) {
-                return ['success' => true, 'filename' => $filedata["name"]];
-            } else {
-                return ['success' => false, 'messages' => ['Failed to upload Avatar.']];
-            }
+        $filePath = $fileData['tmp_name'];
+        $name     = time() . "_" . basename($fileData["name"]);
+        $fileName = Config::S3_PROFILE_IMAGE_DIR . "/" . $name;
+        $s3       = new S3();
+        $upload   = $s3->uploadObject($filePath, $fileName);
+        if ($upload['success']) {
+            return ['success' => true, 'filename' => $name];
         } else {
-            return ['success' => true, 'filename' => $filedata["name"]];
+            return ['success' => false, 'messages' => ['Failed to upload Avatar.']];
         }
-
     }
 
     /**
      * @param int $userId
+     * @return array
      */
     public function removeUserAvatar($userId = 0)
     {
         $user = $this->model->getUserById($userId);
         if ($user && $user['profile_image']) {
-            $target_dir = Config::F_USER_AVATAR_ROOT;
-            $target_file = $target_dir . $user['profile_image'];
-            try{
-                unlink($target_file);
-            } catch (Exception $e){
-
+            $fileName = Config::S3_PROFILE_IMAGE_DIR . "/" . $user['profile_image'];
+            $s3       = new S3();
+            $delete   = $s3->deleteObject($fileName);
+            if ($delete['success']) {
+                return ['success' => true];
+            } else {
+                return ['success' => false, 'messages' => ['Failed to delete Avatar.']];
             }
         }
     }

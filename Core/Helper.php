@@ -118,9 +118,15 @@ class Helper
                 break;
         }
         if (!empty($user['profile_image'])) {
-            $avatar = \App\Config::W_USER_AVATAR_ROOT . $user['profile_image'];
+            $avatar = Config::S3_BASE_URL.Config::S3_PROFILE_IMAGE_DIR . "/" . $user['profile_image'];
         }
         return $avatar;
+    }
+
+    public static function getFeaturedImage($image = [])
+    {
+        $imageUrl = (Config::S3_BASE_URL . Config::S3_FEATURE_IMAGE_DIR . "/" . $image['featured_image']);
+        return $imageUrl;
     }
 
     /**
@@ -132,7 +138,7 @@ class Helper
     {
         $image = Config::W_FRONT_ASSETS . "images/placeholders/placeholder-$size.png";
         if (!empty($cms['featured_image'])) {
-            $image = Config::W_FEATURED_IMAGE_ROOT . $cms['featured_image'];
+            $image = self::getFeaturedImage($cms);
         }
         return $image;
     }

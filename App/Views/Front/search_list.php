@@ -15,7 +15,7 @@ $getFeaturedBanners = Core\Helper::getFeaturedBanners();
                     foreach ($data as $value) {
                         ?>
                         <div class="row search-post-content no-gutters">
-                            <?php $image = (!empty($value['featured_image'])) ? \App\Config::W_FEATURED_IMAGE_ROOT . $value['featured_image'] : 'http://thewall.report/wp-content/themes/15zine/library/images/placeholders/placeholder-260x170.png'; ?>
+                            <?php $image = (!empty($value['featured_image'])) ? ((\Core\Helper::getFeaturedImage($value))) : 'http://thewall.report/wp-content/themes/15zine/library/images/placeholders/placeholder-260x170.png'; ?>
                             <div class="col-md-4 format-audio">
                                 <figure class="cb-mask"><a
                                         href="<?php echo \App\Config::W_ROOT . $value['slug'] ?>"><img

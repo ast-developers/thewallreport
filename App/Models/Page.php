@@ -191,25 +191,10 @@ class Page extends Model
      */
     public function bulkDeletePages($ids)
     {
-        $this->removeImages($ids);
         $data_ids = $ids['data_ids'];
         $sql = "DELETE FROM $this->dbTable WHERE id IN ($data_ids)";
         $stm = $this->db->prepare($sql);
         $stm->execute();
-    }
-
-    /**
-     * @param $ids
-     */
-    public function removeImages($ids)
-    {
-        $page_ids = explode(',', $ids['data_ids']);
-        foreach ($page_ids as $id) {
-            $page = $this->getPageById($id);
-            if (!empty($page[0]['featured_image']) && file_exists(Config::F_FEATURED_IMAGE_ROOT . $page[0]['featured_image'])) {
-                unlink(Config::F_FEATURED_IMAGE_ROOT . $page[0]['featured_image']);
-            }
-        }
     }
 
     /**

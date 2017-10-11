@@ -99,7 +99,7 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                                                      style="width: 200px; height: 150px;">
                                                     <?php if (!empty($advertise['banner_image'])) { ?>
                                                         <img
-                                                            src="<?php echo \App\Config::W_BANNER_IMAGE_ROOT . $advertise['banner_image']; ?>"
+                                                            src="<?php echo (\App\Config::S3_BASE_URL . \App\Config::S3_ADVERT_IMAGE_DIR . "/" . $advertise['banner_image']); ?>"
                                                             style="width: 200px; height: 160px;">
                                                     <?php } else { ?>
                                                         <img

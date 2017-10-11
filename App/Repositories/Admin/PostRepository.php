@@ -10,6 +10,7 @@ use App\Models\User;
 use Core\Helper;
 use Core\Mail;
 use Exception;
+use Core\S3;
 
 
 /**
@@ -79,6 +80,10 @@ class PostRepository
      */
     public function bulkDeletePost($params)
     {
+        $page_ids = explode(',', $params['data_ids']);
+        foreach ($page_ids as $id) {
+            $this->removeFeaturedImage($id);
+        }
         return $this->model->bulkDeletePosts($params);
     }
 
@@ -126,43 +131,38 @@ class PostRepository
     }
 
     /**
-     * @param $filedata
+     * @param $fileData
      * @return array
      */
-    public function uploadFeaturedImage($filedata)
+    public function uploadFeaturedImage($fileData)
     {
-        $target_dir = Config::F_FEATURED_IMAGE_ROOT;
-        if (!file_exists($target_dir)) {
-            mkdir($target_dir, 0755, true);
-        }
-        $target_file = $target_dir . basename($filedata["name"]);
-        if (!file_exists($target_file)) {
-            if (move_uploaded_file($filedata["tmp_name"], $target_file)) {
-                return ['success' => true, 'filename' => $filedata["name"]];
-            } else {
-                return ['success' => false, 'messages' => ['Failed to upload Featured Image.']];
-            }
+        $filePath = $fileData['tmp_name'];
+        $name     = time() . "_" . basename($fileData["name"]);
+        $fileName = Config::S3_FEATURE_IMAGE_DIR . "/" . $name;
+        $s3       = new S3();
+        $upload   = $s3->uploadObject($filePath, $fileName);
+        if ($upload['success']) {
+            return ['success' => true, 'filename' => $name];
         } else {
-            return ['success' => true, 'filename' => $filedata["name"]];
+            return ['success' => false, 'messages' => ['Failed to upload Featured Image.']];
         }
-
     }
 
     /**
-     * @param int $userId
+     * @param int $postid
+     * @return array
      */
     public function removeFeaturedImage($postid = 0)
     {
         $post = $this->model->getPostById($postid);
         if ($post && $post[0]['featured_image']) {
-            $target_dir = Config::F_FEATURED_IMAGE_ROOT;
-            $target_file = $target_dir . $post[0]['featured_image'];
-            try {
-                if (file_exists($target_file)) {
-                    unlink($target_file);
-                }
-            } catch (Exception $e) {
-
+            $fileName = Config::S3_FEATURE_IMAGE_DIR . "/" . $post[0]['featured_image'];
+            $s3       = new S3();
+            $delete   = $s3->deleteObject($fileName);
+            if ($delete['success']) {
+                return ['success' => true];
+            } else {
+                return ['success' => false, 'messages' => ['Failed to delete Featured Image.']];
             }
         }
     }

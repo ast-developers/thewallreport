@@ -4,6 +4,7 @@ namespace App\Repositories\Admin;
 
 use App\Config;
 use App\Models\Advertise;
+use Core\S3;
 
 
 /**
@@ -81,44 +82,39 @@ class AdvertiseRepository
 
     /**
      * @param int $advertiseId
+     * @return array
      */
     public function removeBannerImage($advertiseId = 0)
     {
-        $post = $this->model->getAdvertiseById($advertiseId);
-        if ($post && $post[0]['banner_image']) {
-            $target_dir = Config::F_BANNER_IMAGE_ROOT;
-            $target_file = $target_dir . $post[0]['banner_image'];
-            try {
-                if (file_exists($target_file)) {
-                    unlink($target_file);
-                }
-            } catch (Exception $e) {
-
+        $advert = $this->model->getAdvertiseById($advertiseId);
+        if ($advert && $advert[0]['banner_image']) {
+            $fileName = Config::S3_ADVERT_IMAGE_DIR . "/" . $advert[0]['banner_image'];
+            $s3       = new S3();
+            $delete   = $s3->deleteObject($fileName);
+            if ($delete['success']) {
+                return ['success' => true];
+            } else {
+                return ['success' => false, 'messages' => ['Failed to delete Advertisement Image.']];
             }
         }
     }
 
     /**
-     * @param $filedata
+     * @param $fileData
      * @return array
      */
-    public function uploadBannerImage($filedata)
+    public function uploadBannerImage($fileData)
     {
-        $target_dir = Config::F_BANNER_IMAGE_ROOT;
-        if (!file_exists($target_dir)) {
-            mkdir($target_dir, 0755, true);
-        }
-        $target_file = $target_dir . basename($filedata["name"]);
-        if (!file_exists($target_file)) {
-            if (move_uploaded_file($filedata["tmp_name"], $target_file)) {
-                return ['success' => true, 'filename' => $filedata["name"]];
-            } else {
-                return ['success' => false, 'messages' => ['Failed to upload Banner Image.']];
-            }
+        $filePath = $fileData['tmp_name'];
+        $name     = time() . "_" . basename($fileData["name"]);
+        $fileName = Config::S3_ADVERT_IMAGE_DIR . "/" . $name;
+        $s3       = new S3();
+        $upload   = $s3->uploadObject($filePath, $fileName);
+        if ($upload['success']) {
+            return ['success' => true, 'filename' => $name];
         } else {
-            return ['success' => true, 'filename' => $filedata["name"]];
+            return ['success' => false, 'messages' => ['Failed to upload Advertisement Image.']];
         }
-
     }
 
 

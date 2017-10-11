@@ -160,7 +160,7 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                                                      style="width: 200px; height: 150px;">
                                                     <?php if (!empty($page['featured_image'])) { ?>
                                                         <img
-                                                            src="<?php echo \App\Config::W_FEATURED_IMAGE_ROOT . $page['featured_image']; ?>"
+                                                            src="<?php echo \Core\Helper::getFeaturedImage($page); ?>"
                                                             style="width: 200px; height: 160px;">
                                                     <?php } else { ?>
                                                         <img

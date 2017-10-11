@@ -61,7 +61,7 @@ class Config
     /**
      * File Root
      */
-    const F_ROOT = "/var/www/html/thewallreport/";
+    const F_ROOT =  "/var/www/html/thewallreport/";
 
     /**
      * Contact us Email
@@ -82,6 +82,26 @@ class Config
      * Share on facebook App id
      */
     const SHARE_ON_FACEBOOK_APP_ID = "311382379200231";
+
+    /**
+     * Amazon S3 Key
+     */
+    const S3_ACCESS_KEY = "AKIAJHQJ5SXX7V4U56ZA";
+
+    /**
+     * Amazon S3 Secret Key
+     */
+    const S3_SECRET_KEY = "UD2Mm6U3xg18RIpOsd4YUoy/t2xzvVhSCVUuUkbq";
+
+    /**
+     * Amazon S3 Default Bucket
+     */
+    const S3_BUCKET = "thewallreport";
+
+    /**
+     * Amazon S3 Base Url
+     */
+    const S3_BASE_URL = '//' . Config::S3_BUCKET . '.s3.amazonaws.com/';
 
     /**
      * Show or hide error messages on screen
@@ -105,16 +125,6 @@ class Config
     const F_VIEW = self::F_ROOT . "App/Views/";
 
     /**
-     * User Profile Root
-     */
-    const W_USER_AVATAR_ROOT = self::W_ROOT . 'uploads/profile_images/';
-
-    /**
-     * User Profile Root
-     */
-    const F_USER_AVATAR_ROOT = self::F_ROOT . 'public/uploads/profile_images/';
-
-    /**
      * Flow Flow Root
      */
     const F_FLOW_FLOW_ROOT = self::F_ROOT . "public/plugins/flow-flow/flow-flow/";
@@ -123,23 +133,30 @@ class Config
      * Front Assets Root
      */
     const W_FRONT_ASSETS = self::W_ROOT . "theme/front/assets/";
+
     /**
-     *
+     * Redactor Image File Root
      */
     const F_REDACTOR_IMAGE = self::F_ROOT . "public/uploads/redactor_image/";
+
     /**
-     *
+     * Redactor Image Web root
      */
     const W_REDACTOR_IMAGE = self::W_ROOT . "uploads/redactor_image/";
 
     /**
-     * Featured Image Path
+     * Amazon S3 Profile Image (User Avatar) Directory
      */
-    const F_FEATURED_IMAGE_ROOT = self::F_ROOT . "public/uploads/featured_image/";
+    const S3_PROFILE_IMAGE_DIR = 'profile_images';
 
     /**
-     * Featured Image Path
+     * Amazon S3 Featured Image Directory
      */
-    const W_FEATURED_IMAGE_ROOT = self::W_ROOT . "uploads/featured_image/";
+    const S3_FEATURE_IMAGE_DIR = 'featured_images';
+
+    /**
+     * Amazon S3 Advertisement Image Directory
+     */
+    const S3_ADVERT_IMAGE_DIR = 'advert_images';
 
 }
