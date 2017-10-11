@@ -2,6 +2,7 @@
 namespace Core;
 
 use App\Config;
+use App\Models\Post;
 use App\Repositories\Admin\MenuRepository;
 use App\Repositories\Front\IndexRepository;
 
@@ -144,5 +145,106 @@ class Helper
     public static function getShortDescription($string, $limit = 100)
     {
         return (!empty($string)) ? substr(strip_tags($string), 0, $limit) . '...' : '...';
+    }
+
+    /**
+     * @param $description
+     * @return mixed
+     */
+    public  function parsePageDesc($description){
+        $catParsedDetail = preg_replace_callback(
+            "/\[cat([^\]]*)\]/",
+            array($this, 'replacePageShortCode'),
+            $description);
+        return self::removeShortCodeFromDescription($catParsedDetail);
+    }
+
+    /**
+     * @param $matches
+     * @return string
+     */
+    public function replacePageShortCode($matches)
+    {
+        if($matches[1]){
+            $cat_string = $matches[1];
+            preg_match_all('/id="([^"]+)"/', $cat_string, $id_matches);
+            preg_match_all('/count="([^"]+)"/', $cat_string, $count_matches);
+            $catData[0]['id'] = $id_matches[1][0];
+            $catData[0]['count'] = $count_matches[1][0];
+            $featuredPost = Helper::getFeaturedPostByCategoryData($catData);
+            return $this->renderCatShortCodePost($featuredPost);
+        }
+        return '';
+    }
+
+    /**
+     * @param $featuredPost
+     * @return string
+     */
+    public function renderCatShortCodePost($featuredPost){
+        $echo = '';
+        if (!empty($featuredPost)) {
+            $echo .= '<div class="row">';
+                foreach ($featuredPost as $post) {
+                    $image = self::getCMSFeaturedImage($post, '360x240');
+                    $echo .= '<div class="col-sm-4">
+                                <a href="'.Config::W_ROOT . $post['slug'].'" class="model-blocks">
+                                    <div class="block-details">
+                                        <div class="block-name">'.$post['name'].'</div>
+                                        <div class="block-date">'.$post['published_at'].'</div>
+                                    </div>
+                                    <img width="360" height="490" src="'.$image.'" class="attachment-cb-360-490 size-cb-360-490 wp-post-image">
+                                </a>
+                            </div>';
+                }
+            $echo .= '</div>';
+        }
+        return $echo;
+    }
+    /**
+     * @param $description
+     * @return array
+     */
+    public static function parseFlowStreamShortCode($description){
+
+        /*
+         * This function should return you array consisting ids of each FF short code in description.
+         * Remember we can have multiple short codes for FF in single description. so we need multi dimensional array.
+         */
+        preg_match_all("/\[ff([^\]]*)\]/", $description, $ff_matches);
+        $feed_array = [];
+        if($ff_matches[1]){
+            foreach($ff_matches[1] as $key=>$ff_string){
+                preg_match_all('/id="([^"]+)"/', $ff_string, $id_matches);
+                $feed_array[$key]['id'] = $id_matches[1][0];
+            }
+        }
+        return $feed_array;
+
+    }
+
+    /**
+     * @param $data
+     * @return array
+     */
+    public static function getFeaturedPostByCategoryData($data){
+        $featuredPost = [];
+        foreach ($data as $key=>$val){
+            $post = new Post();
+            $posts = $post->getPostsByCategoryId($val['id'],$val['count']);
+                foreach ($posts as $key=>$post){
+                    $featuredPost[] = $post;
+                }
+        }
+        return $featuredPost;
+    }
+
+    /**
+     * @param $description
+     * @return mixed
+     */
+    public static function removeShortCodeFromDescription($description){
+        $remove_ff = preg_replace('/\[ff([^\]]*)\]/', '', $description);
+        return $remove_ff;
     }
 }
