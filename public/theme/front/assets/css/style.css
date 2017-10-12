@@ -688,8 +688,8 @@ a.model-blocks img.wp-post-image {
 a.model-blocks:hover img.wp-post-image {
     opacity: 0.25;
 }
-.details-content.feed-details h1 { color: #ff0000; letter-spacing: normal; text-transform: uppercase; color: #000;}
-.details-content.feed-details a { color: #ff0000;}
+.details-content.feed-details h1 { color: #ff0000; letter-spacing: normal; text-transform: uppercase; color: #338ac2;}
+.details-content.feed-details a { color: #338ac2;}
 .details-content.feed-details .user-info { padding: 15px 0px 15px 80px; min-height: 95px; border-top: 1px solid rgba(229, 226, 220, 0.4); border-bottom: 1px solid rgba(229, 226, 220, 0.4); position: relative; }
 .details-content.feed-details .user-info .user-pic { position: absolute; left: 0px; top:15px; width: 65px; height: 65px; display: inline-block; border-radius: 6px; overflow: hidden;}
 .details-content.feed-details .user-info .user-name { font-size: 18px; color: #000; display: block; font-weight: bold; text-transform: uppercase; padding-top: 7px;}
