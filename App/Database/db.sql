@@ -223,3 +223,6 @@ INSERT INTO `role_permission` (`role_id`, `permission_id`) VALUES ('1', '25');
 ALTER TABLE pages CHANGE views views int DEFAULT NULL;
 ALTER TABLE pages ADD show_title  enum('0','1') NOT NULL DEFAULT '0' AFTER views;
 ALTER TABLE pages ADD show_featured_sidebar  enum('0','1') NOT NULL DEFAULT '0' AFTER views;
+
+/* 11 Oct 2017 */
+ALTER TABLE ff_posts ADD views int(11) DEFAULT '0'

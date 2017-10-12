@@ -1,7 +1,7 @@
 <?php
 include(\App\Config::F_ROOT . 'App/Views/Front/header.php');
 $getFeaturedBanners = Core\Helper::getFeaturedBanners();
-$disqusPageUrl = \App\Config::W_ROOT.$post['slug'];
+$disqusPageUrl = \App\Config::W_ROOT . $post['slug'];
 $disqusPageIdentifier = $post['slug'];
 ?>
 <div id="fb-root"></div>
@@ -26,9 +26,9 @@ $disqusPageIdentifier = $post['slug'];
                                                           width="20"><?php echo $post['creator'] ?></a></span>
                 <?php if ((!empty($post['published_at']))) { ?>
                     <span
-                        class="cb-separator"><i class="fa fa-times"></i></span>
+                            class="cb-separator"><i class="fa fa-times"></i></span>
                     <span class="cb-date"><time
-                            datetime="2017-02-03"><?php echo date("F j, Y", strtotime($post['published_at'])) ?></time></span>
+                                datetime="2017-02-03"><?php echo date("F j, Y", strtotime($post['published_at'])) ?></time></span>
                 <?php } ?>
 
                 <?php
@@ -36,7 +36,7 @@ $disqusPageIdentifier = $post['slug'];
                     foreach ($categories as $category) {
                         ?>
                         <span class="cb-separator"><i
-                                class="fa fa-times"></i></span><span class="cb-category cb-element">
+                                    class="fa fa-times"></i></span><span class="cb-category cb-element">
                     <a href="#"><?php echo $category ?></a></span>
                     <?php }
                 } ?>
@@ -52,10 +52,10 @@ $disqusPageIdentifier = $post['slug'];
             <div class="col-xl-8">
 
                 <div class="d-block pb-4"><i class="fa fa-eye mr-2"></i>Post Views: <?php echo $post['views'] ?></div>
-<?php if (!empty($tags)) { ?>
-                <div class="d-block pb-4">
-                    <ul class="tags-list pl-0">
-                        <?php
+                <?php if (!empty($tags)) { ?>
+                    <div class="d-block pb-4">
+                        <ul class="tags-list pl-0">
+                            <?php
 
                             foreach ($tags as $tag) {
                                 ?>
@@ -63,50 +63,29 @@ $disqusPageIdentifier = $post['slug'];
                                     <a href="#"><?php echo $tag ?></a>
                                 </li>
                             <?php }
-                         ?>
-                    </ul>
-                </div>
+                            ?>
+                        </ul>
+                    </div>
                 <?php } ?>
                 <div class="">
-
-                    <div class="col-lg-12 share-post-block-bg p-4 mb-4">
-                        <div class="row d-flex align-items-center">
-                            <div class="col-md-4">
-                                <h4>SHARE ON</h4>
-                            </div>
-                            <div class="col-md-8 d-flex align-items-center justify-content-md-end">
-                                <div class="fb-like" data-href="https://developers.facebook.com/docs/plugins/"
-                                     data-layout="button_count"></div>
-
-                                <iframe
-                                    src="https://platform.twitter.com/widgets/tweet_button.html?size=l&url=<?php echo \App\Config::W_ROOT . $post['slug'] ?>&related=twitterapi%2Ctwitter&text=<?php echo $post['name'] ?> The Wall Report"
-                                    width="95"
-                                    height="40"
-                                    title="Twitter Share Button"
-                                    data-size="default"
-                                    style="border: 0; overflow: hidden!important;"
-                                    class="Twitter-Share-Button"
-                                    >
-                                </iframe>
-                                <a style="margin-right: 15px;" data-pin-do="buttonPin"
-                                   href="https://www.pinterest.com/pin/create/button/?url=<?php echo \App\Config::W_ROOT . $post['slug'] ?>"
-                                   data-pin-height="28"></a>
-                                <g:plusone size="tall"></g:plusone>
-                            </div>
-                        </div>
-                    </div>
+                    <?php
+                    $slug = $post['slug'];
+                    $header = $post['name'];
+                    include_once(\App\Config::F_VIEW . 'Front/share_on_section.php'); ?>
                     <!-- Disqus Commenting Start -->
                     <div class="col-md-12">
-                        <?php include_once (\App\Config::F_VIEW.'Front/disqus.php');?>
+                        <?php include_once(\App\Config::F_VIEW . 'Front/disqus.php'); ?>
                     </div>
                     <!-- Disqus Commenting End -->
+
+                </div>
+            </div>
+
+            <div class="col-xl-4">
+                <?php include_once(\App\Config::F_VIEW . 'Front/featured_post_right_side_bar.php'); ?>
+            </div>
                 </div>
 
-            </div>
-            <div class="col-xl-4">
-                <?php include_once (\App\Config::F_VIEW.'Front/featured_post_right_side_bar.php');?>
-            </div>
-        </div>
     </div>
 </div>
 <?php

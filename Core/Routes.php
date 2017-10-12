@@ -60,7 +60,7 @@ $router->add('search/{s:[a-zA-Z\d\W]+}', ['namespace' => 'Front', 'controller' =
 $router->add('search-data', ['namespace' => 'Front','controller' => 'SearchController', 'action' => 'index']);
 $router->add('', ['namespace' => 'Front', 'controller' => 'IndexController', 'action' => 'index']);
 $router->add('contact-us', ['namespace' => 'Front', 'controller' => 'ContactUsController', 'action' => 'index']);
-$router->add('{slug:[a-zA-Z\d\W]+}', ['namespace' => 'Front', 'controller' => 'CMSController', 'action' => 'index']);
+$router->add('{slug:[a-zA-Z\d\W\w]+}', ['namespace' => 'Front', 'controller' => 'CMSController', 'action' => 'index']);
 
 $router->add('error', ['namespace' => 'Admin', 'controller' => 'UserController', 'action' => 'error']);
 

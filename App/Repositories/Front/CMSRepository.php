@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Front;
 
+use App\Models\FFPost;
 use App\Models\Page;
 use App\Models\Post;
 
@@ -25,6 +26,7 @@ class CMSRepository
     {
         $this->model = new Post();
         $this->page_model = new Page();
+        $this->feed_model = new FFPost();
     }
 
     /**
@@ -43,6 +45,11 @@ class CMSRepository
     public function updateViewCount($post_id)
     {
         return $this->model->updateViewCount($post_id);
+    }
+
+    public function updateFeedViewCount($feed_id)
+    {
+        return $this->feed_model->updateFeedViewCount($feed_id);
     }
 
     /**
@@ -77,6 +84,11 @@ class CMSRepository
     public function checkPageSlugExistOrNot($slug)
     {
         return $this->page_model->checkSlugExistOrNot($slug);
+    }
+
+    public function checkFeedExistOrNot($slug)
+    {
+        return $this->feed_model->checkSlugExistOrNot($slug);
     }
 
 }
