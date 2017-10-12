@@ -55,6 +55,7 @@ $router->add('admin/error', ['namespace' => 'Admin', 'controller' => 'UserContro
 /*$router->add('admin/checkuser', ['namespace' => 'Admin','controller' => 'UserController', 'action' => 'checkuser', 'middleware' => 'Auth']);*/
 
 // Front routes
+$router->add('feed/{postid:[a-zA-Z\d\W\w]+}/{feedid:[a-zA-Z\d\W\w]+}', ['namespace' => 'Front', 'controller' => 'CMSController', 'action' => 'feedDetail']);
 $router->add('search/{s:[a-zA-Z\d\W]+}/{p:\d+}', ['namespace' => 'Front', 'controller' => 'SearchController', 'action' => 'search']);
 $router->add('search/{s:[a-zA-Z\d\W]+}', ['namespace' => 'Front', 'controller' => 'SearchController', 'action' => 'search']);
 $router->add('search-data', ['namespace' => 'Front','controller' => 'SearchController', 'action' => 'index']);

@@ -688,6 +688,53 @@ a.model-blocks img.wp-post-image {
 a.model-blocks:hover img.wp-post-image {
     opacity: 0.25;
 }
+.details-content.feed-details h1 { color: #ff0000; letter-spacing: normal; text-transform: uppercase; color: #000;}
+.details-content.feed-details a { color: #ff0000;}
+.details-content.feed-details .user-info { padding: 15px 0px 15px 80px; min-height: 95px; border-top: 1px solid rgba(229, 226, 220, 0.4); border-bottom: 1px solid rgba(229, 226, 220, 0.4); position: relative; }
+.details-content.feed-details .user-info .user-pic { position: absolute; left: 0px; top:15px; width: 65px; height: 65px; display: inline-block; border-radius: 6px; overflow: hidden;}
+.details-content.feed-details .user-info .user-name { font-size: 18px; color: #000; display: block; font-weight: bold; text-transform: uppercase; padding-top: 7px;}
+.details-content.feed-details .ff-item-bar { padding-left: 0px; padding-right: 0px; border: none;}
+.details-content.feed-details .ff-item-bar a { margin-left: 15px;}
+.details-content.feed-details .ff-item-bar a:first-child { margin-left: 0px;}
+.details-content.feed-details .ff-item-bar .ff-icon-comment { margin-left: 0px;}
+.details-content.feed-details .video iframe { width: 100%;}
+.external-link { font-size: 16px; vertical-align: middle;}
+.feed-social { display: inline-block; padding-top: 10px; }
+.feed-social ul {
+    overflow: auto;
+    margin: 0px;
+}
+
+.feed-social ul li {
+    list-style-type: none;
+    float: left;
+}
+
+.feed-social ul li a i {
+    background: #555;
+    color: #fff;
+    width: 35px;
+    height: 35px;
+    line-height: 35px;
+    border-radius: 50%;
+    font-size: 20px;
+    text-align: center;
+    margin-right: 10px;
+    transition: all 0.2s ease-in-out;
+}
+.feed-social .fa-facebook:hover {
+    background:#3b5998
+}
+.feed-social .fa-linkedin:hover {
+    background:#007bb6
+}
+.feed-social .fa-twitter:hover {
+    background:#00aced
+}
+.feed-social .fa-google-plus:hover {
+    background:#dd4b39
+}
+
 @media (min-width: 768px) and (max-width: 991px){
     .block-name {
         font-size: 20px;

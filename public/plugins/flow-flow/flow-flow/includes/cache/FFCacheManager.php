@@ -145,9 +145,10 @@ class FFCacheManager implements FFCache{
 		$select .= "post.post_timestamp as system_timestamp, ";
 		$select .= "post.post_text as text, post.user_link as userlink, post.post_permalink as permalink, ";
         $select .= "post.is_active as is_active, post.featured as featured, ";
+        $select .= "post.views as custom_views, post.feed_id as feed_id, ";
 		$select .= "post.image_url, post.image_width, post.image_height, post.media_url, post.media_type, ";
 		$select .= "post.media_width, post.media_height, post.post_header, post.post_source, post.post_additional";
-		return $select;
+        return $select;
 	}
 
 	protected function getGetFilters(){
@@ -204,7 +205,7 @@ class FFCacheManager implements FFCache{
 		    $result[] = $this->buildPost($row);
 	    }
 
-	    //$this->errors = FFDB::getError($this->db->cache_table_name, $this->stream->getId());
+        //$this->errors = FFDB::getError($this->db->cache_table_name, $this->stream->getId());
 	    $this->hash = $this->db->getHashIf($where);
 	    FFDB::close();
 	    return $result;
@@ -306,6 +307,8 @@ class FFCacheManager implements FFCache{
 		$post->text = stripslashes($row['text']);
 		$post->userlink = $row['userlink'];
 		$post->permalink = $row['permalink'];
+		$post->custom_views = $row['custom_views'];
+		$post->feed_id = $row['feed_id'];
 		$post->header = stripslashes($row['post_header']);
 		if (!empty($row['post_source'])) $post->source = $row['post_source'];
 		if ($row['image_url'] != null){

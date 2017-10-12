@@ -54,15 +54,21 @@ class CMSController extends Controller
             $cmsData = $this->repo->checkPageSlugExistOrNot($this->params['slug']);
             return View::render('Front/CMS/page_detail.php', ['page' => $cmsData]);
         }
-        $feed = $this->repo->checkFeedExistOrNot($this->params['slug']);
-           if (!empty($feed)) {
-               $this->repo->updateFeedViewCount($feed['post_id']);
-               $cmsData = $this->repo->checkFeedExistOrNot($this->params['slug']); //print_r($cmsData);die;
-               return View::render('Front/CMS/feed_detail.php', ['feed' => $cmsData]);
-           }
-
         return View::render('Front/error.php');
+    }
 
+    /**
+     *
+     */
+    public function feedDetail()
+    {
+
+        $feed = $this->repo->getFeedByPostIdAndFeedId($this->params['postid'], $this->params['feedid']);
+        if (!empty($feed)) {
+            $this->repo->updateFeedViewCount($feed['post_id']);
+            return View::render('Front/CMS/feed_detail.php', ['feed' => $feed]);
+        }
+        return View::render('Front/error.php');
     }
 
 }

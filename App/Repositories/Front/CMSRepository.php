@@ -86,9 +86,9 @@ class CMSRepository
         return $this->page_model->checkSlugExistOrNot($slug);
     }
 
-    public function checkFeedExistOrNot($slug)
+    public function getFeedByPostIdAndFeedId($post_id, $feed_id)
     {
-        return $this->feed_model->checkSlugExistOrNot($slug);
+        return $this->feed_model->getFeedByPostIdAndFeedId($post_id, $feed_id);
     }
 
 }
