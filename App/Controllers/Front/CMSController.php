@@ -55,7 +55,20 @@ class CMSController extends Controller
             return View::render('Front/CMS/page_detail.php', ['page' => $cmsData]);
         }
         return View::render('Front/error.php');
+    }
 
+    /**
+     *
+     */
+    public function feedDetail()
+    {
+
+        $feed = $this->repo->getFeedByPostIdAndFeedId($this->params['postid'], $this->params['feedid']);
+        if (!empty($feed)) {
+            $this->repo->updateFeedViewCount($feed['post_id']);
+            return View::render('Front/CMS/feed_detail.php', ['feed' => $feed]);
+        }
+        return View::render('Front/error.php');
     }
 
 }

@@ -25,6 +25,7 @@
     <!-- Custom styles for this template -->
     <link href="<?php echo \App\Config::W_FRONT_ASSETS ?>css/responsive.css" rel="stylesheet">
     <link href="<?php echo \App\Config::W_FRONT_ASSETS ?>css/style.css" rel="stylesheet">
+    <link href="<?php echo \App\Config::W_ROOT ?>plugins/flow-flow/flow-flow/css/public.css" rel="stylesheet">
     <link href="<?php echo \App\Config::W_FRONT_ASSETS ?>css/owl.carousel.min.css" rel="stylesheet">
     <script src='https://www.google.com/recaptcha/api.js'></script>
 
