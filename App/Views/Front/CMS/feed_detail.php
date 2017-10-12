@@ -1,8 +1,8 @@
 <?php
 include(\App\Config::F_ROOT . 'App/Views/Front/header.php');
 $getFeaturedBanners = Core\Helper::getFeaturedBanners();
-$disqusPageUrl = \App\Config::W_ROOT . $feed['post_id'];
-$disqusPageIdentifier = $feed['post_id'];
+$disqusPageUrl = \App\Config::W_ROOT . 'feed/' . $feed['post_id'] . '/' . $feed['feed_id'];
+$disqusPageIdentifier = $feed['post_id'] . '_' . $feed['feed_id'];
 ?>
 <div id="fb-root"></div>
 <script>(function (d, s, id) {
