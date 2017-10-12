@@ -42,9 +42,11 @@ $disqusPageIdentifier = $feed['post_id'];
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="ff-item-bar">
-                                <a href="<?php echo $feed['post_permalink'] ?>" class="ff-views"><i
-                                            class="ff-icon-view"></i>
-                                    <span><?php echo json_decode($feed['post_additional'])->likes ?></span></a>
+                                <?php if(isset(json_decode($feed['post_additional'])->views)){ ?>
+                                    <a href="<?php echo $feed['post_permalink'] ?>" class="ff-views"><i
+                                                class="ff-icon-view"></i>
+                                        <span><?php echo json_decode($feed['post_additional'])->views ?></span></a>
+                                <?php } ?>
                                 <a href="<?php echo $feed['post_permalink'] ?>" class="ff-likes"><i
                                             class="ff-icon-like"></i><?php echo json_decode($feed['post_additional'])->likes ?>
                                 </a>
