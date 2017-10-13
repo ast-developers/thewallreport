@@ -3,6 +3,7 @@ include(\App\Config::F_ROOT . 'App/Views/Front/header.php');
 $getFeaturedBanners = Core\Helper::getFeaturedBanners();
 $disqusPageUrl = \App\Config::W_ROOT . $post['slug'];
 $disqusPageIdentifier = $post['slug'];
+use Core\Helper;
 ?>
 <div id="fb-root"></div>
 <script>(function (d, s, id) {
@@ -43,8 +44,11 @@ $disqusPageIdentifier = $post['slug'];
             </div>
 
             <div class="video pt-5 video-block">
-
-                <?php echo $post['description']; ?>
+                <?php
+                $helper = new Helper();
+                $parsedDetail = $helper->parsePageDesc($post['description']);
+                ?>
+                <?php echo $parsedDetail; ?>
             </div>
 
         </div>

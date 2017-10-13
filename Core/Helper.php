@@ -162,7 +162,9 @@ class Helper
             "/\[cat([^\]]*)\]/",
             array($this, 'replacePageShortCode'),
             $description);
-        return self::removeShortCodeFromDescription($catParsedDetail);
+        $detail = self::removeShortCodeFromDescription($catParsedDetail);
+        $parseIframe = str_replace(['<iframe', '</iframe>'], ['<div class="iframe-video"><iframe', '</iframe></div>'], $detail);;
+        return $parseIframe;
     }
 
     /**
