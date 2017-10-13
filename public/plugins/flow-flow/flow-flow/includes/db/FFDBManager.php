@@ -26,37 +26,66 @@ class FFDBManager extends LADBManager{
 
 	protected function init(){
 		parent::init();
-		FFDBUpdate::create_cache_table($this->cache_table_name, $this->posts_table_name);
+		FFDBUpdate::create_cache_table($this->cache_table_name, $this->posts_table_name, $this->streams_sources_table_name);
 		FFDBUpdate::create_snapshot_table();
 		FFDBUpdate::create_streams_table($this->streams_table_name);
 		FFDBUpdate::create_image_size_table($this->image_cache_table_name);
 	}
 
+	private $init = false;
+	private $sources = null;
+	private $streams = null;
+
+	public function dataInit($only_enable = false, $safe = false){
+		$this->init = true;
+
+		if ($safe && !FFDB::existTable($this->streams_sources_table_name)) {
+			$this->sources = array();
+			$this->streams = array();
+			return;
+		}
+
+		$connections = FFDB::conn()->getIndMultiRow('stream_id', 'select `stream_id`, `feed_id` from ?n order by `stream_id`', $this->streams_sources_table_name);
+		$this->sources = FFDB::sources(null, $only_enable);
+		$this->streams = FFDB::streams($this->streams_table_name);
+		foreach ( $this->streams as &$stream ) {
+			$stream = (array)FFDB::unserializeStream($stream);
+			if (!isset($stream['feeds'])) $stream['feeds'] = array();
+			$stream['status'] = '1';
+			if (isset($connections[$stream['id']])){
+				foreach ($connections[$stream['id']] as $source){
+					if (isset($this->sources[$source['feed_id']])){
+						$full_source = $this->sources[$source['feed_id']];
+						$stream['feeds'][] = $full_source;
+						if (isset($full_source['status']) && $full_source['status'] == 0) $stream['status'] = '0';
+					}
+				}
+			}
+		}
+	}
+
 	public function streams(){
-		return FFDB::streams($this->streams_table_name);
+		if ($this->init) return $this->streams;
+		throw new \Exception('Don`t init data manager');
 	}
 
-	public function streamsSafe(){
-		if (FFDB::existTable($this->streams_table_name))
-			return $this->streams();
-		return array();
-	}
-
-	public function countStreams(){
-		return FFDB::countStreams($this->streams_table_name);
+	public function countFeeds(){
+		return FFDB::countFeeds($this->cache_table_name);
 	}
 
 	public function getStream($streamId){
-		return FFDB::getStream($this->streams_table_name, $streamId);
+		$stream = $this->streams[$streamId];
+		return $stream;
+		//return FFDB::getStream($this->streams_table_name, $streamId);
 	}
 
 	public function social_auth(){
 		if (isset($_REQUEST['type'])){
 			if ($_REQUEST['type'] == 'facebook'){
 				global $flow_flow_context;
-				/** @var LAFacebookCacheManager $facebook_сache */
-				$facebook_сache = $flow_flow_context['facebook_сache'];
-				$facebook_сache->save($_REQUEST['facebook_access_token'], time() + $_REQUEST['expires']);
+				/** @var LAFacebookCacheManager $facebook_cache */
+				$facebook_cache = $flow_flow_context['facebook_cache'];
+				$facebook_cache->save($_REQUEST['facebook_access_token'], time() + $_REQUEST['expires']);
 			}
 			else {
 				$fieldName = $_REQUEST['type'];
@@ -72,15 +101,8 @@ class FFDBManager extends LADBManager{
 
 	public function get_stream_settings(){
 		$id = $_GET['stream-id'];
-		$stream = FFDB::getStream( $this->streams_table_name, $id );
-        if ($stream != null) {
-            $status = FFDB::getStatusInfo($this->cache_table_name, (int)$stream->id, false);
-            if (isset($status['status']) && $status['status'] == 0 && isset($status['error'])){
-                $stream->errors = $status['error'];
-            }
-        }
-
-		die(json_encode( $stream ));
+		$this->dataInit();
+		die(json_encode( $this->streams[$id]));
 	}
 
 	public function create_stream(){
@@ -93,7 +115,7 @@ class FFDBManager extends LADBManager{
 				$stream->id = $newId;
 				$stream->feeds = isset($stream->feeds) ? $stream->feeds : json_encode(array());
 				$stream->name = isset($stream->name) ? $stream->name : '';
-				FFDB::setStream($this->streams_table_name, $newId, $stream);
+				FFDB::setStream($newId, $stream);
 				$response = json_encode(FFDB::getStream($this->streams_table_name, $newId));
 				FFDB::commit();
 
@@ -101,51 +123,123 @@ class FFDBManager extends LADBManager{
 				echo $response;
 			}
 			else echo false;
-		}catch (Exception $e){
+		}catch (\Exception $e){
 			FFDB::rollbackAndClose();
-			echo 'Caught exception: ',  $e->getMessage(), "\n";
+			echo 'Caught exception: ' .  $e->getMessage() . "\n";
 		}
 		FFDB::close();
 		die();
 	}
 
+	public function save_sources_settings(){
+		if (isset($_POST['model'])){
+			$model = $_POST['model'];
+			$model['id'] = 1; // DON'T DELETE, ID is always 1, this is needed to detect if model was saved
+
+			if (isset($_POST['model']['feeds_changed'])){
+				foreach ( $_POST['model']['feeds_changed'] as $feed ) {
+					switch ($feed['state']) {
+						case 'changed':
+							$source = $_POST['model']['feeds'][ $feed['id'] ];
+							if ($this->changedContent($source)) $this->cleanFeed($feed['id']);
+							$this->modifySource( $source );
+							$this->refreshCache4Source($feed['id'], true);
+							break;
+						case 'created':
+							$this->modifySource($_POST['model']['feeds'][$feed['id']]);
+							$this->refreshCache4Source($feed['id'], true);
+							break;
+						case 'reset_cache':
+							$this->cleanFeed($feed['id']);
+							$this->refreshCache4Source($feed['id'], true);
+							break;
+						case 'deleted':
+							$this->deleteFeed($feed['id']);
+							break;
+					}
+				}
+			}
+
+			if (isset($model['feeds'])){				
+				$this->dataInit();
+				$sources = $this->sources();
+				foreach ( $model['feeds'] as &$source ) {
+					if (array_key_exists($source['id'], $sources)){
+						$source = $sources[$source['id']];
+					}
+				}
+			}
+			echo json_encode($model);
+			die();
+		}
+		die(1);
+	}
+
+	public function modifySource($source){
+		$id = $source['id'];
+		$enabled = $source['enabled'];
+		$cache_lifetime = $source['cache_lifetime'];
+		$status = isset($source['status']) ? intval($source['status']) : 0;
+		unset($source['id']);
+		unset($source['enabled']);
+		unset($source['last_update']);
+		unset($source['cache_lifetime']);
+		if (isset($source['errors'])) unset($source['errors']);
+		if (isset($source['status'])) unset($source['status']);
+		if (isset($source['system_enabled'])) unset($source['system_enabled']);
+
+		$in = array(
+			'settings' => serialize((object)$source),
+			'enabled' => (int)FFSettingsUtils::YepNope2ClassicStyle($enabled, true),
+			'system_enabled' => (int)FFSettingsUtils::YepNope2ClassicStyle($enabled, true),
+			'last_update' => 0,
+			'changed_time' => time(),
+			'cache_lifetime' => $cache_lifetime,
+			'status' => $status
+		);
+		$up = array(
+			'settings' => serialize((object)$source),
+			'enabled' => (int)FFSettingsUtils::YepNope2ClassicStyle($enabled, true),
+			'system_enabled' => (int)FFSettingsUtils::YepNope2ClassicStyle($enabled, true),
+			'last_update' => 0,
+			'cache_lifetime' => $cache_lifetime
+		);
+		try {
+			if ( false === FFDB::conn()->query( 'INSERT INTO ?n SET `feed_id`=?s, ?u ON DUPLICATE KEY UPDATE ?u',
+					$this->cache_table_name, $id, $in, $up ) ) {
+				throw new \Exception();
+			}
+			FFDB::commit();
+		}
+		catch (\Exception $e){
+			FFDB::rollback();
+		}
+	}
+
+	public function changedContent( $source ) {
+		$sources = FFDB::sources();
+		$old = $sources[$source['id']];
+		foreach ( $source as $key => $value ) {
+			$old_value = $old[$key];
+			if ($key == 'status' || $key == 'enabled' || $key == 'posts' || $key == 'errors' || $key == 'last_update' || $key == 'cache_lifetime') continue;
+			if ($old_value !== $value) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public function save_stream_settings(){
-		$force_load_cache = false;
 		$stream = $_POST['stream'];
 		$stream = (object)$stream;
 		$id = $stream->id;
 		try{
 			FFDB::beginTransaction();
-//			$stream->feeds = stripslashes($stream->feeds);//HACK
-			if (false !== ($old = FFDB::getStream($this->streams_table_name, $id))){
-				if (!empty($old) && $stream->width != $old->width){
-					$this->clean(array($id));
-					$force_load_cache = true;
-				}
-			}
-			FFDB::setStream($this->streams_table_name, $id, $stream);
+			$stream->last_changes = time();
+			FFDB::setStream($id, $stream);
 
-			if (isset($_POST['feeds_changed'])){
-				foreach ( $_POST['feeds_changed'] as $feed ) {
-					$state = $feed['state'];
-					if ($state == 'deleted') {
-						$this->cleanFeed($feed['id']);
-						$force_load_cache = false;
-					}
-					else if ($state == 'changed') {
-						$this->cleanFeed($feed['id']);
-						$force_load_cache = true;
-					}
-					else {
-						$force_load_cache = true;
-					}
-				}
-			}
-			if ($force_load_cache) $this->refreshCache($id, true);
-			$status = FFDB::getStatusInfo($this->cache_table_name, (int)$stream->id, false);
-			if (isset($status['status']) && $status['status'] == 0 && isset($status['error'])){
-				$stream->errors = $status['error'];
-			}
+			$this->generateCss($stream);
+
 			echo json_encode($stream);
 			FFDB::commit();
 
@@ -159,35 +253,54 @@ class FFDBManager extends LADBManager{
 		die();
 	}
 
+	public function canCreateCssFolder(){
+		$dir = $this->getPath2Resources();
+		if(!file_exists($dir)){
+			return mkdir($dir, 0777, true);
+		}
+		return true;
+	}
+
+	public function generateCss($stream){
+		$dir = $this->getPath2Resources();
+		if(!file_exists($dir)){
+			mkdir($dir, 0777, true);
+		}
+
+		$filename = $dir . "/stream-id" . $stream->id . ".css";
+		ob_start();
+		include($this->context['root']  . 'views/stream-template-css.php');
+		$output = ob_get_clean();
+		$a = fopen($filename, 'w');
+		fwrite($a, $output);
+		fclose($a);
+		chmod($filename, 0644);
+	}
+
 	public function clone_stream(){
-		$id = $_GET['stream-id'];
+		$stream = $_REQUEST['stream'];
+		$stream = (object)$stream;
 		try{
 			FFDB::beginTransaction();
-			if (false !== ($count = FFDB::maxIdOfStreams($this->streams_table_name))){
+			if (false !== ($count = FFDB::maxIdOfStreams($this->streams_table_name))) {
 				$newId = (string) $count + 1;
-				$stream = FFDB::getStream($this->streams_table_name, $id);
 				$stream->id = $newId;
 				$stream->name = "{$stream->name} copy";
-				if (isset($stream->feeds) && !empty($stream->feeds)){
-					$feeds = json_decode( stripslashes( html_entity_decode ($stream->feeds ) ) );
-					foreach ( $feeds as &$feed ) {
-						$time = (string)time();
-						$feed->id = substr($feed->id, 0, 2) . substr($time, 5, 5);
-					}
-					$stream->feeds = json_encode($feeds);
-				}
-				FFDB::setStream($this->streams_table_name, $newId, $stream);
-				$response = json_encode(FFDB::getStream($this->streams_table_name, $newId));
+				$stream->last_changes = time();
+				FFDB::setStream($newId, $stream);
+
+				$this->generateCss($stream);
 				FFDB::commit();
-				$this->refreshCache($newId);
-				echo $response;
+				echo json_encode($stream);
 			}
-			else echo false;
+			else {
+				throw new \Exception('Can`t get a new id for the clone stream');
+			}
 		}catch (Exception $e){
-			error_log('clone_stream error:');
-			error_log($e->getTraceAsString());
 			FFDB::rollbackAndClose();
-			echo false;
+			error_log('clone_stream error:');
+			error_log($e->getMessage());
+			error_log($e->getTraceAsString());
 		}
 		FFDB::close();
 		die();
@@ -197,29 +310,40 @@ class FFDBManager extends LADBManager{
 		try{
 			FFDB::beginTransaction();
 			$id = $_GET['stream-id'];
-			echo FFDB::deleteStream($this->streams_table_name, $id);
+			FFDB::deleteStream($id);
 			do_action('ff_after_delete_stream', $id);
-			$this->clean(array($id));
 			FFDB::commit();
 		}catch (Exception $e){
 			error_log($e->getMessage());
 			error_log($e->getTraceAsString());
 			FFDB::rollbackAndClose();
+			die(false);
 		}
 		die();
 	}
 
-	public function  ff_save_settings_fn () {
+	public function ff_save_settings_fn() {
 		try{
 			$serialized_settings = $_POST['settings']; // param1=foo&param2=bar
 			$settings = array();
 			parse_str( $serialized_settings, $settings );
 
-			$activated = @$this->activate($settings);
+			$activated = $this->activate($settings);
 
 			FFDB::beginTransaction();
 
 			list($force_load_cache, $facebook_changed) = $this->clean_cache($settings);
+
+			if (isset($settings['flow_flow_options']['general-uninstall'])){
+				$value = ($settings['flow_flow_options']['general-uninstall'] === 'yep') ? 'yep' : 'nope';
+				if ( get_option( 'flow_flow_general_uninstall' ) !== false ) {
+					update_option( 'flow_flow_general_uninstall', $value );
+				}
+				else {
+					add_option( 'flow_flow_general_uninstall', $value, '', 'no' );
+				}
+				unset($settings['flow_flow_options']['general-uninstall']);
+			}
 
 			$this->setOption('options', $settings['flow_flow_options'], true);
 			//TODO move all auth settings from the general setting to other setting
@@ -229,7 +353,7 @@ class FFDBManager extends LADBManager{
 			if ($force_load_cache) $this->refreshCache(null, $force_load_cache);
 			global $flow_flow_context;
 			/** @var LAFacebookCacheManager $facebookCache */
-			$facebookCache = $flow_flow_context['facebook_сache'];
+			$facebookCache = $flow_flow_context['facebook_cache'];
 			if ($facebook_changed) {
 				$facebookCache->clean();
 			}
@@ -237,18 +361,32 @@ class FFDBManager extends LADBManager{
 			FFDB::commit();
 			echo json_encode( array('settings' => $settings, 'fb_extended_token' => $extendedToken, 'activated' => $activated) ); // return serialized string back to client
 
-		}catch (Exception $e){
+		}catch (\Exception $e){
 			error_log('ff_save_settings_fn error:');
 			error_log($e->getMessage());
 			error_log($e->getTraceAsString());
 			FFDB::rollbackAndClose();
+			die($e->getMessage());
 		}
 		FFDB::close();
 		die();
 	}
 
+	public function getOption( $optionName, $serialized = false, $lock_row = false ) {
+		$options = parent::getOption( $optionName, $serialized, $lock_row );
+		if ($optionName == 'options') {
+			$options['general-uninstall'] = FF_USE_WP ? get_option('flow_flow_general_uninstall', 'nope') : 'nope';
+		}
+		return $options;
+	}
+
 	protected function refreshCache($streamId, $force_load_cache = false){
 		FlowFlow::get_instance()->refreshCache($streamId, $force_load_cache);
+	}
+
+	protected function refreshCache4Source($id, $force_load_cache = false){
+		$_REQUEST['feed_id'] = $id;
+		FlowFlow::get_instance()->processAjaxRequestBackground();
 	}
 
 	private function clean_cache($options) {
@@ -347,12 +485,32 @@ class FFDBManager extends LADBManager{
 	}
 
 	public function streamsWithStatus(){
-		if (false !== ($result = self::streams($this->streams_table_name))){
-			foreach ( $result as &$stream ) {
-				$status_info = FFDB::getStatusInfo($this->cache_table_name, (int)$stream['id']);
-				$feeds = json_decode( html_entity_decode ($stream['feeds'] ) );
-				$stream['status'] = sizeof($feeds) == $status_info['feeds_count'] ? $status_info['status'] : '0';
-				if (isset($status_info['error'])) $stream['error'] = $status_info['error'];
+		if (false !== ($result = self::streams())){
+			//foreach ( $result as &$stream ) {
+				//$status_info = FFDB::getStatusInfo($this->cache_table_name, (int)$stream['id']);
+				//$feeds = json_decode( html_entity_decode ($stream['feeds'] ) );
+				//$stream['status'] = sizeof($stream['feeds']) == $status_info['feeds_count'] ? $status_info['status'] : '0';
+				//if (isset($status_info['error'])) {
+//					$e = FFDB::getError($this->cache_table_name, (int)$stream['id'], false);
+//
+//					if (is_array($e)){
+//
+//						foreach ( $e as $id => $value ) {
+//							$escape = array("'");
+//							$replacements = array(" ");
+//							if (is_array($value['message'])){
+//								for ( $i = 0; $i < sizeof( $value['message'] ); $i ++ ) {
+//									$e[$id]['message'][$i]['msg'] = str_replace($escape, $replacements, $e[$id]['message'][$i]['msg']);
+//								}
+//							}
+//							else
+//								$e[$id]['message'] = str_replace($escape, $replacements, $value['message']);
+//
+//						}
+//					}
+//					$stream['error_by_feeds'] = $e;
+					//$stream['error'] = $status_info['error'];
+				//}
 //				if (isset($_REQUEST['debug'])) {
 //					echo 'DEBUG:: FFDB::streamsWithStatus<br>';
 //					var_dump($status_info);
@@ -360,10 +518,15 @@ class FFDBManager extends LADBManager{
 //					var_dump(sizeof($feeds));
 //					echo '-------<br><br>';
 //				}
-			}
+			//}
 			return $result;
 		}
 		return array();
+	}
+
+	public function sources($only_enable = false){
+		if ($this->init)  return $this->sources;
+		throw new \Exception('Don`t init data manager');
 	}
 
 	public function clean(array $streams = null){
@@ -371,8 +534,23 @@ class FFDBManager extends LADBManager{
 		try{
 			if (FFDB::beginTransaction()){
 				FFDB::conn()->query('DELETE FROM ?n ?p', $this->posts_table_name, $partOfSql);
-				FFDB::conn()->query('DELETE FROM ?n ?p', $this->cache_table_name, $partOfSql);
 				FFDB::conn()->query('DELETE FROM ?n', $this->image_cache_table_name);
+				FFDB::commit();
+			}
+			FFDB::rollback();
+		}catch (Exception $e){
+			FFDB::rollbackAndClose();
+		}
+	}
+
+
+	public function deleteFeed($feedId){
+		try{
+			if (FFDB::beginTransaction()){
+				$partOfSql = FFDB::conn()->parse('WHERE `feed_id` = ?s', $feedId);
+				FFDB::conn()->query('DELETE FROM ?n ?p', $this->posts_table_name, $partOfSql);
+				FFDB::conn()->query('DELETE FROM ?n ?p', $this->cache_table_name, $partOfSql);
+				FFDB::conn()->query('DELETE FROM ?n ?p', $this->streams_sources_table_name, $partOfSql);
 				FFDB::commit();
 			}
 			FFDB::rollback();
@@ -386,7 +564,7 @@ class FFDBManager extends LADBManager{
 			if (FFDB::beginTransaction()){
 				$partOfSql = FFDB::conn()->parse('WHERE `feed_id` = ?s', $feedId);
 				FFDB::conn()->query('DELETE FROM ?n ?p', $this->posts_table_name, $partOfSql);
-				FFDB::conn()->query('DELETE FROM ?n ?p', $this->cache_table_name, $partOfSql);
+				$this->setCacheInfo($feedId, array('last_update' => 0, 'status' => 0));
 				FFDB::commit();
 			}
 			FFDB::rollback();
@@ -400,7 +578,7 @@ class FFDBManager extends LADBManager{
 			if (FFDB::beginTransaction()){
 				$feeds = FFDB::conn()->getCol('SELECT DISTINCT `feed_id` FROM ?n WHERE `post_type` = ?s', $this->posts_table_name, $feedType);
 				if (!empty($feeds)){
-					FFDB::conn()->query("DELETE FROM ?n WHERE `feed_id` IN (?a)", $this->cache_table_name, $feeds);
+					//FFDB::conn()->query("DELETE FROM ?n WHERE `feed_id` IN (?a)", $this->cache_table_name, $feeds);
 					FFDB::conn()->query("DELETE FROM ?n WHERE `feed_id` IN (?a)", $this->posts_table_name, $feeds);
 					FFDB::commit();
 				}
@@ -418,56 +596,63 @@ class FFDBManager extends LADBManager{
 		}
 	}
 
-	public function getIdPosts($streamId){
-		return FFDB::conn(true)->getCol('SELECT `post_id` FROM ?n WHERE `stream_id`=?s', $this->posts_table_name, $streamId);
+	public function getIdPosts($feedId){
+		return FFDB::conn(true)->getCol('SELECT `post_id` FROM ?n WHERE `feed_id`=?s', $this->posts_table_name, $feedId);
 	}
 
 	public function getPostsIf($fields, $condition, $order, $offset = null, $limit = null){
 		$limitPart = ($offset !== null && $offset !== null) ? FFDB::conn()->parse("LIMIT ?i, ?i", $offset, $limit) : '';
-		return FFDB::conn()->getAll("SELECT ?p FROM ?p post WHERE ?p ORDER BY ?p ?p",
-			$fields, $this->posts_table_name, $condition, $order, $limitPart);
+		$sql = FFDB::conn()->parse("SELECT ?p FROM ?n post INNER JOIN ?n stream ON stream.feed_id = post.feed_id INNER JOIN ?n cach ON post.feed_id = cach.feed_id WHERE ?p ORDER BY ?p ?p",
+			$fields, $this->posts_table_name, $this->streams_sources_table_name, $this->cache_table_name, $condition, $order, $limitPart);
+		return FFDB::conn()->getAll($sql);
 	}
 
 	public function getPostsIf2($fields, $condition){
-		return FFDB::conn()->getAll("SELECT ?p FROM ?p post WHERE ?p ORDER BY post.post_timestamp DESC, post.post_id",
-			$fields, $this->posts_table_name, $condition);
+		return FFDB::conn()->getAll("SELECT ?p FROM ?n post INNER JOIN ?n stream ON stream.feed_id = post.feed_id INNER JOIN ?n cach ON post.feed_id = cach.feed_id WHERE ?p ORDER BY post.post_timestamp DESC, post.post_id",
+			$fields, $this->posts_table_name, $this->streams_sources_table_name, $this->cache_table_name, $condition);
 	}
 
 	public function countPostsIf($condition){
-		return FFDB::conn()->getOne('SELECT COUNT(*) FROM ?p post WHERE ?p', $this->posts_table_name, $condition);
+		return FFDB::conn()->getOne('SELECT COUNT(*) FROM ?n post INNER JOIN ?n stream ON stream.feed_id = post.feed_id INNER JOIN ?n cach ON post.feed_id = cach.feed_id WHERE ?p',
+			$this->posts_table_name, $this->streams_sources_table_name, $this->cache_table_name, $condition);
 	}
 
 	public function getLastUpdateHash($streamId){
-		return $this->getHashIf(FFDB::conn()->parse('`stream_id` = ?s', $streamId));
+		return $this->getHashIf(FFDB::conn()->parse('stream.`stream_id` = ?s', $streamId));
 	}
 
 	public function getHashIf($condition){
-		return FFDB::conn()->getOne("SELECT MAX(post.creation_index) FROM ?n post WHERE ?p", $this->posts_table_name, $condition);
+		return FFDB::conn()->getOne("SELECT MAX(post.creation_index) FROM ?n post INNER JOIN ?n stream ON stream.feed_id = post.feed_id INNER JOIN ?n cach ON post.feed_id = cach.feed_id WHERE ?p",
+			$this->posts_table_name, $this->streams_sources_table_name, $this->cache_table_name, $condition);
 	}
 
 	public function getLastUpdateTime($streamId){
-		return FFDB::conn()->getOne('SELECT MAX(`last_update`) FROM ?n WHERE `stream_id` = ?s',  $this->cache_table_name, $streamId);
+		return FFDB::conn()->getOne('SELECT MAX(`last_update`) FROM ?n `cach` inner join ?n `st2src` on `st2src`.`feed_id` = `cach`.`feed_id` WHERE `stream_id` = ?s',  $this->cache_table_name, $this->streams_sources_table_name, $streamId);
 	}
 
 	public function getLastUpdateTimeAllStreams(){
-		return FFDB::conn()->getIndCol('stream_id', 'SELECT MAX(`last_update`), `stream_id` FROM ?n GROUP BY `stream_id`',  $this->cache_table_name);
+		return FFDB::conn()->getIndCol('stream_id', 'SELECT MAX(`last_update`), `stream_id` FROM ?n `cach` inner join ?n `st2src` on `st2src`.`feed_id` = `cach`.`feed_id` GROUP BY `stream_id`',  $this->cache_table_name, $this->streams_sources_table_name);
 	}
 
 	public function deleteEmptyRecordsFromCacheInfo($streamId){
-		FFDB::conn()->query("DELETE FROM ?n where `stream_id`=?s", $this->cache_table_name, $streamId);
+		//FFDB::conn()->query("DELETE FROM ?n where `stream_id`=?s", $this->cache_table_name, $streamId);
 	}
 
-	public function setCacheInfo($feedId, $streamId, $values){
-		$sql = 'INSERT INTO ?n SET `feed_id`=?s, `stream_id`=?s, ?u ON DUPLICATE KEY UPDATE ?u';
-		return FFDB::conn()->query( $sql, $this->cache_table_name, $feedId, $streamId, $values, $values );
+	public function systemDisableSource($feedId, $enabled){
+		return FFDB::conn()->query('UPDATE ?n SET `system_enabled` = ?i WHERE `feed_id`=?s', $this->cache_table_name, $enabled, $feedId);
 	}
 
-	public function setRandomOrder($streamId){
-		return FFDB::conn()->query('UPDATE ?n SET `rand_order` = RAND() WHERE `stream_id`=?s', $this->posts_table_name, $streamId);
+	public function setCacheInfo($feedId, $values){
+		$sql = 'INSERT INTO ?n SET `feed_id`=?s, ?u ON DUPLICATE KEY UPDATE ?u';
+		return FFDB::conn()->query( $sql, $this->cache_table_name, $feedId, $values, $values );
 	}
 
-	public function setSmartOrder($streamId, $feedId, $count){
-		$wherePartOfSql = FFDB::conn()->parse('stream_id = ?s AND feed_id = ?s', $streamId, $feedId);
+	public function setRandomOrder($feedId){
+		return FFDB::conn()->query('UPDATE ?n SET `rand_order` = RAND() WHERE `feed_id`=?s', $this->posts_table_name, $feedId);
+	}
+
+	public function setSmartOrder($feedId, $count){
+		$wherePartOfSql = FFDB::conn()->parse('feed_id = ?s', $feedId);
 		if (false === FFDB::conn()->query('UPDATE ?n SET `smart_order` = `smart_order` + ?i WHERE ?p', $this->posts_table_name, $count, $wherePartOfSql)){
 			throw new \Exception(FFDB::conn()->conn->error);
 		}
@@ -519,6 +704,16 @@ class FFDBManager extends LADBManager{
 		return $activated;
 	}
 
+	private function getPath2Resources(){
+		if (defined('WP_CONTENT_DIR')){
+			$path = WP_CONTENT_DIR;
+		}
+		else {
+			$path = str_replace('/flow-flow/', '/', $this->context['root']);
+		}
+		return $path. '/resources/' . $this->context['slug'] . '/css';
+	}
+	
 	private function activate($settings){
 		$activated = $this->registrationCheck();
 		if (!$activated
@@ -548,11 +743,11 @@ class FFDBManager extends LADBManager{
 					return true;
 				}
 				else if (isset($result->error)){
-					return $result->error;
+					throw new \Exception(is_string($result->error) ? $result->error : var_dump2str($result->error));
 				}
 			}
 			else {
-				return $error;
+				throw new \Exception($error);
 			}
 		}
 		if ($activated){
@@ -594,10 +789,11 @@ class FFDBManager extends LADBManager{
 
 	private function sendRequest2lo($data){
 		$ch = curl_init( 'http://flow.looks-awesome.com/wp-admin/admin-ajax.php' );
-		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
 		curl_setopt($ch, CURLOPT_POST, true);
+		curl_setopt($ch, CURLOPT_TIMEOUT, 60);
+		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT_MS, 5000);
 		$error = null;
 		$result = curl_exec( $ch );
 		if ($result === false){
@@ -605,39 +801,5 @@ class FFDBManager extends LADBManager{
 		}
 		curl_close( $ch );
 		return array($result, $error);
-	}
-
-	public function updatePostFeaturedFlag()
-	{
-		$status = array('status' => false);
-		$featured = (filter_var($_POST['featured'], FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE)) ? 1 : 0;
-		$post_id = $_POST['post_id'];
-		$sql = "UPDATE ?n SET `featured` = ?s WHERE `post_id` = ?s";
-		if (false == FFDB::conn()->query($sql, $this->posts_table_name, $featured, $post_id)) {
-			$status['error'] = FFDB::conn()->conn->error;
-			echo json_encode($status);
-			exit;
-//            throw new \Exception(FFDB::conn()->conn->error);
-		}
-		$status['status'] = true;
-		echo json_encode($status);
-		exit;
-	}
-
-	public function updatePostActiveFlag()
-	{
-		$status = array('status' => false);
-		$active = (filter_var($_POST['is_active'], FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE)) ? 1 : 0;
-		$post_id = $_POST['post_id'];
-		$sql = "UPDATE ?n SET `is_active` = ?s WHERE `post_id` = ?s";
-		if (false == FFDB::conn()->query($sql, $this->posts_table_name, $active, $post_id)) {
-			$status['error'] = FFDB::conn()->conn->error;
-			echo json_encode($status);
-			exit;
-//            throw new \Exception(FFDB::conn()->conn->error);
-		}
-		$status['status'] = true;
-		echo json_encode($status);
-		exit;
 	}
 }

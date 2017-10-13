@@ -12,6 +12,10 @@ if ( ! defined( 'WPINC' ) ) die;
 
 interface FFDBMigration {
 	public function version();
-	/** @param LADBManager $manager */
-	public function execute( $manager);
+
+	/**
+	 * @param SafeMySQL $conn
+	 * @param LADBManager $manager
+	 */
+	public function execute( $conn, $manager);
 } 

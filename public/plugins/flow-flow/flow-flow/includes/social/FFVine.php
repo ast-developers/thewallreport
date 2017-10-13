@@ -1,8 +1,6 @@
 <?php namespace flow\social;
 if ( ! defined( 'WPINC' ) ) die;
 
-use flow\settings\FFSettingsUtils;
-
 /**
  * Flow-Flow.
  *
@@ -15,18 +13,17 @@ use flow\settings\FFSettingsUtils;
 class FFVine extends FFHttpRequestFeed{
 	private $page = 1;
 	private $template_url;
-	private $hideText;
 	private $size = 0;
 	private $content;
 	private $needUserId = true;
+	private $warn = null;
 
 	public function __construct() {
 		parent::__construct( 'vine' );
 	}
 
-	public function deferredInit( $options, $stream, $feed ) {
+	public function deferredInit( $options, $feed ) {
 		$this->content = $feed->content;
-		$this->hideText = FFSettingsUtils::YepNope2ClassicStyle($feed->{'hide-text'}, false);
 		if (isset($feed->{'timeline-type'})) {
 			switch ( $feed->{'timeline-type'} ) {
 				case 'user_timeline':
@@ -41,9 +38,7 @@ class FFVine extends FFHttpRequestFeed{
 					break;
 			}
 		}
-	}
 
-	protected function beforeProcess() {
 		$this->prepareAuthorData($this->content);
 		$this->url = sprintf($this->template_url, $this->content, $this->page);
 	}
@@ -74,7 +69,7 @@ class FFVine extends FFHttpRequestFeed{
 	}
 
 	protected function getContent( $item ) {
-		return $this->hideText ? '' : $this->wrapHashTags(FFFeedUtils::removeEmoji(FFFeedUtils::wrapLinks($item->description)));
+		return $this->wrapHashTags(FFFeedUtils::removeEmoji(FFFeedUtils::wrapLinks($item->description)));
 	}
 
 	protected function getUserlink( $item ) {
@@ -119,6 +114,12 @@ class FFVine extends FFHttpRequestFeed{
 		}
 	}
 
+	protected function afterProcess( $result ) {
+		if (!is_null($this->warn)) $this->errors[] = $this->warn;
+		return parent::afterProcess( $result );
+	}
+
+
 	/**
 	 * @param string $text
 	 * @return mixed
@@ -137,14 +138,14 @@ class FFVine extends FFHttpRequestFeed{
 			if (sizeof($data['errors']) > 0){
 				$this->errors[] = array(
 					'type'=>'author',
-					'val'=>'https://api.vineapp.com/users/search/' . $author,
-					'msg'=> $data['errors']
+					'url'=>'https://api.vineapp.com/users/search/' . $author,
+					'msg'=> $this->filterErrorMessage($data['errors'])
 				);
 			}
 			$pxml = json_decode($data['response']);
 			if (isset($pxml->data->records)) {
 				if (sizeof($pxml->data->records) > 0)
-					$this->errors[] = array('type' => 'author', 'msg' => 'Warn: Found more than one user id with nickname ' . $author);
+					$this->warn = array('type' => 'author', 'msg' => 'Warn: Found more than one user id with nickname ' . $author);
 				foreach ( $pxml->data->records as $record ) {
 					$this->content = $record->userId;
 					break;

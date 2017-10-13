@@ -20,8 +20,8 @@ class FFListTimeline implements FFTimeline{
 	private $include_rts;
 	private $listName;
 
-	public function init( $stream, $feed ) {
-		$this->count = $stream->getCountOfPosts();
+	public function init( $feed ) {
+		$this->count = isset($feed->posts) ? $feed->posts : 10;
 		$this->listName = $feed->{'list-name'};
 		$this->screenName = $feed->content;
 		$this->include_rts = (string)FFSettingsUtils::YepNope2ClassicStyle($feed->retweets);
@@ -32,7 +32,7 @@ class FFListTimeline implements FFTimeline{
 	}
 
 	public function getField() {
-		$getfield = "?slug={$this->listName}&owner_screen_name={$this->screenName}&count={$this->count}&include_rts={$this->include_rts}&include_entities=true";
+		$getfield = "?slug={$this->listName}&owner_screen_name={$this->screenName}&count={$this->count}&include_rts={$this->include_rts}&include_entities=true&tweet_mode=extended";
 		return $getfield;
 	}
 }

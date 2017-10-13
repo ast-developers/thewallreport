@@ -18,9 +18,9 @@ class FFMigration_2_10 implements FFDBMigration {
 		return '2.10';
 	}
 
-	public function execute($manager) {
+	public function execute($conn, $manager) {
 		if (!FFDB::existColumn($manager->posts_table_name, 'post_status')){
-			FFDB::conn()->query("ALTER TABLE ?n ADD ?n VARCHAR(15) NOT NULL DEFAULT 'approved'", $manager->posts_table_name, 'post_status');
+			$conn->query("ALTER TABLE ?n ADD ?n VARCHAR(15) NOT NULL DEFAULT 'approved'", $manager->posts_table_name, 'post_status');
 		}
 	}
 }

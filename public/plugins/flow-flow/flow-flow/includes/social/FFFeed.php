@@ -11,8 +11,9 @@ if ( ! defined( 'WPINC' ) ) die;
  */
 interface FFFeed {
     public function id();
-    public function init($context, $options, $stream, $feed);
+    public function init($context, $options, $feed);
     public function posts();
     public function errors();
     public function useCache();
+	public function hasCriticalError();
 }

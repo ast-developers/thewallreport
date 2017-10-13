@@ -20,8 +20,8 @@ class FFUserTimeline implements FFTimeline{
     private $include_rts;
     private $exclude_replies;
 
-    public function init($stream, $feed){
-        $this->count = $stream->getCountOfPosts();
+    public function init($feed){
+        $this->count = isset($feed->posts) ? $feed->posts : 10;
         $this->screenName = $feed->content;
         $this->exclude_replies = (string)FFSettingsUtils::notYepNope2ClassicStyle($feed->replies);
         $this->include_rts = (string)FFSettingsUtils::YepNope2ClassicStyle($feed->retweets);
@@ -32,7 +32,7 @@ class FFUserTimeline implements FFTimeline{
     }
 
     public function getField(){
-        $getfield = "?screen_name={$this->screenName}&count={$this->count}&exclude_replies={$this->exclude_replies}&include_rts={$this->include_rts}";
+        $getfield = "?screen_name={$this->screenName}&count={$this->count}&exclude_replies={$this->exclude_replies}&include_rts={$this->include_rts}&tweet_mode=extended";
         return $getfield;
     }
 }

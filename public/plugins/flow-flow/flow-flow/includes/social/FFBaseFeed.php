@@ -1,7 +1,9 @@
 <?php namespace flow\social;
 if ( ! defined( 'WPINC' ) ) die;
 
+use \stdClass;
 use flow\cache\FFImageSizeCacheManager;
+use flow\settings\FFGeneralSettings;
 
 /**
  * Flow-Flow.
@@ -13,6 +15,9 @@ use flow\cache\FFImageSizeCacheManager;
  * @copyright 2014-2016 Looks Awesome
  */
 abstract class FFBaseFeed implements FFFeed{
+	/** @var stdClass */
+	public $feed;
+
     private $id;
     /** @var FFImageSizeCacheManager */
     protected $cache;
@@ -21,12 +26,9 @@ abstract class FFBaseFeed implements FFFeed{
     private $useProxyServer;
 	private $type;
 	private $filterByWords;
+	private $criticalError = true;
 	/** @var FFGeneralSettings */
 	protected $options;
-	/** @var FFStreamSettings */
-	protected $stream;
-	/** @var stdClass */
-	protected $feed;
     protected $errors;
 	protected $context;
 
@@ -63,22 +65,20 @@ abstract class FFBaseFeed implements FFFeed{
 	/**
 	 * @param $context
 	 * @param FFGeneralSettings $options
-	 * @param FFStreamSettings $stream
 	 * @param $feed
 	 *
 	 * @return void
 	 */
-    public final function init($context, $options, $stream, $feed){
+    public final function init($context, $options, $feed){
 	    $this->context = $context;
 	    $this->options = $options;
-	    $this->stream = $stream;
 	    $this->feed = $feed;
 
         $this->id = $feed->id;
         $this->errors = array();
         $this->useProxyServer = $options->useProxyServer();
-        $this->count = intval($stream->getCountOfPosts());
-        $this->imageWidth = $stream->getImageWidth();
+        $this->count = isset($feed->posts) ? intval($feed->posts) : 10;
+        $this->imageWidth = defined('FF_MAX_IMAGE_WIDTH') ? FF_MAX_IMAGE_WIDTH : 300;
         $this->cache = FFImageSizeCacheManager::get();
 	    if (isset($feed->{'filter-by-words'})) {
 		    $this->filterByWords =  explode(',', $feed->{'filter-by-words'});
@@ -89,19 +89,33 @@ abstract class FFBaseFeed implements FFFeed{
     }
 
 	public final function posts() {
-		$this->deferredInit($this->options, $this->stream, $this->feed);
-		$this->beforeProcess();
 		$result = array();
-		if (sizeof($this->errors) == 0){
-			do {
-				$result += $this->onePagePosts();
-			} while ($this->nextPage($result));
-			return $this->afterProcess($result);
+		try {
+			if ($this->beforeProcess()) {
+				$this->deferredInit($this->options, $this->feed);
+				if (sizeof($this->errors) == 0){
+					do {
+						$result += $this->onePagePosts();
+					} while ($this->nextPage($result));
+					return $this->afterProcess($result);
+				}
+			}
 		}
+		catch (\Exception $e){
+			error_log($e->getMessage());
+			error_log($e->getTraceAsString());
+		}
+		$this->criticalError = true;
 		return $result;
 	}
 
-	protected abstract function deferredInit($options, $stream, $feed);
+	/**
+	 * @param FFGeneralSettings $options
+	 * @param stdClass $feed
+	 *
+	 * @return void
+	 */
+	protected abstract function deferredInit($options, $feed);
 	protected abstract function onePagePosts( );
 
     /**
@@ -120,14 +134,16 @@ abstract class FFBaseFeed implements FFFeed{
 	 * @return array
 	 */
     protected function createImage($url, $width = null, $height = null, $scale = true){
-        if ($width == null || $height == null){
-            $size = $this->cache->size($url);
-            $width = $size['width'];
-            $height = $size['height'];
-        }
-	    if ($scale){
-		    $tWidth = $this->getImageWidth();
-		    return array('url' => $url, 'width' => $tWidth, 'height' => FFFeedUtils::getScaleHeight($tWidth, $width, $height));
+    	if ($width != -1 && $height != -1) {
+		    if ($width == null || $height == null){
+			    $size = $this->cache->size($url);
+			    $width = $size['width'];
+			    $height = $size['height'];
+		    }
+		    if ($scale){
+			    $tWidth = $this->getImageWidth();
+			    return array('url' => $url, 'width' => $tWidth, 'height' => FFFeedUtils::getScaleHeight($tWidth, $width, $height));
+		    }
 	    }
 	    return array('url' => $url, 'width' => $width, 'height' => $height);
     }
@@ -172,23 +188,24 @@ abstract class FFBaseFeed implements FFFeed{
 	protected function isSuitablePost($post){
 		if ($post == null) return false;
 		foreach ( $this->filterByWords as $word ) {
+			$word = strtolower($word);
 			$firstLetter = substr($word, 0, 1);
 			if ($firstLetter !== false){
 				switch ($firstLetter) {
 					case '@':
 						$word = substr($word, 1);
-						if ((strpos($post->screenname, $word) !== false) || (strpos($post->nickname, $word) !== false)) {
+						if ((strpos(strtolower($post->screenname), $word) !== false) || (strpos(strtolower($post->nickname), $word) !== false)) {
 							return false;
 						}
 						break;
 					case '#':
 						$word = substr($word, 1);
-						if (strpos($post->permalink, $word) !== false) {
+						if (strpos(strtolower($post->permalink), $word) !== false) {
 							return false;
 						}
 						break;
 					default:
-						if (!empty($word) && (strpos($post->text, $word) !== false) || (isset($post->header) && strpos($post->header, $word) !== false)) {
+						if (!empty($word) && ((strpos(strtolower($post->text), $word) !== false) || (isset($post->header) && strpos(strtolower($post->header), $word) !== false))) {
 							return false;
 						}
 				}
@@ -198,9 +215,10 @@ abstract class FFBaseFeed implements FFFeed{
 	}
 
 	/**
-	 * @return void
+	 * @return bool
 	 */
 	protected function beforeProcess(){
+		return (sizeof($this->errors) == 0);
 	}
 
     /**
@@ -209,12 +227,17 @@ abstract class FFBaseFeed implements FFFeed{
      */
     protected function afterProcess($result){
         $this->cache->save();
+	    $this->criticalError = empty($result) && sizeof($this->errors) > 0;
         return $result;
     }
 
     public function useCache(){
         return true;
     }
+
+	public function hasCriticalError() {
+		return $this->criticalError;
+	}
 
 	/**
 	 * @param array $result
@@ -224,11 +247,15 @@ abstract class FFBaseFeed implements FFFeed{
 		return false;
 	}
 
-	protected function getFeedData($url, $timeout = 200, $header = false, $log = true){
+	protected function getFeedData($url, $timeout = 60, $header = false, $log = true){
 		/** @var LADBManager $db */
 		$db = $this->context['db_manager'];
 		$use = $db->getGeneralSettings()->useCurlFollowLocation();
 		$useIpv4 = $db->getGeneralSettings()->useIPv4();
 		return FFFeedUtils::getFeedData($url, $timeout, $header, $log, $use, $useIpv4);
+	}
+
+	protected function filterErrorMessage($message){
+		return FFFeedUtils::filter_error_message($message);
 	}
 } 

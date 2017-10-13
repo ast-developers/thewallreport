@@ -1,8 +1,6 @@
 <?php namespace flow\social;
 if ( ! defined( 'WPINC' ) ) die;
 
-use flow\settings\FFSettingsUtils;
-
 /**
  * Flow-Flow.
  *
@@ -15,7 +13,6 @@ use flow\settings\FFSettingsUtils;
 class FFPinterest extends FFRss {
     private $pin;
     private $pins = array();
-    private $showText;
     private $nickname;
     private $additionalUrl;
     private $originalContent;
@@ -24,21 +21,21 @@ class FFPinterest extends FFRss {
 		parent::__construct( 'pinterest' );
 	}
 
-	public function deferredInit($options, $stream, $feed) {
-        parent::deferredInit($options, $stream, $feed);
+	public function deferredInit($options, $feed) {
+        parent::deferredInit($options, $feed);
         $sp = explode('/', $feed->content);
         if (sizeof($sp) < 2){
             $this->nickname = $feed->content;
-            $this->url = "http://pinterest.com/{$feed->content}/feed.rss";
+            $this->url = "https://www.pinterest.com/{$feed->content}/feed.rss";
             $this->additionalUrl = "https://api.pinterest.com/v3/pidgets/users/{$feed->content}/pins/";
         }
         else {
             $this->nickname = $sp[0];
-            $this->url = "http://pinterest.com/{$feed->content}.rss";
-            $this->additionalUrl = "https://api.pinterest.com/v3/pidgets/boards/{$feed->content}/pins/";
+	        $content = $sp[0] . '/' . urlencode($sp[1]);
+            $this->url = "https://www.pinterest.com/{$content}.rss";
+            $this->additionalUrl = "https://api.pinterest.com/v3/pidgets/boards/{$content}/pins/";
         }
         $this->profileImage = $this->context['plugin_url'] . '/' . $this->context['slug'] . '/assets/avatar_default.png';
-        $this->showText = FFSettingsUtils::notYepNope2ClassicStyle($feed->{'hide-text'}, true);
     }
 
     protected function items($request){
@@ -64,7 +61,7 @@ class FFPinterest extends FFRss {
     }
 
     protected function getContent($item){
-        return ($this->showText) ? is_null($this->pin) ? parent::getHeader($item) : $this->pin->description : '';
+        return is_null($this->pin) ? parent::getHeader($item) : $this->pin->description;
     }
 
     protected function getHeader($item){

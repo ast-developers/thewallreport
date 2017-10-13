@@ -26,17 +26,6 @@ class FFStreamSettings
     /**
      * @return string
      */
-    public function getCountOfPosts() {
-        if (isset($this->stream["posts"])) {
-	        $value = $this->stream["posts"];
-	        if (!empty($value)) return $value;
-        }
-        return '20';
-    }
-
-    /**
-     * @return string
-     */
     public function getCountOfPostsOnPage() {
 	    if (isset($this->stream["page-posts"]) && $this->stream["page-posts"] != ''){
 		    return $this->stream["page-posts"];
@@ -44,30 +33,9 @@ class FFStreamSettings
         return '20';
     }
 
-    /**
-     * @return int|bool
-     */
-    public function getDays(){
-	    if (isset($this->stream["days"]) && !empty($this->stream["days"])) {
-	        $value = $this->stream["days"];
-	        return $value * 24 * 60 * 60;
-        }
-        return false;
-    }
-
-    public function getCacheLifeTime() {
-        if (!isset($this->lifeTimeCache)){
-	        $this->lifeTimeCache = 0;
-	        if (isset($this->stream["cache-lifetime"])) {
-		        $lt = $this->stream["cache-lifetime"];
-		        $this->lifeTimeCache = intval($lt) * 60;
-	        }
-        }
-        return $this->lifeTimeCache;
-    }
-
     public function getAllFeeds() {
-        return json_decode($this->stream['feeds']);
+	    return $this->stream['feeds'];
+        //return json_decode($this->stream['feeds']);
     }
 
     public function original() {
@@ -108,33 +76,6 @@ class FFStreamSettings
         }
         return FF_BY_DATE_ORDER;
     }
-
-	public function moderation() {
-		if (isset($this->stream["moderation"])){
-			return FFSettingsUtils::YepNope2ClassicStyle($this->stream["moderation"], false);
-		}
-		return false;
-	}
-
-	public function canModerate() {
-		foreach ( $this->roles() as $role ) {
-			if (function_exists('current_user_can') && current_user_can($role)) return true;
-		}
-		return false;
-	}
-
-	public function roles(){
-		if (isset($this->stream['roles'])){
-			$roles = array();
-			foreach ( $this->stream['roles'] as $role => $checked ) {
-				if ($checked == 'checked'){
-					$roles[] = $role;
-				}
-			}
-			return $roles;
-		}
-		return array('administrator');
-	}
 
     private function is_mobile(){
         return preg_match("/(android|avantgo|blackberry|bolt|boost|cricket|docomo|fone|hiptop|mini|mobi|palm|phone|pie|tablet|up\.browser|up\.link|webos|wos)/i",

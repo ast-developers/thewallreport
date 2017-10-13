@@ -22,7 +22,7 @@ class FFPosts extends FFBaseFeed {
 		parent::__construct( 'posts' );
 	}
 
-	public function deferredInit($options, $stream, $feed){
+	public function deferredInit($options, $feed){
 		if ( isset( $feed->{'shortcodes'} ) ) {
 			$this->shortcodes = $feed->{'shortcodes'};
 		}
@@ -53,7 +53,7 @@ class FFPosts extends FFBaseFeed {
 	}
 
 	public function useCache() {
-		false;
+		return false;
 	}
 
     private function parse($post){
@@ -87,8 +87,14 @@ class FFPosts extends FFBaseFeed {
 
 	private function getText( $post ) {
 		$text = ($this->use_excerpt === true) ? $post['post_excerpt'] :  $post['post_content'];
-		$text = ($this->shortcodes == 'strip') ? strip_shortcodes($text) : do_shortcode($text);
+		$text = ($this->shortcodes == 'strip') ? strip_shortcodes($this->removeVcShortcodes($text)) : do_shortcode($text);
 		return $text;
+	}
+
+	private function removeVcShortcodes( $text ) {
+		$patterns = "/\[[\/]?vc_[^\]]*\]/";
+		$replacements = "";
+		return preg_replace($patterns, $replacements, $text);
 	}
 
 	private function getAuthor( $author_id, $key ) {

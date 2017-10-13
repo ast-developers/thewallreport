@@ -5,6 +5,7 @@ use flow\tabs\FFAuthTab;
 use flow\tabs\FFBackupTab;
 use flow\tabs\FFLicenseTab;
 use flow\tabs\FFModerationTab;
+use flow\tabs\FFSourcesTab;
 use flow\tabs\FFStreamsTab;
 use flow\tabs\FFSuggestionsTab;
 use flow\tabs\LAGeneralTab;
@@ -70,7 +71,8 @@ class FlowFlowAdmin extends LAAdminBase{
         wp_enqueue_style($this->getPluginSlug() .'-colorpickersliders', $plugin_directory . 'css/jquery-colorpickersliders.css', array(), FlowFlow::VERSION);
 
 		// Load web font
-		wp_register_style('ff-fonts', '//fonts.googleapis.com/css?family=Lato:300,400;Montserrat:400,700' );
+        // Load web font
+        wp_register_style('ff-fonts', '//fonts.googleapis.com/css?family=Montserrat:400,700|Lato:300,400' );
 		wp_enqueue_style( 'ff-fonts' );
 
 		//for preview
@@ -84,8 +86,8 @@ class FlowFlowAdmin extends LAAdminBase{
 
 	protected function enqueueAdminScriptsOnlyAtPluginPage($plugin_directory){
 		parent::enqueueAdminScriptsOnlyAtPluginPage($plugin_directory);
-		wp_enqueue_script( $this->getPluginSlug() . '-admin-script', $plugin_directory . 'js/admin.js', array( 'jquery', 'backbone', 'underscore' ), FlowFlow::VERSION );
-		wp_enqueue_script( $this->getPluginSlug() . '-streams-script', $plugin_directory . 'js/streams.js', array( 'jquery' ), FlowFlow::VERSION );
+        wp_enqueue_script( $this->getPluginSlug() . '-streams-script', $plugin_directory . 'js/streams.js', array( 'jquery' ), FlowFlow::VERSION );
+        wp_enqueue_script( $this->getPluginSlug() . '-admin-script', $plugin_directory . 'js/admin.js', array( 'jquery', 'backbone', 'underscore' ), FlowFlow::VERSION );
 		wp_localize_script($this->getPluginSlug() . '-admin-script', 'WP_FF_admin', array());
 		wp_localize_script($this->getPluginSlug() . '-admin-script', 'isWordpress', (string)FF_USE_WP);
 		wp_localize_script($this->getPluginSlug() . '-admin-script', '_ajaxurl', (string)FF_AJAX_URL);
@@ -97,37 +99,41 @@ class FlowFlowAdmin extends LAAdminBase{
 		//TODO move to filter
 		FlowFlow::get_instance()->enqueue_scripts();
 	}
-
-
-    protected function displayPluginAdminPage($context) {
-	    /** @var LAFacebookCacheManager $facebookCache */
-        $facebookCache = $context['facebook_сache'];
-        $activated = $this->db->registrationCheck();
-
-        $context['version'] = FlowFlow::VERSION;
-        $context['options'] = FlowFlow::get_instance($context)->get_options();
-        $context['auth_options'] = FlowFlow::get_instance($context)->get_auth_options();
-        $context['extended_facebook_access_token'] = $facebookCache->getAccessToken();
-        $context['extended_facebook_access_token_error'] = $facebookCache->getError();
-        $context['streams'] = $this->db->streamsWithStatus();
-        $context['activated'] = $activated;
-
-        $context['form-action'] = '';
-        $context['tabs'][] = new FFStreamsTab();
-        $context['tabs'][] = new FFModerationTab();
-        $context['tabs'][] = new LAGeneralTab();
-        $context['tabs'][] = new FFAuthTab();
-        $context['tabs'][] = new FFBackupTab();
-	    if (FF_USE_WP){
-		    $context['tabs'][] = new FFLicenseTab($activated);
-		    $context['tabs'][] = new FFAddonsTab();
-		    $context['tabs'][] = new FFSuggestionsTab();
-	    }
-
+	
+	
+	protected function displayPluginAdminPage($context) {
+		/** @var LAFacebookCacheManager $facebookCache */
+		$facebookCache = $context['facebook_cache'];
+		
+		$context['version'] = FlowFlow::VERSION;
+		$context['options'] = FlowFlow::get_instance($context)->get_options();
+		$context['auth_options'] = FlowFlow::get_instance($context)->get_auth_options();
+		$context['extended_facebook_access_token'] = $facebookCache->getAccessToken();
+		$context['extended_facebook_access_token_error'] = $facebookCache->getError();
+		$this->db->dataInit();
+		$context['streams'] = $this->db->streamsWithStatus();
+		$context['sources'] = $this->db->sources();
+		
+		$context['form-action'] = '';
+		$context['tabs'][] = new FFStreamsTab();
+		$context['tabs'][] = new FFSourcesTab();
+// 		$context['tabs'][] = new FFModerationTab();
+		$context['tabs'][] = new LAGeneralTab();
+		$context['tabs'][] = new FFAuthTab();
+		
+		if (FF_USE_WP){
+			$activated = $this->db->registrationCheck();
+			$context['activated'] = $activated;
+			$context['tabs'][] = new FFBackupTab();
+			$context['tabs'][] = new FFLicenseTab($activated);
+			$context['tabs'][] = new FFAddonsTab();
+			$context['tabs'][] = new FFSuggestionsTab();
+		}
+		
 //		$context['facebook_auth_options'] = FlowFlow::get_instance()->get_auth_options();
 //		$context['options'] = FlowFlow::get_instance()->get_options();
 //		$context['js-vars'] = 'var STREAMS = ' .  json_encode($context['options']['streams']) . ';';
-		$context['buttons-after-tabs'] = '<li id="request-tab"><span>Save changes</span> <i class="flaticon-paperplane"></i></li>';
+		$context['buttons-after-tabs'] = '<li id="save-tab"><span>Save changes</span> <i class="flaticon-paperplane"></i></li>';
 
 		$context = apply_filters('ff_change_context', $context);
 
@@ -135,8 +141,8 @@ class FlowFlowAdmin extends LAAdminBase{
 	}
 
     protected function addActionLinks() {
-        $links['settings'] = '<a href="' . admin_url('options-general.php?page=' . $this->getPluginSlug()) . '">' . 'Settings' . '</a>';
-        $links['docs'] = '<a target="_blank" href="http://social-streams.com/docs/">' . 'Documentation' . '</a>';
+        $links['settings'] = '<a href="' . admin_url('admin.php?page=' . $this->getPluginSlug()) . '">' . 'Settings' . '</a>';
+        $links['docs'] = '<a target="_blank" href="http://docs.social-streams.com/">' . 'Documentation' . '</a>';
         return $links;
     }
 }

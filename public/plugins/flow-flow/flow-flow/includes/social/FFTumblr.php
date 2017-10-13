@@ -18,17 +18,15 @@ class FFTumblr extends FFHttpRequestFeed{
 	private $blog_name;
 	private $media;
 	private $isRichText;
-	private $hideText;
 
 	public function __construct() {
 		parent::__construct( 'tumblr' );
 	}
 
-	public function deferredInit( $options, $stream, $feed) {
-		$num = $this->getCount() > 50 ? 50 : $this->getCount();
+	public function deferredInit( $options, $feed) {
+		$num = $this->getCount();
 		$this->blog_name = (string) $feed->content;
 		$this->isRichText = FFSettingsUtils::YepNope2ClassicStyle($feed->{'rich-text'});
-		$this->hideText = FFSettingsUtils::YepNope2ClassicStyle($feed->{'hide-text'}, false);
 		$this->url = "http://{$this->blog_name}.tumblr.com/api/read/json?debug=1&num={$num}&type=photo";
 	}
 
@@ -69,8 +67,6 @@ class FFTumblr extends FFHttpRequestFeed{
 	}
 
 	protected function getContent( $item ) {
-		if ($this->hideText) return '';
-
 		$text = '';
 		switch ($item->type) {
 //			case 'answer':

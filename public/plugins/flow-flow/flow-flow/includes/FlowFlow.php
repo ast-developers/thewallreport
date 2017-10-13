@@ -1,14 +1,17 @@
 <?php namespace flow;
+use flow\cache\FFCache;
 use flow\cache\FFCacheAdapter;
 use flow\db\FFDB;
 use flow\db\FFDBManager;
+use flow\settings\FFGeneralSettings;
+use flow\settings\FFSettingsUtils;
 use flow\settings\FFStreamSettings;
 use flow\social\FFFeedUtils;
 
-if (!defined('WPINC')) die;
-if (!defined('FF_BY_DATE_ORDER')) define('FF_BY_DATE_ORDER', 'compareByTime');
-if (!defined('FF_RANDOM_ORDER')) define('FF_RANDOM_ORDER', 'randomCompare');
-if (!defined('FF_SMART_ORDER')) define('FF_SMART_ORDER', 'smartCompare');
+if ( ! defined( 'WPINC' ) ) die;
+if ( ! defined('FF_BY_DATE_ORDER'))   define('FF_BY_DATE_ORDER', 'compareByTime');
+if ( ! defined('FF_RANDOM_ORDER'))    define('FF_RANDOM_ORDER',  'randomCompare');
+if ( ! defined('FF_SMART_ORDER'))     define('FF_SMART_ORDER',   'smartCompare');
 if (!defined('FF_POPULARITY_ORDER')) define('FF_POPULARITY_ORDER', 'popularity');
 if (!defined('FF_FEATURED_ORDER')) define('FF_FEATURED_ORDER', 'featured');
 /**
@@ -35,7 +38,7 @@ class FlowFlow {
 	 *
 	 * @var     string
 	 */
-	const VERSION = '2.9.3';
+	const VERSION = '3.0.13';
 
 	protected static $instance = array();
 
@@ -99,17 +102,18 @@ class FlowFlow {
 		add_shortcode('ff', array($this, 'renderShortCode'));
 	}
 
-	public function renderShortCode($attr, $text=null) {
+	public function renderShortCode($attr, $text = null) {
 		if (isset($attr['id'])){
 			if ($this->prepareProcess()) {
-				$stream = $this->db->getStream($attr['id']);
+				$this->db->dataInit(true);
+				$stream = (object)$this->db->getStream($attr['id']);
 				if (isset($stream)) {
 					$stream->preview = (isset($attr['preview']) && $attr['preview']);
-					$stream->gallery = $stream->preview ? 'nope' : $stream->gallery;
+					$stream->gallery = $stream->preview ? 'nope' : isset($stream->gallery) ? $stream->gallery : 'nope';
 					return $this->renderStream($stream, $this->getPublicContext($stream, $this->context));
 				}
 			} else {
-				echo 'Flow-Flow message: Stream with specified ID not found';
+				echo 'Flow-Flow message: Stream with specified ID not found or no feeds were added to stream';
 			}
 		}
 	}
@@ -117,8 +121,21 @@ class FlowFlow {
 	protected function renderStream($stream, $context){
 		$settings = new FFStreamSettings($stream);
 		if ($settings->isPossibleToShow()){
-			//$this->cache->setStream($settings);
+			if ( ! in_array( 'curl', get_loaded_extensions() ) ) {
+				echo "<p style='background: indianred;padding: 15px;color: white;'>Flow-Flow admin info: Your server doesn't have cURL module installed. Please ask your hosting to check this.</p>";
+				return;
+			}
+
+			if (!isset($stream->layout) || empty($stream->layout)) {
+				echo "<p style='background: indianred;padding: 15px;color: white;'>Flow-Flow admin info: Please choose stream layout on options page.</p>";
+				return;
+			}
+
 			ob_start();
+			$css_version = isset($stream->last_changes) ? $stream->last_changes : '1.0';
+			$url = content_url() . '/resources/' . $context['slug'] . '/css/stream-id' . $stream->id . '.css';
+			echo "<link rel='stylesheet' id='ff-dynamic-css" . $stream->id . " type='text/css' href='{$url}?ver={$css_version}'/>";
+
 			include($context['root']  . 'views/public.php');
 			$output = ob_get_clean();
             $output = str_replace("\r\n", '', $output);
@@ -129,18 +146,29 @@ class FlowFlow {
 	}
 
 	protected function getPublicContext($stream, $context){
+		$context['moderation'] = false;
+		if (isset($stream->feeds) && !empty($stream->feeds)){
+			foreach ( $stream->feeds as $source ) {
+				$moderation = FFSettingsUtils::YepNope2ClassicStyleSafe($source, 'mod', false);
+				if ($moderation){
+					$context['moderation'] = $moderation;
+					break;
+				}
+			}
+		}
+
 		$settings = new FFStreamSettings($stream);
-		$this->cache->setStream($settings);
+		$this->cache->setStream($settings, $context['moderation']);
 		$context['stream'] = $stream;
 		$context['hashOfStream'] = $this->cache->transientHash($stream->id);
 		$context['seo'] = false;////$this->generalSettings->isSEOMode();
-		$context['moderation'] = $settings->moderation();
-		$context['can_moderate'] = FF_USE_WP ? $settings->canModerate() : ff_user_can_moderate();
+		$context['can_moderate'] = FF_USE_WP ? $this->generalSettings->canModerate() : ff_user_can_moderate();
 		return $context;
 	}
 
 	public function processAjaxRequest() {
 		if (isset($_REQUEST['stream-id']) && $this->prepareProcess()) {
+			$this->db->dataInit(true);
 			$stream = $this->db->getStream($_REQUEST['stream-id']);
 			if (isset($stream)) {
 				$disableCache = isset($_REQUEST['disable-cache']) ? (bool)$_REQUEST['disable-cache'] : false;
@@ -152,9 +180,10 @@ class FlowFlow {
 
 	public function moderation_apply( ){
 		if (isset($_REQUEST['stream']) && $this->prepareProcess()) {
+			$this->db->dataInit();
 			$stream = $this->db->getStream($_REQUEST['stream']);
 			if (isset($stream)) {
-				$this->cache->setStream(new FFStreamSettings($stream));
+				$this->cache->setStream(new FFStreamSettings($stream), true);
 				$this->cache->moderate();
 			}
 		}
@@ -162,16 +191,27 @@ class FlowFlow {
 
 
 	public function processAjaxRequestBackground() {
-		if (isset($_REQUEST['stream_id']) && $this->prepareProcess(true)) {
-			$stream = $this->db->getStream($_REQUEST['stream_id']);
-			if (isset($stream)) {
-				$this->process(array($stream), false, true);
+		if ($this->prepareProcess(true)) {
+			$this->db->dataInit(true);
+			if (isset($_REQUEST['feed_id'])){
+				$sources = $this->db->sources();
+				if (isset($sources[$_REQUEST['feed_id']])){
+					$this->process4feeds(array($sources[$_REQUEST['feed_id']]), false, true);
+				}
+			}
+			if (isset($_REQUEST['stream_id'])){
+				$stream = $this->db->getStream($_REQUEST['stream_id']);
+				if (isset($stream))
+				{
+					$this->process4feeds(array($stream), false, true);
+				}
 			}
 		}
 	}
 
 	public function processRequest(){
 		if (isset($_REQUEST['stream-id']) && $this->prepareProcess()) {
+			$this->db->dataInit(true);
 			$stream = $this->db->getStream($_REQUEST['stream-id']);
 			if (isset($stream)) {
 				return $this->process(array($stream), isset($_REQUEST['disable-cache']));
@@ -180,47 +220,53 @@ class FlowFlow {
 		return '';
 	}
 
-	public function refreshCache($streamId = null, $force = false) {
+	public function refreshCache($streamId = null, $force = false, $withDisabled = false) {
 		if ($this->prepareProcess(true)) {
-			$streams = ($streamId == null) ? $this->db->streams() : array($this->db->getStream($streamId));
-			$lastUpdates = ($streamId == null) ? $this->db->getLastUpdateTimeAllStreams() : array($streamId => $this->db->getLastUpdateTime($streamId));
-			$use = $this->getGeneralSettings()->useCurlFollowLocation();
-			$useIpv4 = $this->getGeneralSettings()->useIPv4();
-			foreach ( $streams as $stream ) {
-				try{
-					$stream = new FFStreamSettings(is_array($stream) ? FFDB::unserializeStream($stream) : $stream);
-					if (!$force){
-						$cacheLifeTime = $stream->getCacheLifeTime();
-						$last_update = (array_key_exists($stream->getId(), $lastUpdates)) ? $lastUpdates[$stream->getId()] : false;
-						if ($last_update === false || $last_update == null)  $last_update = 0;
-						else if ($cacheLifeTime == 0){
-							//Stream has option with cache life time = never
-							continue;
+			$enabled = $withDisabled ? FFDB::conn()->parse('`cach`.system_enabled = 0') : FFDB::conn()->parse('`cach`.enabled = 1 AND `cach`.system_enabled = 1');
+			if (empty($streamId))
+				$sql = FFDB::conn()->parse('SELECT `cach`.`feed_id` FROM ?n `cach` WHERE ?p AND (`cach`.last_update + `cach`.cache_lifetime * 60) < UNIX_TIMESTAMP() ORDER BY `cach`.last_update', $this->db->cache_table_name, $enabled);
+			else
+				$sql = FFDB::conn()->parse('SELECT `cach`.`feed_id` FROM ?n `cach` INNER JOIN ?n `ss` ON `ss`.feed_id = `cach`.feed_id WHERE ?p AND `ss`.stream_id = ?s AND (`cach`.last_update + `cach`.cache_lifetime * 60) < UNIX_TIMESTAMP() ORDER BY `cach`.last_update',
+					$this->db->cache_table_name, $this->db->streams_sources_table_name, $enabled, $streamId);
+			try {
+				if (false !== ($feeds = FFDB::conn()->getCol($sql))){
+					$useIpv4 = $this->getGeneralSettings()->useIPv4();
+					$use = $this->getGeneralSettings()->useCurlFollowLocation();
+					for ( $i = 0; $i < 8; $i ++ ) {
+						if (isset($feeds[$i])){
+							//TODO: anf: Refact enter to refresh cache
+							$feed_id = $feeds[$i];
+							if (FF_USE_DIRECT_WP_CRON){
+								$_REQUEST['feed_id'] = $feed_id;
+								$this->processAjaxRequestBackground();
+							}
+							else {
+								//$_COOKIE['XDEBUG_SESSION'] = 'PHPSTORM';
+								FFFeedUtils::getFeedData($this->getLoadCacheUrl($feed_id, $force), 1, false, false, $use, $useIpv4);
+							}
 						}
-						if (($last_update + $cacheLifeTime) > time()) continue;
 					}
-					if (FF_USE_DIRECT_WP_CRON){
-						$_REQUEST['stream_id'] = $stream->getId();
-						$this->processAjaxRequestBackground();
-					}
-					else {
-						FFFeedUtils::getFeedData($this->getLoadCacheUrl($stream->getId(), $force), 1, false, false, $use, $useIpv4);
-					}
-				}catch (Exception $e){
-//					error_log($e->getMessage());
 				}
+			}
+			catch(\Exception $e){
+				error_log($e->getMessage());
+				error_log($e->getTraceAsString());
 			}
 		}
 	}
 
+	public function refreshCache4Disabled() {
+		$this->refreshCache(null, false, true);
+	}
+
 	protected function getLoadCacheUrl($streamId = null, $force = false){
-		return FF_AJAX_URL . "?action=load_cache&stream_id={$streamId}&force={$force}";
+		return FF_AJAX_URL . "?action=load_cache&feed_id={$streamId}&force={$force}";
 	}
 
 	private function prepareProcess($forceLoadCache = false) {
-		if ($this->db->countStreams() > 0) {
-			$this->cache = new FFCacheAdapter($this->context, $forceLoadCache);
+		if ($this->db->countFeeds() > 0) {
 			$this->generalSettings = $this->db->getGeneralSettings();
+			$this->cache = new FFCacheAdapter($this->context, $forceLoadCache);
 			return true;
 		}
 		return false;
@@ -229,24 +275,48 @@ class FlowFlow {
 	private function process($streams, $disableCache = false, $background = false) {
 		foreach ($streams as $stream) {
 			try {
+				$moderation = false;
+				foreach ( $this->db->sources() as $source ) {
+					$moderation = FFSettingsUtils::YepNope2ClassicStyleSafe($source, 'mod', false);
+					if ($moderation){
+						break;
+					}
+				}
+
 				$this->settings = new FFStreamSettings($stream);
-				$this->cache->setStream($this->settings);
-				$result = $this->cache->posts($this->feeds(), $disableCache);
+				$this->cache->setStream($this->settings, $moderation);
+				$result = $this->cache->posts($this->createFeedInstances($this->settings->getAllFeeds()), $disableCache);
 				if ($background) return $result;
 				$errors = $this->cache->errors();
 				$hash = $this->cache->hash();
 				return $this->prepareResult($result, $errors, $hash);
-			} catch (Exception $e) {
-//				error_log($e->getTraceAsString());
+			} catch (\Exception $e) {
+				error_log($e->getMessage());
+				error_log($e->getTraceAsString());
 			}
 		}
 	}
 
-	private function feeds() {
+	private function process4feeds($feeds, $disableCache = false, $background = false) {
+		try {
+			//$this->settings = new FFStreamSettings($stream);
+			//$this->cache->setStream($this->settings);
+			$result = $this->cache->posts($this->createFeedInstances($feeds), $disableCache);
+			if ($background) return $result;
+			$errors = $this->cache->errors();
+			$hash = $this->cache->hash();
+			return $this->prepareResult($result, $errors, $hash);
+		} catch (\Exception $e) {
+			error_log($e->getMessage());
+			error_log($e->getTraceAsString());
+		}
+	}
+
+	private function createFeedInstances($feeds) {
 		$result = array();
-		$feeds = $this->settings->getAllFeeds();
 		if (is_array($feeds)) {
 			foreach ($feeds as $feed) {
+				$feed = (object)$feed;
 				$wpt = 'type';
 				if ($feed->type == 'linkedin') {
 					$feed->type = 'linkedIn';
@@ -258,7 +328,7 @@ class FlowFlow {
 
 				$clazz = new \ReflectionClass( 'flow\\social\\FF' . ucfirst($feed->$wpt) );//don`t change this line
 				$instance = $clazz->newInstance();
-				$instance->init($this->context, $this->generalSettings, $this->settings, $feed);
+				$instance->init($this->context, $this->generalSettings, $feed);
 				$result[] = $instance;
 			}
 		}
@@ -284,10 +354,63 @@ class FlowFlow {
 			$result = FF_USE_WP ? apply_filters('ff_build_public_response', $result, $all, $this->context, $errors, $oldHash, $page, $status, $this->settings) :
 				$this->buildResponse($result, $all, $this->context, $errors, $oldHash, $page, $status, $this->settings);
 		}
-        $result['server_time'] = time();
-		return json_encode($result);
+		
+		$result['server_time'] = time();
+		$json = json_encode($result);
+		if ($json === false){
+			$errors = array();
+			switch (json_last_error()) {
+				case JSON_ERROR_NONE:
+					echo ' - No errors';
+					break;
+				case JSON_ERROR_DEPTH:
+					$errors[] = 'Json encoding error: Maximum stack depth exceeded';
+					break;
+				case JSON_ERROR_STATE_MISMATCH:
+					$errors[] = 'Json encoding error: Underflow or the modes mismatch';
+					break;
+				case JSON_ERROR_CTRL_CHAR:
+					$errors[] = 'Json encoding error: Unexpected control character found';
+					break;
+				case JSON_ERROR_SYNTAX:
+					$errors[] = 'Json encoding error: Syntax error, malformed JSON';
+					break;
+				case JSON_ERROR_UTF8:
+					for ( $i = 0; sizeof( $result['items'] ) > $i; $i++ ) {
+						if (function_exists('mb_convert_encoding'))
+							$result['items'][$i]->text = mb_convert_encoding($result['items'][$i]->text, "UTF-8", "auto");
+					}
+					$json = json_encode($result);
+					if ($json === false){
+						$errors[] = 'Json encoding error:  Malformed UTF-8 characters, possibly incorrectly encoded';
+					}
+					else {
+						return $json;
+					}
+					break;
+				default:
+					$errors[] = 'Json encoding error';
+					break;
+			}
+			$result = FF_USE_WP ? apply_filters('ff_build_public_response', array(), array(), $this->context, $errors, $oldHash, $page, 'errors', $this->settings) :
+				$this->buildResponse($result, $all, $this->context, $errors, $oldHash, $page, 'errors', $this->settings);
+			$json = json_encode($result);
+		}
+		return $json;
 	}
 
+	/**
+	 * @param $result
+	 * @param $all
+	 * @param $context
+	 * @param $errors
+	 * @param $oldHash
+	 * @param $page
+	 * @param $status
+	 * @param FFStreamSettings $stream
+	 *
+	 * @return array
+	 */
 	public function buildResponse($result, $all, $context, $errors, $oldHash, $page, $status, $stream){
 		$streamId = (int) $stream->getId();
 		$countOfPages = isset($_REQUEST['countOfPages']) ? $_REQUEST['countOfPages'] : 0;
@@ -400,6 +523,7 @@ class FlowFlow {
 	 */
 	private static function single_activate() {
 		$context = ff_get_context();
+		/** @var FFDBManager $db */
 		$db = $context['db_manager'];
 		$db->migrate();
 	}
@@ -411,9 +535,7 @@ class FlowFlow {
 	 */
 	private static function single_deactivate() {
 		wp_clear_scheduled_hook( 'flow_flow_load_cache' );
-		$context = ff_get_context();
-		$db = $context['db_manager'];
-		$db->clean();
+		wp_clear_scheduled_hook( 'flow_flow_load_cache_4disabled' );
 	}
 
 	/**
@@ -506,5 +628,6 @@ class FlowFlow {
 			$status = ($feed_count == (int)$status_info['feeds_count']) ? 'get' : 'building';
 			return array($status, array());
 		}
+		throw new \Exception('Was received the unknown status');
 	}
 }

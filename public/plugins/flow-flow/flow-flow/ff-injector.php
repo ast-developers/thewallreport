@@ -16,7 +16,7 @@ class FFInjector{
 	private $insert_ajax_url = false;
 	private $insert_ticker = false;
 	private $moderationMode = false;
-
+	
 	function __construct($admin = false) {
 		$this->admin = $admin;
 		$root = dirname($_SERVER["SCRIPT_FILENAME"]) . '/flow-flow/';
@@ -25,10 +25,10 @@ class FFInjector{
 		}
 		require_once( $root . 'LAClassLoader.php' );
 		LAClassLoader::get($root)->register(true);
-
+		
 		$this->context = ff_get_context();
 	}
-
+	
 	/**
 	 * Inserts js and css resources needed for flow-flow plugin
 	 * Insert this method in head block.
@@ -42,11 +42,10 @@ class FFInjector{
 	 */
 	public function head($insert_jquery = false, $with_ticker = true, $is_compact = false){
 		if ($this->insert_head) return '';
-
+		
 		$head = "\n";
 		$head .= $this->jquery($insert_jquery);
 		if ($this->admin){
-			$head .= "\t<link rel=\"stylesheet\" id=\"flow-flow-admin-icon-css\"  href=\"" . FF_PLUGIN_URL . "/flow-flow/css/admin-icon.css?ver=1.0.0\" type=\"text/css\" media=\"all\" />\n";
 			$head .= "\t<link rel=\"stylesheet\" id=\"flow-flow-admin-styles-css\"  href=\"" . FF_PLUGIN_URL . "/flow-flow/css/admin.css?ver=1.0.0\" type=\"text/css\" media=\"all\" />\n";
 			$head .= "\t<link rel=\"stylesheet\" id=\"flow-flow-colorpickersliders-css\"  href=\"" . FF_PLUGIN_URL . "/flow-flow/css/jquery-colorpickersliders.css?ver=1.0.0\" type=\"text/css\" media=\"all\" />\n";
 			$head .= "\t<link rel=\"stylesheet\" id=\"lato-font-css\"  href=\"//fonts.googleapis.com/css?family=Lato%3A300%2C400&#038;ver=4.0\" type=\"text/css\" media=\"all\" />\n";
@@ -54,14 +53,15 @@ class FFInjector{
 			$head .= "\t<script type='text/javascript'>\n";
 			$head .= "\t\t var _ajaxurl = \"" . FF_AJAX_URL . "\";\n";
 			$head .= "\t\t var isWordpress = \"" . (string) FF_USE_WP . "\";var isCompact = !!\"" . (string) $is_compact . "\";\n";
+			$head .= "\t\t var WP_FF_admin = false;\n";
 			$head .= "\t</script>\n";
-			$head .= "\t<script type=\"text/javascript\" src=\"" . FF_PLUGIN_URL . "/flow-flow/js/admin.js?ver=1.0.0\"></script>\n";
 			$head .= "\t<script type=\"text/javascript\" src=\"" . FF_PLUGIN_URL . "/flow-flow/js/streams.js?ver=1.0.0\"></script>\n";
+			$head .= "\t<script type=\"text/javascript\" src=\"" . FF_PLUGIN_URL . "/flow-flow/js/admin.js?ver=1.0.0\"></script>\n";
 			$head .= "\t<script type=\"text/javascript\" src=\"" . FF_PLUGIN_URL . "/flow-flow/js/zeroclipboard/ZeroClipboard.min.js?ver=1.0.0\"></script>\n";
 			$head .= "\t<script type=\"text/javascript\" src=\"" . FF_PLUGIN_URL . "/flow-flow/js/tinycolor.js?ver=1.0.0\"></script>\n";
 			$head .= "\t<script type=\"text/javascript\" src=\"" . FF_PLUGIN_URL . "/flow-flow/js/jquery.colorpickersliders.js?ver=1.0.0\"></script>\n";
 			$this->insert_ajax_url = true;
-
+			
 			if (!isset($_SESSION['ff_admin_url']) || empty($_SESSION['ff_admin_url'])){
 				$url = "http" . (($_SERVER['SERVER_PORT'] == 443) ? "s://" : "://") . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 				$_SESSION['ff_admin_url'] = defined('FF_ADMIN_URL') ? FF_ADMIN_URL : $url;
@@ -71,27 +71,27 @@ class FFInjector{
 			$ff = flow\FlowFlow::get_instance($this->context);
 			$options = $ff->get_options();
 			new flow\settings\FFGeneralSettings($options, $ff->get_auth_options());
-
+			
 			$json = array();
 			$json['streams'] = new stdClass();
 			$json['open_in_new'] = $options['general-settings-open-links-in-new-window'];
 			$json['filter_all'] = 'All';
 			$json['filter_search'] = 'Search';
-			$json['expand_text'] = 'Expand';
+			$json['expand_text'] = 'Read more';
 			$json['collapse_text'] = 'Collapse';
 			$json['posted_on'] = 'Posted on';
 			$json['show_more'] = 'Show more';
 			$json['date_style'] = $options['general-settings-date-format'];
 			$json['dates'] = array('Yesterday' => 'Yesterday', 's' => 's', 'm' => 'm', 'h' => 'h', 'ago' => 'ago',
-			                       'months' => array('Jan', 'Feb', 'March', 'April', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'));
+					'months' => array('Jan', 'Feb', 'March', 'April', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'));
 			$json['lightbox_navigate'] = 'Navigate with arrow keys';
 			$json['server_time'] = time();
 			$json['forceHTTPS'] = $options['general-settings-https'];
 			$json['isAdmin'] = ff_user_can_moderate();
 			$json['isLog'] = isset($_REQUEST['fflog']) && $_REQUEST['fflog'] == 1;
 			$json['ajaxurl'] = FF_AJAX_URL;
-
-
+			
+			
 			$head .= "\t<script type=\"text/javascript\" src=\"" .  FF_PLUGIN_URL ."/flow-flow/js/require-utils.js?ver=1.0.0\"></script>\n";
 			$head .= "\t<script type='text/javascript'>\n";
 			$head .= "\t\t var _ajaxurl = \"" . FF_AJAX_URL . "\";\n";
@@ -100,11 +100,11 @@ class FFInjector{
 			$this->insert_ajax_url = true;
 		}
 		if ($with_ticker) $head .= $this->ticker();
-
+		
 		$this->insert_head = true;
 		return $head;
 	}
-
+	
 	/**
 	 * Send request to the server to update the cache.
 	 * Recommend to insert this method on each page your site!
@@ -135,7 +135,7 @@ class FFInjector{
 		}
 		return $head;
 	}
-
+	
 	/**
 	 * Insert stream on the page.<br><br>
 	 * <b>Example:</b><br>
@@ -161,7 +161,7 @@ class FFInjector{
 		$ff = \flow\FlowFlow::get_instance($this->context);
 		echo $ff->renderShortCode(array('id' => $stream_id));
 	}
-
+	
 	/**
 	 * Insert plugin administration on the page.<br><br>
 	 * <b>Example:</b><br>
@@ -183,23 +183,25 @@ class FFInjector{
 	 */
 	public function admin($title = null){
 		ff_user_can_moderate(true);
-
+		
 		/** @var flow\db\FFDBManager $db */
 		$db = $this->context['db_manager'];
 		$db->migrate();
-
+		
 		$admin = flow\FlowFlowAdmin::get_instance($this->context);
 		$admin->display_plugin_admin_page();
 	}
-
+	
 	public function enableModerationMode(){
 		$this->moderationMode = true;
 	}
-
+	
 	private function jquery($insert_jquery){
 		$head = "";
 		if ($insert_jquery && !$this->insert_jquery) {
 			$head .= "\t<script src=\"https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js\"></script>\n";
+			$head .= "\t<script src=\"https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js\"></script>\n";
+			$head .= "\t<script src=\"https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.3.3/backbone.js\"></script>\n";
 			$this->insert_jquery = true;
 		}
 		return $head;

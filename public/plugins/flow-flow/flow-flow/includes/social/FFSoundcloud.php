@@ -17,7 +17,7 @@ class FFSoundcloud extends FFHttpRequestFeed{
 		parent::__construct( 'soundcloud' );
 	}
 
-	protected function deferredInit( $options, $stream, $feed ) {
+	protected function deferredInit( $options, $feed ) {
 		$original = $options->original();
 		$this->client_id = $original['soundcloud_api_key'];
 		$playlistUri = $this->getPlaylistUri($feed->username, $feed->content);

@@ -23,17 +23,16 @@ class FFGoogle extends FFHttpRequestFeed{
 
 	/**
      * @param FFGeneralSettings $options
-     * @param FFStreamSettings $stream
      * @param $feed
      */
-    public function deferredInit($options, $stream, $feed){
+    public function deferredInit($options, $feed){
         $this->content = $feed->content;
         $original = $options->original();
         $this->apiKey = $original['google_api_key'];
     }
 
     protected function getUrl(){
-        return "https://www.googleapis.com/plus/v1/people/{$this->content}/activities/public?key={$this->apiKey}&maxResults={$this->getCount()}&prettyprint=false&fields=items(id,actor,object(attachments(displayName,fullImage,id,image,objectType,url),id,content,objectType,url,replies(totalItems),plusoners(totalItems),resharers(totalItems)),published,title,url)";
+        return "https://www.googleapis.com/plus/v1/people/{$this->content}/activities/public?key={$this->apiKey}&maxResults={$this->getCount()}&prettyprint=false&fields=items(id,actor,object(attachments(displayName,fullImage,id,image,objectType,url,thumbnails),id,content,objectType,url,replies(totalItems),plusoners(totalItems),resharers(totalItems)),published,title,url)";
     }
 
     protected function items($request){
@@ -156,7 +155,10 @@ class FFGoogle extends FFHttpRequestFeed{
 		        }
 	        }
 		    else if ($attach->objectType == 'album'){
-			    //TODO
+			    $thumbnail = $attach->thumbnails[0]->image;
+			    $this->image = $this->createImage($thumbnail->url, $thumbnail->width, $thumbnail->height);
+			    $this->media = $this->createMedia($thumbnail->url, $thumbnail->width, $thumbnail->height, 'image', true);
+			    return true;
 		    }
 		    else if ($attach->objectType == 'event'){
 			    $this->source = $attach->url;

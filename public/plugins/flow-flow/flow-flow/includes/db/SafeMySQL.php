@@ -325,6 +325,25 @@ class SafeMySQL
 		return $ret;
 	}
 
+	public function getIndMultiRow()
+	{
+		$args  = func_get_args();
+		$index = array_shift($args);
+		$query = $this->prepareQuery($args);
+
+		$ret = array();
+		if ( $res = $this->rawQuery($query) )
+		{
+			while($row = $this->fetch($res))
+			{
+				if (!isset($ret[$row[$index]])) $ret[$row[$index]] = array();
+				$ret[$row[$index]][] = $row;
+			}
+			$this->free($res);
+		}
+		return $ret;
+	}
+
 	/**
 	 * Helper function to get a dictionary-style array right out of query and optional arguments
 	 *
