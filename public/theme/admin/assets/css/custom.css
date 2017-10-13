@@ -1,3 +1,9 @@
+
+.fileupload-preview,
+.fileupload-new { width: 100%; max-width: 210px;}
+.fileupload-preview img,
+.featured-image-area .fileupload-new img { max-width: 210px;}
+
 #category-grid tr td{
     word-break: break-all;
 }

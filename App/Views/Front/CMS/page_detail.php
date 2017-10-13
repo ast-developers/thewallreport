@@ -20,7 +20,7 @@ use Core\Helper;
                     $parsedDetail = $helper->parsePageDesc($page['description']);
                     $feed = Helper::parseFlowStreamShortCode($page['description']);
                     ?>
-                    <div class="cb-module-f cb-all-big cb-module-block cb-module-fw clearfix">
+                    <div class="cb-module-f cb-all-big cb-module-block cb-module-fw clearfix video-block">
                         <?php echo $parsedDetail;?>
                     </div>
                     <div class="col-lg-12"></div>
