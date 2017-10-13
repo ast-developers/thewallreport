@@ -42,7 +42,7 @@ $disqusPageIdentifier = $post['slug'];
                 } ?>
             </div>
 
-            <div class="video pt-5">
+            <div class="video pt-5 video-block">
 
                 <?php echo $post['description']; ?>
             </div>
