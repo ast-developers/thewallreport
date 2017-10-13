@@ -137,6 +137,8 @@ class FFCacheManager implements FFCache{
 		$select .= "post.user_screenname as screenname, post.user_pic as userpic, ";
 		$select .= "post.post_timestamp as system_timestamp, ";
 		$select .= "post.post_text as text, post.user_link as userlink, post.post_permalink as permalink, ";
+        $select .= "post.is_active as is_active, post.featured as featured, ";
+        $select .= "post.views as custom_views, post.feed_id as feed_id, ";
 		$select .= "post.image_url, post.image_width, post.image_height, post.media_url, post.media_type, ";
 		$select .= "post.media_width, post.media_height, post.post_header, post.post_source, post.post_additional, post.feed_id ";
 		return $select;
@@ -145,6 +147,9 @@ class FFCacheManager implements FFCache{
 	protected function getGetFilters(){
 		$args[] = FFDB::conn()->parse('stream.stream_id = ?s', $this->stream->getId());
 		$args[] = FFDB::conn()->parse('cach.enabled = 1');
+		if(function_exists('current_user_can') && current_user_can( 'manage_options' )){
+            $args[] = FFDB::conn()->parse('post.is_active = ?s', 1);
+        }
 		if ($this->stream->showOnlyMediaPosts()) $args[] = "post.image_url IS NOT NULL";
 		if (isset($_REQUEST['hash']))
 			if (isset($_REQUEST['recent'])){
@@ -168,6 +173,8 @@ class FFCacheManager implements FFCache{
 	    $order = 'post.smart_order, post.post_timestamp DESC';
 	    if ($this->stream->order() == FF_RANDOM_ORDER)  $order = 'post.rand_order, post.post_id';
 	    if ($this->stream->order() == FF_BY_DATE_ORDER) $order = 'post.post_timestamp DESC, post.post_id';
+        if ($this->stream->order() == FF_FEATURED_ORDER) $order = 'post.featured DESC';
+        if ($this->stream->order() == FF_POPULARITY_ORDER) $order = 'CAST(JSON_EXTRACT(post.post_additional, \'$.likes\') AS UNSIGNED) DESC ';
 
 	    $moderation = array();
 	    foreach ( $this->stream->getAllFeeds() as $feed ) {
@@ -301,6 +308,10 @@ class FFCacheManager implements FFCache{
 		$post->header = stripslashes($row['post_header']);
 		$post->mod = $moderation;
 		$post->feed = $row['feed_id'];
+        $post->is_active = $row['is_active'];
+        $post->featured = $row['featured'];
+        $post->custom_views = $row['custom_views'];
+        $post->feed_id = $row['feed_id'];
 		if (!empty($row['post_source'])) $post->source = $row['post_source'];
 		if ($row['image_url'] != null){
 			$url = $row['image_url'];

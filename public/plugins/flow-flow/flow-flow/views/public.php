@@ -69,6 +69,7 @@ $page = isset($_REQUEST['page']) ? $_REQUEST['page'] : '0';
 			}
 			if (FF_resource.scriptDeferred.state() === 'pending' && !FF_resource.scriptLoading) {
 				script = document.createElement('script');
+                window.base_url = '<?php echo \App\Config::W_ROOT; ?>';
 				script.src = "<?php echo $context['plugin_url'] . $context['slug'];?>/js/public.js";
 				script.onload = function( script, textStatus ) {
 					FF_resource.scriptDeferred.resolve();
