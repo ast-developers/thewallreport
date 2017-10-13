@@ -395,6 +395,14 @@ var FlowFlowApp = (function($){
         }
 
         setTimeout(function(){self.switchToView('new')},100);
+          //setTimeout(function(){
+          //self.switchToView('new');
+          var lastDiv = ($('#streams-cont').find('.section-stream:last'));
+          var lastDivId = lastDiv.attr('id');
+          var result = lastDivId.split('-');
+          //console.log(result);
+          self.switchToView(result[2]);
+          //},100);
       });
 
       this.$form.find('#streams-tab').on('click', function () {
@@ -409,7 +417,7 @@ var FlowFlowApp = (function($){
 
         if ($t.is('#save-tab')) {
           $('.section-content.active .submit-button').first().click();
-          debugger
+         // debugger
           return
         }
 
@@ -1925,9 +1933,9 @@ var FlowFlowApp = (function($){
           self.$el.find('.input-not-obvious input').focus();
 
         }
-        debugger
+     //   debugger
         self.rowModel.set('id', serverModel.id);
-        debugger
+       // debugger
         self.model.trigger('stream-saved');
 
         if (wasEmptyList) {
@@ -2065,7 +2073,7 @@ var FlowFlowApp = (function($){
         }
 
         if (changed) {
-debugger
+//debugger
         }
       });
     },
