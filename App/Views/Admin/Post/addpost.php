@@ -173,12 +173,11 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                                         <div class="controls">
                                             <div class="fileupload fileupload-new featured-image-area"
                                                  data-provides="fileupload">
-                                                <div class="fileupload-new thumbnail"
-                                                     style="width: 200px; height: 150px;">
+                                                <div class="fileupload-new thumbnail">
                                                     <?php if (!empty($post['featured_image'])) { ?>
                                                         <img
                                                             src="<?php echo \Core\Helper::getFeaturedImage($post); ?>"
-                                                            style="width: 200px; height: 160px;">
+                                                            >
                                                     <?php } else { ?>
                                                         <img
                                                             src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=no+image"

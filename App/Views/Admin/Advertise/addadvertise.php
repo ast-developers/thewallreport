@@ -95,12 +95,10 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
                                         <div class="controls">
                                             <div class="fileupload fileupload-new banner-image-area"
                                                  data-provides="fileupload">
-                                                <div class="fileupload-new thumbnail"
-                                                     style="width: 200px; height: 150px;">
+                                                <div class="fileupload-new thumbnail">
                                                     <?php if (!empty($advertise['banner_image'])) { ?>
                                                         <img
-                                                            src="<?php echo (\App\Config::S3_BASE_URL . \App\Config::S3_ADVERT_IMAGE_DIR . "/" . $advertise['banner_image']); ?>"
-                                                            style="width: 200px; height: 160px;">
+                                                            src="<?php echo (\App\Config::S3_BASE_URL . \App\Config::S3_ADVERT_IMAGE_DIR . "/" . $advertise['banner_image']); ?>">
                                                     <?php } else { ?>
                                                         <img
                                                             src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=no+image"

@@ -28,6 +28,7 @@ $banners = array_chunk($getBanners,2);
                 <?php $parent_class = ($key % 2 == 0) ? '<div class="row no-gutters">' : '' ?>
                 <?php $end_of_div = ($key % 2 == 0) ? '' : '</div>' ?>
                 <?php $class = ($key % 2 == 0) ? ' col-xl-8 ' : ' col-xl-4 ' ?>
+                <?php  $name = ($key % 2 == 0) ? '<h2>'.$banner['name'].'</h2>' : '<h4>'.$banner['name'].'</h4>'?>
                 <?php $image = (!empty($banner['featured_image'])) ? (\Core\Helper::getFeaturedImage($banner)) : '' ?>
                 <?php echo $parent_class ?>
                 <div class="<?php echo $class; ?> grid-img">
@@ -35,7 +36,7 @@ $banners = array_chunk($getBanners,2);
                     <a href="<?php echo \App\Config::W_ROOT . $banner['slug'] ?>">
                         <div class="top-article">
                             <div class="article-content">
-                                <h2><?php echo $banner['name'] ?></h2>
+                                <?php echo $name ?>
 
                                 <div class="cb-byline">
                                     <span class="cb-author"><?php echo $banner['creator'] ?></span>
@@ -55,6 +56,7 @@ $banners = array_chunk($getBanners,2);
                     <?php $parent_class = ($key % 2 == 0) ? '<div class="row no-gutters">' : '' ?>
                     <?php $end_of_div = ($key % 2 == 0) ? '' : '</div>' ?>
                     <?php $class = ($key % 2 != 0) ? ' col-xl-8 ' : ' col-xl-4 ' ?>
+                    <?php  $name = ($key % 2 != 0) ? '<h2>'.$banner['name'].'</h2>' : '<h4>'.$banner['name'].'</h4>'?>
                     <?php $image = (!empty($banner['featured_image'])) ? (\Core\Helper::getFeaturedImage($banner)) : '' ?>
                     <?php echo $parent_class ?>
                     <div class="<?php echo $class; ?> grid-img">
@@ -62,7 +64,7 @@ $banners = array_chunk($getBanners,2);
                         <a href="<?php echo \App\Config::W_ROOT . $banner['slug'] ?>">
                             <div class="top-article">
                                 <div class="article-content">
-                                    <h2><?php echo $banner['name'] ?></h2>
+                                    <?php echo $name; ?>
 
                                     <div class="cb-byline">
                                         <span class="cb-author"><?php echo $banner['creator'] ?></span>
