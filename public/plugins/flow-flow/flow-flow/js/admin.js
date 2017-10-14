@@ -112,7 +112,7 @@ var FlowFlowApp = (function($){
       this.$tabs = this.$tabList.find('li');
 
       // execute immediatelly
-      
+
       this.$html.addClass('ff-browser-' + (isWebkit ? 'webkit' : isIE ? 'ie' : isFF ? 'ff' : '') + (window.WP_FF_admin ? ' ff-wp' : ' ff-standalone') + (window.isCompact ? ' ff-compact-admin' : ''));
 
       this.setupModelsAndViews();
@@ -320,7 +320,7 @@ var FlowFlowApp = (function($){
       feedsModel = new FeedsModel({feeds: window.feeds});
       feedsView = new FeedsView({model: feedsModel, el: self.$form.find('#sources-list')[0]});
     },
-    
+
     tabs: (function () {
       var $cont;
       var $tabs;
@@ -340,7 +340,7 @@ var FlowFlowApp = (function($){
         setupActive.call(this);
         attachEvents.call(this);
       }
-      
+
       function setupActive () {
         var $active = this.$tabs.find('li:not(".tab-cursor")').first();
         this.$tabs.find('li:not(".tab-cursor")').first().addClass('section-active-tab');
@@ -350,7 +350,7 @@ var FlowFlowApp = (function($){
           moveCursor($active);
         },0)
       }
-      
+
       function attachEvents () {
         var self = this;
 
@@ -371,12 +371,12 @@ var FlowFlowApp = (function($){
         var pos = $active.position();
         this.$cursor.css({'left' : pos.left + 'px', minWidth: w + 'px'})
       }
-      
+
       return {
         init: init
       }
     })(),
-    
+
     attachGlobalEvents : function () {
 
       var self = this;
@@ -768,7 +768,8 @@ var FlowFlowApp = (function($){
           self.$container.find('#streams-' + view).addClass('view-visible');
           self.$form.removeClass('stream-view-visible');
         } else {
-          self.$container.find('#stream-view-' + view).addClass('view-visible');
+       //   self.$container.find('#stream-view-' + view).addClass('view-visible');
+          self.$container.find('.section-stream').last().addClass('view-visible');
           self.$form.addClass('stream-view-visible');
         }
       // },0)
@@ -1535,7 +1536,7 @@ var FlowFlowApp = (function($){
       }
       $cont.html('').append(items).closest('.stream-feeds').removeClass('stream-feeds--connecting');
     },
-    
+
     connectFeed: function (e) {
       var self = this;
 
@@ -1572,7 +1573,7 @@ var FlowFlowApp = (function($){
         Controller.makeOverlayTo('hide');
       });
     },
-    
+
     displayFeedsSelect: function () {
 
       var self = this;
@@ -1649,7 +1650,7 @@ var FlowFlowApp = (function($){
           }
       )
     },
-    
+
     disableAction: function (e) {
       e.stopImmediatePropagation()
     },
@@ -2328,7 +2329,7 @@ var FlowFlowApp = (function($){
             ival = stripslashes( settings[prop] );
             if (prop !== 'content') ival = capitaliseFirstLetter ( ival );
             if (prop === 'mod') ival = 'moderated';
-            
+
             ival = ival.replace('_timeline', '').replace('http://', '').replace('https://', '');
             if (ival.length > 20) {
               ival = ival.substring(0, 20) + '...';
@@ -2925,7 +2926,7 @@ var FlowFlowApp = (function($){
 
   // global shortcuts
   window.sectionExpandCollapse = sectionExpandCollapse;
-  
+
   return {
     'init' : function () {
       var self = this;
