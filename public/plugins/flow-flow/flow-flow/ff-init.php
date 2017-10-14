@@ -14,11 +14,12 @@
  * @link      http://looks-awesome.com
  * @copyright 2014-2016 Looks Awesome
  */
-define('FF_PLUGIN_VER', '2.2.1');
+define('FF_PLUGIN_VER', '3.0.0');
 
 define('FF_USE_WP', false);
 define('WPINC', true);
 define('FF_USE_DIRECT_WP_CRON', false);
+define('FF_FEED_POSTS_COUNT', 100);
 
 if (! defined('FF_DB_CHARSET')) {
 	$charset = defined( 'DB_CHARSET' ) ? DB_CHARSET : 'utf8';
@@ -63,29 +64,34 @@ function ff_user_can_moderate($set = false) {
 	if ( function_exists('php_sapi_name') && php_sapi_name() !== 'cli' ) {
 		$session_started = (version_compare(phpversion(), '5.4.0', '>=')) ? session_status() === PHP_SESSION_ACTIVE : session_id() !== '';
 	}
-
+	
 	if ($session_started && $set) $_SESSION['user_can_moderate'] = true;
-
+	
 	return isset($_SESSION['user_can_moderate']) ? filter_var($_SESSION['user_can_moderate'], FILTER_VALIDATE_BOOLEAN) : false;
 }
 
 function ff_get_context() {
-	$root = dirname($_SERVER["SCRIPT_FILENAME"]) . '/flow-flow/';
+	$root = dirname($_SERVER["SCRIPT_FILENAME"]) . '/';
+	if (strpos($root, '/flow-flow/') === false) $root .= 'flow-flow/';
 	if (!file_exists($root . 'LAClassLoader.php')){
 		$root = realpath(dirname(__FILE__)) . '/';
 	}
 	$context = array(
-		'root'      => $root,
-		'slug'      => 'flow-flow',
-		'slug_down' => 'flow_flow',
-		'plugin_url' => FF_PLUGIN_URL . '/',
-		'admin_url' => FF_AJAX_URL,
-		'table_name_prefix' => DB_TABLE_PREFIX . 'ff_',
-		'facebook_сache'    => new flow\cache\FFFacebookCacheAdapter()
+			'root'      => $root,
+			'slug'      => 'flow-flow',
+			'slug_down' => 'flow_flow',
+			'plugin_url' => FF_PLUGIN_URL . '/',
+			'admin_url' => FF_AJAX_URL,
+			'table_name_prefix' => DB_TABLE_PREFIX . 'ff_',
+			'facebook_cache'    => new flow\cache\FFFacebookCacheAdapter()
 	);
 	$context['db_manager'] = new flow\db\FFDBManager($context);
-
+	
 	global $flow_flow_context;
 	$flow_flow_context = $context;
 	return $context;
+}
+
+function content_url(){
+	return str_replace('/flow-flow/ff.php', '', FF_AJAX_URL);
 }

@@ -17,7 +17,7 @@ class FFMigration_2_6 implements FFDBMigration {
 		return '2.6';
 	}
 
-	public function execute($manager) {
+	public function execute($conn, $manager) {
 		$options = $manager->getOption('options', true);
 		if ($options === false) $options = array();
 		if (!isset($options['general-settings-ipv4'])) $options['general-settings-ipv4'] = 'nope';

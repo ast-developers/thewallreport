@@ -49,12 +49,7 @@ class FFDBUpdate {
 		}
 	}
 
-	public static function create_cache_table ($cache_table, $posts_table) {
-		if( FFDB::existTable($cache_table) && FFDB::existTable($posts_table)) {
-			return; // @codeCoverageIgnore
-
-		}
-
+	public static function create_cache_table ($cache_table, $posts_table, $streams2sources_table) {
 		/*
 		 * We'll set the default character set and collation for this table.
 		 * If we don't do this, some characters could end up being converted
@@ -73,22 +68,39 @@ class FFDBUpdate {
 			$charset_collate .= " COLLATE {$collate}";
 		}
 
-		$sql = "
+		if(!FFDB::existTable($cache_table)){
+			$sql = "
 		CREATE TABLE `{$cache_table}`
 		(
 			`feed_id` VARCHAR(20) NOT NULL,
-			`stream_id` INT NOT NULL,
 			`last_update` INT NOT NULL,
     		`status` INT NOT NULL DEFAULT 0,
 			`errors` BLOB,
+			`settings` BLOB,
+			`enabled` TINYINT(1) DEFAULT 0,
+			`system_enabled` TINYINT(1) DEFAULT 1,
+			`changed_time` INT DEFAULT 0,
+			`cache_lifetime` INT DEFAULT 60,
 			PRIMARY KEY (`feed_id`)
 		){$charset}";
-		FFDB::conn()->query($sql);
+			FFDB::conn()->query($sql);
+		}
 
-		$sql = "
+		if(!FFDB::existTable($streams2sources_table)){
+			$sql = "
+		CREATE TABLE `{$streams2sources_table}`
+		(
+			`feed_id` VARCHAR(20) NOT NULL,
+			`stream_id` INT NOT NULL,
+			PRIMARY KEY (`feed_id`, `stream_id`)
+		){$charset}";
+			FFDB::conn()->query($sql);
+		}
+
+		if(!FFDB::existTable($posts_table)) {
+			$sql = "
 		CREATE TABLE `{$posts_table}`
 		(
-			`stream_id` INT NOT NULL,
     		`feed_id` VARCHAR(20) NOT NULL,
 			`post_id` VARCHAR(50) NOT NULL,
     		`post_type` VARCHAR(10) NOT NULL,
@@ -109,10 +121,10 @@ class FFDBUpdate {
 		    `media_width` INT,
 		    `media_height` INT,
 		    `media_type` VARCHAR(100),
-		    PRIMARY KEY (`post_id`, `post_type`, `feed_id`),
-			INDEX IND_STRM_ID_INDEX (`stream_id`)
+		    PRIMARY KEY (`post_id`, `post_type`, `feed_id`)
 		){$charset}";
-		FFDB::conn()->query($sql);
+			FFDB::conn()->query($sql);
+		}
 	}
 
 	public static function create_snapshot_table () {
@@ -139,7 +151,8 @@ class FFDBUpdate {
 				description VARCHAR(20),
 				creation_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 				settings LONGTEXT NOT NULL,
-				fb_settings LONGTEXT
+				fb_settings LONGTEXT,
+				version VARCHAR(10) DEFAULT '2.0' NOT NULL
 			) $charset_collate;";
 			FFDB::conn()->query($sql);
 		}
@@ -168,5 +181,6 @@ class FFDBUpdate {
 		FFDB::dropTable($prefix . 'options');
 		FFDB::dropTable($prefix . 'image_cache');
 		FFDB::dropTable($prefix . 'cache');
+		FFDB::dropTable($prefix . 'streams_sources');
 	}
 }

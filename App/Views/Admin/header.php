@@ -27,7 +27,6 @@
     <!-- Tokenfield CSS -->
     <link href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/css/tokenfield-typeahead.css" type="text/css" rel="stylesheet">
     <link href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/css/bootstrap-tokenfield.css" type="text/css" rel="stylesheet">
-    <link href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/css/custom.css" rel="stylesheet" />
     <link rel="shortcut icon" href="favicon.ico" />
 
     <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript" ></script>
@@ -45,6 +44,7 @@
         echo $flowFlowInjector->head(true, true, false);
     }
      ?>
+    <link href="<?php echo \App\Config::W_ADMIN_ASSETS ?>/css/custom.css" rel="stylesheet" />
 </head>
 
 <?php

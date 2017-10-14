@@ -17,7 +17,7 @@ class FFMigration_2_9 implements FFDBMigration {
 		return '2.9';
 	}
 
-	public function execute($manager) {
+	public function execute($conn, $manager) {
 		$options = $manager->getOption('options', true);
 		if ($options === false) $options = array();
 		if (!isset($options['soundcloud_api_key'])) $options['soundcloud_api_key'] = '';

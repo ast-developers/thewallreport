@@ -28,11 +28,10 @@ abstract class FFHttpRequestFeed extends FFBaseFeed{
 		if ( sizeof( $data['errors'] ) > 0 ) {
 			$this->errors[] = array(
 				'type'    => $this->getType(),
-				'message' => $data['errors'],
+				'message' => $this->filterErrorMessage($data['errors']),
 				'url' => $this->getUrl()
 			);
-
-			return array();
+			throw new \Exception();
 		}
 		foreach ( $this->items( $data['response'] ) as $item ) {
 			$item = $this->prepareItem($item);
@@ -107,7 +106,7 @@ abstract class FFHttpRequestFeed extends FFBaseFeed{
 	}
 
 	/**
-     * @param stdClass $post
+     * @param \stdClass $post
      * @param $item
      *
      * @return stdClass

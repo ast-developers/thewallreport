@@ -20,7 +20,7 @@ class FFFoursquare extends FFHttpRequestFeed{
 		parent::__construct( 'foursquare' );
 	}
 
-	public function deferredInit( $options, $stream, $feed ) {
+	public function deferredInit( $options, $feed ) {
 		$venue = $feed->content;
 		$original = $options->original();
 		$token = @$original['foursquare_access_token'];

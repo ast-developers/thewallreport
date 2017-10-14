@@ -18,6 +18,7 @@ abstract class LADBManager {
 	public $cache_table_name;
 	public $streams_table_name;
 	public $image_cache_table_name;
+	public $streams_sources_table_name;
 
 	protected $context;
 	protected $plugin_slug;
@@ -34,6 +35,7 @@ abstract class LADBManager {
 		$this->cache_table_name = $this->table_prefix . 'cache';
 		$this->streams_table_name = $this->table_prefix . 'streams';
 		$this->image_cache_table_name = $this->table_prefix . 'image_cache';
+		$this->streams_sources_table_name = $this->table_prefix . 'streams_sources';
 	}
 
 	public final function migrate(){
@@ -54,40 +56,44 @@ abstract class LADBManager {
 				$migration = $clazz->newInstance();
 				$migrations[$migration->version()] = $migration;
 			}
+			uksort($migrations, 'version_compare');
 			try{
 				if (FFDB::beginTransaction()){
+					$conn = FFDB::conn();
 					/** @var FFDBMigration*/
 					foreach ( $migrations as $migration ) {
 						if (self::needExecuteMigration($version, $migration->version())){
-							$migration->execute($this);
+							$migration->execute($conn, $this);
 							FFDB::setOption($this->option_table_name, $this->plugin_slug_down . '_db_version', $migration->version());
 						}
 					}
 					FFDB::commit();
-
-					if (isset($migrations['2.13'])){
-						$migration = $migrations['2.13'];
-						$migration->execute($this);
-						FFDB::commit();
-					}
 				}
-			} catch (Exception $e){
+			} catch (\Exception $e){
+				error_log($e->getTraceAsString());
 				FFDB::rollbackAndClose();
 				throw $e;
 			}
 		}
 	}
 
+	/**
+	 * @param string $feedId
+	 *
+	 * @return array|false
+	 */
+	public abstract function getIdPosts($feedId);
+
 	public function getGeneralSettings(){
 		return new FFGeneralSettings($this->getOption('options', true), $this->getOption('fb_auth_options', true));
 	}
 
-	public function getOption($optionName, $serialized = false){
-		return FFDB::getOption($this->option_table_name, $this->plugin_slug_down . '_' . $optionName, $serialized);
+	public function getOption($optionName, $serialized = false, $lock_row = false){
+		return FFDB::getOption($this->option_table_name, $this->plugin_slug_down . '_' . $optionName, $serialized, $lock_row);
 	}
 
-	public function setOption($optionName, $optionValue, $serialized = false){
-		FFDB::setOption($this->option_table_name, $this->plugin_slug_down . '_' . $optionName, $optionValue, $serialized);
+	public function setOption($optionName, $optionValue, $serialized = false, $cached = true){
+		FFDB::setOption($this->option_table_name, $this->plugin_slug_down . '_' . $optionName, $optionValue, $serialized, $cached);
 	}
 
 	public function deleteOption($optionName){
@@ -115,7 +121,9 @@ abstract class LADBManager {
 	private function needExecuteMigration($db_version, $migration_version){
 		$db = explode('.', $db_version);
 		$migration = explode('.', $migration_version);
-		if (intval($migration[0]) > intval($db[0])) return true;
-		return (intval($migration[1]) > $db[1]);
+		if (intval($migration[0]) == intval($db[0])){
+			return (intval($migration[1]) > $db[1]);
+		}
+		return (intval($migration[0]) > intval($db[0]));
 	}
-} 
+}

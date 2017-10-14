@@ -17,7 +17,7 @@ class FFMigration_2_7 implements FFDBMigration {
 		return '2.7';
 	}
 
-	public function execute($manager) {
+	public function execute($conn, $manager) {
 		$options = $manager->getOption('options', true);
 		if ($options === false) $options = array();
 		if (!isset($options['linkedin_api_key'])) $options['linkedin_api_key'] = '';

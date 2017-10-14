@@ -121,10 +121,31 @@ table.dataTable.no-footer {
 }
 .navbar .brand {    padding: 12px 20px 10px;}
 
+/*====== Feeds Plugin =========*/
+.ff-standalone .wrapper { min-width: 100%;}
+
+.ff-standalone .section-tabs,
+.ff-standalone .width-wrapper,
+.ff-standalone .wrapper { width: 100%;}
+.ff-standalone .section-tabs:before { position: absolute; }
+.ff-standalone .section-tabs { position: relative;}
+.ff-standalone .section-contents .section { margin: 0px;}
+.ff-standalone .section-contents { margin-top: 0px;}
+#ff-footer { position: relative!important; height: inherit; }
+.ff-standalone .popup .section {
+    margin: 82px auto 20px;
+}
+.section-tabs li [class^="flaticon-"] { line-height: normal; font-size: 1.4em;}
+
+
 @media (max-width: 979px) {
     .navbar .brand {
         padding: 12px 0px 10px;
     }
+    #ff-footer { padding-top: 30px;}
+    #ff-footer .ff-table,
+    #ff-footer .ff-cell { display: block; width: 100%;}
+    #ff-footer .ff-cell { padding-bottom: 30px;}
 }
 
 @media screen and (max-width: 640px) {

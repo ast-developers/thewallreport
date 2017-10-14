@@ -1,4 +1,7 @@
 <?php namespace flow;
+use flow\db\FFDB;
+use flow\db\FFDBManager;
+
 if ( ! defined( 'WPINC' ) ) die;
 /**
  * FlowFlow.
@@ -30,16 +33,23 @@ class FlowFlowWPWidget extends \WP_Widget{
 	public function form( $instance ) {
 		$title = ! empty( $instance['title'] ) ? $instance['title'] : 'New title';
 
-		/** @var FlowFlow $nst */
-		$nst = FlowFlow::get_instance_by_slug('flow-flow');
-		$streams = $nst->db->streams();
+		//Important!
+		//It will be execute before migrations!
+		//Need to check exist tables and fields!
+		global $flow_flow_context;
+		/** @var FFDBManager $dbm */
+		$dbm = $flow_flow_context['db_manager'];
+		$streams = array();
+		if (FFDB::existTable($dbm->streams_table_name)) $streams = FFDB::streams($dbm->streams_table_name);
+
 		$value = '';
 		if (sizeof($streams) > 0){
-			$streamId = ! empty( $instance['streamId'] ) ? esc_attr($instance['streamId']) : $streams[0]['id'];
-			foreach ( $streams as $stream ) {
-				$streamName = 'Stream #' . $stream['id'] . ( $stream['name'] ? ' - ' . $stream['name'] : '');
-				$selected = ($streamId == $stream['id']) ? ' selected' : '';
-				$value .= "<option value='{$stream['id']}'{$selected}>{$streamName}</option>\n";
+			$streamId = null;
+			foreach ( $streams as $id => $stream ) {
+				if ($streamId == null) $streamId = ! empty( $instance['streamId'] ) ? esc_attr($instance['streamId']) : $id;
+				$streamName = 'Stream #' . $id . ( $stream['name'] ? ' - ' . $stream['name'] : '');
+				$selected = ($streamId == $id) ? ' selected' : '';
+				$value .= "<option value='{$id}'{$selected}>{$streamName}</option>\n";
 			}
 		}
 

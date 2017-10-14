@@ -37,7 +37,7 @@ $arr = $context['streams'];
 				echo
 					'<tr data-stream-id="' . $id . '">
 							      <td class="td-name">' . (!empty($stream['name']) ? $stream['name'] : 'Unnamed') . '</td>
-							      <td class="td-moder"><label for="moderation-' . $id . '"><input stream-id="' . $id . '" id="moderation-' . $id . '" class="switcher" type="checkbox" name="moderation-' . $id . '" value="yep"><div><div></div></div></label></td>' .
+							      <td class="td-moder"></td>' .
 					'</tr>';
 			}
 

@@ -24,7 +24,7 @@ class FFComments extends FFBaseFeed{
 		parent::__construct( 'comments' );
 	}
 
-	public function deferredInit($options, $stream, $feed) {
+	public function deferredInit($options, $feed) {
 		$post_id = $feed->{'post-id'};
 		$show_post_title = @FFSettingsUtils::YepNope2ClassicStyle($feed->{'include-post-title'});
 		$number = $this->getCount();
@@ -97,7 +97,7 @@ class FFComments extends FFBaseFeed{
 			}
 			else{
 				/* Registered Commenter */
-				/** @var WP_User*/
+				/** @var \WP_User*/
 				$user = get_userdata($id);
 				$authorID = $user->ID;
 				$authorURL = $user->get('user_url');

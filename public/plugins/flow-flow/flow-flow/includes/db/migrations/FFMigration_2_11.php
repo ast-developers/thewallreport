@@ -18,9 +18,9 @@ class FFMigration_2_11 implements FFDBMigration{
 		return '2.11';
 	}
 
-	public function execute($manager) {
+	public function execute($conn, $manager) {
 		if (!FFDB::existColumn($manager->posts_table_name, 'post_source')){
-			FFDB::conn()->query("ALTER TABLE ?n ADD COLUMN ?n VARCHAR(300)", $manager->posts_table_name, 'post_source');
+			$conn->query("ALTER TABLE ?n ADD COLUMN ?n VARCHAR(300)", $manager->posts_table_name, 'post_source');
 		}
 	}
 }

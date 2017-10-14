@@ -1,0 +1,1 @@
+Please go to the http://docs.social-streams.com/ for online documentation

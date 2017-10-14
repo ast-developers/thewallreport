@@ -1,6 +1,7 @@
 <?php namespace flow\social;
 if ( ! defined( 'WPINC' ) ) die;
 
+use \SimpleXMLElement;
 use flow\settings\FFSettingsUtils;
 
 /**
@@ -22,18 +23,17 @@ class FFRss extends FFHttpRequestFeed {
 	private $isRichText = false;
 	/** @var bool */
 	private $hideCaption = false;
+	/** @var SimpleXMLElement | null $xml */
+	private $xml = null;
+	/** @var  mixed $mrss */
+	private $mrss = false;
 
 	public function __construct( $type = null ) {
 		if (is_null($type)) $type = 'rss';
 		parent::__construct( $type );
 	}
 
-	/**
-	 * @param FFGeneralSettings $options
-	 * @param FFStreamSettings $stream
-	 * @param $feed
-	 */
-	public function deferredInit($options, $stream, $feed) {
+	public function deferredInit($options, $feed) {
 		$this->url = $feed->content;
 		$this->isRichText = isset($feed->{'rich-text'}) ? FFSettingsUtils::YepNope2ClassicStyle($feed->{'rich-text'}) : false;
 		$this->hideCaption = isset($feed->{'hide-caption'}) ? FFSettingsUtils::YepNope2ClassicStyle($feed->{'hide-caption'}) : false;
@@ -48,7 +48,16 @@ class FFRss extends FFHttpRequestFeed {
 
 	protected function items($request){
 		libxml_use_internal_errors(true);
-		$pxml = new \SimpleXMLElement($request);
+		$pxml = new SimpleXMLElement($request);
+		$this->xml = $pxml;
+		$this->mrss = false;
+		foreach ( $pxml->getNamespaces(true) as $key => $url ) {
+			if ($url === 'http://search.yahoo.com/mrss/'){
+				$this->mrss = $key;
+				break;
+			}
+		}
+		$result = array();
 		if ($pxml && isset($pxml->channel)) {
 			if (!isset($this->screenName) || strlen($this->screenName) == 0) {
 				$this->screenName = (string)$pxml->channel->title;
@@ -60,12 +69,11 @@ class FFRss extends FFHttpRequestFeed {
 				for ($i=0; $i < $this->getCount(); $i++)  $result[] = $pxml->channel->item[$i];
 			else
 				$result = $pxml->channel->item;
-			return $result;
 		}
 		libxml_clear_errors();
 		libxml_use_internal_errors(false);
 
-		return array();
+		return $result;
 	}
 
 	protected function prepare( $item ) {
@@ -92,6 +100,10 @@ class FFRss extends FFHttpRequestFeed {
 		$d = new \DateTime(); return $d->getTimestamp();
 	}
 
+	/**
+	 * @param SimpleXMLElement $item
+	 * @return string
+	 */
 	protected function getContent($item){
 		if ($this->isRichText){
 			$content = $item->children('content', true);
@@ -118,11 +130,37 @@ class FFRss extends FFHttpRequestFeed {
 		return $item->link;
 	}
 
+	/**
+	 * @param SimpleXMLElement $item
+	 * @return bool
+	 */
 	protected function showImage($item){
 		if (isset($item->enclosure) && 'image/jpeg' == (string)$item->enclosure['type']){
 			$this->image = $this->createImage((string)$item->enclosure['url']);
 			$this->media = $this->createMedia($this->image['url'], $this->image['width'], $this->image['height']);
 			return true;
+		}
+		else if ($this->mrss !== false){
+			//$this->xml->channel->item[2]->children($namespaces['media'])->content->attributes()->height
+			$namespaces = $this->xml->getNamespaces(true);
+			$imageNode = isset($item->children($namespaces[$this->mrss])->thumbnail) ? $item->children($namespaces[$this->mrss])->thumbnail :
+				(isset($item->children($namespaces[$this->mrss])->content) ? $item->children($namespaces[$this->mrss])->content : null);
+			if ($imageNode) {
+				/** @var SimpleXMLElement $attributes */
+				$attributes = $imageNode->attributes();
+				if (!is_null($attributes) && isset($attributes->url)){
+					$url = (string) $attributes->url;
+					$url = (string) $attributes->url;
+					if (isset($attributes->height) && isset($attributes->width)){
+						$height = (string) $attributes->height;
+						$width = (string) $attributes->width;
+						$this->image = $this->createImage($url, $width, $height);
+					}
+					else
+						$this->image = $this->createImage($url);
+					return true;
+				}
+			}
 		}
 		return false;
 	}
@@ -145,9 +183,8 @@ class FFRss extends FFHttpRequestFeed {
 			$doc->encoding = 'utf-8';
 			$text = mb_convert_encoding($text, 'HTML-ENTITIES', 'UTF-8');
 			if (!empty($text) && $doc->loadHTML($text)){
-				$forRemove = array();
-				$images = $doc->getElementsByTagName('img');
-				/** @var DOMElement $image */
+				//$forRemove = array();
+				//$images = $doc->getElementsByTagName('img');
 				/*foreach ($images as $image){
 					$objImage = ($image->hasAttribute('width') && $image->hasAttribute('height')) ?
 						$this->createImage($image->getAttribute('src'), $image->getAttribute('width'), $image->getAttribute('height'), false) :
@@ -176,10 +213,10 @@ class FFRss extends FFHttpRequestFeed {
 
 				$text = preg_replace('/^<!DOCTYPE.+?>/', '', str_replace( array('<html>', '</html>', '<body>', '</body>'), array('', '', '', ''), $doc->saveHTML()));
 			}
-		} catch (Exception $e){
+		} catch (\Exception $e){
 			$this->errors[] = array(
 				'type'    => 'pinterest',
-				'message' =>  $e->getMessage()
+				'message' =>  $this->filterErrorMessage($e->getMessage())
 			);
 		}
 		return $text;

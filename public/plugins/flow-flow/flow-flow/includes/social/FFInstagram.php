@@ -1,8 +1,6 @@
 <?php namespace flow\social;
 if ( ! defined( 'WPINC' ) ) die;
 
-use flow\settings\FFSettingsUtils;
-
 /**
  * Flow-Flow.
  *
@@ -14,7 +12,6 @@ use flow\settings\FFSettingsUtils;
  */
 class FFInstagram extends FFBaseFeed {
     private $url;
-    private $showText;
 	private $size = 0;
 	private $pagination = true;
 
@@ -22,10 +19,9 @@ class FFInstagram extends FFBaseFeed {
 		parent::__construct( 'instagram' );
 	}
 
-	public function deferredInit($options, $stream, $feed) {
+	public function deferredInit($options, $feed) {
         $original = $options->original();
         $accessToken = $original['instagram_access_token'];
-        $this->showText = FFSettingsUtils::notYepNope2ClassicStyle($feed->{'hide-text'}, true);
         if (isset($feed->{'timeline-type'})) {
             switch ($feed->{'timeline-type'}) {
                 case 'user_timeline':
@@ -35,10 +31,6 @@ class FFInstagram extends FFBaseFeed {
                 case 'likes':
                     $this->url = "https://api.instagram.com/v1/users/self/media/liked?access_token={$accessToken}&count={$this->getCount()}";
                     break;
-	              case 'popular':
-					$this->pagination = false;
-                    $this->url = "https://api.instagram.com/v1/media/popular?access_token={$accessToken}&count={$this->getCount()}";
-                    break;
                 case 'licked':
                     $this->url = "https://api.instagram.com/v1/users/self/media/liked?access_token={$accessToken}&count={$this->getCount()}";
                     break;
@@ -46,6 +38,10 @@ class FFInstagram extends FFBaseFeed {
 	                $tag = urlencode($feed->content);
                     $this->url = "https://api.instagram.com/v1/tags/{$tag}/media/recent?access_token={$accessToken}&count={$this->getCount()}";
                     break;
+	            case 'location':
+	            	$location = $feed->content;
+		            $this->url = "https://api.instagram.com/v1/locations/{$location}/media/recent?access_token={$accessToken}&count={$this->getCount()}";
+		            break;
                 default:
                     $this->url = "https://api.instagram.com/v1/users/self/feed?access_token={$accessToken}&count={$this->getCount()}";
             }
@@ -56,8 +52,13 @@ class FFInstagram extends FFBaseFeed {
         $result = array();
         $data = $this->getFeedData($this->url);
         if (sizeof($data['errors']) > 0){
-            $this->errors[] = $data['errors'];
-            return array();
+	        $this->errors[] = array(
+		        'type'    => $this->getType(),
+	        	'message' => is_object($data['errors']) ? 'Error getting data from instagram server' : $this->filterErrorMessage($data['errors']),
+		        'url' => $this->url
+	        );
+	        error_log(print_r($data['errors'], true));
+	        throw new \Exception();
         }
         if (isset($data['response']) && is_string($data['response'])){
 	        $response = $data['response'];
@@ -76,7 +77,7 @@ class FFInstagram extends FFBaseFeed {
             }
         } else {
 	        $this->errors[] = array(
-		        'type'    => 'twitter',
+		        'type'    => 'instagram',
 		        'message' => 'FFInstagram has returned the empty data.',
 		        'url' => $this->url
 	        );
@@ -106,7 +107,7 @@ class FFInstagram extends FFBaseFeed {
         $tc->userlink = 'http://instagram.com/' . $tc->nickname;
         $tc->permalink = (string)$post->link;
 
-	    if (isset($post->type) && $post->type == 'video'){
+	    if (isset($post->type) && $post->type == 'video' && isset($post->videos)){
 		    $tc->media = array('type' => 'video/mp4', 'url' => $post->videos->standard_resolution->url,
 			      'width' => 600,
 			      'height' => FFFeedUtils::getScaleHeight(600, $post->videos->standard_resolution->width, $post->videos->standard_resolution->height));
@@ -119,7 +120,7 @@ class FFInstagram extends FFBaseFeed {
     }
 
     private function getCaption($post){
-        if (isset($post->caption->text) && $this->showText) {
+        if (isset($post->caption->text)) {
 	        $text = FFFeedUtils::removeEmoji( (string) $post->caption->text );
 	        return $this->hashtagLinks($text);
         }
@@ -131,6 +132,7 @@ class FFInstagram extends FFBaseFeed {
 	 * @param $accessToken
 	 *
 	 * @return string
+	 * @throws \Exception
 	 */
 	private function getUserId($content, $accessToken){
 		$request = $this->getFeedData("https://api.instagram.com/v1/users/search?q={$content}&access_token={$accessToken}");
@@ -139,10 +141,15 @@ class FFInstagram extends FFBaseFeed {
 			if (isset($request['errors']) && is_array($request['errors'])){
 				foreach ( $request['errors'] as $error ) {
 					$error['type'] = 'instagram';
+					//TODO $this->filterErrorMessage
 					$this->errors[] = $error;
+					throw new \Exception();
 				}
 			}
-			else $this->errors[] = array('type'=>'instagram', 'msg' => 'Bad request, access token issue', 'url' => "https://api.instagram.com/v1/users/search?q={$content}&access_token={$accessToken}");
+			else {
+				$this->errors[] = array('type'=>'instagram', 'message' => 'Bad request, access token issue', 'url' => "https://api.instagram.com/v1/users/search?q={$content}&access_token={$accessToken}");
+				throw new \Exception();
+			}
 			return $content;
 		}
 		else {
@@ -152,12 +159,12 @@ class FFInstagram extends FFBaseFeed {
 			}
 			$this->errors[] = array(
 				'type' => 'instagram',
-				'msg' => 'Username not found',
+				'message' => 'Username not found',
                 'url' => "https://api.instagram.com/v1/users/search?q={$content}&access_token={$accessToken}"
 			);
-			return '00000000';
+			throw new \Exception();
 		}
-    }
+	}
 
 	protected function nextPage( $result ) {
 		if ($this->pagination){

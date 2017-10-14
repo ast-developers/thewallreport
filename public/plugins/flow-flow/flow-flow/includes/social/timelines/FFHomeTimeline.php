@@ -19,8 +19,8 @@ class FFHomeTimeline implements FFTimeline{
     private $exclude_replies;
     private $count;
 
-    public function init($stream, $feed){
-        $this->count = $stream->getCountOfPosts();
+    public function init($feed){
+	    $this->count = isset($feed->posts) ? $feed->posts : 10;
         $this->screenName = $feed->content;
         $this->exclude_replies = (string)FFSettingsUtils::notYepNope2ClassicStyle($feed->replies);
     }
@@ -30,7 +30,7 @@ class FFHomeTimeline implements FFTimeline{
     }
 
     public function getField(){
-        $getfield = "?screen_name={$this->screenName}&count={$this->count}&exclude_replies={$this->exclude_replies}&include_entities=true";
+        $getfield = "?screen_name={$this->screenName}&count={$this->count}&exclude_replies={$this->exclude_replies}&include_entities=true&tweet_mode=extended";
         return $getfield;
     }
 }

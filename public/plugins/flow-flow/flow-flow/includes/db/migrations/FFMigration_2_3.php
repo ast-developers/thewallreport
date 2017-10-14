@@ -18,7 +18,7 @@ class FFMigration_2_3 implements FFDBMigration {
 		return '2.3';
 	}
 
-	public function execute($manager) {
+	public function execute($conn, $manager) {
 		if (!FFDB::existTable($manager->image_cache_table_name)){
 			$charset_collate = '';
 			$charset = FFDB::charset();
@@ -31,12 +31,12 @@ class FFMigration_2_3 implements FFDBMigration {
 			}
 
 			$sql = "CREATE TABLE ?n ( `url` VARCHAR(50) NOT NULL, `width` INT, `height` INT, `creation_time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP, PRIMARY KEY (`url`) ) $charset_collate";
-			FFDB::conn()->query($sql, $manager->image_cache_table_name);
+			$conn->query($sql, $manager->image_cache_table_name);
 		}
 
 		if (!FFDB::existColumn($manager->table_prefix . 'snapshots', 'dump')){
 			$sql = "ALTER TABLE ?n ADD COLUMN ?n BLOB NULL";
-			FFDB::conn()->query($sql, $manager->table_prefix . 'snapshots', 'dump');
+			$conn->query($sql, $manager->table_prefix . 'snapshots', 'dump');
 		}
 	}
 }

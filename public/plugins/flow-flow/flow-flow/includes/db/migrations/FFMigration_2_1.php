@@ -17,7 +17,7 @@ class FFMigration_2_1 implements FFDBMigration {
 		return '2.1';
 	}
 
-	public function execute($manager) {
+	public function execute($conn, $manager) {
 		$options = $manager->getOption('options', true);
 		if ($options === false) $options = array();
 		unset($options['last_submit']);

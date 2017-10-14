@@ -12,9 +12,11 @@ if ( ! defined( 'WPINC' ) ) die;
 interface FFCache {
 	/**
 	 * @param FFStreamSettings $stream
+	 * @param bool $moderation
+	 *
 	 * @return void
 	 */
-	public function setStream($stream);
+	public function setStream($stream, $moderation = false);
 	public function posts($feeds, $disableCache);
 	public function errors();
 	public function hash();

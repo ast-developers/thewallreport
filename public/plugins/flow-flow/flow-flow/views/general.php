@@ -15,6 +15,23 @@ $options = $context['options'];
 		<h1  class="desc-following">General Settings</h1>
 		<p class="desc">Adjust plugin's global settings here.</p>
 		<dl class="section-settings">
+			<dt class="ff_mod_roles ff_hide4site">Who can moderate
+			<p class="desc">Roles that are allowed to pre-moderate.</p>
+			</dt>
+			<dd class="ff_mod_roles ff_hide4site">
+				<?php
+				if (FF_USE_WP){
+					$wp_roles = new WP_Roles();
+					$roles = $wp_roles->get_names();
+					
+					foreach ($roles as $role_value => $role_name) {
+						$checked =  isset($options['mod-role-' . $role_value ]) && $options['mod-role-' . $role_value ] == 'yep' ? 'checked' : '';
+						$value = $checked ? 'yep' : 'none';
+						echo '<div class="checkbox-row"><input type="checkbox" ' . $checked . ' value="yep" name="flow_flow_options[mod-role-' . $role_value . ']" id="mod-role-' . $role_value . '"><label for="mod-role-' . $role_value . '">' . $role_name . '</label></div>';
+					}
+				}
+				?>
+			</dd>
 			<dt class="multiline">Date format<p class="desc">That will be used in posts timestamps.</p></dt>
 			<dd>
 				<input id="general-settings-ago-format" class="clearcache" type="radio" name="flow_flow_options[general-settings-date-format]" <?php if (isset($options['general-settings-date-format']) && $options['general-settings-date-format'] == 'agoStyleDate') echo "checked"; ?> value="agoStyleDate"/>
@@ -63,7 +80,7 @@ $options = $context['options'];
 			</dd>
 
 			<dt class="multiline">Force HTTPS for all resources
-			<p class="desc">For images and videos to load via HTTPS. Use this settings if you have HTTPS site and see browser security warnings. Keep in mind that this is forcing and not all resources can be available via HTTPS</p></dt>
+			<p class="desc">For images and videos to load via HTTPS. Use this setting if you have HTTPS site and see browser security warnings. Keep in mind that this is forcing and not all API provide resources via HTTPS.</p></dt>
 			<dd>
 				<label for="general-settings-https">
 					<input id="general-settings-https" class="clearcache switcher" type="checkbox"
@@ -71,6 +88,26 @@ $options = $context['options'];
 						<?php if (isset($options['general-settings-https']) && $options['general-settings-https'] == 'yep') echo "checked"; ?>
 					       value="yep"/><div><div></div></div>
 			</dd>
+
+			<dt class="multiline">Аmount of stored posts for each feed
+			<p class="desc">Maximum amount of posts that can be stored for one feed.</p></dt>
+			<dd>
+				<label for="general-settings-feed-post-count">
+					<input id="general-settings-feed-post-count" class="clearcache short" type="text"
+						   name="flow_flow_options[general-settings-feed-post-count]"
+						   value="<?php if (isset($options['general-settings-feed-post-count'])) {
+							   echo (int)$options['general-settings-feed-post-count'];
+						   } else {
+							   if (defined('FF_FEED_POSTS_COUNT')) {
+								   echo FF_FEED_POSTS_COUNT;
+							   } else {
+								   echo 100;
+							   }
+						   }
+						   ?>"/><div><div></div></div>
+			</dd>
+
+			
 
 <!--			<dt class="multiline">Save images to server-->
 <!--			<p class="desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus tempus a nibh condimentum commodo. Integer fermentum tortor lectus, eu porta orci dictum venenatis</p></dt>-->
@@ -94,4 +131,6 @@ $options = $context['options'];
 		</dl>
 		<span id="general-settings-sbmt" class='admin-button green-button submit-button'>Save Changes</span>
 	</div>
+	<?php include($context['root']  . 'views/footer.php'); ?>
+
 </div>

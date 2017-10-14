@@ -62,7 +62,7 @@ class FFFeedUtils{
 	 *
 	 * @return array
 	 */
-    public static function getFeedData($url, $timeout = 200, $header = false, $log = true, $followLocation = true, $useIpv4 = true){
+    public static function getFeedData($url, $timeout = 60, $header = false, $log = true, $followLocation = true, $useIpv4 = true){
         $c = curl_init();
         curl_setopt($c, CURLOPT_USERAGENT, self::$USER_AGENT);
         curl_setopt($c, CURLOPT_URL,$url);
@@ -80,6 +80,7 @@ class FFFeedUtils{
 	    if (isset($_COOKIE['XDEBUG_SESSION']) && $_COOKIE['XDEBUG_SESSION'] == 'PHPSTORM')
 		    curl_setopt($c, CURLOPT_COOKIE, 'XDEBUG_SESSION=PHPSTORM');
 	    if ($timeout != null)   curl_setopt($c, CURLOPT_TIMEOUT, $timeout);
+	    curl_setopt($c, CURLOPT_CONNECTTIMEOUT_MS, 5000);
 	    if (is_array($header))  curl_setopt($c, CURLOPT_HTTPHEADER, $header);
         $page = ($followLocation) ? curl_exec($c) : self::curl_exec_follow($c);
         $error = curl_error($c);
@@ -98,13 +99,32 @@ class FFFeedUtils{
                     error_log($url);
 		        }
 		    }
-	        if ((strpos($url, 'https://graph.facebook.com') === 0) || (strpos($url, 'https://api.instagram.com') === 0) || (strpos($url, 'https://api.linkedin.com') === 0)){
+			
+			if (strpos($error, 'Failed to connect') !== false && strpos($error, 'Network is unreachable') !== false){
+				curl_setopt($c, CURLOPT_FAILONERROR, false);
+				$page = ($followLocation) ? curl_exec($c) : self::curl_exec_follow($c);
+				$error2 = curl_error($c);
+				if (strlen($error2) > 0){
+					$error .= '. Please, enable "USE IPV4 PROTOCOL" option at the settings tab.';
+					$errors[] = array('msg' => $error, 'url' => $url);
+					error_log('FFFeedUtils line 110 :: ' . $error);
+					error_log('FFFeedUtils line 111 :: ' . $error2);
+				}
+				curl_close($c);
+				return array('response' => $page, 'errors' => $errors);
+			}
+	        else if ((strpos($url, 'https://graph.facebook.com') === 0) ||
+	            (strpos($url, 'https://api.instagram.com') === 0) ||
+	            (strpos($url, 'https://api.linkedin.com') === 0) ||
+	            (strpos($url, 'https://www.googleapis.com') === 0)
+	        ) {
 		        curl_setopt($c, CURLOPT_FAILONERROR, false);
 		        $body = ($followLocation) ? curl_exec($c) : self::curl_exec_follow($c);
 		        $body = json_decode($body);
 		        if (isset($body->error->message)) $error = $body->error->message;
 		        else if (isset($body->meta->error_message)) $error = $body->meta->error_message;
-		        else $error = $body->message;
+		        else if (isset($body->message)) $error = $body->message;
+		        else if (!is_null($body)) $error = var_dump2str($body);
 	        }
 	        $errors[] = array('msg' => $error, 'url' => $url);
         }
@@ -170,6 +190,18 @@ class FFFeedUtils{
 	public static function getUrlFromImg($tag){
 		preg_match("/\<img.+src\=(?:\"|\')(.+?)(?:\"|\')(?:.+?)\>/", $tag, $matches);
 		return $matches[1];
+	}
+
+	public static function filter_error_message($message){
+		if (is_array($message)){
+			if (sizeof($message) > 0 && isset($message[0]['msg'])){
+				return stripslashes(htmlspecialchars($message[0]['msg'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'));
+			}
+			else {
+				return '';
+			}
+		}
+		return stripslashes(htmlspecialchars($message, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'));
 	}
 
 	private static function curl_exec_follow($ch, &$maxRedirect = null) {
