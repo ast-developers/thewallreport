@@ -1,5 +1,6 @@
 <?php namespace flow\social;
 use flow\settings\FFSettingsUtils;
+use SimpleXMLElement;
 
 if ( ! defined( 'WPINC' ) ) die;
 /**
@@ -17,6 +18,7 @@ class FFYoutube extends FFHttpRequestFeed{
 	private $userlink = null;
 	private $apiKeyPart = '';
 	private $image;
+	private $media;
 	private $videoId;
 	private $isSearch = false;
 	private $isPlaylist = false;
@@ -32,10 +34,11 @@ class FFYoutube extends FFHttpRequestFeed{
 
 	/**
 	 * @param FFGeneralSettings $options
-	 * @param FFStreamSettings $stream
 	 * @param $feed
+	 *
+	 * @return mixed|void
 	 */
-	public function deferredInit($options, $stream, $feed) {
+	public function deferredInit($options, $feed) {
 		$original = $options->original();
 		$this->apiKeyPart = '&key=' . $original['google_api_key'];
 
@@ -90,7 +93,7 @@ class FFYoutube extends FFHttpRequestFeed{
 			if ( sizeof( $data['errors'] ) > 0 ) {
 				$this->errors[] = array(
 					'type'    => $this->getType(),
-					'message' => $data['errors'],
+					'message' => $this->filterErrorMessage($data['errors']),
 					'url' => $url
 				);
 			}
@@ -113,11 +116,10 @@ class FFYoutube extends FFHttpRequestFeed{
 		return parent::isSuitableOriginalPost( $post );
 	}
 
-	/**
-	 * @param SimpleXMLElement $item
-	 * @return stdClass
-	 */
 	protected function prepare( $item ) {
+		$this->image = null;
+		$this->media = null;
+
 		$this->videoId = is_object($item->id) ? $item->id->videoId : $item->snippet->resourceId->videoId;
 		if ($this->isSearch) {
 			$channelId      = $item->snippet->channelId;
@@ -164,12 +166,34 @@ class FFYoutube extends FFHttpRequestFeed{
 	 * @return bool
 	 */
 	protected function showImage($item){
-		$thumbnail = isset($item->snippet->thumbnails->maxres) ? $item->snippet->thumbnails->maxres : $item->snippet->thumbnails->high;
-		if (isset($thumbnail->width)){
-			$this->image = $this->createImage($thumbnail->url, $thumbnail->width, $thumbnail->height);
-		} else {
-			$this->image = $this->createImage($thumbnail->url);
+		$thumbnail = null;
+		if (isset($item->snippet->thumbnails->maxres)){
+			$thumbnail = $this->isSuitableThumbnail($item->snippet->thumbnails->maxres);
 		}
+
+		if (is_null($this->image) && isset($item->snippet->thumbnails->standard)) {
+			$thumbnail = $this->isSuitableThumbnail($item->snippet->thumbnails->standard, is_null($thumbnail));
+		}
+
+		if (is_null($this->image) && isset($item->snippet->thumbnails->high)) {
+			$thumbnail = $this->isSuitableThumbnail($item->snippet->thumbnails->high, is_null($thumbnail));
+		}
+
+		if (is_null($this->image) && isset($item->snippet->thumbnails->medium)) {
+			$thumbnail = $this->isSuitableThumbnail($item->snippet->thumbnails->medium, is_null($thumbnail));
+		}
+
+		if (is_null($this->image) && isset($item->snippet->thumbnails->default)) {
+			$thumbnail = $this->isSuitableThumbnail($item->snippet->thumbnails->default, is_null($thumbnail));
+		}
+
+		if (is_null($this->image)){
+			$this->image = $this->createImage($thumbnail->url, $thumbnail->width, $thumbnail->height);
+		}
+
+		$height = FFFeedUtils::getScaleHeight(600, $thumbnail->width, $thumbnail->height);
+		$this->media = $this->createMedia("http://www.youtube.com/v/{$this->videoId}?version=3&f=videos&autoplay=0", 600, $height, "application/x-shockwave-flash");
+
 		return true;
 	}
 
@@ -186,8 +210,7 @@ class FFYoutube extends FFHttpRequestFeed{
 	 * @return array
 	 */
 	protected function getMedia( $item ) {
-		$height = FFFeedUtils::getScaleHeight(600, $this->image['width'], $this->image['height']);
-		return $this->createMedia("http://www.youtube.com/v/{$this->videoId}?version=3&f=videos&autoplay=0", 600, $height, "application/x-shockwave-flash");
+		return $this->media;
 	}
 
 	/**
@@ -239,6 +262,14 @@ class FFYoutube extends FFHttpRequestFeed{
 	private function getProfile($profileUrl){
 		$profile = new \stdClass();
 		$data = $this->getFeedData($profileUrl);
+		if ( sizeof( $data['errors'] ) > 0 ) {
+			$this->errors[] = array(
+				'type'    => $this->getType(),
+				'message' => $this->filterErrorMessage($data['errors']),
+				'url' => $profileUrl
+			);
+			throw new \Exception();
+		}
 		$pxml = json_decode($data['response']);
 		$item = $pxml->items[0];
 		$profile->nickname = $item->snippet->title;
@@ -252,7 +283,6 @@ class FFYoutube extends FFHttpRequestFeed{
 	}
 
 	private function isSuitablePage($pxml){
-		$isSuitablePage = false;
 		$needCountPage = ceil($this->getCount() / 50);
 		if ($this->isPlaylist && $this->order){
 			$totalResult = intval($pxml->pageInfo->totalResults);
@@ -273,5 +303,15 @@ class FFYoutube extends FFHttpRequestFeed{
 			$this->pagination = false;
 
 		return $isSuitablePage && isset($pxml->items);
+	}
+
+	private function isSuitableThumbnail($thumbnail, $t_null = true){
+		if ( round( $thumbnail->width / $thumbnail->height, 2) == 1.78) {
+			$this->image = $this->createImage($thumbnail->url, $thumbnail->width, $thumbnail->height);
+		}
+		if ($t_null){
+			return $thumbnail;
+		}
+		return null;
 	}
 }

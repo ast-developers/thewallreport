@@ -18,19 +18,19 @@ class FFMigration_2_8 implements FFDBMigration {
 		return '2.8';
 	}
 
-	public function execute($manager) {
+	public function execute($conn, $manager) {
 		if (!FFDB::existColumn($manager->posts_table_name, 'smart_order'))
-			FFDB::conn()->query('ALTER TABLE ?n ADD ?n INT NULL', $manager->posts_table_name, 'smart_order');
-		if (false !== ($feeds = FFDB::conn()->getCol('SELECT DISTINCT `feed_id` FROM ?n', $manager->posts_table_name))){
+			$conn->query('ALTER TABLE ?n ADD ?n INT NULL', $manager->posts_table_name, 'smart_order');
+		if (false !== ($feeds = $conn->getCol('SELECT DISTINCT `feed_id` FROM ?n', $manager->posts_table_name))){
 			foreach ( $feeds as $feed ) {
-				if (false === ($posts = FFDB::conn()->getCol('SELECT `post_id` FROM ?n WHERE `feed_id` = ?s ORDER BY post_timestamp DESC', $manager->posts_table_name, $feed))){
-					throw new \Exception(FFDB::conn()->conn->error);
+				if (false === ($posts = $conn->getCol('SELECT `post_id` FROM ?n WHERE `feed_id` = ?s ORDER BY post_timestamp DESC', $manager->posts_table_name, $feed))){
+					throw new \Exception($conn->conn->error);
 				}
 				$index = 0;
 				foreach ( $posts as $post ) {
-					if (false === FFDB::conn()->query('UPDATE ?n SET `smart_order` = ?i WHERE `feed_id` = ?s AND `post_id` = ?s',
+					if (false === $conn->query('UPDATE ?n SET `smart_order` = ?i WHERE `feed_id` = ?s AND `post_id` = ?s',
 							$manager->posts_table_name, $index, $feed, $post)){
-						throw new \Exception(FFDB::conn()->conn->error);
+						throw new \Exception($conn->conn->error);
 					}
 					$index++;
 				}

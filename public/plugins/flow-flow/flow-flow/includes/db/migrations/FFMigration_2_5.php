@@ -18,14 +18,14 @@ class FFMigration_2_5 implements FFDBMigration{
 		return '2.5';
 	}
 
-	public function execute($manager) {
+	public function execute($conn, $manager) {
 		if (!FFDB::existColumn($manager->posts_table_name, 'post_timestamp')){
-			FFDB::conn()->query("ALTER TABLE ?n ADD COLUMN ?n INT", $manager->posts_table_name, 'post_timestamp');
+			$conn->query("ALTER TABLE ?n ADD COLUMN ?n INT", $manager->posts_table_name, 'post_timestamp');
 		}
 		if (FFDB::existColumn($manager->posts_table_name, 'post_date')){
-			FFDB::conn()->query("ALTER TABLE ?n DROP `post_date`",  $manager->posts_table_name);
+			$conn->query("ALTER TABLE ?n DROP `post_date`",  $manager->posts_table_name);
 		}
 
-		FFDB::conn()->query('DELETE FROM ?n', $manager->cache_table_name);
+		$conn->query('DELETE FROM ?n', $manager->cache_table_name);
 	}
 }

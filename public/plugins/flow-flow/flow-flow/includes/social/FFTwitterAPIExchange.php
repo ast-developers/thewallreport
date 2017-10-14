@@ -136,7 +136,7 @@ class FFTwitterAPIExchange
      *
      * @throws \Exception
      *
-     * @return \TwitterAPIExchange Instance of self for method chaining
+     * @return FFTwitterAPIExchange Instance of self for method chaining
      */
     public function setGetfield($string)
     {
@@ -157,7 +157,7 @@ class FFTwitterAPIExchange
             }
         }
 
-        $this->getfield = '?' . http_build_query($params);
+        $this->getfield = '?' . http_build_query($params, null, "&");
 
         return $this;
     }
@@ -191,7 +191,7 @@ class FFTwitterAPIExchange
      *
      * @throws \Exception
      *
-     * @return \TwitterAPIExchange Instance of self for method chaining
+     * @return FFTwitterAPIExchange Instance of self for method chaining
      */
     public function buildOauth($url, $requestMethod)
     {
@@ -285,7 +285,7 @@ class FFTwitterAPIExchange
 
         if (!is_null($postfields))
         {
-            $options[CURLOPT_POSTFIELDS] = http_build_query($postfields);
+            $options[CURLOPT_POSTFIELDS] = http_build_query($postfields, null, "&");
         }
         else
         {
@@ -323,12 +323,13 @@ class FFTwitterAPIExchange
     private function buildBaseString($baseURI, $method, $params)
     {
         $return = array();
-        ksort($params);
+        //ksort($params);
 
         foreach($params as $key => $value)
         {
             $return[] = rawurlencode($key) . '=' . rawurlencode($value);
         }
+        sort($return);
 
         return $method . "&" . rawurlencode($baseURI) . '&' . rawurlencode(implode('&', $return));
     }

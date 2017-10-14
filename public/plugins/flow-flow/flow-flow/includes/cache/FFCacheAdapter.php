@@ -1,4 +1,5 @@
 <?php namespace flow\cache;
+use flow\settings\FFGeneralSettings;
 use flow\settings\FFStreamSettings;
 
 if ( ! defined( 'WPINC' ) ) die;
@@ -16,19 +17,22 @@ class FFCacheAdapter implements FFCache{
 	private $context;
 	/**  @var FFCache */
 	private $cache;
+	/** @var  FFGeneralSettings */
+	private $generalSettings;
 
 	function __construct($context, $force = false){
 		$this->force = $force;
 		$this->context = $context;
+		$dbm = $this->context['db_manager'];
+		$this->generalSettings = $dbm->getGeneralSettings();
+		$this->cache = new FFCacheManager($this->context, $this->force);
 	}
 
-	public function setStream( $stream ) {
-		if ($stream->moderation()){
-			$this->cache = $this->admin($stream) ?
+	public function setStream( $stream, $moderation = false ) {
+		if ($moderation){
+			$this->cache = $this->admin() ?
 				new FFAdminModerationCacheManager($this->context, $this->force) : new FFModerationCacheManager($this->context, $this->force);
 		}
-		else
-			$this->cache = new FFCacheManager($this->context, $this->force);
 		$this->cache->setStream($stream);
 	}
 
@@ -53,10 +57,9 @@ class FFCacheAdapter implements FFCache{
 	}
 
 	/**
-	 * @param FFStreamSettings $stream
 	 * @return bool
 	 */
-	private function admin($stream){
-		return FF_USE_WP ? $stream->canModerate() : ff_user_can_moderate();
+	private function admin(){
+		return FF_USE_WP ? $this->generalSettings->canModerate() : ff_user_can_moderate();
 	}
 }

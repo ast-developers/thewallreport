@@ -15,8 +15,8 @@ class FFFavorites implements FFTimeline{
 	private $screenName;
 	private $count;
 
-	public function init($stream, $feed){
-		$this->count = $stream->getCountOfPosts();
+	public function init($feed){
+		$this->count = isset($feed->posts) ? $feed->posts : 10;
 		$this->screenName = $feed->content;
 	}
 
@@ -25,7 +25,7 @@ class FFFavorites implements FFTimeline{
 	}
 
 	public function getField(){
-		$getfield = "?screen_name={$this->screenName}&count={$this->count}&include_entities=true";
+		$getfield = "?screen_name={$this->screenName}&count={$this->count}&include_entities=true&tweet_mode=extended";
 		return $getfield;
 	}
 }

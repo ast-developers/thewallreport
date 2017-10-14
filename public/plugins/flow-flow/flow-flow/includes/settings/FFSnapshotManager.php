@@ -3,6 +3,7 @@ if ( ! defined( 'WPINC' ) ) die;
 
 use flow\db\FFDB;
 use flow\db\FFDBManager;
+use flow\FlowFlow;
 
 /**
  * Flow-Flow
@@ -21,6 +22,7 @@ use flow\db\FFDBManager;
  */
 class FFSnapshotManager {
 	private $context;
+	const VERSION = '2.10';
 
 	public function __construct($context) {
 		$this->context = $context;
@@ -35,6 +37,8 @@ class FFSnapshotManager {
 			$sn->description = $row['description'];
 			$sn->creation_time = $row['creation_time'];
 			$sn->settings = $row['settings'];
+			$sn->version = $row['version'];
+			$sn->outdated = version_compare(FFSnapshotManager::VERSION, $row['version'], '>=');
 			$result[] = $sn;
 		}
 		return $result;
@@ -43,98 +47,120 @@ class FFSnapshotManager {
 	public function processAjaxRequest() {
 		$result = array();
 		if (isset($_REQUEST['action'])){
-			switch ($_REQUEST['action']){
-				case 'create_backup':
-					$result = $this->createBackup();
-					break;
-				case 'restore_backup':
-					$result = $this->restoreBackup();
-					break;
-				case 'delete_backup':
-					$result = $this->deleteBackup();
-					break;
+			/** @var FFDBManager $db */
+			$dbm = $this->context['db_manager'];
+			$dbm->dataInit();
+
+			try{
+				if (false === FFDB::beginTransaction()) throw new \Exception('Don`t started transaction');
+
+				switch ($_REQUEST['action']){
+					case 'create_backup':
+						$result = $this->createBackup($dbm);
+						break;
+					case 'restore_backup':
+						$result = $this->restoreBackup($dbm);
+						break;
+					case 'delete_backup':
+						$result = $this->deleteBackup($dbm);
+						break;
+				}
+				FFDB::commit();
 			}
+			catch (\Exception $e){
+				FFDB::rollbackAndClose();
+				error_log($e->getMessage());
+				error_log($e->getTraceAsString());
+
+				switch ($_REQUEST['action']){
+					case 'create_backup':
+						$result = array('backed_up' => false);
+						break;
+					case 'restore_backup':
+						$result = array('restore' => false);
+						break;
+					case 'delete_backup':
+						$result = array('deleted' => false);
+						break;
+				}
+			}
+
 		}
 		echo json_encode($result);
 		die();
 	}
 
-	public function createBackup () {
-		$op = false;
+	/**
+	 * @param FFDBManager $dbm
+	 * @return array
+	 */
+	public function createBackup ($dbm) {
 		$all = array();
 		$description = '';//TODO add description for snapshot
-		/** @var FFDBManager $db */
-		$db = $this->context['db_manager'];
-		try{
-			if (false === FFDB::beginTransaction()) throw new \Exception('Don`t started transaction');
 
-			$options = FFDB::conn()->getAll('SELECT `id`, `value` FROM ?n', $db->option_table_name);
-			foreach ( $options as $option ) {
-				$all[$option['id']] = $option['value'];
-			}
-			$all['streams'] = array();
-			foreach ( $db->streams() as $stream ) {
-				$all['streams'][] = $db->getStream($stream['id']);
-			}
-			$result = gzcompress(serialize($all), 6);
-
-			$op = FFDB::conn()->query("INSERT INTO ?n (`description`, `settings`, `dump`) VALUES(?s, ?s, ?s)", FF_SNAPSHOTS_TABLE_NAME, $description, '', $result);
-
-			FFDB::commit();
-		}catch (Exception $e){
-			FFDB::rollbackAndClose();
-			error_log($e->getMessage());
-			error_log($e->getTraceAsString());
+		$options = FFDB::conn()->getAll('SELECT `id`, `value` FROM ?n', $dbm->option_table_name);
+		foreach ( $options as $option ) {
+			$all[$option['id']] = $option['value'];
 		}
-		return array('backed_up' => (false !== $op), 'result' => FFDB::conn()->affectedRows());
+		$all['streams'] = $dbm->streams();
+		$all['sources'] = $dbm->sources();
+		$result = gzcompress(serialize($all), 6);
+
+		FFDB::conn()->query("INSERT INTO ?n (`description`, `settings`, `dump`, `version`) VALUES(?s, ?s, ?s, ?s)", FF_SNAPSHOTS_TABLE_NAME, $description, '', $result, FlowFlow::VERSION);
+
+		return array('backed_up' => true, 'result' => FFDB::conn()->affectedRows());
 	}
 
-	public function restoreBackup () {
-		try{
-			if (FFDB::beginTransaction() &&
-			    (false !== ($dump = FFDB::conn()->getOne('SELECT `dump` FROM ?n WHERE id=?s', FF_SNAPSHOTS_TABLE_NAME, $_REQUEST['id'])))){
-				$all = gzuncompress($dump);
-				$all = unserialize($all);
-				/** @var FFDBManager $db */
-				$db = $this->context['db_manager'];
+	/**
+	 * @param FFDBManager $dbm
+	 * @return array
+	 */
+	public function restoreBackup ($dbm) {
+		if (false !== ($dump = FFDB::conn()->getOne('SELECT `dump` FROM ?n WHERE id=?s', FF_SNAPSHOTS_TABLE_NAME, $_REQUEST['id']))){
+			$all = gzuncompress($dump);
+			$all = unserialize($all);
+			unset($dump);
 
-				foreach ( $db->streams() as $stream ) {
-					FFDB::deleteStream($db->streams_table_name, $stream['id']);
-				}
-
-				foreach ( $all['streams'] as $stream ) {
-					$obj = (object)$stream;
-					FFDB::setStream($db->streams_table_name, $obj->id, $obj);
-				}
-				unset($all['streams']);
-
-				foreach ( $all as $key => $value ) {
-					$key = strpos($key, 'flow_flow_') === 0 ? str_replace('flow_flow_', '', $key) : $key;
-					$db->setOption($key, $value);
-				}
-				$db->clean();
-				FFDB::commit();
-				return array('restore' => true);
+			foreach ( $dbm->sources() as $id => $source ) {
+				$dbm->deleteFeed($id);
 			}
-		}catch (Exception $e){
-			FFDB::rollbackAndClose();
-			error_log($e->getMessage());
-			error_log($e->getTraceAsString());
+
+			foreach ( $all['sources'] as $source ) {
+				$dbm->modifySource($source);
+			}
+			unset($all['sources']);
+
+			$dbm->dataInit();
+
+			foreach ( $dbm->streams() as $stream ) {
+				FFDB::deleteStream($stream['id']);
+			}
+
+			foreach ( $all['streams'] as $stream ) {
+				$obj = (object)$stream;
+				FFDB::setStream($obj->id, $obj);
+				$dbm->generateCss($obj);
+			}
+			unset($all['streams']);
+
+			foreach ( $all as $key => $value ) {
+				$key = strpos($key, 'flow_flow_') === 0 ? str_replace('flow_flow_', '', $key) : $key;
+				$dbm->setOption($key, $value);
+			}
+			$dbm->clean();
+			return array('restore' => true);
 		}
-		return array('found' => false);
+		else {
+			return array('found' => false);
+		}
 	}
 
-	public function deleteBackup () {
-		try{
-			if (false === FFDB::beginTransaction()) throw new \Exception('Don`t started transaction');
-			$op = FFDB::conn()->query ('DELETE FROM ?n WHERE `id`=?s', FF_SNAPSHOTS_TABLE_NAME, $_REQUEST['id']);
-			FFDB::commit();
-			return array('deleted' => (false !== $op));
-		}catch(Exception $e){
-			FFDB::rollbackAndClose();
-			error_log($e->getMessage());
-			error_log($e->getTraceAsString());
-		}
-		return array('deleted' => false);
+	/**
+	 * @param FFDBManager $dbm
+	 * @return array
+	 */
+	public function deleteBackup ($dbm) {
+		$op = FFDB::conn()->query ('DELETE FROM ?n WHERE `id`=?s', FF_SNAPSHOTS_TABLE_NAME, $_REQUEST['id']);
+		return array('deleted' => (false !== $op));
 	}
 } 

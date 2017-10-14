@@ -10,6 +10,11 @@
  * @link      http://looks-awesome.com
  * @copyright 2014-2016 Looks Awesome
  */
+
+$dbm = $context['db_manager'];
+if (!$dbm->canCreateCssFolder()){
+	echo '<p class="ff-error" xmlns="http://www.w3.org/1999/html">Error: Plugin cannot create folder <strong>wp-content/resources/flow-flow/css</strong>, please add permissions or create this folder manually.</p>';
+}
 ?>
 <div id="fb-root"></div>
 <script>(function(d, s, id) {
@@ -29,6 +34,7 @@
 		var la_plugin_slug_down = '<?php echo $context['slug_down']; ?>';
         var plugin_url = '<?php echo $context['plugin_url'] . $context['slug'] ; ?>';
         var server_time = '<?php echo time() ; ?>';
+		var plugin_ver = '<?php echo $context['version'] ; ?>';
 		<?php if (isset($context['js-vars'])) echo $context['js-vars'];?>
 	</script>
 	<?php
@@ -37,17 +43,12 @@
 	?>
 	<div class="wrapper">
 		<?php
-			if (FF_USE_WP) {
-                echo '<h2>'. $context['admin_page_title'] . ' v. ' . $context['version'] . ' <a href="http://' . ( strpos($context['admin_page_title'], 'Stack') !== false ? 'stack.looks-awesome.com/docs/Getting_Started' : 'social-streams.com/docs/' )  . '" target="_blank">Documentation & FAQ</a></h2>';
-
+		if (FF_USE_WP) {
+				echo '<h2>'. $context['admin_page_title'] . ' v. ' . $context['version'] . ' <a href="http://docs.social-streams.com/" target="_blank">Documentation & FAQ</a></h2>';
                 echo '<div id="ff-cats">';
                 wp_dropdown_categories( );
                 echo '</div>';
-
-                echo '<div><select id="ff-roles">';
-                wp_dropdown_roles( );
-                echo '</select></div>';
-            }
+		}
 		?>
 		<ul class="section-tabs">
 			<?php
@@ -73,7 +74,7 @@
 			<div class="width-wrapper">
 				<div class="ff-table">
 					<div class="ff-cell">
-						Flow-Flow Social Hub plugin<br>
+						Flow-Flow Social Hub<br>
 						<?php if (defined( 'FF_PLUGIN_VER' )) echo 'Version: ' . FF_PLUGIN_VER;?><br>
 						Made by <a href="http://looks-awesome.com/">Looks Awesome</a>
 					</div>

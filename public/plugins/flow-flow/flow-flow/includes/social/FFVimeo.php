@@ -14,7 +14,7 @@ class FFVimeo extends FFHttpRequestFeed{
 		parent::__construct( 'vimeo' );
 	}
 
-	public function deferredInit( $options, $stream, $feed ) {
+	public function deferredInit( $options, $feed ) {
 		$content = (string)$feed->content;
 		$type = (string)$feed->{'timeline-type'};
 		switch ($type) {

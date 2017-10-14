@@ -18,15 +18,15 @@ class FFMigration_2_14 implements FFDBMigration{
 		return '2.14';
 	}
 
-	public function execute($manager) {
+	public function execute($conn, $manager) {
 		$tableName = $manager->image_cache_table_name;
 		if (!FFDB::existColumn($tableName, 'original_url')){
-			FFDB::conn()->query("ALTER TABLE ?n ADD COLUMN ?n VARCHAR(300)", $tableName, 'original_url');
+			$conn->query("ALTER TABLE ?n ADD COLUMN ?n VARCHAR(300)", $tableName, 'original_url');
 		}
 
 		$tableName = str_replace('ff_image_cache', 'wss_image_cache', $tableName);
 		if (FFDB::existTable($tableName) && !FFDB::existColumn($tableName, 'original_url')){
-			FFDB::conn()->query("ALTER TABLE ?n ADD COLUMN ?n VARCHAR(300)", $tableName, 'original_url');
+			$conn->query("ALTER TABLE ?n ADD COLUMN ?n VARCHAR(300)", $tableName, 'original_url');
 		}
 	}
 }

@@ -18,8 +18,8 @@ class FFSearch implements FFTimeline{
 	private $lang;
 	private $geo = '';
 
-    public function init($stream, $feed){
-        $this->count = $stream->getCountOfPosts();
+    public function init($feed){
+	    $this->count = isset($feed->posts) ? $feed->posts : 10;
         $this->searchQuery = $feed->content;
         $this->resultType = 'mixed';
 	    if (isset($feed->lang)) $this->lang = $feed->lang;
@@ -34,7 +34,7 @@ class FFSearch implements FFTimeline{
 
     public function getField() {
 	    $lang = (empty($this->lang) || $this->lang == 'all') ? '' : '&lang=' . $this->lang;
-        $getfield = "?q={$this->searchQuery}&count={$this->count}&result_type={$this->resultType}&include_entities=true" . $lang . $this->geo;
+        $getfield = "?q={$this->searchQuery}&count={$this->count}&result_type={$this->resultType}&include_entities=true&tweet_mode=extended" . $lang . $this->geo;
         return $getfield;
     }
 }

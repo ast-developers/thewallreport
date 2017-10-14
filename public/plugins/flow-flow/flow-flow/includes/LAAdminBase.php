@@ -1,4 +1,6 @@
 <?php namespace flow;
+use flow\db\LADBManager;
+
 if ( ! defined( 'WPINC' ) ) die;
 /**
  * FlowFlow.
@@ -10,6 +12,7 @@ if ( ! defined( 'WPINC' ) ) die;
  * @copyright 2014-2016 Looks Awesome
  */
 abstract class LAAdminBase {
+	/** @var LADBManager $db */
 	protected $db = null;
 	protected $context = null;
 	protected $plugin_slug = null;
@@ -81,6 +84,9 @@ abstract class LAAdminBase {
 				wp_die( __( 'You do not have sufficient permissions to access this page.', $this->getPluginSlug()));
 			}
 			$this->context['admin_page_title'] = esc_html( get_admin_page_title() );
+		}
+		else {
+			if (!isset($this->context['admin_page_title'])) $this->context['admin_page_title'] = 'Flow-Flow - Social Streams Plugin';
 		}
 		$this->displayPluginAdminPage($this->context);
 	}

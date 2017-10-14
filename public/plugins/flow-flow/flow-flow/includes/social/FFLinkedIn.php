@@ -28,10 +28,11 @@ class FFLinkedIn extends FFHttpRequestFeed {
 	 *
 	 *
 	 * @param FFGeneralSettings $options
-	 * @param FFStreamSettings $stream
 	 * @param $feed
+	 *
+	 * @return mixed|void
 	 */
-	public function deferredInit( $options, $stream, $feed ) {
+	public function deferredInit( $options, $feed ) {
 		$original = $options->original();
 		$token = $original['linkedin_access_token'];
 		$start = 0;
@@ -43,15 +44,12 @@ class FFLinkedIn extends FFHttpRequestFeed {
 		}
 		$this->url = "https://api.linkedin.com/v1/companies/{$this->company}/updates?oauth2_access_token={$token}&count={$num}&format=json";
 		$this->profileUrl = "https://api.linkedin.com/v1/companies/{$this->company}:(id,name,logo-url,square-logo-url)?oauth2_access_token={$token}&format=json";
-	}
 
-	protected function beforeProcess() {
-		parent::beforeProcess();
 		$data = $this->getFeedData($this->profileUrl);
 		if ( sizeof( $data['errors'] ) > 0 ) {
 			$this->errors[] = array(
 				'type'    => $this->getType(),
-				'message' => $data['errors'],
+				'message' => $this->filterErrorMessage($data['errors']),
 				'url' => $this->getUrl()
 			);
 		}
@@ -88,7 +86,7 @@ class FFLinkedIn extends FFHttpRequestFeed {
 
 	protected function getHeader( $item ) {
 		if (isset($item->updateContent->companyStatusUpdate)){
-			return $item->updateContent->companyStatusUpdate->share->comment;
+			return '';//$item->updateContent->companyStatusUpdate->share->comment;
 		}
 		elseif (isset($item->updateContent->companyJobUpdate)){
 			return $item->updateContent->companyJobUpdate->job->position->title;
@@ -109,10 +107,10 @@ class FFLinkedIn extends FFHttpRequestFeed {
 
 	protected function getContent( $item ) {
 		if (isset($item->updateContent->companyStatusUpdate)){
-			$content = '';
+			$content = FFFeedUtils::wrapLinks($item->updateContent->companyStatusUpdate->share->comment);
 			if (!empty($item->updateContent->companyStatusUpdate->share->content->description)){
-				$content  = $item->updateContent->companyStatusUpdate->share->content->title;
-				$content .= '<br>' . $item->updateContent->companyStatusUpdate->share->content->description;
+				$content .= '<br><br><b>' . $item->updateContent->companyStatusUpdate->share->content->title . '</b>';
+				$content .= '<br><br>' . $item->updateContent->companyStatusUpdate->share->content->description;
 			}
 			return $content;
 		}
@@ -129,6 +127,10 @@ class FFLinkedIn extends FFHttpRequestFeed {
 	protected function getPermalink( $item ) {
 		if (isset($item->updateContent->companyJobUpdate)){
 			return $item->updateContent->companyJobUpdate->job->siteJobRequest->url;
+		}
+		//https://www.linkedin.com/hp/update/6254947980814618625
+		if (false !== ($ar = explode('-', $item->updateKey))){
+			return 'https://www.linkedin.com/hp/update/' . $ar[2];
 		}
 		return $this->getUserlink($item);
 	}

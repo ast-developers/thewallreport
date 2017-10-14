@@ -92,7 +92,7 @@ class FFFacebookCacheManager implements LAFacebookCacheManager{
 			$error = $response['errors'][0];
 			return array(null, null, array(
 				'type'    => 'facebook',
-				'message' => $error['msg'],
+				'message' => FFFeedUtils::filter_error_message($error['msg']),
 				'url' => $token_url
 			));
 		}

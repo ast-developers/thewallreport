@@ -17,6 +17,6 @@ class FFMigration_2_2 implements FFDBMigration {
 		return '2.2';
 	}
 
-	public function execute($manager) {
+	public function execute($conn, $manager) {
 	}
 }

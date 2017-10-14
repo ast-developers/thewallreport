@@ -18,12 +18,12 @@ class FFMigration_2_4 implements FFDBMigration {
 		return '2.4';
 	}
 
-	public function execute($manager) {
+	public function execute($conn, $manager) {
 		if (!FFDB::existColumn($manager->streams_table_name, 'status')){
 			$sql = "ALTER TABLE ?n ADD COLUMN ?n INT DEFAULT 0";
-			FFDB::conn()->query($sql, $manager->streams_table_name, 'status');
+			$conn->query($sql, $manager->streams_table_name, 'status');
 		}
 
-		FFDB::conn()->query('DELETE FROM ?n', $manager->cache_table_name);
+		$conn->query('DELETE FROM ?n', $manager->cache_table_name);
 	}
 }

@@ -1,8 +1,6 @@
 <?php namespace flow\social;
 if ( ! defined( 'WPINC' ) ) die;
 
-use flow\settings\FFSettingsUtils;
-
 /**
  * Flow-Flow.
  *
@@ -13,7 +11,6 @@ use flow\settings\FFSettingsUtils;
  * @copyright 2014-2016 Looks Awesome
  */
 class FFDribbble extends FFHttpRequestFeed{
-	private $showText;
 	private $page = 1;
 	private $template_url;
 	private $size = 0;
@@ -23,14 +20,13 @@ class FFDribbble extends FFHttpRequestFeed{
 		parent::__construct( 'dribbble' );
 	}
 
-	public function deferredInit( $options, $stream, $feed ) {
+	public function deferredInit( $options, $feed ) {
 		$original = $options->original();
 		$token = $original['dribbble_access_token'];
 		$username = $feed->content;
 		$partOfUrl = ($feed->{'timeline-type'} == 'liked') ? 'likes' : 'shots';
 		$this->template_url = "https://api.dribbble.com/v1/users/{$username}/{$partOfUrl}?access_token={$token}&sort=recent&page=";
 		$this->url = $this->template_url . $this->page;
-		$this->showText = FFSettingsUtils::notYepNope2ClassicStyle($feed->{'hide-text'}, true);
 
 		$data = $this->getFeedData("https://api.dribbble.com/v1/users/{$username}?access_token={$token}");
 		$this->player = json_decode($data['response']);
@@ -54,7 +50,7 @@ class FFDribbble extends FFHttpRequestFeed{
 	}
 
 	protected function getHeader( $item ) {
-		return $this->showText ? $item->title : '';
+		return $item->title;
 	}
 
 	protected function getScreenName( $item ) {
@@ -70,7 +66,7 @@ class FFDribbble extends FFHttpRequestFeed{
 	}
 
 	protected function getContent( $item ) {
-		return $this->showText ? $this->dribbble($item->description) : '';
+		return $this->dribbble($item->description);
 	}
 
 	protected function getUserlink( $item ) {

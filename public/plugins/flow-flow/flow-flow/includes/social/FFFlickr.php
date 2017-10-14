@@ -1,8 +1,6 @@
 <?php namespace flow\social;
 if ( ! defined( 'WPINC' ) ) die;
 
-use flow\settings\FFSettingsUtils;
-
 /**
  * Flow-Flow.
  *
@@ -14,16 +12,14 @@ use flow\settings\FFSettingsUtils;
  */
 class FFFlickr extends FFRss {
 	private static $authors = array();
-
 	private $user_id;
-	private $showText;
 
 	public function __construct() {
 		parent::__construct( 'flickr' );
 	}
 
-	public function deferredInit( $options, $stream, $feed ) {
-		parent::deferredInit( $options, $stream, $feed );
+	public function deferredInit( $options, $feed ) {
+		parent::deferredInit( $options, $feed );
 
 		$content = $feed->content;
 		switch ($feed->{'timeline-type'}) {
@@ -38,7 +34,6 @@ class FFFlickr extends FFRss {
 //				$this->url = "http://www.degraeve.com/flickr-rss/rss.php?tags={$tags}brasilia+architecture&tagmode=all&sort=relevance&num={$num}";
 				break;
 		}
-		$this->showText = FFSettingsUtils::notYepNope2ClassicStyle($feed->{'hide-text'}, true);
 	}
 
 	protected function prepare($item) {
@@ -58,11 +53,8 @@ class FFFlickr extends FFRss {
 	}
 
 	protected function getContent( $item ) {
-		$text = '';
-		if ($this->showText){
-			$text = FFFeedUtils::wrapLinks(strip_tags($item->title));
-			if ($text == 'Untitled') return '';
-		}
+		$text = FFFeedUtils::wrapLinks(strip_tags($item->title));
+		if ($text == 'Untitled') return '';
 		return $text;
 	}
 
@@ -70,6 +62,16 @@ class FFFlickr extends FFRss {
 		return true;
 	}
 
+	protected function isSuitablePost($post){
+		if (true === parent::isSuitablePost($post)){
+			if (strpos($post->img['url'], '.swf') > 0){
+				return false;
+			}
+			return true;
+		}
+		return false;
+	}
+	
 	private function prepareAuthorData($user_name){
 		if (array_key_exists($user_name, self::$authors)){
 			$this->profileImage = self::$authors[$user_name][0];

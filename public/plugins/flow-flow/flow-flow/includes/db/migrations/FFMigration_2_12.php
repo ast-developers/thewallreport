@@ -18,9 +18,9 @@ class FFMigration_2_12 implements FFDBMigration{
 		return '2.12';
 	}
 
-	public function execute($manager) {
+	public function execute($conn, $manager) {
 		if (FFDB::existColumn($manager->streams_table_name, 'status')){
-			FFDB::conn()->query("ALTER TABLE ?n DROP `status`",  $manager->streams_table_name);
+			$conn->query("ALTER TABLE ?n DROP `status`",  $manager->streams_table_name);
 		}
 	}
 }
