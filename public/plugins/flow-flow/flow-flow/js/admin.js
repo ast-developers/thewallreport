@@ -766,11 +766,17 @@ var FlowFlowApp = (function($){
       // setTimeout(function(){
         if (view === 'list') {
           self.$container.find('#streams-' + view).addClass('view-visible');
+            self.$container.find('#streams-' + view).find('.section').attr('style','width:100%');
+           $('#feeds-list-section').attr('style','width:100%');
+           $('#general-settings').attr('style','width:100%');
+           $('#auth-settings').attr('style','width:100%');
           self.$form.removeClass('stream-view-visible');
         } else {
        //   self.$container.find('#stream-view-' + view).addClass('view-visible');
-          self.$container.find('.section-stream').last().addClass('view-visible');
-          self.$form.addClass('stream-view-visible');
+            $('.section-stream').find('.section').attr('style','width:100%');
+            self.$container.find('.section-stream').last().addClass('view-visible');
+            self.$container.find('#streams-' + view).find('.section').attr('style','width:100%');
+            self.$form.addClass('stream-view-visible');
         }
       // },0)
 

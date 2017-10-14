@@ -117,7 +117,7 @@ table.dataTable.no-footer {
 
 /*====== Feeds Plugin =========*/
 .ff-standalone .wrapper { min-width: 100%;}
-.ff-standalone .section-contents .section,
+
 .ff-standalone .section-tabs,
 .ff-standalone .width-wrapper,
 .ff-standalone .wrapper { width: 100%;}
