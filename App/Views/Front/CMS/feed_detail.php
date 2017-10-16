@@ -43,16 +43,16 @@ $disqusPageIdentifier = $feed['post_id'] . '_' . $feed['feed_id'];
                         <div class="col-sm-6">
                             <div class="ff-item-bar">
                                 <?php if(isset(json_decode($feed['post_additional'])->views)){ ?>
-                                    <a href="<?php echo $feed['post_permalink'] ?>" class="ff-views"><i
+                                    <span class="ff-views"><i
                                                 class="ff-icon-view"></i>
-                                        <span><?php echo json_decode($feed['post_additional'])->views ?></span></a>
+                                        <span><?php echo json_decode($feed['post_additional'])->views ?></span></span>
                                 <?php } ?>
-                                <a href="<?php echo $feed['post_permalink'] ?>" class="ff-likes"><i
+                                <span class="ff-likes"><i
                                             class="ff-icon-like"></i><?php echo json_decode($feed['post_additional'])->likes ?>
-                                </a>
-                                <a href="<?php echo $feed['post_permalink'] ?>" class="ff-comments"><i
+                                </span>
+                                <span href="<?php echo $feed['post_permalink'] ?>" class="ff-comments"><i
                                             class="ff-icon-comment"></i><?php echo json_decode($feed['post_additional'])->comments ?>
-                                </a>
+                                </span>
                             </div>
                         </div>
                         <div class="col-sm-6 text-sm-right">
