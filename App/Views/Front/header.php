@@ -87,9 +87,10 @@
 
                             <?php if(!empty($menus)){
                                 foreach($menus as $key=>$menu){
+                                $link = ($menu['type'] == 1 || $menu['type'] == 2) ? (\App\Config::W_ROOT.$menu['slug']) : $menu['slug'];
                              ?>
                             <li class="nav-item">
-                                <a class="nav-link" href="<?php echo $menu['slug'] ?>" target="<?php echo ($menu['new_tab'] ? '_blank' : '');?>"><?php echo $menu['name'] ?></a>
+                                <a class="nav-link" href="<?php echo $link; ?>" target="<?php echo ($menu['new_tab'] ? '_blank' : '');?>"><?php echo $menu['name'] ?></a>
                             </li>
                             <?php } } ?>
                         </ul>

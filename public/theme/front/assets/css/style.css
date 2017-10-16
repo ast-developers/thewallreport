@@ -64,7 +64,8 @@ a:hover, a:focus { text-decoration: none; }
 .top-article .article-content h2 {letter-spacing: 5px; white-space: normal; word-break: break-all;}
 .top-article .article-content h4 {letter-spacing: 2px;}
 .video-block iframe { width: 100%;}
-
+.iframe-video { position: relative; padding-top:55%; margin-bottom: 30px; }
+.iframe-video iframe { position: absolute; left: 0; top:0; width: 100%!important; height: 100%!important;}
 .top-article .article-content .cb-byline {
     font-size: 10px;
     letter-spacing: 2px;

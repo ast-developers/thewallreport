@@ -1,8 +1,8 @@
 <?php
 include(\App\Config::F_ROOT . 'App/Views/Front/header.php');
 $getFeaturedBanners = Core\Helper::getFeaturedBanners();
-$disqusPageUrl = \App\Config::W_ROOT . $feed['post_id'];
-$disqusPageIdentifier = $feed['post_id'];
+$disqusPageUrl = \App\Config::W_ROOT . 'feed/' . $feed['post_id'] . '/' . $feed['feed_id'];
+$disqusPageIdentifier = $feed['post_id'] . '_' . $feed['feed_id'];
 ?>
 <div id="fb-root"></div>
 <script>(function (d, s, id) {
@@ -42,9 +42,11 @@ $disqusPageIdentifier = $feed['post_id'];
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="ff-item-bar">
-                                <a href="<?php echo $feed['post_permalink'] ?>" class="ff-views"><i
-                                            class="ff-icon-view"></i>
-                                    <span><?php echo json_decode($feed['post_additional'])->likes ?></span></a>
+                                <?php if(isset(json_decode($feed['post_additional'])->views)){ ?>
+                                    <a href="<?php echo $feed['post_permalink'] ?>" class="ff-views"><i
+                                                class="ff-icon-view"></i>
+                                        <span><?php echo json_decode($feed['post_additional'])->views ?></span></a>
+                                <?php } ?>
                                 <a href="<?php echo $feed['post_permalink'] ?>" class="ff-likes"><i
                                             class="ff-icon-like"></i><?php echo json_decode($feed['post_additional'])->likes ?>
                                 </a>
