@@ -195,15 +195,16 @@ class Helper
             $echo .= '<div class="row">';
                 foreach ($featuredPost as $post) {
                     $image = self::getCMSFeaturedImage($post, '360x240');
-                    $echo .= '<div class="col-sm-4">
+                    $echo .= '<div class="col-md-4 h-100 pb-4">
                                 <a href="'.Config::W_ROOT . $post['slug'].'" class="model-blocks">
                                     <div class="block-details">
                                         <div class="block-name">'.$post['name'].'</div>
                                         <div class="block-date">'.date("F j, Y", strtotime($post['published_at'])).'</div>
                                     </div>
-                                    <img width="360" height="490" src="'.$image.'" class="attachment-cb-360-490 size-cb-360-490 wp-post-image">
+                                    <img src="'.$image.'" class="attachment-cb-360-490 size-cb-360-490 wp-post-image">
                                 </a>
-                            </div>';
+                            </div>  
+                            ';
                 }
             $echo .= '</div>';
         }

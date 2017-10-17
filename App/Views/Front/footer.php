@@ -47,6 +47,8 @@ var search_url = "<?php echo \App\Config::W_ROOT.'search/' ?>";
 var url = "<?php echo \App\Config::W_ROOT.'search-data'; ?>";
 var spinner = "<?php echo \App\Config::W_FRONT_ASSETS.'images/loader.gif' ?>";
     $(document).ready(function () {
+        // Manage sticky header
+        App.manageHeader();
         // Show or hide the sticky footer button
         $(window).scroll(function () {
             if ($(this).scrollTop() > 200) {
