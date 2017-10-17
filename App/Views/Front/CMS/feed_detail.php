@@ -59,12 +59,12 @@ $disqusPageIdentifier = $feed['post_id'] . '_' . $feed['feed_id'];
                             <div class="feed-social">
                                 <ul>
                                     <li>
-                                        <a href="http://www.facebook.com/sharer.php?u=<?php echo $feed['post_permalink'] ?>"><i
+                                        <a href="http://www.facebook.com/sharer.php?u=<?php echo \App\Config::W_ROOT.'feed/'.$feed['post_id'].'/'.$feed['feed_id'] ?>"><i
                                                     class="fa fa-facebook"></i></a></li>
-                                    <li><a href="https://twitter.com/share?url=<?php echo $feed['post_permalink'] ?>"><i
+                                    <li><a href="https://twitter.com/share?url=<?php echo \App\Config::W_ROOT.'feed/'.$feed['post_id'].'/'.$feed['feed_id'] ?>"><i
                                                     class="fa fa-twitter"></i></a></li>
                                     <li>
-                                        <a href="https://plus.google.com/share?url=<?php echo $feed['post_permalink'] ?>"><i
+                                        <a href="https://plus.google.com/share?url=<?php echo \App\Config::W_ROOT.'feed/'.$feed['post_id'].'/'.$feed['feed_id'] ?>"><i
                                                     class="fa fa-google-plus"></i> </a></li>
                                 </ul>
                             </div>
