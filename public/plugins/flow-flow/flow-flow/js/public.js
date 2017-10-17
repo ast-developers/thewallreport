@@ -1955,9 +1955,25 @@ window.CustomModernizr = function(t, e, i) {
                         }), l.find(".ff-search input").on("keyup", function() {
                             var t = this.value.toLowerCase();
                             h(c, t)
-                        }), l.on("click", "a", function() {
+                        }), l.on("click", "a", function(event) {
+                            var href = $(this).attr('href');
                             var e, i = t(this);
-                            return i.closest(".ff-share-popup").length ? (e = t(this).attr("href"), window.open(e, "sharer", "toolbar=0,status=0,width=626,height=436"), !1) : (!i.is(".ff-no-link") || "nope" !== n.gallery && !d) && void 0
+                            if(i.closest(".ff-share-popup").length) {
+                                return (e = t(this).attr("href"), window.open(e, "sharer", "toolbar=0,status=0,width=626,height=436"), !1)
+                            }  else if(i.closest(".ff-content").length && !i.parents('.ff-slideshow').length) {
+                                if(href.indexOf('explore/tags/') >= 0){
+                                    var search = $(this).text();
+                                    event.stopPropagation();
+                                    event.preventDefault();
+                                    $('.ff-search input').val(search);
+                                    h(c,search);
+                                    $('html,body').animate({
+                                            scrollTop: $(".ff-stream").offset().top},
+                                        'slow');
+                                }
+                            } else {
+                                return (!i.is(".ff-no-link") || "nope" !== n.gallery && !d) && void 0
+                            }
                         }), l.on("click", ".ff-icon-share", function(e) {
                             var i = t(this).parent();
                             return i.data("opened") ? (i.removeClass("ff-popup__visible"), i.data("opened", !1)) : (i.addClass("ff-popup__visible"), i.data("opened", !0)), !1

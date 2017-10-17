@@ -66,6 +66,7 @@ class CMSController extends Controller
         $feed = $this->repo->getFeedByPostIdAndFeedId($this->params['postid'], $this->params['feedid']);
         if (!empty($feed)) {
             $this->repo->updateFeedViewCount($feed['post_id']);
+            $feed['post_text'] = str_replace('href=\"','href="',$feed['post_text']);
             return View::render('Front/CMS/feed_detail.php', ['feed' => $feed]);
         }
         return View::render('Front/error.php');
