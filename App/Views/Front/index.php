@@ -22,12 +22,12 @@ $getBanners = Core\Helper::getFeaturedBanners();
 $banners = array_chunk($getBanners,2);
 ?>
     <div class="row">
-        <div class="col-lg-12 bg-white pr-4 pl-4 pb-4">
+        <div class="col-lg-12 bg-white pr-4 pl-4 pb-4 mt-1">
             <?php  if(!empty($banners[0])){
             foreach ($banners[0] as $key => $banner) { ?>
                 <?php $parent_class = ($key % 2 == 0) ? '<div class="row no-gutters">' : '' ?>
                 <?php $end_of_div = ($key % 2 == 0) ? '' : '</div>' ?>
-                <?php $class = ($key % 2 == 0) ? ' col-xl-8 ' : ' col-xl-4 ' ?>
+                <?php $class = ($key % 2 == 0) ? ' col-md-8 ' : ' col-md-4 ' ?>
                 <?php  $name = ($key % 2 == 0) ? '<h2>'.$banner['name'].'</h2>' : '<h4>'.$banner['name'].'</h4>'?>
                 <?php $image = (!empty($banner['featured_image'])) ? (\Core\Helper::getFeaturedImage($banner)) : '' ?>
                 <?php echo $parent_class ?>
@@ -55,7 +55,7 @@ $banners = array_chunk($getBanners,2);
                 foreach ($banners[1] as $key => $banner) { ?>
                     <?php $parent_class = ($key % 2 == 0) ? '<div class="row no-gutters">' : '' ?>
                     <?php $end_of_div = ($key % 2 == 0) ? '' : '</div>' ?>
-                    <?php $class = ($key % 2 != 0) ? ' col-xl-8 ' : ' col-xl-4 ' ?>
+                    <?php $class = ($key % 2 != 0) ? ' col-md-8 ' : ' col-md-4 ' ?>
                     <?php  $name = ($key % 2 != 0) ? '<h2>'.$banner['name'].'</h2>' : '<h4>'.$banner['name'].'</h4>'?>
                     <?php $image = (!empty($banner['featured_image'])) ? (\Core\Helper::getFeaturedImage($banner)) : '' ?>
                     <?php echo $parent_class ?>

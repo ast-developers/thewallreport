@@ -5,15 +5,15 @@ include(\App\Config::F_ROOT . 'App/Views/Front/header.php');
 use Core\Helper;
 ?>
 <div class="row">
-    <div class="col-lg-12 bg-white p-4">
+    <div class="col-lg-12 bg-white pl-4 pb-4 pr-4 mt-1">
         <div class="row">
             <?php $class = (!empty($page['show_featured_sidebar']) && $page['show_featured_sidebar'] == 1) ? 'col-xl-8' : 'col-xl-12' ?>
             <div class="<?php echo $class ?>">
+                <?php if (!empty($page['show_title']) && $page['show_title']) { ?>
                 <div class="search-header">
-                    <?php if (!empty($page['show_title']) && $page['show_title']) { ?>
                         <h1 class="search-title"><?php echo $page['name'] ?></h1>
-                    <?php } ?>
                 </div>
+                <?php } ?>
                 <div class="row search-post-content no-gutters">
                     <?php
                     $helper = new Helper();
