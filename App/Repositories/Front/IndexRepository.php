@@ -19,6 +19,15 @@ class IndexRepository
         return $this->post_model->getFeaturedBanners();
     }
 
+    /**
+     * Get home page banners
+     * @return bool
+     */
+    public function getBanners()
+    {
+        return $this->post_model->getHomePageBanners();
+    }
+
     public function getAdvertisements(){
         $adds = [];
         $data = $this->advertisement_model->getAdvertisements();

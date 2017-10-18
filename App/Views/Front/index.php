@@ -18,7 +18,7 @@ $pageTitle = "A Real-Time Collection of News";
 require_once(\App\Config::F_FLOW_FLOW_ROOT . 'ff-injector.php');
 $flowFlowInjector = new FFInjector();
 include(\App\Config::F_ROOT . 'App/Views/Front/header.php');
-$getBanners = Core\Helper::getFeaturedBanners();
+//$getBanners = Core\Helper::getFeaturedBanners();
 $banners = array_chunk($getBanners,2);
 ?>
     <div class="row">

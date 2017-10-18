@@ -28,7 +28,8 @@ class IndexController extends Controller
     public function indexAction()
     {
         $advertisement = $this->repo->getAdvertisements();
-        View::render('Front/index.php',['advertisement'=>$advertisement]);
+        $getBanners = $this->repo->getBanners();
+        View::render('Front/index.php',['advertisement'=>$advertisement, 'getBanners' => $getBanners]);
     }
 
 }
