@@ -73,24 +73,11 @@
 			<div class="width-wrapper">
 				<div class="ff-table">
 					<div class="ff-cell">
-						Flow-Flow Social Hub plugin<br>
-						<?php if (defined( 'FF_PLUGIN_VER' )) echo 'Version: ' . FF_PLUGIN_VER;?><br>
-						Made by <a href="http://looks-awesome.com/">Looks Awesome</a>
-					</div>
-					<div class="ff-cell">
-						<h1>HOT TOPICS</h1>
-						<a href="http://flow-php.looks-awesome.com/docs/Getting_Started/First_Steps_After_Installation">How to add stream on page</a><br>
-						<a href="http://flow-php.looks-awesome.com/docs/Getting_Started/First_Steps_After_Installation#refresh">How to refresh my streams</a><br>
-						<a href="http://flow-php.looks-awesome.com/docs/Social_Networks_Auth/Authenticate_with_Facebook">How to authorize Facebook</a><br>
-						<a href="">Frequently asked questions</a>
-					</div>
-					<div class="ff-cell">
-						<h1>CONTACT US</h1>
-						<a href="http://looks-awesome.com/help">Support request</a><br>
-						<a href="http://looks-awesome.com/">Looks Awesome site</a><br>
-						<a href="https://twitter.com/looks_awesooome">Twitter</a><br>
-						<a href="https://www.facebook.com/looksawesooome">Facebook</a>
-					</div>
+                        Social River<br/>
+                        <?php if (defined( 'FF_PLUGIN_VER' )) echo 'Version: ' . FF_PLUGIN_VER;?><br>
+                        Made by <a href="#">nDever Group LLC,</a><br />
+                        Josue Garcia<br>
+                    </div>
 				</div>
 			</div>
 		</div>

@@ -126,11 +126,6 @@ class FFStreamsTab implements LATab{
 						</tbody>
 					</table>
 				</div>
-                <div class="section rating-promo">
-                    <div class="fb-wrapper"><div class="fb-page" data-href="https://www.facebook.com/looksawesooome/" data-small-header="true" data-adapt-container-width="true" data-hide-cover="true" data-show-facepile="false"><div class="fb-xfbml-parse-ignore"><blockquote cite="https://www.facebook.com/looksawesooome/"><a href="https://www.facebook.com/looksawesooome/">Looks Awesome</a></blockquote></div></div></div>
-                    <h1 class="desc-following"><span>Help plugin to grow</span></h1>
-                    <p class="">A lot of users only think to review Flow-Flow when something goes wrong while many more people use it satisfactory. Don't let this go unnoticed. If you find Flow-Flow useful please leave your honest rating and review on plugins <a href="http://codecanyon.net/downloads" target="_blank">Downloads page</a> to help Flow-Flow grow and endorse its further development!</p>
-                </div>
 			</div>
 		</div>
 		<?php

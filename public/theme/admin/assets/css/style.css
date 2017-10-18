@@ -1,4 +1,4 @@
-/*   
+/*
 Template Name: Metronic - Responsive Admin Dashboard Template build with Twitter Bootstrap v2.3.1
 Version: 1.1.2
 Author: KeenThemes
@@ -4910,4 +4910,9 @@ Bootstrap Tree CSS changes(new in v1.1.2)
 .tree a.tree-toggle.closed, 
 .tree a.tree-toggle-icon-only.closed {
   background-position: 2px 3px;
+}
+
+.made-by {
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
 }

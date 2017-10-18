@@ -147,7 +147,7 @@ class FFCacheManager implements FFCache{
 	protected function getGetFilters(){
 		$args[] = FFDB::conn()->parse('stream.stream_id = ?s', $this->stream->getId());
 		$args[] = FFDB::conn()->parse('cach.enabled = 1');
-		if(function_exists('current_user_can') && current_user_can( 'manage_options' )){
+		if(empty($_SESSION['user']) || (!empty($_SESSION['user']) && $_SESSION['user']['role_id'] != 1)){
             $args[] = FFDB::conn()->parse('post.is_active = ?s', 1);
         }
 		if ($this->stream->showOnlyMediaPosts()) $args[] = "post.image_url IS NOT NULL";

@@ -13,7 +13,7 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
             <div class="row-fluid">
                 <div class="span12">
                     <h3 class="page-title">
-                        Flow-Flow
+                        Social River
                     </h3>
                 </div>
             </div>
@@ -25,7 +25,7 @@ include(\App\Config::F_ROOT . 'App/Views/Admin/header.php') ?>
             <div class="row-fluid">
                 <div class="span12 responsive" data-tablet="span12 fix-offset" data-desktop="span12">
                     <!-- BEGIN EXAMPLE TABLE PORTLET-->
-                    <?php $flowFlowInjector->admin("Flow-Flow - Social Streams Plugin"); ?>
+                    <?php $flowFlowInjector->admin("Stream River - Social Streams Plugin"); ?>
                     <!-- END EXAMPLE TABLE PORTLET-->
                 </div>
             </div>
