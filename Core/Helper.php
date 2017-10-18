@@ -159,7 +159,7 @@ class Helper
      */
     public  function parsePageDesc($description){
         $catParsedDetail = preg_replace_callback(
-            "/\[cat([^\]]*)\]/",
+            "/<p>\[cat([^\]]*)\]<\/p>/",
             array($this, 'replacePageShortCode'),
             $description);
         $detail = self::removeShortCodeFromDescription($catParsedDetail);
@@ -253,7 +253,7 @@ class Helper
      * @return mixed
      */
     public static function removeShortCodeFromDescription($description){
-        $remove_ff = preg_replace('/\[ff([^\]]*)\]/', '', $description);
+        $remove_ff = preg_replace('/<p>\[ff([^\]]*)\]<\/p>/', '', $description);
         return $remove_ff;
     }
 }

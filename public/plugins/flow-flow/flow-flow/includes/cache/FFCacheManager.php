@@ -173,10 +173,10 @@ class FFCacheManager implements FFCache{
 	    $order = 'post.smart_order, post.post_timestamp DESC';
 	    if ($this->stream->order() == FF_RANDOM_ORDER)  $order = 'post.rand_order, post.post_id';
 	    if ($this->stream->order() == FF_BY_DATE_ORDER) $order = 'post.post_timestamp DESC, post.post_id';
-        if ($this->stream->order() == FF_FEATURED_ORDER) $order = 'post.featured DESC';
-        if ($this->stream->order() == FF_POPULARITY_ORDER) $order = 'CAST(JSON_EXTRACT(post.post_additional, \'$.likes\') AS UNSIGNED) DESC ';
+        if ($this->stream->order() == FF_FEATURED_ORDER) $order = 'post.featured DESC, post.post_timestamp DESC';
+        if ($this->stream->order() == FF_POPULARITY_ORDER) $order = 'CAST(JSON_EXTRACT(post.post_additional, \'$.likes\') AS UNSIGNED) DESC, post.post_timestamp DESC';
 
-	    $moderation = array();
+        $moderation = array();
 	    foreach ( $this->stream->getAllFeeds() as $feed ) {
 		    $moderation[$feed['id']] = FFSettingsUtils::YepNope2ClassicStyleSafe($feed, 'mod', false);
 	    }
