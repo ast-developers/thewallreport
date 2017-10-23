@@ -25,9 +25,20 @@ $disqusPageIdentifier = $feed['post_id'] . '_' . $feed['feed_id'];
                             <iframe width="100%" height="350"
                                     src="https://www.youtube.com/embed/<?php echo $feed['post_id'] ?>"
                                     frameborder="0" allowfullscreen></iframe>
-                        <?php } else { ?>
-                            <img src="<?php echo $feed['media_url']; ?>">
-                        <?php } ?>
+                        <?php } else {
+                                if (strpos($feed['media_type'], 'video') !== false) {
+                                    ?>
+                                    <video width="100%" height="350" controls>
+                                        <source src="<?php echo $feed['media_url']; ?>">
+                                        Your browser does not support the video tag.
+                                    </video>
+                                    <?php
+                                } else {
+                                    ?>
+                                    <img src="<?php echo $feed['media_url']; ?>">
+                                    <?php
+                                }
+                        } ?>
                     </div>
                     <h1><?php echo $feed['post_header']; ?></h1>
                     <p><?php echo $feed['post_text']; ?></p>
