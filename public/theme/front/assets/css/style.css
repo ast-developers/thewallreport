@@ -724,6 +724,10 @@ a.model-blocks:hover img.wp-post-image {
 .details-content.feed-details .ff-item-bar a:first-child { margin-left: 0px;}
 .details-content.feed-details .ff-item-bar .ff-icon-comment { margin-left: 0px;}
 .details-content.feed-details .video iframe { width: 100%;}
+.details-content.feed-details .video video {
+    width: 100%    !important;
+    height: auto   !important;
+}
 .external-link { font-size: 16px; vertical-align: middle;}
 .feed-social { display: inline-block; padding-top: 10px; }
 .feed-social ul {

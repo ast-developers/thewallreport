@@ -28,7 +28,7 @@ $disqusPageIdentifier = $feed['post_id'] . '_' . $feed['feed_id'];
                         <?php } else {
                                 if (strpos($feed['media_type'], 'video') !== false) {
                                     ?>
-                                    <video width="100%" height="350" controls>
+                                    <video controls>
                                         <source src="<?php echo $feed['media_url']; ?>">
                                         Your browser does not support the video tag.
                                     </video>
