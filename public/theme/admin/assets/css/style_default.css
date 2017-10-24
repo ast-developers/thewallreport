@@ -6,7 +6,7 @@ default theme
 Reset and overrides  
 ***/
 body { 
-  background-color:#3d3d3d !important;
+  background-color:#31373d !important;
 }
 
 /***
@@ -15,7 +15,7 @@ Page header
 .header .navbar-inner {
   filter:none !important;
   background-image: none !important;
-  background-color: #1f1f1f !important;
+  background-color: #212529 !important;
 }
 
 .header .btn-navbar {  
@@ -35,7 +35,7 @@ Page header
 Page sidebar
 ***/
 .page-sidebar > ul > li > a {
-  border-top: 1px solid #595959 !important;
+  border-top: 1px solid #31373d !important;
   color: #fff !important;
 }
 
@@ -58,7 +58,7 @@ Page sidebar
 }
 
 .page-sidebar > ul > li.active > a {
-  background: #e02222 !important;  
+  background: #454e57 !important;
   border-top-color: transparent !important;
   color:#fff;
 }  

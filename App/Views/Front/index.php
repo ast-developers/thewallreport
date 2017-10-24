@@ -28,7 +28,7 @@ $banners = array_chunk($getBanners,2);
                 <?php $parent_class = ($key % 2 == 0) ? '<div class="row no-gutters">' : '' ?>
                 <?php $end_of_div = ($key % 2 == 0) ? '' : '</div>' ?>
                 <?php $class = ($key % 2 == 0) ? ' col-md-8 ' : ' col-md-4 ' ?>
-                <?php  $name = ($key % 2 == 0) ? '<h2>'.$banner['name'].'</h2>' : '<h4>'.$banner['name'].'</h4>'?>
+                <?php  $name = ($key % 2 == 0) ? '<h4>'.$banner['name'].'</h4>' : '<h4>'.$banner['name'].'</h4>'?>
                 <?php $image = (!empty($banner['featured_image'])) ? (\Core\Helper::getFeaturedImage($banner)) : '' ?>
                 <?php echo $parent_class ?>
                 <div class="<?php echo $class; ?> grid-img">
@@ -55,7 +55,7 @@ $banners = array_chunk($getBanners,2);
                     <?php $parent_class = ($key % 2 == 0) ? '<div class="row no-gutters">' : '' ?>
                     <?php $end_of_div = ($key % 2 == 0) ? '' : '</div>' ?>
                     <?php $class = ($key % 2 != 0) ? ' col-md-8 ' : ' col-md-4 ' ?>
-                    <?php  $name = ($key % 2 != 0) ? '<h2>'.$banner['name'].'</h2>' : '<h4>'.$banner['name'].'</h4>'?>
+                    <?php  $name = ($key % 2 != 0) ? '<h4>'.$banner['name'].'</h4>' : '<h4>'.$banner['name'].'</h4>'?>
                     <?php $image = (!empty($banner['featured_image'])) ? (\Core\Helper::getFeaturedImage($banner)) : '' ?>
                     <?php echo $parent_class ?>
                     <div class="<?php echo $class; ?> grid-img">
