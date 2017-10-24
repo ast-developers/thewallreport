@@ -712,7 +712,7 @@ Page content
 .page-content {  
   margin-top: 0px;   
   padding: 0px;
-  background-color: #fff; 
+  background-color: #ebeef0;
 }
 
 .ie8 .page-content { 
@@ -1363,7 +1363,7 @@ Box portlet
 }
 
 .portlet.box.grey .portlet-title {
-  background-color: #555555;
+  background-color: #212529;
 } 
 
 .portlet.box.grey {  
