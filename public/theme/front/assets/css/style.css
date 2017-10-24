@@ -84,7 +84,7 @@ a:hover, a:focus { text-decoration: none; }
     width: 100%;
 }
 .top-article .article-content { position: absolute; bottom: 0px; left: 0px; color: #fff; padding: 20px;}
-.top-article .article-content h2 {letter-spacing: 5px; white-space: normal; word-break: break-all;}
+.top-article .article-content h2 {letter-spacing: 5px; white-space: normal; word-break: break-word;}
 .top-article .article-content h4 {letter-spacing: 2px;}
 .video-block iframe { width: 100%;}
 .iframe-video { position: relative; padding-top:55%; margin-bottom: 30px; }
@@ -728,7 +728,11 @@ a.model-blocks:hover img.wp-post-image {
     width: 100%    !important;
     height: auto   !important;
 }
-.external-link { font-size: 16px; vertical-align: middle;}
+
+.external-link { font-size: 16px; vertical-align: middle; color: #292b2c;}
+.external-link:focus, .external-link:hover { color: #292b2c;     opacity: 0.75!important;}
+
+.ff-item-bar i { margin-left: 10px;}
 .feed-social { display: inline-block; padding-top: 10px; }
 .feed-social ul {
     overflow: auto;
@@ -775,6 +779,12 @@ a.model-blocks:hover img.wp-post-image {
     background-repeat: no-repeat;
     top: 0;
 }
+
+
+body .ff-moderation-wrapper + .picture-item__inner > * {
+    opacity: 1 !important
+}
+
 
 @media (min-width: 768px) and (max-width: 991px){
     .block-name {
