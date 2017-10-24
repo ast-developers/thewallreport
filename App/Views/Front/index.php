@@ -39,10 +39,9 @@ $banners = array_chunk($getBanners,2);
                                 <?php echo $name ?>
 
                                 <div class="cb-byline">
-                                    <span class="cb-author"><?php echo $banner['creator'] ?></span>
-                                    <span class="times"><i class="fa fa-times"></i></span>
-                                    <span
-                                        class="cb-date"><?php echo date("F j, Y", strtotime($banner['published_at'])) ?></span>
+                                    <!--<span class="cb-author"><?php /*echo $banner['creator'] */?></span>
+                                    <span class="times"><i class="fa fa-times"></i></span>-->
+                                    <span class="cb-date"><?php echo date("F j, Y", strtotime($banner['published_at'])) ?></span>
                                 </div>
                             </div>
                         </div>
@@ -67,10 +66,9 @@ $banners = array_chunk($getBanners,2);
                                     <?php echo $name; ?>
 
                                     <div class="cb-byline">
-                                        <span class="cb-author"><?php echo $banner['creator'] ?></span>
-                                        <span class="times"><i class="fa fa-times"></i></span>
-                                    <span
-                                        class="cb-date"><?php echo date("F j, Y", strtotime($banner['published_at'])) ?></span>
+                                        <!--<span class="cb-author"><?php /*echo $banner['creator'] */?></span>
+                                        <span class="times"><i class="fa fa-times"></i></span>-->
+                                        <span class="cb-date"><?php echo date("F j, Y", strtotime($banner['published_at'])) ?></span>
                                     </div>
                                 </div>
                             </div>
