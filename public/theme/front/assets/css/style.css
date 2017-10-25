@@ -86,6 +86,7 @@ a:hover, a:focus { text-decoration: none; }
 .top-article .article-content { position: absolute; bottom: 0px; left: 0px; color: #fff; padding: 20px;}
 .top-article .article-content h2 {letter-spacing: 5px; white-space: normal; word-break: break-word;}
 .top-article .article-content h4 {letter-spacing: 2px;}
+.video-block { padding-top: 20px;}
 .video-block iframe { width: 100%;}
 .iframe-video { position: relative; padding-top:55%; margin-bottom: 30px; }
 .iframe-video iframe { position: absolute; left: 0; top:0; width: 100%!important; height: 100%!important;}
@@ -413,13 +414,13 @@ figure.ff-item-img img { min-height: 437px; }
 }
 
 .details-block { border-top: 3px solid #161616; }
-
 .details-content h1 {
     font-size: 36px;
     letter-spacing: 4px;
     color: #161616;
     font-weight: 700;
-    margin-bottom: 30px;
+    margin-bottom: 15px;
+
 }
 
 .details-content .cb-byline {
@@ -448,6 +449,9 @@ figure.ff-item-img img { min-height: 437px; }
     vertical-align: top;
 }
     .details-content .cb-byline .cb-separator .fa { vertical-align: text-top;}
+
+.content-form-info { max-width: 390px;}
+.content-form-info h1 { margin-top: 40px; margin-bottom: 30px;}
 
 button.close-search-bar { position: absolute; top:-30px; right: -5px; font-size: 20px; color: #fff; opacity: 0.9; background: none; border: none;}
 
