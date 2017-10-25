@@ -1578,6 +1578,8 @@ var FlowFlowApp = (function($){
       }).always(function(){
         Controller.makeOverlayTo('hide');
       });
+      var height = self.$el.height()+40+'px';
+        $('#streams-cont').css('min-height',height);
     },
 
     displayFeedsSelect: function () {
