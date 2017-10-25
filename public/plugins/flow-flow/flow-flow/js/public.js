@@ -1329,6 +1329,10 @@ window.CustomModernizr = function(t, e, i) {
                 var i = t.find(".ff-video"),
                     n = i.find("iframe, video");
                 i.prepend(n)
+                // force pause video on slide hide
+                if(i.find("video").length){
+                    i.find("video")[0].pause();
+                }
             }
         }, o.prototype._setViewportItems = function() {
             this.currentItem = null, this.prevItem = null, this.nextItem = null, this.$curr = null, this.current > 0 && (this.prevItem = this.slideshowItems[this.current - 1]), this.current < this.itemsCount - 1 && (this.nextItem = this.slideshowItems[this.current + 1]), this.currentItem = this.slideshowItems[this.current], this.$curr = i(this.currentItem)
