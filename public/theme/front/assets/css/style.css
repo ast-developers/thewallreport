@@ -729,39 +729,11 @@ a.model-blocks:hover img.wp-post-image {
     height: auto   !important;
 }
 
-a.external-link {
-    font-size: 16px;
-    vertical-align: middle;
-    color: #fff!important;
-    position: absolute;
-    right: 0px;
-    background: #959595;
-    top: 0px;
-    width: 43px;
-    height: 43px;
-    text-align: center;
-    border-radius: 0px 0px 6px 0px;
-    margin: 0px;
-
-}
-a.external-link:hover {background: #444444;}
-a.external-link i.fa-long-arrow-up {
-    margin: 0px!important;
-    line-height: 43px;
-    color: #fff!important;
-    -webkit-transform: rotate(45deg);
-    -moz-transform: rotate(45deg);
-    -ms-transform: rotate(45deg);
-    -o-transform: rotate(45deg);
-    transform: rotate(45deg);
-}
 
 .ff-slideshow .ff-share-wrapper { position: relative!important; margin: 0px!important; top: 0px!important;}
-.ff-slideshow .ff-item-bar { padding-right: 60px!important;}
 
-#ff-stream-1-slideshow .ff-item-bar a.external-link { border-radius: 0px!important; margin: 0px!important;}
-#ff-stream-1-slideshow .ff-item-bar a.external-link i.fa-long-arrow-up,
-#ff-stream-1-slideshow .ff-item-bar a.external-link { color: #fff!important;}
+
+
 
 .ff-item-bar i { margin-left: 10px;}
 .feed-social { display: inline-block; padding-top: 10px; }
