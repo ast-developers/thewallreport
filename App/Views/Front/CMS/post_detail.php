@@ -43,7 +43,7 @@ use Core\Helper;
                 } ?>
             </div>
 
-            <div class="video pt-5 video-block">
+            <div class="video video-block">
                 <?php
                 $helper = new Helper();
                 $parsedDetail = $helper->parsePageDesc($post['description']);
