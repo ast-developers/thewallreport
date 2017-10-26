@@ -57,6 +57,9 @@
 
 }
 
+@media (max-width: 375px) {
+    #ff-stream-2 .ff-item { max-width: 162px;}
+}
 @media (max-width: 1519px) {
     .left-ads,
     .right-ads { display: none;}
