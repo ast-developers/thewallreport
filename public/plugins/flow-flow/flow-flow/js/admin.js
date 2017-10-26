@@ -384,6 +384,7 @@ var FlowFlowApp = (function($){
       var $backupsForm = this.$form.find('#backup-settings');
 
       this.$container.find('.button-add').on('click', function(){
+        alert('in');
         var model, view;
 
         if (!self.$container.find('#stream-view-new').length) {
@@ -1292,6 +1293,7 @@ var FlowFlowApp = (function($){
     rowView: null,
     currentId: 'new',
     $preview: null,
+    $popup: null,
     events: {
       "click .admin-button.submit-button": "saveViaAjax",
       "change input, textarea": "updateModel",
@@ -1300,6 +1302,7 @@ var FlowFlowApp = (function($){
       "change select:not(.stream-streams__select select)": "updateModel",
       "click .disabled-button": "disableAction",
 //    "click .stream-streams__item": "showPreview",
+      //"click .create-feed": "addFeedStepOneCustom",
       "click .stream-feeds__item": "detachFeed",
       "click .stream-feeds__block": "displayFeedsSelect",
       "click .stream-feeds__btn": "connectFeed",
@@ -1324,6 +1327,10 @@ var FlowFlowApp = (function($){
       var rendered = this.rendered;
 
       this.model.view = this;
+      this.$popup = $('#streams-cont').find('.popup');
+
+      console.log('el');
+      console.log(this.$el);
 
       this.render();
 
@@ -1350,6 +1357,8 @@ var FlowFlowApp = (function($){
           $item.removeClass('ff-meta-first')
         }
       });
+
+      feedsView = new FeedsView({model: feedsModel});
 
     },
 
@@ -1660,6 +1669,16 @@ var FlowFlowApp = (function($){
 
           }
       )
+    },
+
+    addFeedStepOneCustom: function(e){
+      alert('addFeedStepOneCustom');
+
+      this.$popup.removeClass('add-feed-step-2').addClass('add-feed-step-1');
+      Controller.checkScrollbar();
+      Controller.setScrollbar();
+      Controller.$html.addClass('popup_visible');
+      this.$popup.on('click', this.popupClick);
     },
 
     disableAction: function (e) {
@@ -2391,6 +2410,7 @@ var FlowFlowApp = (function($){
     },
 
     addFeedStepOne: function(e){
+      alert('feeds');
       this.$popup.removeClass('add-feed-step-2').addClass('add-feed-step-1');
       Controller.checkScrollbar();
       Controller.setScrollbar();

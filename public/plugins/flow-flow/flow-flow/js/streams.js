@@ -16,6 +16,7 @@ var ff_templates = {
         <div class="stream-feeds">\
             <div class="stream-feeds__list"></div>\
             <div class="stream-feeds__block"><span class="stream-feeds__add">+ Connect feed to stream</span></div>\
+            <span class="admin-button green-button button-add create-feed">Create feed</span>\
             <div class="stream-feeds__select"><select></select><span class="stream-feeds__btn stream-feeds__ok"><i class="flaticon-plus"></i></span><span class="stream-feeds__btn stream-feeds__close"><i class="flaticon-cross"></i></span></div>\
         </div>\
     </div>\
