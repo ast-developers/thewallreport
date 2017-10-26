@@ -14,13 +14,13 @@
  * @link      http://looks-awesome.com
  * @copyright 2014-2016 Looks Awesome
  */
-define('FF_PLUGIN_URL', 'http://localhost/thewallreport/plugins/flow-flow');
-define('FF_AJAX_URL', 'http://localhost/thewallreport/plugins/flow-flow/flow-flow/ff.php');
+define('FF_PLUGIN_URL', 'http://66.175.214.21/thewallreport/plugins/flow-flow');
+define('FF_AJAX_URL',   'http://66.175.214.21/thewallreport/plugins/flow-flow/flow-flow/ff.php');
 
 define('DB_HOST', 'localhost');
-define('DB_NAME','wallreport_db');//DB NAME
+define('DB_NAME','thewallreport');//DB NAME
 define('DB_USER', 'root');//DB USER NAME
-define('DB_PASSWORD', 'mysql');//DB PASSWORD
+define('DB_PASSWORD', 'Ars3nal$0!');//DB PASSWORD
 
 define('DB_CHARSET','utf8');
 define('DB_COLLATE','utf8_general_ci');
