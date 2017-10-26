@@ -772,11 +772,14 @@ var FlowFlowApp = (function($){
            $('#auth-settings').attr('style','width:100%');
           self.$form.removeClass('stream-view-visible');
         } else {
-       //   self.$container.find('#stream-view-' + view).addClass('view-visible');
-            $('.section-stream').find('.section').attr('style','width:100%');
+          $('.section-stream').find('.section').attr('style', 'width:100%');
+          if (view == 'new') {
             self.$container.find('.section-stream').last().addClass('view-visible');
-            self.$container.find('#streams-' + view).find('.section').attr('style','width:100%');
-            self.$form.addClass('stream-view-visible');
+          } else {
+            self.$container.find('#stream-view-' + view).addClass('view-visible');
+          }
+          self.$container.find('#streams-' + view).find('.section').attr('style', 'width:100%');
+          self.$form.addClass('stream-view-visible');
         }
       // },0)
 
