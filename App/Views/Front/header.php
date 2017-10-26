@@ -28,7 +28,14 @@
     <link href="<?php echo \App\Config::W_ROOT ?>plugins/flow-flow/flow-flow/css/public.css" rel="stylesheet">
     <link href="<?php echo \App\Config::W_FRONT_ASSETS ?>css/owl.carousel.min.css" rel="stylesheet">
     <script src='https://www.google.com/recaptcha/api.js'></script>
-
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-100764425-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag()
+        {dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-100764425-1');
+    </script>
     <script
         type="text/javascript"
         async defer
