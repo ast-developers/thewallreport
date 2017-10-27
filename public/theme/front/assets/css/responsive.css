@@ -40,7 +40,7 @@
     }
     .grid-img { height: 220px;}
     #ff-stream-block {
-        padding: 20px 1.5rem !important;
+        padding: 20px 10px!important;
     }
     .ff-item-bar { height: auto!important; padding-left: 10px!important; padding-right: 10px!important;}
 
@@ -57,6 +57,9 @@
 
 }
 
+@media (max-width: 375px) {
+    #ff-stream-2 .ff-item { max-width: 162px;}
+}
 @media (max-width: 1519px) {
     .left-ads,
     .right-ads { display: none;}
