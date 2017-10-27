@@ -12,6 +12,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
+    <?php if(!empty($feed['post_header'])){
+        echo '<meta property="og:title" content="'.str_replace("'","",strip_tags($feed['post_header'])).'" />';
+    }
+    ?>
+    <?php if(!empty($feed['post_text'])){
+        echo "<meta property='og:description' content='".str_replace("'","",strip_tags($feed['post_text']))."'/>";
+    }
+    ?>
+    <?php if(!empty($feed['media_url'])){
+        echo '<meta property="og:image" content="'.str_replace("'","",strip_tags($feed['media_url'])).'" />';
+    }
+    ?>
     <link rel="icon" href="../../favicon.ico">
 
     <title><?php echo (isset($pageTitle)?($pageTitle.' - '.\App\Config::PAGE_TITLE_PREFIX):\App\Config::PAGE_TITLE_PREFIX); ?></title>
