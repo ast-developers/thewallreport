@@ -33,14 +33,13 @@
 <!-- Placed at the end of the document so the pages load faster -->
 <?php
 if(!isset($flowFlowInjector)){ ?>
-    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script type="text/javascript" src="<?php echo \App\Config::W_FRONT_ASSETS ?>js/jquery-1.11.1.min.js"></script>
 <?php } ?>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<script type="text/javascript"
-        src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/jquery-validation/dist/jquery.validate.min.js"></script>
-<script src="<?php echo \App\Config::W_FRONT_ASSETS ?>js/bootstrap.min.js"></script>
-<script src="<?php echo \App\Config::W_FRONT_ASSETS ?>js/owl.carousel.min.js"></script>
-<script src="<?php echo \App\Config::W_FRONT_ASSETS ?>js/app.js"></script>
+<script src="<?php echo \App\Config::W_FRONT_ASSETS ?>js/jquery-ui-1.12.1.min.js" type="text/javascript" ></script>
+<script src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/jquery-validation/dist/jquery.validate.min.js" type="text/javascript" ></script>
+<script src="<?php echo \App\Config::W_FRONT_ASSETS ?>js/bootstrap.min.js" type="text/javascript" ></script>
+<script src="<?php echo \App\Config::W_FRONT_ASSETS ?>js/owl.carousel.min.js" type="text/javascript" ></script>
+<script src="<?php echo \App\Config::W_FRONT_ASSETS ?>js/app.js" type="text/javascript" ></script>
 
 <script type="text/javascript">
 var search_url = "<?php echo \App\Config::W_ROOT.'search/' ?>";
@@ -64,9 +63,32 @@ var spinner = "<?php echo \App\Config::W_FRONT_ASSETS.'images/loader.gif' ?>";
 
             $('html, body').animate({scrollTop: 0}, 300);
         })
+
+        $("#search-input").on("keyup", function (event) {
+            var text = $('#search-input').val();
+            var model_content = $('.modal-content').find('.model-body');
+            if (text.length > 2) {
+                $.ajax({
+                    url: url,
+                    method: 'POST',
+                    data: {term: text},
+                    beforeSend: function () {
+                        $('.spinner').show();
+                    },
+                    success: function (data) {
+                        $('.spinner').hide();
+                        $(model_content).html(data);
+                    }
+                });
+            }
+        });
+        $('#search-input').keyup(function (e) {
+            if (e.keyCode == 13) {
+                window.location.href = search_url + $('#search-input').val();
+            }
+        });
     });
 </script>
-<script src="<?php echo \App\Config::W_FRONT_ASSETS ?>js/search.js"></script>
 <script id="dsq-count-scr" src="//thewallreport.disqus.com/count.js" async></script>
 </body>
 </html>
