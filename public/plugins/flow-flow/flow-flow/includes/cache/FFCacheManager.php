@@ -303,6 +303,7 @@ class FFCacheManager implements FFCache{
 		$post->system_timestamp = $row['system_timestamp'];
 		$post->timestamp = FFFeedUtils::classicStyleDate($row['system_timestamp'], FFGeneralSettings::get()->dateStyle());
 		$post->text = stripslashes($row['text']);
+		$post->plain_text = strip_tags(stripslashes($row['text']));
 		$post->userlink = $row['userlink'];
 		$post->permalink = $row['permalink'];
 		$post->header = stripslashes($row['post_header']);

@@ -20,8 +20,8 @@
         echo "<meta property='og:description' content='".str_replace("'","",strip_tags($feed['post_text']))."'/>";
     }
     ?>
-    <?php if(!empty($feed['media_url'])){
-        echo '<meta property="og:image" content="'.str_replace("'","",strip_tags($feed['media_url'])).'" />';
+    <?php if(!empty($feed['image_url'])){
+        echo '<meta property="og:image" content="'.str_replace("'","",strip_tags($feed['image_url'])).'" />';
     }
     ?>
     <link rel="icon" href="../../favicon.ico">
