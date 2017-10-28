@@ -230,7 +230,7 @@ class Advertise extends Model
 
     public function getAdvertisements(){
 
-        $sql = "SELECT * FROM (SELECT * FROM `advertise` WHERE `status`='active' ORDER BY created_at DESC) as d GROUP BY d.position";
+        $sql = "SELECT * FROM (SELECT * FROM `advertise` WHERE `status`='active' ORDER BY created_at DESC) as d GROUP BY d.position, d.id";
         $stm = $this->db->prepare($sql);
 
         $res = $stm->execute();
