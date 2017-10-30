@@ -9,11 +9,9 @@
     }
 }
 @media (max-width: 767px){
+    body { padding-top: 40px;}
     .logo{
-        margin-top: 5px;
-        margin-bottom: 5px;
-        padding:0px 100px 0px 25px!important;
-        height: 50px;
+        padding:15px 15px 10px!important;
         display: -webkit-flex;
         display: -ms-flexbox;
         display: flex;
@@ -25,7 +23,7 @@
 
     .navbar {padding: 0rem 0rem; }
     .navbar-brand { padding-right: 65px;}
-    .navbar-toggler-right { right: 10px; top: -50px;}
+    .navbar-toggler-right { right: 10px; top: -50px; pointer-events: auto;}
     .navbar-collapse#navbar-top { margin-top: 15px;}
 
     #searchModal .modal-content { padding: 20px!important; }
@@ -38,12 +36,56 @@
         font-size: 9px;
         letter-spacing: 1px
     }
-    .grid-img { height: 220px;}
+    .grid-img { height: auto;}
     #ff-stream-block {
         padding: 20px 10px!important;
     }
     .ff-item-bar { height: auto!important; padding-left: 10px!important; padding-right: 10px!important;}
 
+    /* The side navigation menu */
+    .sidenav {
+        height: 100%; /* 100% Full-height */
+        width: 0; /* 0 width - change this with JavaScript */
+        position: fixed; /* Stay in place */
+        z-index: 100; /* Stay on top */
+        top: 0;
+        left: 0;
+        background-color: #010101; /* Black*/
+        overflow-x: hidden; /* Disable horizontal scroll */
+        padding-top: 50px; /* Place content 60px from the top */
+        transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+    }
+
+    /* The navigation menu links */
+    .sidenav a {
+        padding: 8px 8px 8px 32px;
+        text-decoration: none;
+        font-size: 25px;
+        color: #ffffff;
+        display: block;
+        transition: 0.3s
+    }
+
+    /* When you mouse over the navigation links, change their color */
+    .sidenav a:hover, .offcanvas a:focus{
+        color: #f1f1f1;
+    }
+
+    .sidenav .closebtn {
+        position: absolute;
+        top: 0;
+        right: 15px;
+        font-size: 30px;
+        line-height: 50px;
+        padding: 0px 10px;
+        cursor: pointer;
+    }
+
+    .top-bar { padding: 11px 10px; position: fixed; top:0; width: 100%; z-index: 18;}
+    .navbar-light .navbar-nav { background: #161616; height: 100%; padding: 30px 15px 15px;}
+    .navbar-light .navbar-nav .nav-link {color: #ffffff;}
+    .container { width: 100%;}
+    .home-header-banner { padding: 0px!important;}
 }
 
 @media (max-width: 575px) {
@@ -55,45 +97,36 @@
     }
     .external-link { font-size: 16px; vertical-align: sub; margin-left: 0px!important;}
 
+    .feed-view,
+    .feed-likes,
+    .feed-comments
+    { width: 50%;
+        display: inline-block;
+    }
+    h6.ff-item-bar { padding-right: 45px!important;}
+    a.external-link { top:10px; right:10px;}
+    .ff-item-bar i { margin-left: 0px;}
+    a.external-link { width: 34px;}
+
+
 }
 
-@media (max-width: 375px) {
-    #ff-stream-2 .ff-item { max-width: 162px;}
+@media (max-width: 374px) {
+    .feed-view,
+    .feed-likes,
+    .feed-comments {
+        width: 100%;
+    }
 }
 @media (max-width: 1519px) {
     .left-ads,
     .right-ads { display: none;}
 }
 @media (min-width: 576px){
-    a.external-link {
-        font-size: 16px;
-        vertical-align: middle;
-        color: #fff!important;
-        position: absolute;
-        right: 0px;
-        background: #959595;
-        top: 0px;
-        width: 43px;
-        height: 43px;
-        text-align: center;
-        border-radius: 0px 0px 6px 0px;
-        margin: 0px;
 
-    }
-    a.external-link:hover {background: #444444;}
-    a.external-link i.fa-long-arrow-up {
-        margin: 0px!important;
-        line-height: 43px;
-        color: #fff!important;
-        -webkit-transform: rotate(45deg);
-        -moz-transform: rotate(45deg);
-        -ms-transform: rotate(45deg);
-        -o-transform: rotate(45deg);
-        transform: rotate(45deg);
-    }
-    #ff-stream-1-slideshow .ff-item-bar a.external-link { border-radius: 0px!important; margin: 0px!important;}
-    #ff-stream-1-slideshow .ff-item-bar a.external-link i.fa-long-arrow-up,
-    #ff-stream-1-slideshow .ff-item-bar a.external-link { color: #fff!important;}
+    .ff-slideshow .ff-item-bar a.external-link { border-radius: 0px!important; margin: 0px!important;}
+    .ff-slideshow .ff-item-bar a.external-link i.fa-long-arrow-up,
+    .ff-slideshow .ff-item-bar a.external-link { color: #fff!important;}
     .ff-slideshow .ff-item-bar { padding-right: 60px!important;}
 
 }
@@ -101,6 +134,7 @@
 @media (min-width: 768px){
     .grid-img:last-of-type { padding-left: 4px;}
     .grid-img:last-of-type .top-article { left: 4px;}
+
 
 }
 

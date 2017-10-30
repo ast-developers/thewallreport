@@ -60,6 +60,17 @@
     }
     $menus = Core\Helper::getMenus();
     ?>
+    <script>
+        /* Set the width of the side navigation to 250px */
+        function openNav() {
+            document.getElementById("mySidenav").style.width = "100%";
+        }
+
+        /* Set the width of the side navigation to 0 */
+        function closeNav() {
+            document.getElementById("mySidenav").style.width = "0";
+        }
+    </script>
 </head>
 
 <body>
@@ -69,8 +80,9 @@
     <header id="header">
         <div class="row">
             <div class="col-lg-12 top-bar">
+                <span class="hidden-md-up nav-bars" onclick="openNav()"><i class="fa fa-bars"></i></span>
                 <a href="#" data-toggle="modal" data-target="#searchModal" title="Search" class="search-bar text-white text-uppercase float-right"><i
-                        class="fa fa-search mr-2"></i>Search</a>
+                        class="fa fa-search mr-2"></i><span class="hidden-sm-down">Search</span></a>
             </div>
             <!-- Search Modal -->
             <div class="modal fade" id="searchModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -94,15 +106,10 @@
                 <a href="<?php echo App\Config::W_ROOT; ?>"><img src="<?php echo \App\Config::W_FRONT_ASSETS ?>images/Logo.png"></a>
             </div>
             <div class="col-lg-12 bg-white">
-                <nav class="navbar navbar-toggleable-sm navbar-light">
-                    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
-                            data-target="#navbar-top" aria-controls="navbarSupportedContent"
-                            aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <a class="navbar-brand sticky-logo" href="#"><img src="<?php echo \App\Config::W_FRONT_ASSETS ?>images/logo-scrolled.png"></a>
-                    <div class="collapse navbar-collapse" id="navbar-top">
-                        <ul class="navbar-nav m-auto">
+                <nav class="navbar navbar-toggleable-sm navbar-light sidenav" id="mySidenav">
+                    <a href="javascript:void(0)" class="closebtn hidden-md-up" onclick="closeNav()">×</a>
+                    <a class="navbar-brand sticky-logo hidden-sm-down" href="#"><img src="<?php echo \App\Config::W_FRONT_ASSETS ?>images/logo-scrolled.png"></a>
+                        <ul class="navbar-nav m-md-auto">
 
                             <?php if(!empty($menus)){
                                 foreach($menus as $key=>$menu){
@@ -113,8 +120,6 @@
                             </li>
                             <?php } } ?>
                         </ul>
-
-                    </div>
                 </nav>
             </div>
         </div>
