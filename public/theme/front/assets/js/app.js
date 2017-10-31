@@ -11,7 +11,20 @@ var App = function () {
             })
         }
     };
-
+    var manageMobileNavigation = function () {
+        $(".open-nav").on('click', function () {
+            $('#mySidenav').width('100%');
+        });
+        $(".close-nav").on('click', function () {
+            $('#mySidenav').width('0%');
+        });
+        $(window).resize(function(){
+            $('#mySidenav').removeClass('sidenav-tran');
+            if($(window).width() <= 768){
+                $('#mySidenav').addClass('sidenav-tran');
+            }
+        })
+    }
     var manageStickyHeader = function () {
         // Hide Header on on scroll down
         var didScroll;
@@ -46,6 +59,9 @@ var App = function () {
                 if(st > 180) {
                     $('#header').removeClass('nav-up').addClass('nav-down');
                 }else{
+                    if ($('#header').hasClass('nav-up')){
+                        $('#header').removeClass('nav-up');
+                    }
                     $('#header').removeClass('nav-down');
                 }
             }
@@ -61,6 +77,7 @@ var App = function () {
         },
         manageHeader: function () {
             manageStickyHeader()
+            manageMobileNavigation()
         }
     };
 }();

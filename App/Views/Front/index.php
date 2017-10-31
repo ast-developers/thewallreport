@@ -22,7 +22,7 @@ include(\App\Config::F_ROOT . 'App/Views/Front/header.php');
 $banners = array_chunk($getBanners,2);
 ?>
     <div class="row">
-        <div class="col-lg-12 bg-white pr-4 pl-4 pb-4 mt-1">
+        <div class="col-lg-12 bg-white pr-4 pl-4 pb-4 mt-1 home-header-banner">
             <?php  if(!empty($banners[0])){
             foreach ($banners[0] as $key => $banner) { ?>
                 <?php $parent_class = ($key % 2 == 0) ? '<div class="row no-gutters">' : '' ?>
@@ -32,8 +32,7 @@ $banners = array_chunk($getBanners,2);
                 <?php $image = (!empty($banner['featured_image'])) ? (\Core\Helper::getFeaturedImage($banner)) : '' ?>
                 <?php echo $parent_class ?>
                 <div class="<?php echo $class; ?> grid-img">
-                    <a href="<?php echo \App\Config::W_ROOT . $banner['slug'] ?>"><img src="<?php echo $image; ?>"></a>
-                    <a href="<?php echo \App\Config::W_ROOT . $banner['slug'] ?>">
+                    <a href="<?php echo \App\Config::W_ROOT . $banner['slug'] ?>"><img src="<?php echo $image; ?>">
                         <div class="top-article">
                             <div class="article-content">
                                 <?php echo $name ?>
@@ -59,8 +58,7 @@ $banners = array_chunk($getBanners,2);
                     <?php $image = (!empty($banner['featured_image'])) ? (\Core\Helper::getFeaturedImage($banner)) : '' ?>
                     <?php echo $parent_class ?>
                     <div class="<?php echo $class; ?> grid-img">
-                        <a href="<?php echo \App\Config::W_ROOT . $banner['slug'] ?>"><img src="<?php echo $image; ?>"></a>
-                        <a href="<?php echo \App\Config::W_ROOT . $banner['slug'] ?>">
+                        <a href="<?php echo \App\Config::W_ROOT . $banner['slug'] ?>"><img src="<?php echo $image; ?>">
                             <div class="top-article">
                                 <div class="article-content">
                                     <?php echo $name; ?>
