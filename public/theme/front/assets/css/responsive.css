@@ -53,8 +53,10 @@
         background-color: #010101; /* Black*/
         overflow-x: hidden; /* Disable horizontal scroll */
         padding-top: 50px; /* Place content 60px from the top */
-        transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+
+
     }
+    .sidenav-tran {transition: 0.5s;}
 
     /* The navigation menu links */
     .sidenav a {
@@ -71,7 +73,7 @@
         color: #f1f1f1;
     }
 
-    .sidenav .closebtn {
+    .sidenav .close-nav {
         position: absolute;
         top: 0;
         right: 15px;
@@ -134,6 +136,7 @@
 @media (min-width: 768px){
     .grid-img:last-of-type { padding-left: 4px;}
     .grid-img:last-of-type .top-article { left: 4px;}
+    #mySidenav { width: 100%!important;}
 
 
 }
