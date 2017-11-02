@@ -47,7 +47,7 @@
         height: 100%; /* 100% Full-height */
         width: 0; /* 0 width - change this with JavaScript */
         position: fixed; /* Stay in place */
-        z-index: 100; /* Stay on top */
+        z-index: 1100; /* Stay on top */
         top: 0;
         left: 0;
         background-color: #010101; /* Black*/
@@ -83,7 +83,7 @@
         cursor: pointer;
     }
 
-    .top-bar { padding: 11px 10px; position: fixed; top:0; width: 100%; z-index: 18;}
+    .top-bar { padding: 11px 10px; position: fixed; top:0; width: 100%; z-index: 1000;}
     .navbar-light .navbar-nav { background: #161616; height: 100%; padding: 30px 15px 15px;}
     .navbar-light .navbar-nav .nav-link {color: #ffffff;}
     .container { width: 100%;}

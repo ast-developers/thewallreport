@@ -43,7 +43,7 @@ a:hover, a:focus { text-decoration: none; }
     left: 0px;
     right: 0px;
     margin: 0 auto;
-    z-index: 100;
+    z-index: 1000;
 }
 
 #header.nav-up nav.navbar{
@@ -678,7 +678,7 @@ td, th, ul, ol {
     transform: translateY(-50%);
     text-align: center;
     padding: 0 15px;
-    z-index: 999999;
+    z-index: 100;
     box-sizing: border-box;
     left: 0;
     right: 0;
