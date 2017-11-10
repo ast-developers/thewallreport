@@ -1,5 +1,6 @@
 <?php namespace flow;
 use flow\cache\LAFacebookCacheManager;
+use flow\db\FFDBAds;
 use flow\tabs\FFAddonsTab;
 use flow\tabs\FFAuthTab;
 use flow\tabs\FFBackupTab;
@@ -9,6 +10,7 @@ use flow\tabs\FFSourcesTab;
 use flow\tabs\FFStreamsTab;
 use flow\tabs\FFSuggestionsTab;
 use flow\tabs\LAGeneralTab;
+use flow\tabs\FFAdsTab;
 
 if ( ! defined( 'WPINC' ) ) die;
 /**
@@ -113,10 +115,12 @@ class FlowFlowAdmin extends LAAdminBase{
 		$this->db->dataInit();
 		$context['streams'] = $this->db->streamsWithStatus();
 		$context['sources'] = $this->db->sources();
+		$context['ads'] = FFDBAds::getAds($context);
 		
 		$context['form-action'] = '';
 		$context['tabs'][] = new FFStreamsTab();
 		$context['tabs'][] = new FFSourcesTab();
+		$context['tabs'][] = new FFAdsTab();
 // 		$context['tabs'][] = new FFModerationTab();
 		$context['tabs'][] = new LAGeneralTab();
 		$context['tabs'][] = new FFAuthTab();

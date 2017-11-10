@@ -76,6 +76,24 @@ if (isset($_REQUEST['action'])){
         case 'post_display_action':
             $db->updatePostActiveFlag();
             break;
+		case 'flow_flow_save_campaign':
+			\flow\db\FFDBAds::saveAd($campaign = $_POST['campaign']);
+			break;
+		case 'flow_flow_get_campaign':
+			$ad = \flow\db\FFDBAds::getAd($id = $_GET['id']);
+			echo json_encode( $ad );
+			die();
+			break;
+		case 'flow_flow_delete_campaign':
+			\flow\db\FFDBAds::deleteAd($id = $_POST['id']);
+			break;
+		case 'flow_flow_clone_campaign':
+			\flow\db\FFDBAds::cloneAd($id = $_POST['id']);
+			break;
+		case 'flow_flow_show_preview':
+			echo flow\FlowFlow::get_instance()->renderShortCode(array('id' => $_GET['stream-id'], 'preview' => true));
+			die();
+			break;
 		default:
 			if (strpos($_REQUEST['action'], "backup") !== false) {
 				define('FF_SNAPSHOTS_TABLE_NAME', DB_TABLE_PREFIX . 'ff_snapshots');
