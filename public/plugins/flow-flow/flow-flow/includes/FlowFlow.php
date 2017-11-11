@@ -417,7 +417,7 @@ class FlowFlow {
 		$countOfPages = isset($_REQUEST['countOfPages']) ? $_REQUEST['countOfPages'] : 0;
 		$result = array('id' => $streamId, 'items' => $all, 'errors' => $errors,
 		             'hash' => $oldHash, 'page' => $page, 'countOfPages' => $countOfPages, 'status' => $status);
-//		$result = FFDBAds::buildPublicResponse($result, $all, $context, $errors, $oldHash, $page, $status, $stream);
+		$result = FFDBAds::buildPublicResponse($result, $all, $context, $errors, $oldHash, $page, $status, $stream);
 		return $result;
 	}
 
