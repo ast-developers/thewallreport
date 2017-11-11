@@ -296,20 +296,20 @@ class FFDBAds extends FFDB{
 			$prefix = $db->table_prefix;
 			global $wpdb;
 			$sql = '';
-			/*if (!isset($_GET['preview']) || $_GET['preview'] == false){
+			if (!isset($_GET['preview']) || $_GET['preview'] == false){
 				$time_ms = time() * 1000;
-				$sql = $wpdb->prepare('AND ca.status = %d AND ' . $time_ms . ' BETWEEN ca.start AND ca.end', 1);
-			}*/
+				$sql = 'AND ca.status = 1 AND ' . $time_ms . ' BETWEEN ca.start AND ca.end';
+			}
 			$ads = FFDB::conn()->getAll("SELECT ca.*, el.id, el.type, el.name, el.content, el.link, el.label, el.labelCol, el.height, el.labelTxt, el.textCol, el.cardBG, el.slot
 				FROM ?n as st INNER JOIN ?n as ca ON st.campaign = ca.id INNER JOIN ?n as el ON st.campaign = el.campaign
-				WHERE st.stream = ?i AND el.enabled = ?s ORDER BY el.`order`", $prefix . "ads_streams", $prefix . "ads_campaigns", $prefix . "ads_elements", $streamId, 'yep');
+				WHERE st.stream = ?i AND el.enabled = ?s ". $sql ." ORDER BY el.`order`", $prefix . "ads_streams", $prefix . "ads_campaigns", $prefix . "ads_elements", $streamId, 'yep');
 			/*$ads = $wpdb->get_results($wpdb->prepare("SELECT ca.*, el.id, el.type, el.name, el.content, el.link, el.label, el.labelCol, el.height, el.labelTxt, el.textCol, el.cardBG, el.slot
 				FROM " . $prefix . "ads_streams as st INNER JOIN " . $prefix . "ads_campaigns as ca ON st.campaign = ca.id INNER JOIN " . $prefix . "ads_elements as el ON st.campaign = el.campaign
 				WHERE st.stream = %d AND el.enabled = '%s' " . $sql . " ORDER BY el.`order`", $streamId, 'yep'));*/
 
 			if (sizeof($ads) > 0) {
-				$firstAdIndex = (int) $ads[0]->firstAdIndex - 1;
-				if ( FFSettingsUtils::YepNope2ClassicStyle( $ads[0]->randomize ) ) {
+				$firstAdIndex = (int) $ads[0]['firstAdIndex'] - 1;
+				if ( FFSettingsUtils::YepNope2ClassicStyle( $ads[0]['randomize'] ) ) {
 					$endRange = is_object( $stream ) ? $stream->getCountOfPostsOnPage() : $countOfPostsOnPage;
 					$numbers  = range( $firstAdIndex, $endRange - 1 );
 					shuffle( $numbers );
@@ -321,11 +321,11 @@ class FFDBAds extends FFDB{
 						$distrubution[ $position ] = self::buildElement4Public( $el, $ads[0]->adsenseClient );
 					}
 				} else {
-					$adsDistrubution = (int) $ads[0]->adsDistrubution;
+					$adsDistrubution = (int) $ads[0]['adsDistrubution'];
 					for ( $index = 0; sizeof( $ads ) > $index; $index ++ ) {
 						$el                        = $ads[ $index ];
 						$position                  = $firstAdIndex + $adsDistrubution * $index;
-						$distrubution[ $position ] = self::buildElement4Public( $el, $ads[0]->adsenseClient );
+						$distrubution[ $position ] = self::buildElement4Public( $el, $ads[0]['adsenseClient'] );
 					}
 				}
 			}
@@ -372,34 +372,33 @@ class FFDBAds extends FFDB{
 	}
 
 	private static function buildElement4Public( $el, $adsenseClient ) {
-		if ($el->type == 'ad') {
+		if ($el['type ']== 'ad') {
 			$format = 'auto';
 			$text = '<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 						<ins class="adsbygoogle"
      						style="display:block"
      						data-ad-client="' . $adsenseClient . '"
-     						data-ad-slot="' . $el->slot . '"
+     						data-ad-slot="' . $el['slot ']. '"
      						data-ad-format="' . $format . '"></ins>
 						<script>setTimeout(function(){(adsbygoogle = window.adsbygoogle || []).push({})}, 100)</script>';
 		}
 		else {
-			$text = do_shortcode(htmlspecialchars_decode($el->content));
+			$text = htmlspecialchars_decode($el['content']);
 		}
 
 		$ad = new \stdClass();
-		$ad->id = $el->id;
+		$ad->id = $el['id'];
 		$ad->type = 'ad';
-		$ad->adtype = $el->type;
+		$ad->adtype = $el['type'];
 		$ad->text = $text;
-		$ad->permalink = $el->link;
-		$ad->header = $el->name;
-
-		$ad->height = $el->height;
-		$ad->label = $el->label;
-		$ad->labelCol = $el->labelCol;
-		$ad->labelTxt = $el->labelTxt;
-		$ad->textCol = $el->textCol;
-		$ad->cardBG = $el->cardBG;
+		$ad->permalink = $el['link'];
+		$ad->header = $el['name'];
+		$ad->height = $el['height'];
+		$ad->label = $el['label'];
+		$ad->labelCol = $el['labelCol'];
+		$ad->labelTxt = $el['labelTxt'];
+		$ad->textCol = $el['textCol'];
+		$ad->cardBG = $el['cardBG'];
 		return $ad;
 	}
 
