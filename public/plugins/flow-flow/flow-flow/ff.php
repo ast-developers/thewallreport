@@ -18,7 +18,8 @@ session_start();
 
 require_once( dirname($_SERVER["SCRIPT_FILENAME"]) . '/LAClassLoader.php' );
 LAClassLoader::get(dirname($_SERVER["SCRIPT_FILENAME"]) . '/')->register(true);
-
+$root = dirname($_SERVER["SCRIPT_FILENAME"]) . '/..'. '/flow-flow-ads/';
+require_once( $root . 'flow-flow-ads.php' );
 if (isset($_REQUEST['action'])){
 	$context = ff_get_context();
 	/** @var \flow\db\FFDBManager $db */
@@ -77,18 +78,18 @@ if (isset($_REQUEST['action'])){
             $db->updatePostActiveFlag();
             break;
 		case 'flow_flow_save_campaign':
-			\flow\db\FFDBAds::saveAd($campaign = $_POST['campaign']);
+			\flowads\db\FFDBAds::saveAd($campaign = $_POST['campaign']);
 			break;
 		case 'flow_flow_get_campaign':
-			$ad = \flow\db\FFDBAds::getAd($id = $_GET['id']);
+			$ad = \flowads\db\FFDBAds::getAd($id = $_GET['id']);
 			echo json_encode( $ad );
 			die();
 			break;
 		case 'flow_flow_delete_campaign':
-			\flow\db\FFDBAds::deleteAd($id = $_POST['id']);
+			\flowads\db\FFDBAds::deleteAd($id = $_POST['id']);
 			break;
 		case 'flow_flow_clone_campaign':
-			\flow\db\FFDBAds::cloneAd($id = $_POST['id']);
+			\flowads\db\FFDBAds::cloneAd($id = $_POST['id']);
 			break;
 		case 'flow_flow_show_preview':
 			echo flow\FlowFlow::get_instance()->renderShortCode(array('id' => $_GET['stream-id'], 'preview' => true));

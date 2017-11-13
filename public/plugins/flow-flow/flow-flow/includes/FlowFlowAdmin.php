@@ -1,6 +1,6 @@
 <?php namespace flow;
 use flow\cache\LAFacebookCacheManager;
-use flow\db\FFDBAds;
+use flowads\db\FFDBAds;
 use flow\tabs\FFAddonsTab;
 use flow\tabs\FFAuthTab;
 use flow\tabs\FFBackupTab;
@@ -10,7 +10,7 @@ use flow\tabs\FFSourcesTab;
 use flow\tabs\FFStreamsTab;
 use flow\tabs\FFSuggestionsTab;
 use flow\tabs\LAGeneralTab;
-use flow\tabs\FFAdsTab;
+use flowads\tabs\FFAdsTab;
 
 if ( ! defined( 'WPINC' ) ) die;
 /**

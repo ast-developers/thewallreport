@@ -902,7 +902,7 @@ var CampaignApp = (function($){
         })
 
         function addElementToDom(type){
-          var html = templates.elementTemplate[type].replace('<%= url %>', window.plugin_url.replace('flow-flow', 'flow-flow-ads'));
+          var html = templates.elementTemplate[type].replace('<%= url %>', window.plugin_url.replace('flow-flow/flow-flow', 'flow-flow/flow-flow-ads'));
           var $elem = $(_.template(templates.campaignElement)({
             content: html,
             type: type,

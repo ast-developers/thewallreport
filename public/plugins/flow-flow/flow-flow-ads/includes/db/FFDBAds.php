@@ -1,4 +1,4 @@
-<?php namespace flow\db;
+<?php namespace flowads\db;
 
 use flow\db\FFDB;
 use flow\db\FFDBManager;
@@ -17,12 +17,13 @@ if (!defined('FF_ADS_BIG_INT')) define('FF_ADS_BIG_INT', 9223372036854775807);
  * @link      http://looks-awesome.com
  * @copyright 2014-2016 Looks Awesome
  */
-class FFDBAds extends FFDB{
+class FFDBAds {
 	public static $statuses = array('draft', 'published', 'live', 'pause', 'finished');
 
-	public static function init($context){
+	public static function init(){
+		global $flow_flow_context;
 		/** @var FFDBManager $db */
-		$db = $context['db_manager'];
+		$db = $flow_flow_context['db_manager'];
 		$table_name = $db->table_prefix . 'ads_campaigns';
 		if (!FFDB::existTable($table_name)){
 			$charset = FFDB::charset();
@@ -98,10 +99,11 @@ class FFDBAds extends FFDB{
 		}
 	}
 
-	public static function getAds($context){
+	public static function getAds(){
 		$ads = array();
+		global $flow_flow_context;
 		/** @var FFDBManager $db */
-		$db = $context['db_manager'];
+		$db = $flow_flow_context['db_manager'];
 		if (false !== ($result = FFDB::conn()->getAll('SELECT ca.`id`, ca.`name`, ca.`status`, ca.`start`, ca.`end`, el2.`views`, el2.`clicks`
 			FROM ?n ca LEFT JOIN (SELECT el.campaign, sum(el.views) as views, sum(el.clicks) as clicks FROM ?n el GROUP BY el.campaign) as el2 ON el2.campaign = ca.id ORDER BY ca.`id`',
 				$db->table_prefix . 'ads_campaigns', $db->table_prefix . 'ads_elements'))){
@@ -197,7 +199,7 @@ class FFDBAds extends FFDB{
 				echo $id;
 			}
 			FFDB::commit();
-		}catch (\Exception $e){
+		}catch (Exception $e){
 			FFDB::rollbackAndClose();
 			error_log('save_stream_settings error:');
 			error_log($e->getMessage());
@@ -275,7 +277,7 @@ class FFDBAds extends FFDB{
 			echo json_encode($campaign);
 			FFDB::commit();
 
-		}catch (\Exception $e){
+		}catch (Exception $e){
 			FFDB::rollbackAndClose();
 			error_log('save_stream_settings error:');
 			error_log($e->getMessage());
@@ -285,7 +287,7 @@ class FFDBAds extends FFDB{
 		die();
 	}
 
-	public static function buildPublicResponse($response, $all, $context, $errors, $oldHash, $page, $status, $stream){
+	public static function buildPublicResponse($response, $all, $context, $errors, $oldHash, $page, $status, $stream) {
 		$streamId = (int) is_object($stream) ? $stream->getId() :  $stream;
 		$distrubution = array();
 		$countOfPostsOnPage = sizeof( $response['items'] );

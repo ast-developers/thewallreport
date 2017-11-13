@@ -2,7 +2,7 @@
 use flow\cache\FFCache;
 use flow\cache\FFCacheAdapter;
 use flow\db\FFDB;
-use flow\db\FFDBAds;
+use flowads\db\FFDBAds;
 use flow\db\FFDBManager;
 use flow\settings\FFGeneralSettings;
 use flow\settings\FFSettingsUtils;

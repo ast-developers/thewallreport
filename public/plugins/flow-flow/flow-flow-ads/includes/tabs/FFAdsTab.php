@@ -1,7 +1,7 @@
-<?php namespace flow\tabs;
+<?php namespace flowads\tabs;
 if ( ! defined( 'WPINC' ) ) die;
 
-//use la\core\tabs\LATab;
+use flow\tabs\LATab;
 
 /**
  * FlowFlowAds.

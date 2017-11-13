@@ -25,7 +25,8 @@ class FFInjector{
 		}
 		require_once( $root . 'LAClassLoader.php' );
 		LAClassLoader::get($root)->register(true);
-		
+        $root = $root . '../'. '/flow-flow-ads/';
+        require_once( $root . 'flow-flow-ads.php' );
 		$this->context = ff_get_context();
 	}
 	
@@ -47,7 +48,7 @@ class FFInjector{
 		$head .= $this->jquery($insert_jquery);
 		if ($this->admin){
 			$head .= "\t<link rel=\"stylesheet\" id=\"flow-flow-admin-styles-css\"  href=\"" . FF_PLUGIN_URL . "/flow-flow/css/admin.css?ver=1.0.0\" type=\"text/css\" media=\"all\" />\n";
-			$head .= "\t<link rel=\"stylesheet\" id=\"flow-flow-admin-styles-css\"  href=\"" . FF_PLUGIN_URL . "/flow-flow/css/ff_ads_admin.css?ver=1.0.0\" type=\"text/css\" media=\"all\" />\n";
+			$head .= "\t<link rel=\"stylesheet\" id=\"flow-flow-admin-styles-css\"  href=\"" . FF_PLUGIN_URL . "/flow-flow-ads/css/ff_ads_admin.css?ver=1.0.0\" type=\"text/css\" media=\"all\" />\n";
 			$head .= "\t<link rel=\"stylesheet\" id=\"flow-flow-colorpickersliders-css\"  href=\"" . FF_PLUGIN_URL . "/flow-flow/css/jquery-colorpickersliders.css?ver=1.0.0\" type=\"text/css\" media=\"all\" />\n";
 			$head .= "\t<link rel=\"stylesheet\" id=\"lato-font-css\"  href=\"//fonts.googleapis.com/css?family=Lato%3A300%2C400&#038;ver=4.0\" type=\"text/css\" media=\"all\" />\n";
 			$head .= "\t<style>.ff_hide4site {display:none}</style>\n";
@@ -58,8 +59,8 @@ class FFInjector{
 			$head .= "\t</script>\n";
 			$head .= "\t<script type=\"text/javascript\" src=\"" . FF_PLUGIN_URL . "/flow-flow/js/streams.js?ver=1.0.0\"></script>\n";
 			$head .= "\t<script type=\"text/javascript\" src=\"" . FF_PLUGIN_URL . "/flow-flow/js/admin.js?ver=1.0.0\"></script>\n";
-			$head .= "\t<script type=\"text/javascript\" src=\"" . FF_PLUGIN_URL . "/flow-flow/js/ff_admin_editor.js?ver=1.0.0\"></script>\n";
-			$head .= "\t<script type=\"text/javascript\" src=\"" . FF_PLUGIN_URL . "/flow-flow/js/ff_ads_admin.js?ver=1.0.0\"></script>\n";
+			$head .= "\t<script type=\"text/javascript\" src=\"" . FF_PLUGIN_URL . "/flow-flow-ads/js/ff_admin_editor.js?ver=1.0.0\"></script>\n";
+			$head .= "\t<script type=\"text/javascript\" src=\"" . FF_PLUGIN_URL . "/flow-flow-ads/js/ff_ads_admin.js?ver=1.0.0\"></script>\n";
 			$head .= "\t<script type=\"text/javascript\" src=\"" . FF_PLUGIN_URL . "/flow-flow/js/zeroclipboard/ZeroClipboard.min.js?ver=1.0.0\"></script>\n";
 			$head .= "\t<script type=\"text/javascript\" src=\"" . FF_PLUGIN_URL . "/flow-flow/js/tinycolor.js?ver=1.0.0\"></script>\n";
 			$head .= "\t<script type=\"text/javascript\" src=\"" . FF_PLUGIN_URL . "/flow-flow/js/jquery.colorpickersliders.js?ver=1.0.0\"></script>\n";
