@@ -249,13 +249,20 @@ var CampaignApp = (function($){
       this.$container.find('.view-visible').removeClass('view-visible');
       this.setHeight(view);
 
-      setTimeout(function(){
+      // setTimeout(function(){
         if (view === 'list') {
-          self.$container.find('#campaigns-' + view).addClass('view-visible');
+            self.$container.find('#campaigns-' + view).addClass('view-visible');
+            self.$container.find('#campaigns-' + view).find('.section').attr('style','width:100%');
         } else {
-          self.$container.find('#campaign-view-' + view).addClass('view-visible');
+            $('.section-stream').find('.section').attr('style', 'width:100%');
+            if (view == 'new') {
+                self.$container.find('.section-stream').last().addClass('view-visible');
+            } else {
+                self.$container.find('#campaign-view-' + view).addClass('view-visible');
+            }
+            self.$container.find('#campaign-view-' + view).find('.section').attr('style', 'width:100%');
         }
-      },0)
+        // },0)
 
       sessionStorage.setItem('ff_campaign', view);
     },
