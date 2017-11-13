@@ -111,7 +111,8 @@ $page = isset($_REQUEST['page']) ? $_REQUEST['page'] : '0';
                 opts.streams['stream' + streamOpts.id]['items'] = response;
                 if (!FlowFlowOpts.dependencies) FlowFlowOpts.dependencies = {};
 				<?php
-				$dependencies = apply_filters('ff_plugin_dependencies', array());
+//				$dependencies = apply_filters('ff_plugin_dependencies', array()); //WP Code. For Core right now applying dependencies in static array
+				$dependencies = ['ads'];
 				foreach ($dependencies as $name) {
 				    echo "if (!FlowFlowOpts.dependencies['{$name}']) FlowFlowOpts.dependencies['{$name}'] = true;";
 				}
@@ -150,8 +151,15 @@ $page = isset($_REQUEST['page']) ? $_REQUEST['page'] : '0';
                     setTimeout(function(){
                         $cont.find('.ff-header').removeClass('ff-loading').end().find('.ff-loader').addClass('ff-squeezed').delay(300).hide();
                     }, 0);
-
-	                <?php do_action('ff_add_view_action', $stream);?>
+                    if (FlowFlowOpts.dependencies['ads'] && response['ads']) {
+                        var deferred = jQuery.post(opts.ajaxurl, {
+                            'action': 'flow_flow_ad_action',
+                            'status': 'view',
+                            'id': response['ads']
+                        });
+                        $.when(deferred).always(function (data) {
+                        });
+                    }
 
                 }).fail(function(){
                     console.log('Flow-Flow: resource loading failed')

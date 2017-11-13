@@ -94,6 +94,21 @@ if (isset($_REQUEST['action'])){
 			echo flow\FlowFlow::get_instance()->renderShortCode(array('id' => $_GET['stream-id'], 'preview' => true));
 			die();
 			break;
+        case 'flow_flow_ad_action':
+            if (isset($_REQUEST['id'])){
+                $context = ff_get_context();
+                /** @var \flow\db\FFDBManager $db */
+                $db = $context['db_manager'];
+                $prefix = $db->table_prefix;
+                if ($_REQUEST['status'] && $_REQUEST['status'] == 'view') {
+                    flow\db\FFDB::conn()->query('UPDATE ?n SET views = views + 1 WHERE id IN (?a)', $prefix . 'ads_elements', $_REQUEST['id']);
+                }
+                else {
+                    $id = substr($_REQUEST['id'], 6);
+                    flow\db\FFDB::conn()->query('UPDATE ?n SET `clicks` = `clicks` + 1 WHERE `id` = ?i', $prefix . 'ads_elements', $id);
+                }
+            }
+            break;
 		default:
 			if (strpos($_REQUEST['action'], "backup") !== false) {
 				define('FF_SNAPSHOTS_TABLE_NAME', DB_TABLE_PREFIX . 'ff_snapshots');

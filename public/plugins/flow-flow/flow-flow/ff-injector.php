@@ -93,6 +93,7 @@ class FFInjector{
 			$json['isAdmin'] = ff_user_can_moderate();
 			$json['isLog'] = isset($_REQUEST['fflog']) && $_REQUEST['fflog'] == 1;
 			$json['ajaxurl'] = FF_AJAX_URL;
+            $json['plugin_base'] = FF_PLUGIN_URL. '/flow-flow';
 			
 			
 			$head .= "\t<script type=\"text/javascript\" src=\"" .  FF_PLUGIN_URL ."/flow-flow/js/require-utils.js?ver=1.0.0\"></script>\n";
