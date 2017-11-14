@@ -6180,13 +6180,13 @@
       this._domControls.appendChild(domTools);
       this._domRotateCCW = this.constructor.createDiv(['ct-control', 'ct-control--icon', 'ct-control--rotate-ccw']);
       this._domRotateCCW.setAttribute('data-tooltip', ContentEdit._('Rotate') + ' -90°');
-      domTools.appendChild(this._domRotateCCW);
+      // domTools.appendChild(this._domRotateCCW);
       this._domRotateCW = this.constructor.createDiv(['ct-control', 'ct-control--icon', 'ct-control--rotate-cw']);
       this._domRotateCW.setAttribute('data-tooltip', ContentEdit._('Rotate') + ' 90°');
-      domTools.appendChild(this._domRotateCW);
+      // domTools.appendChild(this._domRotateCW);
       this._domCrop = this.constructor.createDiv(['ct-control', 'ct-control--icon', 'ct-control--crop']);
       this._domCrop.setAttribute('data-tooltip', ContentEdit._('Crop marks'));
-      domTools.appendChild(this._domCrop);
+      // domTools.appendChild(this._domCrop);
       domProgressBar = this.constructor.createDiv(['ct-progress-bar']);
       domTools.appendChild(domProgressBar);
       this._domProgress = this.constructor.createDiv(['ct-progress-bar__progress']);
