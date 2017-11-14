@@ -8928,7 +8928,7 @@
             xhr = new XMLHttpRequest();
             xhr.upload.addEventListener('progress', xhrProgress);
             xhr.addEventListener('readystatechange', xhrComplete);
-            xhr.open('POST', '/admin/uploadImage', true);
+            xhr.open('POST', baseUrl + 'admin/uploadImage', true);
             xhr.send(formData);
         });
       dialog.bind('imageUploader.clear', (function(_this) {
