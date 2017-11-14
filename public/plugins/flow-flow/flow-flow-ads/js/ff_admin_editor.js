@@ -2857,7 +2857,7 @@
       if (!this.isMounted()) {
         return;
       }
-      debugger
+      // debugger
       return ContentEdit.Root.get().startResizing(this, corner, x, y, true);
     };
 
@@ -6287,11 +6287,11 @@
         return function(ev) {
           var file;
           file = ev.target.files[0];
-          ev.target.value = '';
-          if (ev.target.value) {
-            ev.target.type = 'text';
-            ev.target.type = 'file';
-          }
+          // ev.target.value = '';
+          // if (ev.target.value) {
+          //   ev.target.type = 'text';
+          //   ev.target.type = 'file';
+          // }
           return _this.trigger('imageUploader.fileReady', file);
         };
       })(this));
@@ -6329,7 +6329,12 @@
       })(this));
       return this._domInsert.addEventListener('click', (function(_this) {
         return function(ev) {
-          return _this.trigger('imageUploader.save');
+          imageUrl = _this._imageURL;
+          imageSize = [
+              $(_this._domImage).width(),
+              $(_this._domImage).height(),
+          ]
+          return _this.trigger('imageUploader.save',imageUrl,imageSize,{});
         };
       })(this));
     };
@@ -7397,7 +7402,7 @@
       ContentEdit.Root.get().bind('paste', (function(_this) {
         return function(element, ev) {
           console.log(ev.clipboardData);
-          debugger
+          // // debugger
           return _this.paste(element, ev.clipboardData);
         };
       })(this));
@@ -8830,8 +8835,9 @@
         element.storeState();
       }
       app = ContentTools.EditorApp.get();
+      app.init('*[data-editable]', 'data-name');
 
-      if ( window.file_frame ) {
+      /*if ( window.file_frame ) {
         window.file_frame.open();
         return;
       }
@@ -8865,13 +8871,69 @@
       });
 
       // Finally, open the modal
-      window.file_frame.open();
-
-      /*modal = new ContentTools.ModalUI();
+      window.file_frame.open();*/
+      modal = new ContentTools.ModalUI();
       dialog = new ContentTools.ImageDialog();
-      dialog.bind('cancel', (function(_this) {
+      dialog.bind('imageUploader.fileReady', function (file) {
+            // Upload a file to the server
+            var formData;
+            // Define functions to handle upload progress and completion
+            xhrProgress = function (ev) {
+                // Set the progress for the upload
+                dialog.progress((ev.loaded / ev.total) * 100);
+            }
+
+            xhrComplete = function (ev) {
+                var response;
+
+                // Check the request is complete
+                if (ev.target.readyState != 4) {
+                    return;
+                }
+
+                // Clear the request
+                xhr = null
+                xhrProgress = null
+                xhrComplete = null
+
+                // Handle the result of the upload
+                if (parseInt(ev.target.status) == 200) {
+                    // Unpack the response (from JSON)
+                    response = JSON.parse(ev.target.responseText);
+
+                    // Store the image details
+                    image = {
+                        size: response.size,
+                        url: response.url
+                    };
+
+                    // Populate the dialog
+                    dialog.populate(image.url, image.size);
+
+                } else {
+                    // The request failed, notify the user
+                    new ContentTools.FlashUI('no');
+                }
+            }
+
+            // Set the dialog state to uploading and reset the progress bar to 0
+            dialog.state('uploading');
+            dialog.progress(0);
+
+            // Build the form data to post to the server
+            formData = new FormData();
+            formData.append('file', file);
+
+            // Make the request
+            xhr = new XMLHttpRequest();
+            xhr.upload.addEventListener('progress', xhrProgress);
+            xhr.addEventListener('readystatechange', xhrComplete);
+            xhr.open('POST', '/admin/uploadImage', true);
+            xhr.send(formData);
+        });
+      dialog.bind('imageUploader.clear', (function(_this) {
         return function() {
-          dialog.unbind('cancel');
+          dialog.unbind('imageUploader.clear');
           modal.hide();
           dialog.hide();
           if (element.restoreState) {
@@ -8880,10 +8942,24 @@
           return callback(false);
         };
       })(this));
-      dialog.bind('save', (function(_this) {
+      dialog.bind('imageUploader.cancelUpload', (function(_this) {
+            return function() {
+              // TODO: Refactor code for cancelling XHR
+                dialog.unbind('imageUploader.cancelUpload');
+                modal.hide();
+                dialog.hide();
+                if (element.restoreState) {
+                    element.restoreState();
+                }
+                return callback(false);
+            };
+        })(this));
+      dialog.bind('imageUploader.save', (function(_this) {
+        // // debugger;
         return function(imageURL, imageSize, imageAttrs) {
+            // // debugger;
           var image, index, node, _ref;
-          dialog.unbind('save');
+          dialog.unbind('imageUploader.save');
           if (!imageAttrs) {
             imageAttrs = {};
           }
@@ -8902,7 +8978,7 @@
       app.attach(modal);
       app.attach(dialog);
       modal.show();
-      return dialog.show();*/
+      return dialog.show();
     };
 
     return Image;

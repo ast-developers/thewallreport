@@ -192,7 +192,7 @@ var CampaignApp = (function($){
       if (this.editor._state === 'ready') {
         this.editor.start();
         this.editor.$uiEl = $(this.editor._domElement).addClass('ff-transition--fast');
-        debugger
+        // debugger
         this.hideEditorUI(); // when needed
       }
     },
@@ -1110,7 +1110,7 @@ var CampaignApp = (function($){
     bindedHandler: null,
 
     outsideClickHandler: function (e) {
-      debugger
+      // debugger
        if (!$(e.target).closest('.campaign-elements__item, .ct-widget').length) {
          this.closeEditor();
        }
@@ -1130,7 +1130,7 @@ var CampaignApp = (function($){
       $settingCont.addClass('ff-transition__fadeOut');
 
       $elem.data('editor-state', 'hidden').removeClass('campaign-elements__item--editing');
-debugger
+// debugger
       Controller.hideEditorUI();
       Controller.$html.off('click', this.bindedHandler);
     },
@@ -1212,7 +1212,7 @@ debugger
 
     saveViaAjax: function(arg) {
       console.log('save campaign')
-      debugger
+      // debugger
       var self = this;
       var emptyList = campaignRowModels.length === 0;
       var $t = $(typeof arg === 'object' ? arg.target : '');
