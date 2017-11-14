@@ -6330,7 +6330,6 @@
       return this._domInsert.addEventListener('click', (function(_this) {
         return function(ev) {
           imageUrl = _this._imageURL;
-          debugger
           imageSize = [
               $(_this._domImage).width(),
               $(_this._domImage).height(),
