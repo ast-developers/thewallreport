@@ -6330,11 +6330,12 @@
       return this._domInsert.addEventListener('click', (function(_this) {
         return function(ev) {
           imageUrl = _this._imageURL;
+          debugger
           imageSize = [
               $(_this._domImage).width(),
               $(_this._domImage).height(),
           ]
-          return _this.trigger('imageUploader.save',imageUrl,imageSize,{});
+          return _this.trigger('imageUploader.save',imageUrl,imageSize,{'data-ce-max-width': imageSize[0]});
         };
       })(this));
     };
@@ -8934,6 +8935,17 @@
       dialog.bind('imageUploader.clear', (function(_this) {
         return function() {
           dialog.unbind('imageUploader.clear');
+          modal.hide();
+          dialog.hide();
+          if (element.restoreState) {
+            element.restoreState();
+          }
+          return callback(false);
+        };
+      })(this));
+      dialog.bind('cancel', (function(_this) {
+        return function() {
+          dialog.unbind('cancel');
           modal.hide();
           dialog.hide();
           if (element.restoreState) {
