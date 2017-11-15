@@ -4,7 +4,9 @@ if(isset($_SESSION['user'])){ ?>
     </div>
 <!-- END CONTAINER -->
 <?php } ?>
-
+<script>
+    var baseUrl = "<?php echo \App\Config::W_ROOT; ?>";
+</script>
 <script src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/js/app.js"></script>
 <script src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/bootstrap/js/bootstrap.min.js"></script>
 <script src="<?php echo \App\Config::W_ADMIN_ASSETS ?>/uniform3.0.0/js/jquery.uniform.standalone.js"></script>

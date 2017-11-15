@@ -18,7 +18,8 @@ session_start();
 
 require_once( dirname($_SERVER["SCRIPT_FILENAME"]) . '/LAClassLoader.php' );
 LAClassLoader::get(dirname($_SERVER["SCRIPT_FILENAME"]) . '/')->register(true);
-
+$root = dirname($_SERVER["SCRIPT_FILENAME"]) . '/..'. '/flow-flow-ads/';
+require_once( $root . 'flow-flow-ads.php' );
 if (isset($_REQUEST['action'])){
 	$context = ff_get_context();
 	/** @var \flow\db\FFDBManager $db */
@@ -75,6 +76,39 @@ if (isset($_REQUEST['action'])){
             break;
         case 'post_display_action':
             $db->updatePostActiveFlag();
+            break;
+		case 'flow_flow_save_campaign':
+			\flowads\db\FFDBAds::saveAd($campaign = $_POST['campaign']);
+			break;
+		case 'flow_flow_get_campaign':
+			$ad = \flowads\db\FFDBAds::getAd($id = $_GET['id']);
+			echo json_encode( $ad );
+			die();
+			break;
+		case 'flow_flow_delete_campaign':
+			\flowads\db\FFDBAds::deleteAd($id = $_POST['id']);
+			break;
+		case 'flow_flow_clone_campaign':
+			\flowads\db\FFDBAds::cloneAd($id = $_POST['id']);
+			break;
+		case 'flow_flow_show_preview':
+			echo flow\FlowFlow::get_instance()->renderShortCode(array('id' => $_GET['stream-id'], 'preview' => true));
+			die();
+			break;
+        case 'flow_flow_ad_action':
+            if (isset($_REQUEST['id'])){
+                $context = ff_get_context();
+                /** @var \flow\db\FFDBManager $db */
+                $db = $context['db_manager'];
+                $prefix = $db->table_prefix;
+                if ($_REQUEST['status'] && $_REQUEST['status'] == 'view') {
+                    flow\db\FFDB::conn()->query('UPDATE ?n SET views = views + 1 WHERE id IN (?a)', $prefix . 'ads_elements', $_REQUEST['id']);
+                }
+                else {
+                    $id = substr($_REQUEST['id'], 6);
+                    flow\db\FFDB::conn()->query('UPDATE ?n SET `clicks` = `clicks` + 1 WHERE `id` = ?i', $prefix . 'ads_elements', $id);
+                }
+            }
             break;
 		default:
 			if (strpos($_REQUEST['action'], "backup") !== false) {

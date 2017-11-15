@@ -2,6 +2,7 @@
 use flow\cache\FFCache;
 use flow\cache\FFCacheAdapter;
 use flow\db\FFDB;
+use flowads\db\FFDBAds;
 use flow\db\FFDBManager;
 use flow\settings\FFGeneralSettings;
 use flow\settings\FFSettingsUtils;
@@ -416,6 +417,7 @@ class FlowFlow {
 		$countOfPages = isset($_REQUEST['countOfPages']) ? $_REQUEST['countOfPages'] : 0;
 		$result = array('id' => $streamId, 'items' => $all, 'errors' => $errors,
 		             'hash' => $oldHash, 'page' => $page, 'countOfPages' => $countOfPages, 'status' => $status);
+		$result = FFDBAds::buildPublicResponse($result, $all, $context, $errors, $oldHash, $page, $status, $stream);
 		return $result;
 	}
 
