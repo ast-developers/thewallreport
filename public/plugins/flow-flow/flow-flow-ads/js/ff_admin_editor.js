@@ -4979,8 +4979,8 @@
   window.ContentTools = {
     Tools: {},
     DEFAULT_TOOLS: [['bold', 'italic', 'link', 'align-left', 'align-center', 'align-right'], ['heading', 'subheading', 'paragraph', 'unordered-list', 'ordered-list', 'table', 'indent', 'unindent', 'line-break'], ['image', 'video', 'preformatted'], ['undo', 'redo', 'remove']],
-    DEFAULT_VIDEO_HEIGHT: 300,
-    DEFAULT_VIDEO_WIDTH: 400,
+    DEFAULT_VIDEO_HEIGHT: 116,
+    DEFAULT_VIDEO_WIDTH: 208,
     HIGHLIGHT_HOLD_DURATION: 2000,
     INSPECTOR_IGNORED_ELEMENTS: ['ListItemText', 'Region', 'TableCellText'],
     IMAGE_UPLOADER: null,
@@ -6331,8 +6331,8 @@
         return function(ev) {
           imageUrl = _this._imageURL;
           imageSize = [
-              $(_this._domImage).width(),
-              $(_this._domImage).height(),
+              ContentTools.DEFAULT_VIDEO_WIDTH,
+              ContentTools.DEFAULT_VIDEO_HEIGHT,
           ]
           return _this.trigger('imageUploader.save',imageUrl,imageSize,{'data-ce-max-width': imageSize[0]});
         };

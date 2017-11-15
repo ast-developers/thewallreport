@@ -337,3 +337,8 @@
 }
 
 
+/* Custom CSS */
+.ff-ad .ff-content iframe {
+    width: 100% !important;
+    height: auto;
+}

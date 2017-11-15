@@ -1132,6 +1132,7 @@ var CampaignApp = (function($){
       $elem.data('editor-state', 'hidden').removeClass('campaign-elements__item--editing');
 // debugger
       Controller.hideEditorUI();
+      $('.cp-container.cp-popup').hide();
       Controller.$html.off('click', this.bindedHandler);
     },
 
