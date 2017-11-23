@@ -72,4 +72,16 @@ class CMSController extends Controller
         return View::render('Front/error.php');
     }
 
+    public function getVimeoImage()
+    {
+        try {
+            $id   = $this->params['vid'];
+            $hash = unserialize(file_get_contents("http://vimeo.com/api/v2/video/$id.php"));
+            echo $hash[0]['thumbnail_large'];
+        } catch (Exception $e) {
+            echo false;
+        }
+        exit;
+    }
+
 }

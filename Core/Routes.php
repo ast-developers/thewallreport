@@ -56,6 +56,7 @@ $router->add('admin/error', ['namespace' => 'Admin', 'controller' => 'UserContro
 
 // Front routes
 $router->add('feed/{postid:[a-zA-Z\d\W\w]+}/{feedid:[a-zA-Z\d\W\w]+}', ['namespace' => 'Front', 'controller' => 'CMSController', 'action' => 'feedDetail']);
+$router->add('adfeed/get-vimeo-image/{vid:[a-zA-Z\d\W\w]+}', ['namespace' => 'Front', 'controller' => 'CMSController', 'action' => 'getVimeoImage']);
 $router->add('search/{s:[a-zA-Z\d\W]+}/{p:\d+}', ['namespace' => 'Front', 'controller' => 'SearchController', 'action' => 'search']);
 $router->add('search/{s:[a-zA-Z\d\W]+}', ['namespace' => 'Front', 'controller' => 'SearchController', 'action' => 'search']);
 $router->add('search-data', ['namespace' => 'Front','controller' => 'SearchController', 'action' => 'index']);
