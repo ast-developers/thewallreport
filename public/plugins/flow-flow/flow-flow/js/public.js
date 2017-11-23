@@ -1257,6 +1257,12 @@ window.CustomModernizr = function(t, e, i) {
                 n(e.nextItem, f.support3d ? "translate3d(" + (p - 100) + "px,-50%, 0px)" : "translate(" + p + "px, -50%)")
             }
             setTimeout(function() {
+                if(e.$wrapper.find('.iframe-hide').length){
+                    e.$wrapper.find('.iframe-hide').show();
+                }
+                if(e.$wrapper.find('.ifrmage-image-show').length){
+                    e.$wrapper.find('.ifrmage-image-show').hide();
+                }
                 e.$wrapper.addClass("ff-slideshow-open").scrollTop(0)
             }, 200)
         }, o.prototype._navigate = function(t) {
@@ -1590,12 +1596,57 @@ window.CustomModernizr = function(t, e, i) {
                         m = void 0 !== f.source ? f.source : f.permalink, !0 && (I = "new" == f.status ? " ff-moderation-new-post" : "", S = "approved" == f.status ? "checked" : "", z = f.mod ? '<div class="ff-moderation-wrapper ' + ("approved" == f.status ? "ff-approved" : "") + I + '"><span>Approve</span> <label for="ff-mod-' + ($ + a) + '"><input id="ff-mod-' + ($ + a) + '" type="checkbox" class="ff-switcher" value="yes" ' + S + '/><div><span></span></div></label></div>':'', d = FlowFlowOpts.isAdmin ? '<div class="ff-moderation-wrapper switch-response"></div><div class="ff-moderation-wrapper ff-moderation-featured-wrapper' + I + '"><span>Featured</span> <label for="ff-featured-' + ($ + a) + '"><input id="ff-featured-' + ($ + a) + '" type="checkbox" class="ff-switcher" value="yes"  ' + ("1" == f.featured ? "checked" : "") + '/><div><span></span></div></label></div><div class="ff-moderation-wrapper ff-moderation-is-active-wrapper' + I + '"><span>Show/Hide</span> <label for="ff-is-active-' + ($ + a) + '"><input id="ff-is-active-' + ($ + a) + '" type="checkbox" class="ff-switcher" value="yes" ' + ("1" == f.is_active ? "checked" : "") + "/><div><span></span></div></label></div>":''), f.additional && ("twitter" === f.type && (v += '<a href="https://twitter.com/intent/tweet?in_reply_to=' + f.id + '" class="ff-comments"> <i class="ff-icon-reply"></i></a>'), (b = parseInt(f.additional.views)) > -1 && (v += '<span class="feed-view"><i class="ff-icon-view"></i> <span>' + (0 > b ? "" : i(b, 2)) + "</span></span>"), (y = parseInt(f.additional.likes)) > -1 && "twitter" !== f.type && (v += '<span class="feed-likes"><i class="ff-icon-like"></i> <span>' + (0 > y ? "" : i(y, 2)) + "</span></span>"), (x = parseInt(f.additional.shares)) > -1 && (v += '<a href="' + ("twitter" === f.type ? "https://twitter.com/intent/retweet?tweet_id=" + f.id : f.permalink) + '" class="ff-shares"><i class="ff-icon-shares"></i> <span>' + (0 > x ? "" : i(x, 2)) + "</span></a>"), y > -1 && "twitter" === f.type && (v += '<a href="https://twitter.com/intent/favorite?tweet_id=' + f.id + '" class="ff-likes"><i class="ff-icon-like"></i> <span>' + (0 > y ? "" : i(y, 2)) + "</span></a>"), w = parseInt(f.additional.comments), "twitter" !== f.type && w > -1 && (v += '<span class="feed-comments"><i class="ff-icon-comment"></i> <span>' + (w > -1 ? i(w, 2) : "") + "</span></span>")), n && (O += '<div class="ff-share-wrapper"><i class="ff-icon-share"></i><div class="ff-share-popup"><a href="http://www.facebook.com/sharer.php?u=' + window.base_url + "feed/" + f.id + "/" + f.feed_id + '" class="ff-fb-share"><span>Facebook</span></a><a href="https://twitter.com/share?' + (f.header ? "text=" + encodeURIComponent(f.header) + "&" : "") + "url=" + window.base_url + "feed/" + f.id + "/" + f.feed_id + '" class="ff-tw-share"><span>Twitter</span></a><a href="https://plus.google.com/share?url=' + window.base_url + "feed/" + f.id + "/" + f.feed_id + '" class="ff-gp-share"><span>Google+</span></a><a href="https://www.pinterest.com/pin/create/button/?url=' + window.base_url + "feed/" + f.id + "/" + f.feed_id + (f.media ? "&media=" + encodeURIComponent(f.media.url) : "") + '" class="ff-pin-share" data-pin-description="' + f.plain_text + '"><span>Pinterest</span></a></div></div> <a href=' + window.base_url + "feed/" + f.id + "/" + f.feed_id + ' title="read more" class="external-link"><i class="fa fa-long-arrow-up"></i></a>'), N = f.media ? ' data-media="' + f.media.width + ";" + f.media.height + ";" + ("yep" === p.forceHTTPS ? f.media.url.replace("http:", "https:") : f.media.url) + ";" + f.media.type + (f.img ? ";" + f.img.width + ";" + f.img.height : "") + '"' : "", _.image = f.img ? '<span class="ff-img-holder ff-img-loading" ' + N + '><img class="ff-initial-image" src="' + ("yep" === p.forceHTTPS ? f.img.url.replace("http:", "https:") : f.img.url) + '" data-size="' + f.img.width + ";" + f.img.height + '" rel="image_src" /></span>' : "", _.header = f.header ? '<h4><span>' + f.header + "</span></h4>" : "", _.text = '<div class="ff-content">' + f.text + "</div>", _.meta = '<div class="ff-item-meta"><span class="ff-userpic" style="background:url(' + ("yep" === p.forceHTTPS ? f.userpic.replace("http:", "https:") : f.userpic) + ')"><i class="ff-icon"><i class="ff-icon-inner"></i></i></span><h6><span rel="nofollow" class="ff-name ' + (f.userlink ? "" : " ff-no-link") + '">' + f.screenname + "</span></h6>" + (f.nickname ? '<span rel="nofollow" class="ff-nickname' + (f.userlink ? "" : " ff-no-link") + '">' + f.nickname + "</span>" : "") + '<span rel="nofollow" class="ff-timestamp">' + T(f.system_timestamp, f.timestamp) + "</span></div>", _.labelIcon = F ? "" : '<h6 class="ff-label-wrapper"><i class="ff-icon"><i class="ff-icon-inner"><span class="ff-label-text">' + f.type + "</span></i></i></h6>";
                         for (var A = 0, P = r.template.length; P > A; A++) 1 === A && k && (g += '<div class="ff-overlay-wrapper">'), g += _[r.template[A]], "meta" === r.template[A] && (g += _.labelIcon), A === P - 1 && k && (g += '<h6 class="ff-item-bar">' + v + O + "</h6>", g += '<div class="ff-overlay"></div></div>');
                         M += '<article class="ff-item' + (f.media && "image" != f.media.type ? " ff-video-preview" : "") + " ff-" + f.type + ("meta" === r.template[r.isOverlay ? 1 : 0] || !f.img && "meta" === r.template[1] ? " ff-meta-first" : "") + (f.header ? " ff-has-header" : "") + (f.img ? " ff-image" : " ff-no-image") + (k ? " ff-has-overlay" : "") + '" id="ff-uid-' + $ + '" post-id="' + f.id + '" data-type="' + f.type + '" data-index="' + (l + a) + '"' + N + ' data-timestamp="' + f.system_timestamp + '">' + (s && f.mod ? z : "") + (FlowFlowOpts.isAdmin ? d : "") + '<div class="picture-item__inner">'+((f.featured == "1" &&FlowFlowOpts.isAdmin!=1) ? "<div class='featured-badge'></div></span>" : "")+'<div class="ff-item-cont">' + g + "</div>" + (k ? "" : '<h6 class="ff-item-bar">' + v + O + "</h6>"), d && (M += '<a class="ff-mob-link" href="' + f.permalink + '"></a>'), M += "</div></article>"
-                    } else h = "yep" === f.label ? 'data-label="' + f.labelTxt + ";" + f.labelCol + '"' : "", c = 'style="' + (f.textCol ? "color:" + f.textCol + ";" : "") + ("js" === f.adtype ? "height:" + f.height + "px" : "") + '"', M += '<div class="ff-item ff-' + f.type + (f.permalink ? " ff-ad-link" : "") + '" id="ff-uid-' + $ + '" post-id="' + f.id + '" data-type="' + f.type + '" data-adtype="' + f.adtype + '" data-index="' + l + '" ' + h + '><div class="picture-item__inner" style="' + (f.cardBG ? "background-color:" + f.cardBG + ";" : "") + '"><div class="ff-item-cont ff-'+f.type+'"><div class="ff-content" ' + c + ">" + f.text.replace(/document\.write\((.+?)\)/i, function(t, e) {
-                            return "jQuery(" + e + ').appendTo(jQuery("#ff-uid-' + $ + ' .ff-content"))'
-                        }) + "</div>", (M += '<div class="ff-item-meta"><br><span>&nbsp;</span></div>'), (M += '</div>'), (f.permalink && (M += '<h6 class="ff-item-bar"><a href=' + f.permalink + ' title="read more" class="external-link"><i class="fa fa-long-arrow-up"></i></a></h6>')), (M += '</div></div>');
+                    } else {
+                        const regex = /<iframe\s+.*?\s+src=\"(.*?)\".*?<\/iframe>/g;
+                        const result = f.text.replace(regex, function replacer(match, p1, p2, p3, offset, string) {
+                            /*
+                             * match = entire iframe tag
+                             * p1 = src of iframe
+                             */
+                            var ytVId = ytVidId(p1);
+                            if(ytVId){
+                                return '<div class="iframe-hide" style="display: none;">'+match+'</div>' + '<span class="ifrmage-image-show ff-img-holder ff-img-loaded" data-media="600;338;'+p1+'&f=videos&autoplay=0;application/x-shockwave-flash;230;130"><img class="ff-initial-image" src="//i1.ytimg.com/vi/'+ytVId+'/0.jpg"/></span>';
+                            } else {
+                                var vimeoVideoID = vimeoVId(p1);
+                                if(vimeoVideoID){
+                                    //var imageSrc = jQuery.getJSON('//www.vimeo.com/api/v2/video/' + vimeoVideoID + '.json?callback=?', {format: "json"}, function(data) {
+                                    //    return data[0].thumbnail_large;
+                                    //});
+                                    /*return '<span class="ff-img-holder ff-img-loaded"><img class="ff-initial-image" src="'+imageSrc+'"/></span>';*/
+                                }
+                            }
+                            return match;
+                        });
+
+                        h = "yep" === f.label ? 'data-label="' + f.labelTxt + ";" + f.labelCol + '"' : "", c = 'style="' + (f.textCol ? "color:" + f.textCol + ";" : "") + ("js" === f.adtype ? "height:" + f.height + "px" : "") + '"', M += '<div class="ff-item ff-' + f.type + (f.permalink ? " ff-ad-link" : "") + '" id="ff-uid-' + $ + '" post-id="' + f.id + '" data-type="' + f.type + '" data-adtype="' + f.adtype + '" data-index="' + l + '" ' + h + '><div class="picture-item__inner" style="' + (f.cardBG ? "background-color:" + f.cardBG + ";" : "") + '"><div class="ff-item-cont ff-' + f.type + '"><div class="ff-content" ' + c + ">" + /*f.text.replace*/ result.replace(/document\.write\((.+?)\)/i, function (t, e) {
+                                return "jQuery(" + e + ').appendTo(jQuery("#ff-uid-' + $ + ' .ff-content"))'
+                            }) + "</div>", (M += '<div class="ff-item-meta"><br><span>&nbsp;</span></div>'), (M += '</div>'), (f.permalink && (M += '<h6 class="ff-item-bar"><a href=' + f.permalink + ' title="read more" class="external-link"><i class="fa fa-long-arrow-up"></i></a></h6>')), (M += '</div></div>');
+                    }
                     $++
                 }
                 return M
+            }
+            function ytVidId(url) {
+                var p = /^(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/;
+                return (url.match(p)) ? RegExp.$1 : false;
+            }
+            function vimeoVId(url){
+                var vID = false;
+
+                // Look for a string with 'vimeo', then whatever, then a
+                // forward slash and a group of digits.
+                var match = /vimeo.*\/(\d+)/i.exec( url );
+
+                // If the match isn't null (i.e. it matched)
+                if ( match ) {
+                    // The grouped/matched digits from the regex
+                    vID =  match[1];
+                }
+
+                return vID;
+            }
+            function getVimeoImage(data){
+                return data[0].thumbnail_large;
             }
 
             function h(e, i) {
