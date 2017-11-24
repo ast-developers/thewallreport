@@ -8193,7 +8193,8 @@
           alignmentClassNames = ['align-center', 'align-left', 'align-right'];
           if (href) {
             element.a = {
-              href: href
+              href: href,
+              target: '_blank'
             };
             for (_i = 0, _len = alignmentClassNames.length; _i < _len; _i++) {
               className = alignmentClassNames[_i];
@@ -8223,7 +8224,8 @@
           element.content = element.content.unformat(from, to, 'a');
           if (href) {
             a = new HTMLString.Tag('a', {
-              href: href
+              href: href,
+              target: '_blank'
             });
             element.content = element.content.format(from, to, a);
           }
