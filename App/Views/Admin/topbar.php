@@ -8,6 +8,11 @@
                 The Wall Report
             </a>
             <!-- END LOGO -->
+            <!-- BEGIN VISIT SITE -->
+            <a class="brand visit-site" href="<?php echo \App\Config::W_ROOT; ?>">
+                Visit Site
+            </a>
+            <!-- END VISIT SITE -->
             <!-- BEGIN RESPONSIVE MENU TOGGLER -->
             <a href="javascript:;" class="btn-navbar collapsed" data-toggle="collapse" data-target=".nav-collapse">
                 <img src="<?php echo \App\Config::W_ADMIN_ASSETS;?>/img/menu-toggler.png" alt="The Wall Report"/>
