@@ -202,6 +202,8 @@ var CampaignApp = (function($){
       var focused = ContentEdit.Root.get().focused();
       if (focused) focused.blur();
       if (this.editor.$uiEl) this.editor.$uiEl.addClass('ff-transition__fadeOut');
+      var height = this.$container.find('.view-visible')[0].scrollHeight+'px';
+      this.$container.css('min-height', height);
     },
 
     showEditorUI: function () {
