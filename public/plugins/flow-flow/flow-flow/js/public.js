@@ -1605,7 +1605,7 @@ window.CustomModernizr = function(t, e, i) {
                              */
                             var ytVId = ytVidId(p1);
                             if(ytVId){
-                                return '<div class="iframe-hide" style="display: none;">'+match+'</div>' + '<span class="ifrmage-image-show ff-img-holder ff-img-loaded" data-media="600;338;'+p1+'&f=videos&autoplay=0;application/x-shockwave-flash;230;130"><img class="ff-initial-image" src="//i1.ytimg.com/vi/'+ytVId+'/0.jpg"/></span>';
+                                return '<div class="iframe-hide" style="display: none;">'+match+'</div>' + '<div class="ff-video-preview"><span class="ifrmage-image-show ff-img-holder ff-img-loaded" data-media="600;338;'+p1+'&f=videos&autoplay=0;application/x-shockwave-flash;230;130"><img class="ff-initial-image" src="//i1.ytimg.com/vi/'+ytVId+'/mqdefault.jpg"/></span></div>';
                             } else {
                                 var vimeoVideoID = vimeoVId(p1);
                                 if(vimeoVideoID){
@@ -1613,15 +1613,15 @@ window.CustomModernizr = function(t, e, i) {
                                         url: window.base_url + "adfeed/get-vimeo-image/" + vimeoVideoID,
                                         async: false
                                     }).responseText;
-                                    return '<div class="iframe-hide" style="display: none;">'+match+'</div>' + '<span class="ifrmage-image-show ff-img-holder ff-img-loaded" data-media="600;338;'+p1+'&f=videos&autoplay=0;application/x-shockwave-flash;230;130"><img class="ff-initial-image" src="'+imageSrc+'"/></span>';
+                                    return '<div class="iframe-hide" style="display: none;">'+match+'</div>' + '<div class="ff-video-preview"><span class="ifrmage-image-show ff-img-holder ff-img-loaded" data-media="600;338;'+p1+'&f=videos&autoplay=0;application/x-shockwave-flash;230;130"><img class="ff-initial-image" src="'+imageSrc+'"/></span></div>';
                                 }
                             }
                             return match;
                         });
 
-                        h = "yep" === f.label ? 'data-label="' + f.labelTxt + ";" + f.labelCol + '"' : "", c = 'style="' + (f.textCol ? "color:" + f.textCol + ";" : "") + ("js" === f.adtype ? "height:" + f.height + "px" : "") + '"', M += '<div class="ff-item ff-' + f.type + (f.permalink ? " ff-ad-link" : "") + '" id="ff-uid-' + $ + '" post-id="' + f.id + '" data-type="' + f.type + '" data-adtype="' + f.adtype + '" data-index="' + l + '" ' + h + '><div class="picture-item__inner" style="' + (f.cardBG ? "background-color:" + f.cardBG + ";" : "") + '"><div class="ff-item-cont ff-' + f.type + '"><div class="ff-content" ' + c + ">" + /*f.text.replace*/ result.replace(/document\.write\((.+?)\)/i, function (t, e) {
+                        h = "yep" === f.label ? 'data-label="' + f.labelTxt + ";" + f.labelCol + '"' : "", c = 'style="' + (f.textCol ? "color:" + f.textCol + ";" : "") + ("js" === f.adtype ? "height:" + f.height + "px" : "") + '"', M += '<div class="ff-item ff-' + f.type + (f.permalink ? " ff-ad-link" : "") + '" id="ff-uid-' + $ + '" post-id="' + f.id + '" data-type="' + f.type + '" data-adtype="' + f.adtype + '" data-index="' + l + '" ' + h + '><div class="picture-item__inner"><div style="' + (f.cardBG ? "background-color:" + f.cardBG + ";" : "") + '"><div class="ff-item-cont ff-' + f.type + '"><div class="ff-content" ' + c + ">" + /*f.text.replace*/ result.replace(/document\.write\((.+?)\)/i, function (t, e) {
                                 return "jQuery(" + e + ').appendTo(jQuery("#ff-uid-' + $ + ' .ff-content"))'
-                            }) + "</div>", (M += '<div class="ff-item-meta"><br><span>&nbsp;</span></div>'), (M += '</div>'), (f.permalink && (M += '<h6 class="ff-item-bar"><a href=' + f.permalink + ' title="read more" class="external-link"><i class="fa fa-long-arrow-up"></i></a></h6>')), (M += '</div></div>');
+                            }) + "</div>", (M += '<div class="ff-item-meta"><br><span>&nbsp;</span></div>'), (M += '</div>'), (f.permalink && (M += '<h6 class="ff-item-bar"><a href=' + f.permalink + ' title="read more" class="external-link"><i class="fa fa-long-arrow-up"></i></a></h6>')), (M += '</div></div></div>');
                     }
                     $++
                 }

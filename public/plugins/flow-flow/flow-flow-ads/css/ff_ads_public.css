@@ -343,3 +343,4 @@
     height: auto;
 }
 .ff-slideshow .ff-ad iframe{height: 338px !important;}
+.ff-ad .ff-video-preview .ff-img-loaded:after{ cursor: pointer;}
