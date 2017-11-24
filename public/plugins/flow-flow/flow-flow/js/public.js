@@ -1339,6 +1339,9 @@ window.CustomModernizr = function(t, e, i) {
                 if(i.find("video").length){
                     i.find("video")[0].pause();
                 }
+                t.find('iframe').each(function(){
+                    this.contentWindow.postMessage('{"event":"command","func":"' + 'stopVideo' + '","args":""}', '*')
+                });
             }
         }, o.prototype._setViewportItems = function() {
             this.currentItem = null, this.prevItem = null, this.nextItem = null, this.$curr = null, this.current > 0 && (this.prevItem = this.slideshowItems[this.current - 1]), this.current < this.itemsCount - 1 && (this.nextItem = this.slideshowItems[this.current + 1]), this.currentItem = this.slideshowItems[this.current], this.$curr = i(this.currentItem)
@@ -1605,7 +1608,7 @@ window.CustomModernizr = function(t, e, i) {
                              */
                             var ytVId = ytVidId(p1);
                             if(ytVId){
-                                return '<div class="iframe-hide" style="display: none;">'+match+'</div>' + '<div class="ff-video-preview"><span class="ifrmage-image-show ff-img-holder ff-img-loaded" data-media="600;338;'+p1+'&f=videos&autoplay=0;application/x-shockwave-flash;230;130"><img class="ff-initial-image" src="//i1.ytimg.com/vi/'+ytVId+'/mqdefault.jpg"/></span></div>';
+                                return '<div class="iframe-hide" style="display: none;">'+'<iframe frameborder="0" height="116" src="'+p1+'?version=3&amp;enablejsapi=1&amp;f=videos&amp;autoplay=0" width="208" allowfullscreen="" webkitallowfullscreen="" mozallowfullscreen="" autoplay="0" wmode="opaque"></iframe>'+'</div>' + '<div class="ff-video-preview"><span class="ifrmage-image-show ff-img-holder ff-img-loaded" data-media="600;338;'+p1+'&f=videos&autoplay=0;application/x-shockwave-flash;230;130"><img class="ff-initial-image" src="//i1.ytimg.com/vi/'+ytVId+'/mqdefault.jpg"/></span></div>';
                             } else {
                                 var vimeoVideoID = vimeoVId(p1);
                                 if(vimeoVideoID){
@@ -1613,7 +1616,7 @@ window.CustomModernizr = function(t, e, i) {
                                         url: window.base_url + "adfeed/get-vimeo-image/" + vimeoVideoID,
                                         async: false
                                     }).responseText;
-                                    return '<div class="iframe-hide" style="display: none;">'+match+'</div>' + '<span class="ifrmage-image-show ff-img-holder ff-img-loaded" data-media="600;338;'+p1+'&f=videos&autoplay=0;application/x-shockwave-flash;230;130"><img class="ff-initial-image" src="'+imageSrc+'"/></span>';
+                                    return '<div class="iframe-hide" style="display: none;">'+'<iframe frameborder="0" height="116" src="'+p1+'?version=3&amp;enablejsapi=1&amp;f=videos&amp;autoplay=0" width="208" allowfullscreen="" webkitallowfullscreen="" mozallowfullscreen="" autoplay="0" wmode="opaque"></iframe>'+'</div>' + '<span class="ifrmage-image-show ff-img-holder ff-img-loaded" data-media="600;338;'+p1+'&f=videos&autoplay=0;application/x-shockwave-flash;230;130"><img class="ff-initial-image" src="'+imageSrc+'"/></span>';
                                 }
                             }
                             return match;
