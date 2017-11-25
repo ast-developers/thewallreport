@@ -1817,7 +1817,7 @@ window.CustomModernizr = function(t, e, i) {
                                 u = c.items,
                                 m = (u.length, f(u, t('[id^="ff-uid-"]').length + 1 || 1, !0, p.moderation, o)),
                                 g = t(m),
-                                w = g.not(".ff-ad"),
+                                w = g,
                                 x = w.toArray();
                             if (e.trigger("loaded_more", {
                                     items: g
@@ -1999,7 +1999,7 @@ window.CustomModernizr = function(t, e, i) {
                     }
                     if (r && (p.moderation = r, b += '<div class="ff-moderation-holder"><p><strong>PREMODERATION MODE IS ON</strong>. APPROVE POSTS AND HIT <strong>APPLY CHANGES</strong>.</p><span class="ff-moderation-button ff-moderation-apply">Apply changes</span><span class="ff-moderation-button ff-moderation-approve-new">Approve new posts</span></div>'), b += "</div>", n["gc-style"], b += '<div class="ff-stream-wrapper ff-' + (d ? "mobile" : "desktop") + " shuffle--container" + ("yep" === n.viewportin && !d && window.requestAnimationFrame ? " shuffle--animatein" : " shuffle--animateoff") + " ff-layout-" + n.layout + " ff-upic-" + n["upic-pos"] + " ff-upic-" + n["upic-style"] + " ff-align-" + n.talign + " ff-sc-" + n["icon-style"] + " ff-" + n["icons-style"] + '-icon">', x = f(_, S, !0, r, n), b += x, b += '<div class="shuffle__sizer"></div></div>', i.countOfPages > 1 && i.page + 1 != i.countOfPages && ("yep" !== n.mobileslider || !d) && (b += '<div class="ff-loadmore-wrapper"><span class="ff-btn">' + window.FlowFlowOpts.show_more + "</span></div>"), (l = t(b)).each(function(e) {
                             return this.className.indexOf("ff-stream-wrapper") + 1 ? (c = t(this), !1) : void 0
-                        }), u = l.find(".ff-item"), g = u.not(".ff-ad"), c.data("opts", n).data("items", u), g.each(function() {
+                        }), u = l.find(".ff-item"), g = u, c.data("opts", n).data("items", u), g.each(function() {
                             var e = t(this);
                             e.is(".ff-image") ? e.find("img").not(".ff-initial-image").remove() : e.find("img").not(":first").remove()
                         }), l.find("p:empty, .ff-content a:empty").remove(), l.find("img").each(function() {

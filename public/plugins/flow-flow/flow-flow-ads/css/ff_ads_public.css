@@ -7,7 +7,7 @@
 }
 
 .ff-ad:not(.ff-ad-link) {
-    cursor: auto !important;
+    /*cursor: auto !important;*/
 }
 
 .ff-ad-link img {
