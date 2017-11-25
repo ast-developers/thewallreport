@@ -29,7 +29,7 @@ use Core\Helper;
                     <span
                             class="cb-separator"><i class="fa fa-times"></i></span>
                     <span class="cb-date"><time
-                                datetime="2017-02-03"><?php echo date("F j, Y", strtotime($post['published_at'])) ?></time></span>
+                                datetime="<?php echo date("Y-m-d", strtotime($post['published_at'])) ?>"><?php echo date("F j, Y", strtotime($post['published_at'])) ?></time></span>
                 <?php } ?>
 
                 <?php
@@ -41,6 +41,13 @@ use Core\Helper;
                     <a href="#"><?php echo $category ?></a></span>
                     <?php }
                 } ?>
+
+                <?php if ((!empty($post['views']))) { ?>
+                    <span
+                            class="cb-separator"><i class="fa fa-times"></i></span>
+                    <span class="cb-date"><i class="fa fa-eye mr-2"></i>Post Views: <?php echo number_format($post['views']) ?></span>
+                <?php } ?>
+
             </div>
 
             <div class="video video-block">
@@ -55,7 +62,6 @@ use Core\Helper;
         <div class="row">
             <div class="col-xl-8">
 
-                <div class="d-block pb-4"><i class="fa fa-eye mr-2"></i>Post Views: <?php echo $post['views'] ?></div>
                 <?php if (!empty($tags)) { ?>
                     <div class="d-block pb-4">
                         <ul class="tags-list pl-0">
