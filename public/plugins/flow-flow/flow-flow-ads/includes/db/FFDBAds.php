@@ -418,12 +418,11 @@ class FFDBAds {
 		$model->available_streams = array();
 		if (false != ($streams = FFDB::conn()->getAll('SELECT st.id, st.name, ast.stream, ast.campaign FROM ?n st LEFT JOIN ?n ast ON st.id = ast.stream ORDER BY st.id', $db->streams_table_name, $db->table_prefix . 'ads_streams'))){
 			foreach ( $streams as $stream ) {
-				if ($stream['stream'] == null){
-					$model->available_streams[$stream['id']] = $stream['name'];
-				}
-				else if ($stream['campaign'] != null && $stream['campaign'] == $model->id){
+				if ($stream['campaign'] != null && $stream['campaign'] == $model->id){
 					$model->streams[] = $stream['id'];
-				}
+				} else {
+                    $model->available_streams[$stream['id']] = $stream['name'] ? $stream['name'] : ('Unnamed#'.$stream['id']);
+                }
 			}
 		}
 	}
