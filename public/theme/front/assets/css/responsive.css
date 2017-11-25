@@ -105,7 +105,7 @@
     { width: 50%;
         display: inline-block;
     }
-    h6.ff-item-bar { padding-right: 45px!important;}
+    h6.ff-item-bar { padding-right: 45px!important; min-height: 64px;}
     a.external-link { top:10px; right:10px;}
     .ff-item-bar i { margin-left: 0px;}
     a.external-link { width: 34px;}

@@ -342,3 +342,9 @@
     width: 100% !important;
     height: auto;
 }
+.ff-ad .ff-item-meta {display: none;}
+.ff-slideshow .ff-ad .ff-item-meta {display: block; padding-top: 0px;}
+.ff-slideshow .ff-ad .ff-item-bar {top: 4px;}
+.ff-slideshow .ff-ad iframe{height: 320px !important;}
+.ff-slideshow .ff-ad .ff-content{padding: 10px;}
+.ff-ad .ff-video-preview .ff-img-loaded:after{ cursor: pointer;}

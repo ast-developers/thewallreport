@@ -823,6 +823,8 @@ a.external-link i.fa-long-arrow-up {
 }
 
 .nav-bars { color: #fff; font-size: 18px; position: absolute; top:7px; left: 10px;}
+.ff-item-bar { min-height: 43px; }
+
 @media (min-width: 768px) and (max-width: 991px){
     .block-name {
         font-size: 20px;

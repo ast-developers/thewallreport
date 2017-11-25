@@ -120,6 +120,7 @@ table.dataTable.no-footer {
     color: #fff;
 }
 .navbar .brand {    padding: 12px 20px 10px;}
+.navbar .visit-site {    background: #454e57 !important; margin-top: 0px; margin-left: 0px; padding: 12px 10px 10px; font-size: 16px;}
 
 /*====== Feeds Plugin =========*/
 .ff-standalone .wrapper { min-width: 100%;}
@@ -141,6 +142,9 @@ table.dataTable.no-footer {
 @media (max-width: 979px) {
     .navbar .brand {
         padding: 12px 0px 10px;
+    }
+    .navbar .visit-site {
+        padding: 12px 10px 10px; margin-left: 10px; font-size: 16px;
     }
     #ff-footer { padding-top: 30px;}
     #ff-footer .ff-table,

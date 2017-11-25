@@ -33,6 +33,10 @@ $disqusPageIdentifier = $feed['post_id'] . '_' . $feed['feed_id'];
                                         Your browser does not support the video tag.
                                     </video>
                                     <?php
+                                } else if (strpos($feed['media_type'], 'sound') !== false) {
+                                    ?>
+                                    <iframe width="100%" height="166" scrolling="no" frameborder="no" src="<?php echo $feed['media_url']; ?>"></iframe>
+                                    <?php
                                 } else {
                                     ?>
                                     <img src="<?php echo $feed['media_url']; ?>">
