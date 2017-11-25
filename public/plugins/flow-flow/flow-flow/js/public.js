@@ -1803,7 +1803,7 @@ window.CustomModernizr = function(t, e, i) {
                 }), e.data("num", m.length), e.data("visible", 0)), l.find(".ff-loadmore-wrapper span").click(function() {
                     var i = t(this),
                         n = l.find(".ff-loader"),
-                        r = l.find(".ff-item").not(".ff-ad").length,
+                        r = l.find(".ff-item")/*.not(".ff-ad")*/.length,
                         c = {
                             action: "fetch_posts",
                             "stream-id": o.id,
