@@ -136,12 +136,37 @@ class PostRepository
      */
     public function uploadFeaturedImage($fileData)
     {
+        include Config::F_ROOT . 'App/PHPThumb/ThumbLib.inc.php';
+
         $filePath = $fileData['tmp_name'];
         $name     = time() . "_" . basename($fileData["name"]);
         $fileName = Config::S3_FEATURE_IMAGE_DIR . "/" . $name;
         $s3       = new S3();
         $upload   = $s3->uploadObject($filePath, $fileName);
         if ($upload['success']) {
+
+            if(!file_exists(Config::F_FEATURED_IMAGE_DIR.'thumb')){
+                mkdir(Config::F_FEATURED_IMAGE_DIR.'thumb', 0755);
+            }
+
+            $source   = $fileData['tmp_name'];
+            $target   = Config::F_FEATURED_IMAGE_DIR . $name;
+            $thumbTarget = Config::F_FEATURED_IMAGE_DIR . 'thumb/' . $name;
+            move_uploaded_file($source, $target);
+            try {
+                $thumb = \App\PHPThumb\PhpThumbFactory::create($target);
+                $thumb->adaptiveResize(Config::FEATURED_THUMB_IMAGE_WIDTH, Config::FEATURED_THUMB_IMAGE_HEIGHT);
+                $thumb->save($thumbTarget);
+
+                $s3->uploadObject($thumbTarget, Config::S3_FEATURE_IMAGE_DIR . "/thumb/" . $name);
+
+                unlink($target);
+                unlink($thumbTarget);
+
+            } catch (\Exception $e) {
+
+            }
+
             return ['success' => true, 'filename' => $name];
         } else {
             return ['success' => false, 'messages' => ['Failed to upload Featured Image.']];
