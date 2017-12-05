@@ -125,7 +125,7 @@ class Helper
 
     public static function getFeaturedImage($image = [])
     {
-        $imageUrl = (Config::S3_BASE_URL . Config::S3_FEATURE_IMAGE_DIR . "/" . $image['featured_image']);
+        $imageUrl = (Config::S3_BASE_URL . Config::S3_FEATURE_IMAGE_DIR . "/thumb/" . $image['featured_image']);
         return $imageUrl;
     }
 
