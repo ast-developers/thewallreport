@@ -1558,6 +1558,10 @@ var FlowFlowApp = (function($){
       var request;
 
       if ($t.is('.stream-feeds__close')) {
+        /* Custom code start :: For setting height of Visisble div */
+        var height = self.$el[0].scrollHeight+'px';
+        $(self.$el[0].closest('.section-content')).css('min-height', height);
+        /* Custom code end :: For setting height of Visisble div */
         $t.closest('.stream-feeds').removeClass('stream-feeds--connecting')
         return;
       }
@@ -1633,6 +1637,11 @@ var FlowFlowApp = (function($){
       $select.html('').append(options).closest('.stream-feeds').addClass('stream-feeds--connecting');
       $select.chosen("destroy");
       $select.chosen();
+
+      /* Custom code start :: For setting height of Visisble div */
+      var height = self.$el[0].scrollHeight+250+'px';
+      $(self.$el[0].closest('.section-content')).css('min-height', height);
+      /* Custom code end :: For setting height of Visisble div */
     },
 
     detachFeed: function (e) {
