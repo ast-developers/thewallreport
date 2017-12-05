@@ -2,6 +2,7 @@
 
 // Admin routes
 $router->add('admin', ['namespace' => 'Admin', 'controller' => 'UserController', 'action' => 'login', 'middleware' => 'Guest']);
+$router->add('admin/', ['namespace' => 'Admin', 'controller' => 'UserController', 'action' => 'login', 'middleware' => 'Guest']);
 $router->add('admin/login', ['namespace' => 'Admin', 'controller' => 'UserController', 'action' => 'login', 'middleware' => 'Guest']);
 $router->add('admin/forgot-password', ['namespace' => 'Admin', 'controller' => 'UserController', 'action' => 'sendResetPasswordLink', 'middleware' => 'Guest']);
 $router->add('admin/reset-password/{token:[a-z]+}', ['namespace' => 'Admin', 'controller' => 'UserController', 'action' => 'resetPassword', 'middleware' => 'Guest']);
