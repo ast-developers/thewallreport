@@ -1199,7 +1199,8 @@ window.CustomModernizr = function(t, e, i) {
                     if (o.length && !a.is("img") || d) {
                         if(a.closest(".ff-content").length && !a.parents('.ff-slideshow').length) {
                             var href = (a.attr('href'));
-                            if (href.indexOf('explore/tags/') >= 0) {
+                            var linkText = (a.html());
+                            if (href.indexOf('explore/tags/') >= 0 || linkText.indexOf('#') >= 0) {
 
                             } else {
                                 t.preventDefault(), n._openSlideshow(r + e)
@@ -2021,11 +2022,12 @@ window.CustomModernizr = function(t, e, i) {
                             h(c, t)
                         }), l.on("click", "a", function(event) {
                             var href = $(this).attr('href');
+                            var linkText = ($(this).html());
                             var e, i = t(this);
                             if(i.closest(".ff-share-popup").length) {
                                 return (e = t(this).attr("href"), window.open(e, "sharer", "toolbar=0,status=0,width=626,height=436"), !1)
                             }  else if(i.closest(".ff-content").length && !i.parents('.ff-slideshow').length) {
-                                if(href.indexOf('explore/tags/') >= 0){
+                                if(href.indexOf('explore/tags/') >= 0 || linkText.indexOf('#') >= 0){
                                     var search = $(this).text();
                                     event.stopPropagation();
                                     event.preventDefault();
