@@ -196,7 +196,7 @@ class UserController extends Controller
                     return Router::redirectTo('admin/edit-user/' . $_POST['id'], $formValid['messages'], 'alert-danger');
                 }
             } else {
-                if (!empty($_FILES['avatar'])) {
+                if (!empty($_FILES['avatar']['name'])) {
                     // DELETE OLD AVATAR
                     if (!empty($_POST['id'])) {
                         $this->repo->removeUserAvatar($_POST['id']);
@@ -213,7 +213,7 @@ class UserController extends Controller
                     }
                 }
 
-                $filename = (!empty($_POST['id']) && empty($_FILES['avatar']['name'])) ? NULL : $avatarUpload['filename'];
+                $filename = (!empty($_POST['id']) && empty($_FILES['avatar']['name'])) ? NULL : (isset($avatarUpload) ? $avatarUpload['filename'] : NULL);
 
                 $message = 'Something went wrong. Please try again later.';
                 $messageClass = 'alert-danger';
