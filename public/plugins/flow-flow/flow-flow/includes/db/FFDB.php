@@ -359,22 +359,25 @@ class FFDB {
 		$stream->feeds = $originalFeed;
 
 		$feed_ids = array();
-		foreach ( $feeds as $feed ) {
-			$fid = is_array($feed) ? $feed['id'] :  $feed->id;
-			$feed_ids[] = $fid;
-			$connect = array(
-				'stream_id' => $id,
-				'feed_id' => $fid
-			);
-			if ( false === self::conn()->query( 'INSERT INTO ?n SET ?u ON DUPLICATE KEY UPDATE ?u',
-					$streams_sources_table_name, $connect, $connect ) ) {
+		if(!empty($feeds)){
+			foreach ( $feeds as $feed ) {
+				$fid = is_array($feed) ? $feed['id'] :  $feed->id;
+				$feed_ids[] = $fid;
+				$connect = array(
+					'stream_id' => $id,
+					'feed_id' => $fid
+				);
+				if ( false === self::conn()->query( 'INSERT INTO ?n SET ?u ON DUPLICATE KEY UPDATE ?u',
+						$streams_sources_table_name, $connect, $connect ) ) {
+					throw new \Exception();
+				}
+			}
+			if ( false === self::conn()->query( 'DELETE FROM ?n WHERE `feed_id` NOT IN (?a) AND `stream_id`=?s',
+					$streams_sources_table_name, $feed_ids, $id ) ) {
 				throw new \Exception();
 			}
 		}
-		if ( false === self::conn()->query( 'DELETE FROM ?n WHERE `feed_id` NOT IN (?a) AND `stream_id`=?s',
-				$streams_sources_table_name, $feed_ids, $id ) ) {
-			throw new \Exception();
-		}
+
 
 		self::commit();
 	}
