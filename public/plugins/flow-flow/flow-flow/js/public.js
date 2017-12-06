@@ -1537,7 +1537,7 @@ window.CustomModernizr = function(t, e, i) {
                     setTimeout(function() {
                         var i = e.$grid.data("shuffle");
                         i && i.layout()
-                    },1000);
+                    },5000);
                 }), n = function() {
                     return u
                 }, u
