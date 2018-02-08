@@ -511,7 +511,7 @@ class Post extends Model
     {
         $sql = "SELECT * FROM $this->dbTable";
         $sql .= " LEFT JOIN post_category on post_category.post_id = posts.id";
-        $sql .= " where post_category.category_id=$id AND $this->dbTable.status='publish'";
+        $sql .= " where post_category.category_id=$id AND $this->dbTable.status='publish' ORDER BY updated_at desc";
         $sql .= " LIMIT $count";
         $stm = $this->db->prepare($sql);
         $res = $stm->execute();
