@@ -123,9 +123,14 @@ class Helper
         return $avatar;
     }
 
-    public static function getFeaturedImage($image = [])
+    public static function getFeaturedImage($image = [], $thumb = true)
     {
-        $imageUrl = (Config::S3_BASE_URL . Config::S3_FEATURE_IMAGE_DIR . "/thumb/" . $image['featured_image']);
+        if (!$thumb) {
+            $imageUrl = (Config::S3_BASE_URL . Config::S3_FEATURE_IMAGE_DIR . "/" . $image['featured_image']);
+        } else {
+            $imageUrl = (Config::S3_BASE_URL . Config::S3_FEATURE_IMAGE_DIR . "/thumb/" . $image['featured_image']);
+        }
+
         return $imageUrl;
     }
 
