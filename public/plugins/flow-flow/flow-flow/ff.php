@@ -15,7 +15,7 @@
  * @copyright 2015 Looks Awesome
  */
 session_start();
-
+error_reporting(0);
 require_once( dirname($_SERVER["SCRIPT_FILENAME"]) . '/LAClassLoader.php' );
 LAClassLoader::get(dirname($_SERVER["SCRIPT_FILENAME"]) . '/')->register(true);
 $root = dirname($_SERVER["SCRIPT_FILENAME"]) . '/..'. '/flow-flow-ads/';

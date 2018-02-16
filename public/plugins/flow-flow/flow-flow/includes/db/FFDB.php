@@ -299,7 +299,7 @@ class FFDB {
 		$cache_table_name = $dbm->cache_table_name;
 		$streams_sources_table_name = $dbm->streams_sources_table_name;
 
-		$result = '';
+		$result = [];
 		$errors = FFDB::conn()->getInd('feed_id', 'select `cach`.`errors`, `cach`.`feed_id` from ?n `cach` inner join ?n `src` on `cach`.`feed_id` = `src`.`feed_id` where `src`.`stream_id` = ?s and `cach`.`enabled` = 1', $cache_table_name, $streams_sources_table_name, $streamId);
 		foreach ( $errors as $feed => $error ) {
 			unset($error['feed_id']);
