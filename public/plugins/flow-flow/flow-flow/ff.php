@@ -35,14 +35,14 @@ if (isset($_REQUEST['action'])){
 			$ff->processAjaxRequestBackground();
 			break;
 		case 'refresh_cache':
-			if (false !== ($time = $db->getOption('bg_task_time'))){
-				if (time() > $time + 60){
+			/*if (false !== ($time = $db->getOption('bg_task_time'))){
+				if (time() > $time + 60){*/
 					$ff->refreshCache();
 					$time = time();
 					$db->setOption('bg_task_time', $time);
 					echo 'new cache time: ' . $time;
-				}
-			} else  $db->setOption('bg_task_time', time());
+				/*}
+			} else  $db->setOption('bg_task_time', time());*/
 			break;
 		case 'flow_flow_save_stream_settings':
 			$db->save_stream_settings();
