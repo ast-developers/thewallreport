@@ -435,7 +435,7 @@ class Post extends Model
         $sql = " SELECT posts.name,posts.published_at,posts.id,posts.featured_image,posts.slug,CONCAT(u.first_name, ' ',u.last_name) as creator from posts";
         $sql .= " LEFT JOIN users as u on u.id = posts.created_by";
         $sql .= " LEFT JOIN post_category as pc on pc.post_id = posts.id";
-        $sql .= " WHERE pc.category_id = (SELECT id FROM categories WHERE slug = 'hip-hop')";
+        $sql .= " WHERE pc.category_id = (SELECT id FROM categories WHERE slug = 'home')";
         $sql .= " ORDER by published_at DESC LIMIT 5";
         $stm = $this->db->prepare($sql);
         $res = $stm->execute();

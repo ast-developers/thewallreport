@@ -5,7 +5,7 @@
             <!-- BEGIN LOGO -->
             <a class="brand" href="<?php echo \App\Config::W_ROOT.'admin' ?>">
                 <!--<img src="<?php /*echo \App\Config::W_ADMIN_ASSETS */?>/img/logo.png" alt="logo"/>-->
-                The Wall Report
+                LEFTY'S ALMANAC
             </a>
             <!-- END LOGO -->
             <!-- BEGIN VISIT SITE -->
