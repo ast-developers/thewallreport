@@ -21,7 +21,7 @@
 <footer class="container-fluid">
     <div class="row">
         <div class="col-md-12 text-center" id="footer">
-            <span class="copyright d-block">2017 © THE WALL REPORT. ALL RIGHTS RESERVED.</span>
+            <span class="copyright d-block">2018 © Lefty's Almanac. All Rights Reserved.</span>
             <span class="back-to-top"><i class="fa fa-angle-up"></i></span>
 
         </div>
