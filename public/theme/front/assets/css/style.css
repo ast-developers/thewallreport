@@ -787,19 +787,19 @@ a.model-blocks:hover img.wp-post-image {
     top: 0;
 }
 
-.ff-youtube .featured-badge {
+li[data-type="youtube"] .featured-badge, .ff-youtube .featured-badge {
     background: url(../images/youtube-featured.png);
     background-size: auto 100%!important;
 }
-.ff-instagram .featured-badge {
+li[data-type="instagram"] .featured-badge, .ff-instagram .featured-badge {
     background: url(../images/instagram-featured.png);
     background-size: auto 100%!important;
 }
-.ff-facebook .featured-badge {
+li[data-type="facebook"] .featured-badge, .ff-facebook .featured-badge {
     background: url(../images/facebook-featured.png);
     background-size: auto 100%!important;
 }
-.ff-twitter .featured-badge {
+li[data-type="twitter"] .featured-badge, .ff-twitter .featured-badge {
     background: url(../images/twitter-featured.png);
     background-size: auto 100%!important;
 }
