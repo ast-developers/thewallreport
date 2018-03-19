@@ -19,7 +19,7 @@ class Config
      * Database name
      * @var string
      */
-    const DB_NAME = 'thewallreport';
+    const DB_NAME = 'wallreport_db';
 
     /**
      * Database user
@@ -31,7 +31,7 @@ class Config
      * Database password
      * @var string
      */
-    const DB_PASSWORD = 'Ars3nal$0!';
+    const DB_PASSWORD = 'mysql';
 
     /**
      * SMTP HOST
@@ -56,12 +56,12 @@ class Config
     /**
      * Website Root
      */
-    const W_ROOT = "http://66.175.214.21/thewallreport/";
+    const W_ROOT = "http://52.91.113.224/";
 
     /**
      * File Root
      */
-    const F_ROOT =  "/var/www/html/thewallreport/";
+    const F_ROOT =  "/var/www/thewallreport/";
 
     /**
      * Contact us Email
@@ -86,17 +86,17 @@ class Config
     /**
      * Amazon S3 Key
      */
-    const S3_ACCESS_KEY = "AKIAJHQJ5SXX7V4U56ZA";
+     const S3_ACCESS_KEY = "AKIAICGX7OXOVJWOSEHA";
 
     /**
      * Amazon S3 Secret Key
      */
-    const S3_SECRET_KEY = "UD2Mm6U3xg18RIpOsd4YUoy/t2xzvVhSCVUuUkbq";
+    const S3_SECRET_KEY = "2A0CbLxXBilky/5zt5pfDZvXZ6OkcUI3UyCWvdTo";
 
     /**
      * Amazon S3 Default Bucket
      */
-    const S3_BUCKET = "thewallreport";
+    const S3_BUCKET = "thewallreport-hiphop";
 
     /**
      * Amazon S3 Base Url
@@ -112,7 +112,7 @@ class Config
     /**
      * App Page Title
      */
-    const PAGE_TITLE_PREFIX = 'The Wall Report';
+    const PAGE_TITLE_PREFIX = 'Lefty\'s Almanac';
 
     /**
      * File Assets Root
@@ -153,5 +153,19 @@ class Config
      * Amazon S3 Redactor Image Directory
      */
     const S3_REDACTOR_IMAGE_DIR = 'redactor_images';
+
+    /**
+     * Featured Image directory to upload images and from here it will be moved to S3.
+     */
+    const F_FEATURED_IMAGE_DIR = self::F_ROOT.'public/uploads/featured_image/';
+
+    /**
+     * Featured thumb image width
+     */
+    const FEATURED_THUMB_IMAGE_WIDTH = '360';
+    /**
+     * Featured thumb image height
+     */
+    const FEATURED_THUMB_IMAGE_HEIGHT = '480';
 
 }
