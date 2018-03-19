@@ -1996,7 +1996,7 @@ window.CustomModernizr = function(t, e, i) {
                 buildItems: f,
                 buildStreamWith: function(i, n, r, o) {
                     var l, c, u, g, v, y, w, x, b = "";
-                    if ("string" == typeof n.feeds && (n.feeds = JSON.parse(n.feeds)), 0 === n.feeds.length) return "<p>No feeds to show. Add at least one</p>";
+                    if ("string" == typeof n.feeds && (n.feeds = JSON.parse(n.feeds)), 0 === n.feeds.length) return "<center><p>No feeds to show. Add at least one</p></center>";
                     if (!n.layout) return "<p>Please choose stream layout on options page</p>";
                     n.hash = i.hash, n["next-page"] = i.page + 1, n.countOfPages = i.countOfPages;
                     var _ = i.items,
