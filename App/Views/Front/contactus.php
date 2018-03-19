@@ -11,7 +11,7 @@ $recaptcha = new Recaptcha();
             <div class="col-lg-6 m-auto">
                 <div class="details-content text-center m-auto content-form-info">
                     <p>Get in touch and we'll get back to you as soon as we can. We look forward to hearing from you!</p>
-                    <p>Email: <a class="text-black" href="mailto:therealwallreport@gmail.com">therealwallreport@gmail.com</a></p>
+                    <p>Email: <a class="text-black" href="mailto:leftysalmanac@gmail.com">leftysalmanac@gmail.com</a></p>
                     <h1>Contact Form</h1>
                 </div>
 

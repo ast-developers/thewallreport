@@ -66,7 +66,7 @@ class Config
     /**
      * Contact us Email
      */
-    const CONTACT_US_TO_EMAIL = "developers@arsenaltech.com";
+    const CONTACT_US_TO_EMAIL = "leftysalmanac@gmail.com";
 
     /**
      * Google Recaptcha site key
