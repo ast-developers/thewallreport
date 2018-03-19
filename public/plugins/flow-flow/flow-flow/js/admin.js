@@ -1972,7 +1972,7 @@ var FlowFlowApp = (function($){
           $t.html('Save changes').removeClass('updated-button');
         }, 2500);
       }).fail(function(){
-        alert('Something went wrong. Please try to reload page. If this repeats please contact support at http://looks-awesome.com/help')
+        alert('Something went wrong. Please try to reload page.')
       }).always(function () {
         self.saving = false;
       });
@@ -2851,7 +2851,7 @@ var FlowFlowApp = (function($){
         }, 2500);
 
       }).fail(function(){
-        alert('Something went wrong. Please try to reload page. If this repeats please contact support at http://looks-awesome.com/help')
+        alert('Something went wrong. Please try to reload page.')
       });
     }
   });
