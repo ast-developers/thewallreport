@@ -12,7 +12,7 @@
 $ads = $context['ads'];
 ?>
 <script>
-    var ads = JSON.parse('<?php echo json_encode($ads) ?>');
+    var ads = JSON.parse('<?php echo json_encode($ads, JSON_HEX_APOS) ?>');
 </script>
 <div class="section-content" id="campaigns-cont" data-tab="ads-tab">
 	<!-- tab content -->
