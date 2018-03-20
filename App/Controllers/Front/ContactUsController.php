@@ -51,7 +51,7 @@ class ContactUsController extends Controller
                     $_SESSION["error_class"] = 'alert-success';
                     return Router::redirectTo('contact-us', $formValid['messages'], 'alert-success');
                 } else {
-                    return Router::redirectTo('contact-us', $formValid['messages'], 'alert-danger');
+                    return Router::redirectTo('contact-us', array($send_mail['message']), 'alert-danger');
                 }
             }
         }
