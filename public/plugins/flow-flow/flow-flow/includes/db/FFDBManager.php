@@ -314,6 +314,7 @@ class FFDBManager extends LADBManager{
 			FFDB::deleteStream($id);
 			do_action('ff_after_delete_stream', $id);
 			FFDB::commit();
+			echo json_encode(array());
 		}catch (Exception $e){
 			error_log($e->getMessage());
 			error_log($e->getTraceAsString());
