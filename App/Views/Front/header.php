@@ -30,8 +30,8 @@
 
     <!-- Bootstrap core CSS -->
     <link href="<?php echo \App\Config::W_FRONT_ASSETS ?>css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,400i,500,500i,600,600i,700,700i,800,800i,900,900i|Open+Sans:400,400i,600,600i,700,700i,800,800i"
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="//fonts.googleapis.com/css?family=Montserrat:400,400i,500,500i,600,600i,700,700i,800,800i,900,900i|Open+Sans:400,400i,600,600i,700,700i,800,800i"
           rel="stylesheet">
     <link href="<?php echo \App\Config::W_FRONT_ASSETS ?>css/owl.carousel.min.css" rel="stylesheet">
     <!-- Custom styles for this template -->
@@ -39,9 +39,9 @@
     <link href="<?php echo \App\Config::W_FRONT_ASSETS ?>css/responsive.css" rel="stylesheet">
     <link href="<?php echo \App\Config::W_ROOT ?>plugins/flow-flow/flow-flow/css/public.css" rel="stylesheet">
     <link href="<?php echo \App\Config::W_FRONT_ASSETS ?>css/owl.carousel.min.css" rel="stylesheet">
-    <script src='https://www.google.com/recaptcha/api.js'></script>
+    <script src='//www.google.com/recaptcha/api.js'></script>
     <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-100764425-1"></script>
+    <script async src="//www.googletagmanager.com/gtag/js?id=UA-100764425-1"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
@@ -54,7 +54,7 @@
         async defer
         src="//assets.pinterest.com/js/pinit.js"
         ></script>
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script src="//apis.google.com/js/platform.js" async defer></script>
     <?php
     if(isset($flowFlowInjector)){
         echo $flowFlowInjector->head(true);
