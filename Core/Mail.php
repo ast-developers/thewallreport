@@ -10,7 +10,7 @@ class Mail
     public static function sendMail($toEmail,$subject,$body){
 
         $body .= '<p>Thanks,</p>';
-        $body .= '<p>The Wall Report Team.</p>';
+        $body .= '<p>' . Config::APP_NAME . ' Team.</p>';
 
         $mail = new PHPMailer;
 
@@ -21,6 +21,7 @@ class Mail
         $mail->Password = Config::SMTP_PASSWORD;
         $mail->SMTPSecure = "tls";
         $mail->Port = Config::SMTP_PORT;
+        //$mail->SMTPDebug = 4;
         $mail->smtpConnect(
             array(
                 "ssl" => array(
@@ -31,8 +32,8 @@ class Mail
             )
         );
 
-        $mail->From = Config::SMTP_USERNAME;
-        $mail->FromName = "The Wall Report";
+        $mail->From     = Config::SMTP_USERNAME;
+        $mail->FromName = Config::SMTP_FROM_NAME;
 
         $mail->addAddress($toEmail);
 

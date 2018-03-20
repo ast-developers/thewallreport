@@ -10,6 +10,11 @@ class Config
 {
 
     /**
+     * APP NAME
+     */
+    const APP_NAME = 'The Wall Report';
+
+    /**
      * Database host
      * @var string
      */
@@ -25,13 +30,13 @@ class Config
      * Database user
      * @var string
      */
-    const DB_USER = 'root';
+    const DB_USER = 'wreport';
 
     /**
      * Database password
      * @var string
      */
-    const DB_PASSWORD = 'mysql';
+    const DB_PASSWORD = 'Mill$_20!8';
 
     /**
      * SMTP HOST
@@ -46,27 +51,32 @@ class Config
     /**
      * SMTP USERNAME
      */
-    const SMTP_USERNAME = 'developers@arsenaltech.com';
+    const SMTP_USERNAME = 'thewall.report2018@gmail.com';
 
     /**
      * SMTP PASSWORD
      */
-    const SMTP_PASSWORD = 'Ar5ena1T3ch#0ev';
+    const SMTP_PASSWORD = 'Creative123!';
+
+    /**
+     * SMTP FROM NAME
+     */
+    const SMTP_FROM_NAME = 'The Wall Report';
 
     /**
      * Website Root
      */
-    const W_ROOT = "http://52.91.113.224/";
+    const W_ROOT = "http://thewall.report/";
 
     /**
      * File Root
      */
-    const F_ROOT =  "/var/www/thewallreport/";
+    const F_ROOT = "/var/www/thewallreport/";
 
     /**
      * Contact us Email
      */
-    const CONTACT_US_TO_EMAIL = "leftysalmanac@gmail.com";
+    const CONTACT_US_TO_EMAIL = "therealwallreport@gmail.com";
 
     /**
      * Google Recaptcha site key
@@ -86,17 +96,17 @@ class Config
     /**
      * Amazon S3 Key
      */
-     const S3_ACCESS_KEY = "AKIAICGX7OXOVJWOSEHA";
+    const S3_ACCESS_KEY = "AKIAJHQJ5SXX7V4U56ZA";
 
     /**
      * Amazon S3 Secret Key
      */
-    const S3_SECRET_KEY = "2A0CbLxXBilky/5zt5pfDZvXZ6OkcUI3UyCWvdTo";
+    const S3_SECRET_KEY = "UD2Mm6U3xg18RIpOsd4YUoy/t2xzvVhSCVUuUkbq";
 
     /**
      * Amazon S3 Default Bucket
      */
-    const S3_BUCKET = "thewallreport-hiphop";
+    const S3_BUCKET = "thewallreport";
 
     /**
      * Amazon S3 Base Url
@@ -112,7 +122,7 @@ class Config
     /**
      * App Page Title
      */
-    const PAGE_TITLE_PREFIX = 'Lefty\'s Almanac';
+    const PAGE_TITLE_PREFIX = 'The Wall Report';
 
     /**
      * File Assets Root
@@ -157,12 +167,13 @@ class Config
     /**
      * Featured Image directory to upload images and from here it will be moved to S3.
      */
-    const F_FEATURED_IMAGE_DIR = self::F_ROOT.'public/uploads/featured_image/';
+    const F_FEATURED_IMAGE_DIR = self::F_ROOT . 'public/uploads/featured_image/';
 
     /**
      * Featured thumb image width
      */
     const FEATURED_THUMB_IMAGE_WIDTH = '360';
+
     /**
      * Featured thumb image height
      */
