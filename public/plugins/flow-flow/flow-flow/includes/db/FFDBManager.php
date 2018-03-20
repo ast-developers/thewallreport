@@ -172,6 +172,7 @@ class FFDBManager extends LADBManager{
 			echo json_encode($model);
 			die();
 		}
+		echo json_encode(array());
 		die(1);
 	}
 
