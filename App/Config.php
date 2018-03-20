@@ -76,7 +76,7 @@ class Config
     /**
      * Contact us Email
      */
-    const CONTACT_US_TO_EMAIL = "thewall.report2018@gmail.com";
+    const CONTACT_US_TO_EMAIL = "leftysalmanac@gmail.com";
 
     /**
      * Google Recaptcha site key
