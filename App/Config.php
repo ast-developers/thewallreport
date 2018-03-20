@@ -12,7 +12,7 @@ class Config
     /**
      * APP NAME
      */
-    const APP_NAME = 'The Wall Report';
+    const APP_NAME = 'Lefty\'s Almanac';
 
     /**
      * Database host
@@ -30,13 +30,13 @@ class Config
      * Database user
      * @var string
      */
-    const DB_USER = 'wreport';
+    const DB_USER = 'root';
 
     /**
      * Database password
      * @var string
      */
-    const DB_PASSWORD = 'Mill$_20!8';
+    const DB_PASSWORD = 'mysql';
 
     /**
      * SMTP HOST
@@ -61,22 +61,22 @@ class Config
     /**
      * SMTP FROM NAME
      */
-    const SMTP_FROM_NAME = 'The Wall Report';
+    const SMTP_FROM_NAME = 'Lefty\'s Almanac';
 
     /**
      * Website Root
      */
-    const W_ROOT = "http://thewall.report/";
+    const W_ROOT = "http://leftysalmanac.com/";
 
     /**
      * File Root
      */
-    const F_ROOT = "/var/www/thewallreport/";
+    const F_ROOT =  "/var/www/thewallreport/";
 
     /**
      * Contact us Email
      */
-    const CONTACT_US_TO_EMAIL = "therealwallreport@gmail.com";
+    const CONTACT_US_TO_EMAIL = "thewall.report2018@gmail.com";
 
     /**
      * Google Recaptcha site key
@@ -96,17 +96,17 @@ class Config
     /**
      * Amazon S3 Key
      */
-    const S3_ACCESS_KEY = "AKIAJHQJ5SXX7V4U56ZA";
+    const S3_ACCESS_KEY = "AKIAICGX7OXOVJWOSEHA";
 
     /**
      * Amazon S3 Secret Key
      */
-    const S3_SECRET_KEY = "UD2Mm6U3xg18RIpOsd4YUoy/t2xzvVhSCVUuUkbq";
+    const S3_SECRET_KEY = "2A0CbLxXBilky/5zt5pfDZvXZ6OkcUI3UyCWvdTo";
 
     /**
      * Amazon S3 Default Bucket
      */
-    const S3_BUCKET = "thewallreport";
+    const S3_BUCKET = "thewallreport-hiphop";
 
     /**
      * Amazon S3 Base Url
@@ -122,7 +122,7 @@ class Config
     /**
      * App Page Title
      */
-    const PAGE_TITLE_PREFIX = 'The Wall Report';
+    const PAGE_TITLE_PREFIX = 'Lefty\'s Almanac';
 
     /**
      * File Assets Root
