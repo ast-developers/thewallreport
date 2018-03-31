@@ -30,7 +30,7 @@ class Csrf
      */
     public static function verifyToken()
     {
-        if (!empty($_POST['token'])) {
+        if (!empty($_POST['token']) && !empty($_SESSION['token'])) {
             if (hash_equals($_SESSION['token'], $_POST['token'])) {
                 return true;
             } else {
